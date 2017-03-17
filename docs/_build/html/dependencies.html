@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Specifying Dependencies &#8212; Python Packaging Tutorial</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="Python Packaging Tutorial" href="index.html" />
+    <link rel="next" title="Better Package Metadata" href="metadata.html" />
+    <link rel="prev" title="Minimal Structure" href="minimal.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="metadata.html" title="Better Package Metadata"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="minimal.html" title="Minimal Structure"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How To Package Your Python Code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="specifying-dependencies">
+<h1>Specifying Dependencies<a class="headerlink" href="#specifying-dependencies" title="Permalink to this headline">¶</a></h1>
+<p>If you&#8217;re using Python, odds are you&#8217;re going to want to use other public packages from PyPI or elsewhere.</p>
+<p>Fortunately, setuptools makes it easy for us to specify those dependencies (assuming they are packaged correctly) and automatically install them when our packages is installed.</p>
+<p>We can add some formatting spice to the <strong>funniest</strong> joke with <a class="reference external" href="http://pypi.python.org/pypi/Markdown/">Markdown</a>.</p>
+<p>In <code class="docutils literal"><span class="pre">text.py</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">markdown</span> <span class="k">import</span> <span class="n">markdown</span>
+
+<span class="k">def</span> <span class="nf">joke</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">markdown</span><span class="p">(</span><span class="s1">u&#39;Wenn ist das Nunst</span><span class="se">\u00fc</span><span class="s1">ck git und Slotermeyer?&#39;</span>
+                    <span class="s1">u&#39;Ja! ... **Beiherhund** das Oder die Flipperwaldt &#39;</span>
+                    <span class="s1">u&#39;gersput.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now our package depends on the <code class="docutils literal"><span class="pre">markdown</span></code> package. To note that in <code class="docutils literal"><span class="pre">setup.py</span></code>, we just add an <code class="docutils literal"><span class="pre">install_requires</span></code> keyword argument:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="k">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;funniest&#39;</span><span class="p">,</span>
+      <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.1&#39;</span><span class="p">,</span>
+      <span class="n">description</span><span class="o">=</span><span class="s1">&#39;The funniest joke in the world&#39;</span><span class="p">,</span>
+      <span class="n">url</span><span class="o">=</span><span class="s1">&#39;http://github.com/storborg/funniest&#39;</span><span class="p">,</span>
+      <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Flying Circus&#39;</span><span class="p">,</span>
+      <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;flyingcircus@example.com&#39;</span><span class="p">,</span>
+      <span class="n">license</span><span class="o">=</span><span class="s1">&#39;MIT&#39;</span><span class="p">,</span>
+      <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;funniest&#39;</span><span class="p">],</span>
+      <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+          <span class="s1">&#39;markdown&#39;</span><span class="p">,</span>
+      <span class="p">],</span>
+      <span class="n">zip_safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To prove this works, we can run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></code> again, and we&#8217;ll see:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ python setup.py develop
+running develop
+running egg_info
+writing requirements to funniest.egg-info/requires.txt
+writing funniest.egg-info/PKG-INFO
+writing top-level names to funniest.egg-info/top_level.txt
+writing dependency_links to funniest.egg-info/dependency_links.txt
+reading manifest file &#39;funniest.egg-info/SOURCES.txt&#39;
+writing manifest file &#39;funniest.egg-info/SOURCES.txt&#39;
+running build_ext
+Creating /.../site-packages/funniest.egg-link (link to .)
+funniest 0.1 is already the active version in easy-install.pth
+
+Installed /Users/scott/local/funniest
+Processing dependencies for funniest==0.1
+Searching for Markdown==2.1.1
+Best match: Markdown 2.1.1
+Adding Markdown 2.1.1 to easy-install.pth file
+
+Using /.../site-packages
+Finished processing dependencies for funniest==0.1
+</pre></div>
+</div>
+<p>When we publish this to PyPI, calling <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">funniest</span></code> or similar will also install <code class="docutils literal"><span class="pre">markdown</span></code>.</p>
+<div class="section" id="packages-not-on-pypi">
+<h2>Packages Not On PyPI<a class="headerlink" href="#packages-not-on-pypi" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes you&#8217;ll want to use packages that are properly arranged with setuptools, but aren&#8217;t published to PyPI. In those cases, you can specify a list of one or more <code class="docutils literal"><span class="pre">dependency_links</span></code> URLs where the package can be downloaded, along with some additional hints, and setuptools will find and install the package correctly.</p>
+<p>For example, if a library is published on GitHub, you can specify it like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="o">...</span>
+    <span class="n">dependency_links</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;http://github.com/user/repo/tarball/master#egg=package-1.0&#39;</span><span class="p">]</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Specifying Dependencies</a><ul>
+<li><a class="reference internal" href="#packages-not-on-pypi">Packages Not On PyPI</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="minimal.html"
+                        title="previous chapter">Minimal Structure</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="metadata.html"
+                        title="next chapter">Better Package Metadata</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dependencies.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="metadata.html" title="Better Package Metadata"
+             >next</a></li>
+        <li class="right" >
+          <a href="minimal.html" title="Minimal Structure"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How To Package Your Python Code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2012, Scott Torborg.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

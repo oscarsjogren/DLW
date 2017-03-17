@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding Non-Code Files &#8212; Python Packaging Tutorial</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="Python Packaging Tutorial" href="index.html" />
+    <link rel="next" title="Putting It All Together" href="everything.html" />
+    <link rel="prev" title="Command Line Scripts" href="command-line-scripts.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="everything.html" title="Putting It All Together"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="command-line-scripts.html" title="Command Line Scripts"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How To Package Your Python Code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="adding-non-code-files">
+<h1>Adding Non-Code Files<a class="headerlink" href="#adding-non-code-files" title="Permalink to this headline">¶</a></h1>
+<p>Often packages will need to depend on files which are not <code class="docutils literal"><span class="pre">.py</span></code> files: e.g. images, data tables, documentation, etc. Those files need special treatment in order for setuptools to handle them correctly.</p>
+<p>The mechanism that provides this is the <code class="docutils literal"><span class="pre">MANIFEST.in</span></code> file. This is relatively quite simple: <code class="docutils literal"><span class="pre">MANIFEST.in</span></code> is really just a list of relative file paths specifying files or globs to include.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">include</span> <span class="n">README</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">include</span> <span class="n">docs</span><span class="o">/*.</span><span class="n">txt</span>
+<span class="n">include</span> <span class="n">funniest</span><span class="o">/</span><span class="n">data</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>In order for these files to be copied at install time to the package&#8217;s folder inside <code class="docutils literal"><span class="pre">site-packages</span></code>, you&#8217;ll need to supply <code class="docutils literal"><span class="pre">include_package_data=True</span></code> to the <code class="docutils literal"><span class="pre">setup()</span></code> function.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Files which are to be used by your installed library (e.g. data files to support a particular computation method) should usually be placed inside of the Python module directory itself. E.g. in our case, a data file might be at <code class="docutils literal"><span class="pre">funniest/funniest/data.json</span></code>. That way, code which loads those files can easily specify a relative path from the consuming module&#8217;s <code class="docutils literal"><span class="pre">__file__</span></code> variable.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="command-line-scripts.html"
+                        title="previous chapter">Command Line Scripts</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="everything.html"
+                        title="next chapter">Putting It All Together</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/non-code-files.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="everything.html" title="Putting It All Together"
+             >next</a></li>
+        <li class="right" >
+          <a href="command-line-scripts.html" title="Command Line Scripts"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How To Package Your Python Code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2012, Scott Torborg.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

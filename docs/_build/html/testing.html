@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Let There Be Tests &#8212; Python Packaging Tutorial</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="Python Packaging Tutorial" href="index.html" />
+    <link rel="next" title="Command Line Scripts" href="command-line-scripts.html" />
+    <link rel="prev" title="Better Package Metadata" href="metadata.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="command-line-scripts.html" title="Command Line Scripts"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="metadata.html" title="Better Package Metadata"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How To Package Your Python Code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="let-there-be-tests">
+<h1>Let There Be Tests<a class="headerlink" href="#let-there-be-tests" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>funniest</strong> package needs some tests. These should be placed in a submodule of <code class="docutils literal"><span class="pre">funniest.</span></code> so that they can be imported, but won&#8217;t pollute the global namespace.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">funniest</span><span class="o">/</span>
+    <span class="n">funniest</span><span class="o">/</span>
+        <span class="n">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">tests</span><span class="o">/</span>
+            <span class="n">__init__</span><span class="o">.</span><span class="n">py</span>
+            <span class="n">test_joke</span><span class="o">.</span><span class="n">py</span>
+    <span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">test_joke.py</span></code> file is our first test file. Although it&#8217;s overkill for now, we&#8217;ll use a <code class="docutils literal"><span class="pre">unittest.TestCase</span></code> subclass to provide infrastructure for later development.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">unittest</span> <span class="k">import</span> <span class="n">TestCase</span>
+
+<span class="kn">import</span> <span class="nn">funniest</span>
+
+<span class="k">class</span> <span class="nc">TestJoke</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_is_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">funniest</span><span class="o">.</span><span class="n">joke</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">basestring</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The best way to get these tests going (particularly if you&#8217;re not sure what to use) is <a class="reference external" href="https://nose.readthedocs.org/en/latest/">Nose</a>. With those files added, it&#8217;s just a matter of running this from the root of the repository:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install nose
+$ nosetests
+</pre></div>
+</div>
+<p>To integrate this with our <code class="docutils literal"><span class="pre">setup.py</span></code>, and ensure that Nose is installed when we run the tests, we&#8217;ll add a few lines to <code class="docutils literal"><span class="pre">setup()</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="o">...</span>
+    <span class="n">test_suite</span><span class="o">=</span><span class="s1">&#39;nose.collector&#39;</span><span class="p">,</span>
+    <span class="n">tests_require</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nose&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, to run tests, we can simply do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ python setup.py test
+</pre></div>
+</div>
+<p>Setuptools will take care of installing nose and running the test suite.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="metadata.html"
+                        title="previous chapter">Better Package Metadata</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="command-line-scripts.html"
+                        title="next chapter">Command Line Scripts</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/testing.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="command-line-scripts.html" title="Command Line Scripts"
+             >next</a></li>
+        <li class="right" >
+          <a href="metadata.html" title="Better Package Metadata"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">How To Package Your Python Code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2012, Scott Torborg.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
