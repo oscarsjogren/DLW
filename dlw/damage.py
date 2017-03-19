@@ -53,24 +53,65 @@ class DLWDamage(Damage):
 		self.forcing = None
 		self.damage_coefs = None
 
+	def _recombine_nodes(self):
+		nperiods = self.tree.num_periods
+		sum_class = np.zeros(nperiods, dtype=int)
+		new_state = np.zeros([nperiods, self.tree.num_final_states], dtype=int)
+		temp_prob = self.tree.final_states_prob.copy()
+
+		for old_state in range(self.tree.num_final_states):
+			temp = old_state
+			n = nperiods-2
+			d_class = 0
+			while n >= 0:
+				if temp >= 2**n:
+					temp -= 2**n
+					d_class += 1
+				n -= 1
+			sum_class[d_class] += 1
+			new_state[d_class, sum_class[d_class]-1] = old_state
+		
+		sum_nodes = np.append(0, sum_class.cumsum())
+		prob_sum = np.array([self.tree.final_states_prob[sum_nodes[i]:sum_nodes[i+1]].sum() for i in range(len(sum_nodes)-1)])
+		
+		for period in range(nperiods):
+			for k in range(self.dnum):
+				d_sum = np.zeros(nperiods)
+				old_state = 0
+				for d_class in range(nperiods):
+					for i in range(sum_class[d_class]):
+						d_sum[d_class] += self.tree.final_states_prob[old_state] * self.d[k, old_state, period]
+						old_state += 1
+				for d_class in range(nperiods):
+					for i in range(sum_class[d_class]):
+						self.d[k, new_state[d_class, i], period] = d_sum[d_class] / prob_sum[d_class]
+
+		old_state = 0
+		for d_class in range(nperiods):
+			for i in range(sum_class[d_class]):
+				self.tree.final_states_prob[new_state[d_class, i]] = temp_prob[old_state]
+
+		self.tree.node_prob[-len(self.tree.final_states_prob):] = self.tree.final_states_prob
+		for p in range(1,nperiods-1):
+			nodes = self.tree.get_nodes_in_period(p)
+			for node in range(nodes[0], nodes[1]+1):
+				worst_end_state, best_end_state = self.tree.reachable_end_states(node, period=p)
+				self.tree.node_prob[node] = self.tree.final_states_prob[worst_end_state:best_end_state+1].sum()
+
 	def _damage_interpolation(self):
 		"""Create the interpolation coeffiecients used to calculate damages.
 		"""
 		if self.d is None:
-			try:
-				print("Importing stored damage simulation")
-				self.import_damages()
-			except IOError as e:
-				import sys
-				print("Could not import simulated damages:\n\t{}".format(e))
-				sys.exit(0)
+			print("Importing stored damage simulation")
+			self.import_damages()
+
+		self._recombine_nodes()
 		
 		self.damage_coefs = np.zeros((self.tree.num_final_states, self.tree.num_periods, self.dnum-1, self.dnum))
 		amat = np.ones((self.tree.num_periods, self.dnum, self.dnum))
 		bmat = np.ones((self.tree.num_periods, self.dnum))
 
 		self.damage_coefs[:, :, -1,  -1] = self.d[-1, :, :]
-											#(last, all, all)
 		self.damage_coefs[:, :, -1,  -2] = (self.d[-2, :, :] - self.d[-1, :, :]) / self.emit_pct[-2]
 		amat[:, 0, 0] = 2.0 * self.emit_pct[-2]
 		amat[:, 1:, 0] = self.emit_pct[:-1]**2
@@ -82,34 +123,15 @@ class DLWDamage(Damage):
 			bmat[:, 1:] = self.d[:-1, state, :].T
 			self.damage_coefs[state, :, 0] = np.linalg.solve(amat, bmat)
 
-	def _forcing_based_mitigation(self, forcing, period): 
-		"""Calculation of mitigation based on forcing up to period.
-
-		Args:
-			forcing (float): Cumulative forcing up to node.
-			period (int): Period of node.
-
-		Returns:
-			float: Mitigation.
-		"""
-		p = period
-		if period < self.tree.num_periods-1:
-			p -= 1
-		if forcing > self.cum_forcings[p][1]:
-			weight_on_sim2 = (self.cum_forcings[p][2] - forcing) / (self.cum_forcings[p][2] - self.cum_forcings[p][1])
-			weight_on_sim3 = 0
-		elif forcing > self.cum_forcings[p][0] :
-			weight_on_sim2 = (forcing - self.cum_forcings[p][0]) / (self.cum_forcings[p][1] - self.cum_forcings[p][0])
-			weight_on_sim3 = (self.cum_forcings[p][1] - forcing) / (self.cum_forcings[p][1] - self.cum_forcings[p][0])
-		else:
-			weight_on_sim2 = 0
-			weight_on_sim3 = 1.0 + (self.cum_forcings[p][0] - forcing) / self.cum_forcings[p][0]
-		
-		return weight_on_sim2 * self.emit_pct[1] + weight_on_sim3*self.emit_pct[0]
-
 	def import_damages(self, loc="data/simulated_damages.csv"):
-		with open(loc, 'r') as f:
-			d = np.loadtxt(f, delimiter=";", comments="#")
+		try:
+			with open(loc, 'r') as f:
+				d = np.loadtxt(f, delimiter=";", comments="#")
+		except IOError as e:
+			import sys
+			print("Could not import simulated damages:\n\t{}".format(e))
+			sys.exit(0)
+
 		n = self.tree.num_final_states	
 		self.d = np.array([d[n*i:n*(i+1)] for i in range(0, self.dnum)])
 
@@ -126,10 +148,34 @@ class DLWDamage(Damage):
 				more info.
 
 		"""
-		ds = DLWDamageSimulation(tree=self.tree, ghg_levels=self.ghg_levels, peak_temp=peak_temp,
+		ds = DamageSimulation(tree=self.tree, ghg_levels=self.ghg_levels, peak_temp=peak_temp,
 					disaster_tail=disaster_tail, tip_on=tip_on, temp_map=temp_map, 
 					temp_dist_params=temp_dist_params, maxh=maxh, cons_growth=cons_growth)
 		self.d = ds.simulate(draws)
+		return self.d
+
+	def _forcing_based_mitigation(self, forcing, period): 
+		"""Calculation of mitigation based on forcing up to period.
+
+		Args:
+			forcing (float): Cumulative forcing up to node.
+			period (int): Period of node.
+
+		Returns:
+			float: Mitigation.
+		"""
+		p = period - 1
+		if forcing > self.cum_forcings[p][1]:
+			weight_on_sim2 = (self.cum_forcings[p][2] - forcing) / (self.cum_forcings[p][2] - self.cum_forcings[p][1])
+			weight_on_sim3 = 0
+		elif forcing > self.cum_forcings[p][0]:
+			weight_on_sim2 = (forcing - self.cum_forcings[p][0]) / (self.cum_forcings[p][1] - self.cum_forcings[p][0])
+			weight_on_sim3 = (self.cum_forcings[p][1] - forcing) / (self.cum_forcings[p][1] - self.cum_forcings[p][0])
+		else:
+			weight_on_sim2 = 0
+			weight_on_sim3 = 1.0 + (self.cum_forcings[p][0] - forcing) / self.cum_forcings[p][0]
+		
+		return weight_on_sim2 * self.emit_pct[1] + weight_on_sim3*self.emit_pct[0]
 
 	def forcing_init(self, sink_start, forcing_start, ghg_start, partition_interval, forcing_p1, 
 					 forcing_p2, forcing_p3, absorbtion_p1, absorbtion_p2, lsc_p1, lsc_p2): 
@@ -206,27 +252,24 @@ class DLWDamage(Damage):
 			return 0.0
 
 		period = self.tree.get_period(node)
+		forcing = self.forcing.forcing_at_node(m, node)
+		force_mitigation = self._forcing_based_mitigation(forcing, period)
+
 		if period >= self.tree.num_periods:
 			period = self.tree.num_periods-1
-
-		if period == self.tree.num_periods-2:
-			worst_end_state = best_end_state = self.tree.get_state(node, period)
-		else:
-			worst_end_state, best_end_state = self.tree.reachable_end_states(node, period=period)
-
-		forcing = self.forcing.forcing_at_node(m, node)
-		ave_mitigation = self._forcing_based_mitigation(forcing, period)
+		worst_end_state, best_end_state = self.tree.reachable_end_states(node, period=period)
 		probs = self.tree.final_states_prob[worst_end_state:best_end_state+1]
 
-		if ave_mitigation < self.emit_pct[1]:
-			damage = (probs *(self.damage_coefs[worst_end_state:best_end_state+1, period-1, 1, 1] * ave_mitigation \
+		if force_mitigation < self.emit_pct[1]:
+			damage = (probs *(self.damage_coefs[worst_end_state:best_end_state+1, period-1, 1, 1] * force_mitigation \
 					 + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 1, 2])).sum()
 		
-		elif ave_mitigation < self.emit_pct[0]: #do dot product instead?
-			damage = (probs * (self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 0] * ave_mitigation**2 \
-					  + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 1] * ave_mitigation \
+		elif force_mitigation < self.emit_pct[0]: #do dot product instead?
+			damage = (probs * (self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 0] * force_mitigation**2 \
+					  + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 1] * force_mitigation \
 					  + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 2])).sum()
 		
+		######### what's happening here? ##############
 		else: 
 			damage = 0.0
 			i = 0
@@ -235,11 +278,10 @@ class DLWDamage(Damage):
 					deriv = 2.0 * self.damage_coefs[state, period-1, 0, 0]*self.emit_pct[0] \
 							+ self.damage_coefs[state, period-1, 0, 1]
 					decay_scale = deriv / (self.d[0, state, period-1]*np.log(0.5))
-					dist = ave_mitigation - self.emit_pct[0] + np.log(self.d[0, state, period-1]) \
-						   / (np.log(0.5) * decay_scale)
-					damage += probs[i] * 0.5**(decay_scale*dist) * np.exp(-np.square(ave_mitigation-self.emit_pct[0])/60.0)
-					i += 1
-
+					dist = force_mitigation - self.emit_pct[0] + np.log(self.d[0, state, period-1]) \
+						   / (np.log(0.5) * decay_scale) 
+					damage += probs[i] * (0.5**(decay_scale*dist) * np.exp(-np.square(force_mitigation-self.emit_pct[0])/60.0))
+				i += 1
 		return damage / probs.sum()
 
 	def damage_function(self, m, period):
@@ -267,7 +309,7 @@ if __name__ == "__main__":
 	from damage import DLWDamage
 	from utility import EZUtility
 	from optimization import GenericAlgorithm, GradientDescent as gd
-	from output_functions import ssc_decomposition
+	from output_functions import *
 
 	t = TreeModel(decision_times=[0, 15, 45, 85, 185, 285, 385], prob_scale=1.0)
 	bau_default_model = DLWBusinessAsUsual()
@@ -291,18 +333,27 @@ if __name__ == "__main__":
 		1.2353126,1.31761603,1.23053655,1.30587102,1.47995449,1.49003184,1.35051339,1.39986976, 
 		1.31363221,1.5914582, 1.62406314,1.48378497,1.66121659,1.49494204,1.44710524,1.20213858])
 
-	u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0)
-	utility_t, cons_t, cost_t, ce_t = u.utility(m, return_trees=True)
+	m = np.array([0.63033831,0.79493609,0.63961916,1.00100798,0.89883409,0.90650158,0.63261796,
+		1.27838304,1.22254166,1.26107556,0.93073007,1.29769024,0.93561291,0.95227753,0.56268567,
+		1.29278316,1.15256622,1.2307686,1.11031776,1.23969716,1.11810618,1.55663593,1.42213896,
+		1.25113711,1.12736059,1.60594014,1.48023671,1.71172097,1.59794234,1.33202771,0.42229699,
+		2.02341063,1.61617494,1.76098407,1.45681979,1.80320135,1.4876755, 1.63924136,1.29798736,
+		1.81450273,1.50371422,1.64708828,1.30479554,1.83540965,1.43450589,1.62121368,1.19193555,
+		1.82614187,1.51256235,1.65722273,1.30874109,1.85953769,1.4531849, 1.64829521,1.20749883,
+		1.94156574,1.53071302,1.70118658,1.24272015,3.35803589,2.59176097,0.91533447,0.0])
 
+	u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0)
+	#utility_t, cons_t, cost_t = u.utility(m, return_trees=True)
+	#n_cons_t, cost_arr = delta_consumption(m, u, cons_t, cost_t, 0.01)
 	#ssc_decomposition(m, u, utility_t, cons_t, cost_t, 0.01)
 	
-	#print "Starting Generic Algorithm \n"
-	#ga = GenericAlgorithm(500, 63, 100, 0.80, 0.50, u)
-	#m = ga.run(0)
+	print "Starting Generic Algorithm \n"
+	ga = GenericAlgorithm(500, 63, 100, 0.80, 0.50, u)
+	m = ga.run(50)
 
-	#print "Moving over to Gradient Descent \n"
+	print "Moving over to Gradient Descent \n"
 	#fixed_values = np.zeros(len(m))
 	#fixed_values[0] = m[0]
-	#m_hist = gd.run(u, m=m, fixed_values=fixed_values, alpha=0.1, num_iter=10)
-	
+	m_hist = gd.run(u, m=m, alpha=0.1, num_iter=200)
+
 

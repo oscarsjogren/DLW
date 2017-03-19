@@ -155,9 +155,9 @@ class EZUtility(Utility):
 
 				up_cons = prev_cons[::2]
 				down_cons = prev_cons[1::2]
-
 				up_ce = prev_ce[::2]
 				down_ce = prev_ce[1::2]
+				
 				mu_1 = self._mu_1(cons_tree[period], up_prob, up_cons, down_cons, up_ce, down_ce)
 				mu_2 = self._mu_1(cons_tree[period], down_prob, down_cons, up_cons, down_ce, up_ce)
 				# not optimal
@@ -202,9 +202,9 @@ class EZUtility(Utility):
 						next_consumption *= (1.0 - np.repeat(period_cost,2)) /(1.0 - next_cost)
 					# don't we want to do this also for the 'straight' periods?
 					#else:
-						#next_consumption *= (1.0 - period_cost) / (1.0 - next_cost)
-						#if period == 380:
-						#	print next_consumption
+					#	next_consumption *= (1.0 - period_cost) / (1.0 - next_cost)
+					#	if period == 380:
+					#		print next_consumption
 						
 				if period < utility_tree.decision_times[-2]:
 					period_consumption = ((next_consumption/np.repeat(period_consumption,2))**(segment/float(interval))) * np.repeat(period_consumption,2)
@@ -241,7 +241,7 @@ class EZUtility(Utility):
 			utility_tree.set_value(period, u)
 			
 		if return_trees:
-			return utility_tree, cons_tree, cost_tree, ce_tree
+			return utility_tree, cons_tree, cost_tree
 		return utility_tree[0]
 
 
@@ -371,7 +371,7 @@ class EZUtility(Utility):
 		grad = (plus_utility-minus_utility) / (2*self.delta)
 		return grad, i
 
-	def parallelized_num_gradient(self, m, delta=1e-06, fixed_values=None):
+	def parallelized_num_gradient(self, m, delta=1e-06):
 		self.delta = delta
 		self.m = m 
 		grad = np.zeros(len(m))

@@ -79,8 +79,8 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	cost_array = np.zeros((first_period_intervals, 2))
 	for i in range(first_period_intervals):
 		potential_consumption = (1.0 + utility.cons_growth)**(new_cons_tree.subinterval_len * i)
-		cost_array[i, 0] = potential_consumption * cost_tree.tree[0]
-		cost_array[i, 1] = (potential_consumption * new_cost_tree.tree[0] - cost_array[i, 0]) / delta_m
+		cost_array[i, 0] = potential_consumption * cost_tree[0]
+		cost_array[i, 1] = (potential_consumption * new_cost_tree[0] - cost_array[i, 0]) / delta_m
 	
 	return new_cons_tree, cost_array
 
@@ -103,7 +103,7 @@ def ssc_decomposition(m, utility, utility_tree, cons_tree, cost_tree, delta_m):
 	num_periods = len(utility_tree)-1
 	#discount_prices[-1] = find_term_structure(m, utility, len(utility_tree)-1, 0.01)
 	discount_prices[-1] = 0.001
-	grad = utility.numerical_gradient(m)
+	#grad = utility.numerical_gradient(m)
 	mu_0, mu_1, mu_2 = utility.marginal_utility(m, utility_tree, cons_tree, cost_tree)
 	sub_len = sdf_tree.subinterval_len
 	for period in sdf_tree.periods[1:]:
@@ -121,7 +121,7 @@ def ssc_decomposition(m, utility, utility_tree, cons_tree, cost_tree, delta_m):
 		expected_sdf = np.dot(period_sdf, period_probs)
 		cross_sdf_damages = np.dot(period_sdf, delta_cons_tree.tree[period]*period_probs)
 		cov_term = cross_sdf_damages - expected_sdf*expected_damages
-		
+
 		discount_prices[period] = expected_sdf
 		sdf_tree.set_value(period, period_sdf)
 
@@ -142,8 +142,6 @@ def ssc_decomposition(m, utility, utility_tree, cons_tree, cost_tree, delta_m):
 	ed = net_discounted_expected_damages/total * price
 	rp = risk_premium/total * price
 	print price, ed, rp
-
-
 
 
 def find_ir(m, utility, payment, a=0.0, b=1.0): 
@@ -174,11 +172,9 @@ def find_term_structure(m, utility, num_periods, payment, a=0.0, b=1.0): # or fi
     	period_cons_eps = np.zeros(num_periods)
     	period_cons_eps[-1] = payment
     	utility_with_payment = utility.adjusted_utility(m, period_cons_eps=period_cons_eps)
-    	print utility_with_payment
 
     	first_period_eps = payment * price
     	utility_with_initial_payment = utility.adjusted_utility(m, first_period_consadj=first_period_eps)
-    	print utility_with_initial_payment
     	return  utility_with_payment - utility_with_initial_payment
 
     return brentq(min_func, a, b)

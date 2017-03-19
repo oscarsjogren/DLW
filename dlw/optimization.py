@@ -35,6 +35,7 @@ class GenericAlgorithm(object):
 		self.num_gen = num_generations
 		self.cx_prob = cx_prob
 		self.mut_prob = mut_prob
+		self.pop = None
 		self.u = utility
 		self.fixed_values = fixed_values
 		if self.fixed_values is None:
@@ -45,7 +46,8 @@ class GenericAlgorithm(object):
 
 	def _attr_gen(self, individual, scaler):
 		#m = np.random.random(self.ind_size).cumsum() * 0.1
-		#m = np.ones(self.pop_size) + np.random.random(self.pop_size).cumsum() * 0.01
+		#m = np.ones(self.ind_size) + 2*(np.random.random(self.ind_size) - 0.5)
+		#m[m<0.0] = 0.0
 		if self.start_values is not None:
 			ind = individual(self.start_values)
 			return ind
@@ -167,6 +169,7 @@ class GenericAlgorithm(object):
 		return pop[np.argmax(fits)]
 
 
+
 class GradientDescent(object):
 
 	@classmethod
@@ -206,6 +209,7 @@ class GradientDescent(object):
 			m[non_zero_fv] = fixed_values[non_zero_fv]
 			m_hist[i+1] = m
 			print utility.utility(m)
+			print m
 	
 		return m_hist
 	
