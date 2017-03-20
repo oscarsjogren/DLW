@@ -308,7 +308,8 @@ if __name__ == "__main__":
 	from cost import DLWCost
 	from damage import DLWDamage
 	from utility import EZUtility
-	from optimization import GenericAlgorithm, GradientDescent as gd
+	from optimization import GenericAlgorithm, GradientSearch
+	from optimization import GAGradientSearch
 	from output_functions import *
 
 	t = TreeModel(decision_times=[0, 15, 45, 85, 185, 285, 385], prob_scale=1.0)
@@ -332,7 +333,7 @@ if __name__ == "__main__":
 		1.28253073,1.1936995, 1.49007705,1.08933526,1.52637337,1.3024672, 1.30407295,1.15306861, 
 		1.2353126,1.31761603,1.23053655,1.30587102,1.47995449,1.49003184,1.35051339,1.39986976, 
 		1.31363221,1.5914582, 1.62406314,1.48378497,1.66121659,1.49494204,1.44710524,1.20213858])
-
+	"""
 	m = np.array([0.63033831,0.79493609,0.63961916,1.00100798,0.89883409,0.90650158,0.63261796,
 		1.27838304,1.22254166,1.26107556,0.93073007,1.29769024,0.93561291,0.95227753,0.56268567,
 		1.29278316,1.15256622,1.2307686,1.11031776,1.23969716,1.11810618,1.55663593,1.42213896,
@@ -341,19 +342,31 @@ if __name__ == "__main__":
 		1.81450273,1.50371422,1.64708828,1.30479554,1.83540965,1.43450589,1.62121368,1.19193555,
 		1.82614187,1.51256235,1.65722273,1.30874109,1.85953769,1.4531849, 1.64829521,1.20749883,
 		1.94156574,1.53071302,1.70118658,1.24272015,3.35803589,2.59176097,0.91533447,0.0])
+	"""
 
 	u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0)
-	#utility_t, cons_t, cost_t = u.utility(m, return_trees=True)
-	#n_cons_t, cost_arr = delta_consumption(m, u, cons_t, cost_t, 0.01)
+	utility_t, cons_t, cost_t = u.utility(m, return_trees=True)
+	n_cons_t, cost_arr = delta_consumption(m, u, cons_t, cost_t, 0.01)
 	#ssc_decomposition(m, u, utility_t, cons_t, cost_t, 0.01)
 	
-	print "Starting Generic Algorithm \n"
-	ga = GenericAlgorithm(500, 63, 100, 0.80, 0.50, u)
-	m = ga.run(50)
 
-	print "Moving over to Gradient Descent \n"
+	#ga_gs = GAGradientSearch(ga_pop=150, ga_generations=10, ga_cxprob=0.8, ga_mutprob=0.5, 
+	#						upper_bound=3.0, gs_learning_rate=0.1, gs_iterations=100, 
+	#						gs_acc=1e-06, num_features=63, utility=u)
+	#res = ga_gs.run()
+	#print "Starting Generic Algorithm \n"
+	#ga = GenericAlgorithm(300, 63, 50, 3.0, 0.80, 0.50, u.utility)
+	#pop, fitness = ga.run()
+
+	#sort_pop = pop[np.argsort(fitness)][::-1]
+	
+	#gs = GradientSearch(learning_rate=0.1, var_nums=63, utility=u, iterations=10, fixed_values=fixed_values)
+	#res = gs.run(initial_point_list=[m], topk=1)
+	
+
+	#print "Moving over to Gradient Descent \n"
 	#fixed_values = np.zeros(len(m))
 	#fixed_values[0] = m[0]
-	m_hist = gd.run(u, m=m, alpha=0.1, num_iter=200)
+	#m_hist = gd.run(u, m=m, alpha=0.1, num_iter=200)
 
 

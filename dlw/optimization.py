@@ -1,180 +1,302 @@
 import numpy as np
 import multiprocessing
-from deap import base
-from deap import creator
-from deap import tools
 
 class GenericAlgorithm(object):
 	"""Optimization algorithm for the DLW model. 
 
 	Args:
-		num_pop (int): Number of individuals in the population.
-		ind_size (int): The number of elements in each individual, i.e. number of nodes in tree-model.
+		pop_amount (int): Number of individuals in the population.
+		num_feature (int): The number of elements in each individual, i.e. number of nodes in tree-model.
 		num_generations (int): Number of generations of the populations to be evaluated.
+		bound (float): Amount to reduce the 
 		cx_prob (float): Probability of mating.
 		mut_prob (float): Probability of mutation.
 		utility (obj 'Utility'): Utility object containing the valuation function.
 		constraints (ndarray): 1D-array of size (ind_size)
 
-	Parameters:
-		num_pop (int): Number of individuals in the population.
-		ind_size (int): The number of elements in each individual, i.e. number of nodes in tree-model.
-		num_generations (int): Number of generations of the populations to be evaluated.
-		cx_prob (float): Probability of mating.
-		mut_prob (float): Probability of mutation.
-		utility (obj 'Utility'): Utility object containing the valuation function.
-		constraints (ndarray): 1D-array of size (ind_size)
-		toolbox (obj 'deap.toolbox'): Deap object used in the run method.
-
+	TODO: Create and individual class.
 	"""
-
-	def __init__(self, num_pop, ind_size, num_generations, cx_prob, mut_prob, utility, 
-				 fixed_values=None, start_values=None):
-		self.num_pop = num_pop
-		self.ind_size = ind_size
+	def __init__(self, pop_amount, num_generations, cx_prob, mut_prob, bound, num_feature, utility):
+		self.num_feature = num_feature
+		self.pop_amount = pop_amount
 		self.num_gen = num_generations
 		self.cx_prob = cx_prob
 		self.mut_prob = mut_prob
-		self.pop = None
 		self.u = utility
-		self.fixed_values = fixed_values
-		if self.fixed_values is None:
-			self.fixed_values = np.zeros(ind_size)
-		self.non_zero_fv = np.where(self.fixed_values != 0.0)[0]
-		self.start_values = start_values
-		self._init_deap()
+		self.bound = bound
 
-	def _attr_gen(self, individual, scaler):
-		#m = np.random.random(self.ind_size).cumsum() * 0.1
-		#m = np.ones(self.ind_size) + 2*(np.random.random(self.ind_size) - 0.5)
-		#m[m<0.0] = 0.0
-		if self.start_values is not None:
-			ind = individual(self.start_values)
-			return ind
-		m = np.random.random(self.ind_size) * scaler
-		m[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
-		ind = individual(m)
-		return ind
-
-	def _average_twopoint(self, ind1, ind2):
-		cxpoint1 = np.random.randint(1, self.ind_size)
-		cxpoint2 = np.random.randint(1, self.ind_size - 1)
-		if cxpoint2 >= cxpoint1:
-			cxpoint2 += 1
-		else: # Swap the two cx point
-			cxpoint1, cxpoint2 = cxpoint2, cxpoint1
-		ind2_copy = ind2.copy()
-		ind2_copy[cxpoint1:cxpoint2] = ind1[cxpoint1:cxpoint2].copy()
-		ind1[cxpoint1:cxpoint2] = (ind2[cxpoint1:cxpoint2] + ind1[cxpoint1:cxpoint2]) * 0.5
-		ind1[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
-		ind2_copy[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
-		return ind1, ind2_copy
-
-	def _cx_twopoint_copy(self, ind1, ind2):
-	    """Execute a two points crossover with copy on the input individuals. The
-	    copy is required because the slicing in numpy returns a view of the data,
-	    which leads to a self overwritting in the swap operation.
+	def _generate_population(self):
+		"""Return 1D-array of random value in the given bound as the initial population.
 	    
-	    """
-	    cxpoint1 = np.random.randint(1, self.ind_size)
-	    cxpoint2 = np.random.randint(1, self.ind_size - 1)
-	    if cxpoint2 >= cxpoint1:
-	        cxpoint2 += 1
-	    else: # Swap the two cx points
-	        cxpoint1, cxpoint2 = cxpoint2, cxpoint1
-
-	    ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] \
-	        = ind2[cxpoint1:cxpoint2].copy(), ind1[cxpoint1:cxpoint2].copy()
-	    ind1[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
-	    ind2[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
-	    return ind1, ind2
-
-	def _mutate_uniform(self, ind, indpb, step):
-		prob = np.random.random(self.ind_size) 
-		inc = (np.random.random(self.ind_size) - 0.5)
-		ind += (prob > (1.0-indpb)).astype(int)*inc
-		ind = np.maximum(0.0, ind)
-		ind[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
-		return ind
-
-	def _one_point_mutation(self, ind, step):
-		index = np.random.randint(self.ind_size)
-		inc = (np.random.random() - 0.5)*step
-		ind[index] += inc if (ind[index] + inc) > 0.0  else 0.0
-		return ind
-
-
-	def _init_deap(self):
-		creator.create("FittnessMax", base.Fitness, weights=(1.0,))
-		creator.create("Individual", np.ndarray, fitness=creator.FittnessMax)
-		
-		self.pool = multiprocessing.Pool()
-		self.toolbox = base.Toolbox()
-		self.toolbox.register("individual", self._attr_gen, creator.Individual, 3.0)
-		self.toolbox.register("population", tools.initRepeat, list, self.toolbox.individual)
-		self.toolbox.register("map", self.pool.map)
-		self.toolbox.register("evaluate", self.u.utility)
-		self.toolbox.register("mate", self._average_twopoint)
-		self.toolbox.register("mutate", self._mutate_uniform, indpb=0.05)
-		self.toolbox.register("select", tools.selTournament, tournsize=2)
-		
-	def run(self, num_reduce, print_output=True):
-		pop = self.toolbox.population(n=self.num_pop)
-		for g in range(0, self.num_gen):
-			print "-- Generation {}--".format(g+1)
-
-			fitnesses = list(self.toolbox.map(self.toolbox.evaluate, pop))
-			for ind, fit in zip(pop, fitnesses):
-				ind.fitness.values = fit
-			
-			fits = np.array([ind.fitness.values[0] for ind in pop])
-			fits = fits[fits != 0.0]
-			if len(fits) == 0:
-				print "re-running, all zero fitness"
-				self._init_deap()
-				return self.run(num_reduce, print_output)
-
-			length = len(pop)
-			if print_output:
-				mean = fits.mean()
-				std = fits.std()
-				min_val = fits.min()
-				max_val = fits.max()
-				print " Min {} \n Max {} \n Avg {}".format(min_val, max_val, mean)
-				print " Std {} \n Population Size {}".format(std, length)
-				print pop[np.argmax(fits)]
-			
-			new_size = int(0.99*length)
-			size = new_size if new_size >= 100 else 100
-			offspring = self.toolbox.select(pop, size)
-			offspring = list(self.toolbox.map(self.toolbox.clone, offspring))
-			for child1, child2 in zip(offspring[::2], offspring[1::2]):
-				if np.random.random() < self.cx_prob:
-					self.toolbox.mate(child1, child2)
-					del child1.fitness.values
-					del child2.fitness.values
-
-			for mutant in offspring:
-				if np.random.random() < self.mut_prob:
-					self.toolbox.mutate(mutant, step=np.exp(-g/float(self.num_gen)))
-					del mutant.fitness.values
-
-			invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
-			fitnesses = self.toolbox.map(self.toolbox.evaluate, invalid_ind)
-			for ind, fit in zip(invalid_ind, fitnesses):
-				ind.fitness.values = fit
-			pop[:] = offspring
-
-		fits = np.array([ind.fitness.values[0] for ind in pop])
-		return pop[np.argmax(fits)]
-
-
-
-class GradientDescent(object):
-
-	@classmethod
-	def run(gd, utility, m=None, size=None, fixed_values=None, alpha=0.1, num_iter=100):
+	    Returns:
+	    	ndarray: Array of random value in the given bound with the shape of ('pop_amount', 'num_feature').
 		"""
+		#pop = np.random.random([self.pop_amount, self.num_feature]).cumsum(axis=1)*0.1
+		pop = np.random.random([self.pop_amount, self.num_feature])*self.bound
+		return pop
+
+	def _evaluate(self, indvidual):
+		"""Return the utility of given individual.
+	    
+	    Parameters
+	    	indvidual (ndarray or list): The shape of 'pop' define as 1 times of num_feature.
+	   
+	    Returns:
+	    	ndarray: Array with utility at time zero.
+
+		"""
+		return self.u.utility(indvidual)
+
+	def _select(self, pop, rate):
+		"""Return a 1D-array of selected individuals.
+	    
+	    Parameters:
+		    pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
+		    rate (float): The probability of an individual can be selected among population
+		    
+	    Returns:
+	    	ndarray: Selected individuals.
+
+		"""
+		index = np.random.choice(self.pop_amount, int(rate*self.pop_amount), replace=False)
+		return pop[index,:]
+
+	def _random_index(self, individuals, size):
+		inds_size = len(individuals)
+		return np.random.choice(inds_size, size)
+
+	def _selection_tournament(self, pop, k, tournsize, fitness):
+	    """Select *k* individuals from the input *individuals* using *k*
+	    tournaments of *tournsize* individuals. The list returned contains
+	    references to the input *individuals*.
+	    
+	    :param individuals: A list of individuals to select from.
+	    :param k: The number of individuals to select.
+	    :param tournsize: The number of individuals participating in each tournament.
+	    :returns: A list of selected individuals.
+	    
+	    This function uses the :func:`~random.choice` function from the python base
+	    :mod:`random` module.
+	    """
+	    chosen = []
+	    for i in xrange(k):
+	        index = self._random_index(pop, tournsize)
+	        aspirants = pop[index]
+	        aspirants_fitness = fitness[index]
+	        chosen_index = np.where(aspirants_fitness == np.max(aspirants_fitness))[0]
+	        if len(chosen_index) != 0:
+	        	chosen_index = chosen_index[0]
+	        chosen.append(aspirants[chosen_index])
+	    return np.array(chosen)
+
+	def _two_point_cross_over(self, pop):
+		"""Return the cross-overed result of original pop
+	    
+	    Parameters:
+			pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
+		    ind_prob (float): Probability of a feature can cross-over.
+	    
+		"""
+		child_group1 = pop[::2]
+		child_group2 = pop[1::2]
+		for child1, child2 in zip(child_group1, child_group2):
+			if np.random.random() <= self.cx_prob:
+				cxpoint1 = np.random.randint(1, self.num_feature)
+				cxpoint2 = np.random.randint(1, self.num_feature - 1)
+				if cxpoint2 >= cxpoint1:
+					cxpoint2 += 1
+				else: # Swap the two cx points
+					cxpoint1, cxpoint2 = cxpoint2, cxpoint1
+				child1[cxpoint1:cxpoint2], child2[cxpoint1:cxpoint2] \
+				= child2[cxpoint1:cxpoint2].copy(), child1[cxpoint1:cxpoint2].copy()
+	
+	def _uniform_cross_over(self, pop, ind_prob):
+		"""
+	    Return the cross-overed result of original pop
+	    Parameters
+	    ----------
+		pop: ndarray
+		    The population for cross over operation
+	    ind_prob : float
+	        A probability of a feature can corss over.
+	    Returns
+	    -------
+	    out : None/ revise in place
+		"""
+		child_group1 = pop[::2]
+		child_group2 = pop[1::2]
+		for child1, child2 in zip(child_group1, child_group2):
+			size = min(len(child1), len(child2))
+			for i in range(size):
+				if np.random.random() < ind_prob:
+					child1[i], child2[i] = child2[i], child1[i]
+
+	def _mutate(self, pop, ind_prob):
+		"""
+
+		"""
+		pop_tmp = np.copy(pop)
+		mutate_index = np.random.choice(self.pop_amount, int(self.mut_prob * self.pop_amount), replace=False)
+		for i in mutate_index:
+			feature_index = np.random.choice(self.num_feature, int(ind_prob * self.num_feature), replace=False)
+			for j in feature_index:
+				pop[i][j] = np.random.random()*2
+	
+	def _uniform_mutation(self, pop, ind_prob):
+		pop_len = len(pop)
+		mutate_index = np.random.choice(pop_len, int(self.mut_prob * pop_len), replace=False)
+		for i in mutate_index:
+			prob = np.random.random(self.num_feature) 
+			inc = (np.random.random(self.num_feature) - 0.5) 
+			pop[i] += (prob > (1.0-ind_prob)).astype(int)*inc
+			pop[i] = np.maximum(0.0, pop[i])
+
+	def _show_evaluation(self, fits, pop):
+		"""Print statistics of the evolution of the population."""
+		length = len(pop)
+		mean = fits.mean()
+		std = fits.std()
+		min_val = fits.min()
+		max_val = fits.max()
+		print (" Min {} \n Max {} \n Avg {}".format(min_val, max_val, mean))
+		print (" Std {} \n Population Size {}".format(std, length))
+		print (" Best Individual: ", pop[np.argmax(fits)])
+
+	def _survive(self, pop_tmp, fitness_tmp):
+		"""
+
+		"""
+		index_fits  = np.argsort(fitness_tmp)[::-1]
+		fitness = fitness_tmp[index_fits]
+		pop = pop_tmp[index_fits]
+		num_survive = int(0.8*self.pop_amount) 
+		survive_pop = np.copy(pop[:num_survive])
+		survive_fitness = np.copy(fitness[:num_survive])
+		return np.copy(survive_pop), np.copy(survive_fitness)
+
+	def run(self):
+		"""
+		The evolution steps:
+		1. Select all of the individuals as candidate for cross over
+		2. Cross over among the selected candidate, random pick two and use uniform cross over method.
+		3. Mutation after Cross over take the result as offspring
+		4. Combine the result of offspring and parent together. And selected the top 80% of original population amount
+		5. Random Generate 20% of original population amount new individuals and combine the above new population
+		"""
+		print("----------------Genetic Evolution Starting----------------")
+		pop = self._generate_population()
+		pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
+		fitness = pool.map(self._evaluate, pop) # how do we know pop[i] belongs to fitness[i]?
+		fitness = np.array([val[0] for val in fitness])
+		for g in range(0, self.num_gen):
+			print ("-- Generation {} --".format(g+1))
+			pop_select = self._select(np.copy(pop), rate=1) # this works since we have rate=1 ?!
+			#pop_select = self._selection_tournament(pop, len(pop), 4, fitness)
+			#self._two_point_cross_over(pop_select)
+			self._uniform_cross_over(pop_select, 0.5)
+			self._mutate(pop_select, 0.25)
+			#self._uniform_mutation(pop_select, 0.1)
+
+			fitness_select = pool.map(self._evaluate, pop_select)
+			fitness_select = np.array([val[0] for val in fitness_select])
+			
+			pop_tmp = np.append(pop, pop_select, axis=0)
+			fitness_tmp = np.append(fitness, fitness_select, axis=0)
+
+			pop_survive, fitness_survive = self._survive(pop_tmp, fitness_tmp)
+
+			pop_new = np.random.random([self.pop_amount - len(pop_survive), self.num_feature])*self.bound
+			fitness_new = pool.map(self._evaluate, pop_new)
+			fitness_new = np.array([val[0] for val in fitness_new])
+
+			pop = np.append(pop_survive, pop_new, axis=0)
+			fitness = np.append(fitness_survive, fitness_new, axis=0)
+			self._show_evaluation(fitness, pop)
+
+		fitness = pool.map(self._evaluate, pop)
+		fitness = np.array([val[0] for val in fitness])
+		return pop, fitness
+
+
+
+class GradientSearch(object) :
+	"""
+    reference the algorithm in http://cs231n.github.io/neural-networks-3/
+	"""
+
+	def __init__(self, learning_rate, var_nums, utility, accuracy=1e-06, iterations=100, 
+				 step=0.00001, fixed_values=None):
+		self.alpha = learning_rate
+		self.u = utility
+		self.var_nums = var_nums
+		self.step = step
+		self.accuracy = accuracy
+		self.iterations = iterations
+		self.fixed_values  = fixed_values
+		if self.fixed_values is None:
+			self.fixed_values = np.zeros(var_nums)
+		self.non_zero_fv = np.where(self.fixed_values != 0.0)[0]
+
+	def _initial_values(self, size):
+		m = np.random.random(size) * 3.0
+		return m
+	
+	def _gradient(self, x): # not used
+		"""
+		Use the centered formula for gradient calculation
+		"""
+		base = np.array([x] * len(x))
+		shift = np.diag([self.step] * len(x))
+		base_plus = base + shift
+		base_minus = base - shift
+		utility_plus = np.apply_along_axis(self.u.utility, 1, base_plus)
+		utility_minus = np.apply_along_axis(self.u.utility, 1, base_minus)
+		gradient_val = (utility_plus - utility_minus) / (2 * self.step)
+		return gradient_val.flatten()
+	
+	def _dynamic_alpha(self, x_increase, grad_increase):
+		if np.all(grad_increase == 0):
+			return 0.0
+		return np.abs(np.dot(x_increase, grad_increase) /  np.square(grad_increase).sum())
+
+
+	def gradient_descent(self, initial_point):
+		"""
+		Annealing the learning rate. Step decay: Reduce the learning rate by some factor every few epochs.
+		Typical values might be reducing the learning rate by a half every 5 epochs,
+		"""
+		learning_rate = self.alpha	
+		num_decision_nodes = initial_point.shape[0]
+		x_hist = np.zeros((self.iterations+1, num_decision_nodes))
+		u_hist = np.zeros(self.iterations+1)
+		u_hist[0] = self.u.utility(initial_point)
+		x_hist[0] = initial_point
+		prev_grad = 0.0
+
+		for i in range(self.iterations):
+			grad = self.u.numerical_gradient(x_hist[i])
+			if i != 0:
+				learning_rate = self._dynamic_alpha(x_hist[i]-x_hist[i-1], grad-prev_grad)
+
+			new_x = x_hist[i] + grad*learning_rate
+			new_x[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
+			current = self.u.utility(new_x)[0]
+			x_hist[i+1] = new_x
+			u_hist[i+1] = current
+			prev_grad = grad.copy()
+			if i != 0:
+				x_diff = np.abs(x_hist[i+1] - x_hist[i]).sum()
+				u_diff = np.abs(u_hist[i+1] - u_hist[i])
+				if x_diff < 1e-03 or u_diff < self.accuracy:
+					print("Broke iteration..")
+					break
+			print("-- Interation {} -- \n Current Utility: {}".format(i+1, current))
+
+		return x_hist[-1], current
+
+	def run(self, topk=4, initial_point_list=None, size=None):
+		"""Initiate the gradient search algorithm. 
+
 		Args:
 			m (ndarray or list): 1D numpy array of size (num_decision_nodes).
 			alpha (float): Step size in gradient descent.
@@ -184,44 +306,37 @@ class GradientDescent(object):
 			ndarray: The history of parameter vector, 2D numpy array of size (num_iter+1, num_decision_nodes) 
 
 		"""
-		if m is None:
+		print("----------------Gradient Search Starting----------------")
+		if initial_point_list is None:
 			if size is None:
-				raise ValueError("Need size of the mitigation array.")
-			m = gd.initial_values(size)
+				raise ValueError("Need size of the initial point array")
+			initial_point_list = np.array(self._initial_values(size))
 
-		if fixed_values is None:
-			fixed_values = np.zeros(len(m))
-		non_zero_fv = np.where(fixed_values != 0.0)[0]
-		num_decision_nodes = m.shape[0]
-		m_hist = np.zeros((num_iter+1, num_decision_nodes))
-		grad_hist = np.zeros((num_iter, num_decision_nodes))  #Initialize theta_hist
-		m_hist[0] = m
+		if topk > len(initial_point_list):
+			raise ValueError("topk {} > number of initial points {}".format(topk, len(initial_point_list)))
 
-		for i in range(num_iter):
-			print "-- Iteration {} --".format(i+1)
-			grad = utility.parallelized_num_gradient(m)
-			grad_hist[i] = grad
-			if i != 0:
-				alpha = gd.dynamic_alpha(m_hist[i-1:i+1], grad_hist[i-1:i+1])
-			if alpha == 0:
-				break
-			m += grad*alpha
-			m[non_zero_fv] = fixed_values[non_zero_fv]
-			m_hist[i+1] = m
-			print utility.utility(m)
-			print m
-	
-		return m_hist
-	
-	@classmethod	
-	def initial_values(gd, size):
-		m = np.random.random(size) * 3.0
-		return m
+		candidate_points = initial_point_list[:topk]
+		result = []
+		count = 1
+		for cp in candidate_points:
+			if not isinstance(cp, np.ndarray):
+				cp = np.array(cp)
+			print("Starting process {} of Gradient Descent".format(count))
+			result.append(self.gradient_descent(cp))
+			count += 1
+		return result
 
-	@classmethod
-	def dynamic_alpha(gd, m_hist, grad_hist):
-		grad_increase = grad_hist[-1]-grad_hist[-2]
-		if np.all(grad_increase == 0):
-			return 0.0
-		return np.abs(np.dot(m_hist[-1]-m_hist[-2], grad_increase) /  np.square(grad_increase).sum())
+class GAGradientSearch(object):
+	def __init__(self, ga_pop, ga_generations, ga_cxprob, ga_mutprob, upper_bound, 
+				 gs_learning_rate, gs_iterations, gs_acc, num_features, utility):
+		self.ga_model = GenericAlgorithm(ga_pop, ga_generations, ga_cxprob, ga_mutprob, upper_bound, 
+										 num_features, utility)
+		self.gs_model = GradientSearch(gs_learning_rate, num_features, utility, gs_acc, 
+									   gs_iterations)
+	def run(self):
+		final_pop, fitness = self.ga_model.run()
+		sort_pop = final_pop[np.argsort(fitness)][::-1]
+		res = self.gs_model.run(initial_point_list=sort_pop)
+		return res
+
 

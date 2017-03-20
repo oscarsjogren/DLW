@@ -2,18 +2,14 @@ import numpy as np
 from scipy.optimize import brentq
 from storage_tree import BigStorageTree
 
-def optimization(m, utility):
+def optimization(m, utility, fixed_values):
 	""" the specialized optimization function, using both the generic algorithm and gradient descent"""
-	from optimization import GenericAlgorithm, GradientDescent as gd
-	fixed_values = np.zeros(len(m))
-	fixed_values[0] = m[0]
-	#print "Starting Generic Algorithm \n"
-	#ga = GenericAlgorithm(500, 63, 10, 0.80, 0.50, utility, fixed_values=fixed_values, start_values=m)
-	#new_m = ga.run(0)
+	from optimization import GradientSearch
 
-	print "Moving over to Gradient Descent \n"
-	m_hist = gd.run(utility, m=m, fixed_values=fixed_values, alpha=0.1, num_iter=10)
-	return m_hist[-1]
+	gs = GradientSearch(learning_rate=0.1, var_nums=len(m), utility=utility, 
+						fixed_values=fixed_values, iterations=50)
+	new_m, new_utility = gs.gradient_descent(m)
+	return new_m
 
 def additional_ghg_emission(m, utility):
 	additional_emission = np.zeros(len(m))
@@ -69,7 +65,7 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	m_copy[0] += delta_m
 	fixed_values = np.zeros(len(m_copy))
 	fixed_values[0] = m_copy[0]
-	new_m = optimization(m, utility)
+	new_m = optimization(m, utility, fixed_values)
 	new_utility_tree, new_cons_tree, new_cost_tree = utility.utility(new_m, return_trees=True)
 
 	for period in new_cons_tree.periods:
