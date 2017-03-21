@@ -36,7 +36,7 @@ class GenericAlgorithm(object):
 		return pop
 
 	def _evaluate(self, indvidual):
-		"""Return the utility of given individual.
+		"""Returns the utility of given individual.
 	    
 	    Parameters
 	    	indvidual (ndarray or list): The shape of 'pop' define as 1 times of num_feature.
@@ -48,7 +48,7 @@ class GenericAlgorithm(object):
 		return self.u.utility(indvidual)
 
 	def _select(self, pop, rate):
-		"""Return a 1D-array of selected individuals.
+		"""Returns a 1D-array of selected individuals.
 	    
 	    Parameters:
 		    pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
@@ -62,21 +62,31 @@ class GenericAlgorithm(object):
 		return pop[index,:]
 
 	def _random_index(self, individuals, size):
+		"""Generate a random index of individuals of size 'size'.
+
+		Args:
+			individuals (ndarray or list): 2D-array of individuals.
+			size (int): The number of indices to generate.
+		
+		Returns:
+			ndarray: 1D-array of indices.
+
+		"""
 		inds_size = len(individuals)
 		return np.random.choice(inds_size, size)
 
 	def _selection_tournament(self, pop, k, tournsize, fitness):
-	    """Select *k* individuals from the input *individuals* using *k*
-	    tournaments of *tournsize* individuals. The list returned contains
-	    references to the input *individuals*.
+	    """Select 'k' individuals from the input 'individuals' using 'k'
+	    tournaments of 'tournsize' individuals.
 	    
-	    :param individuals: A list of individuals to select from.
-	    :param k: The number of individuals to select.
-	    :param tournsize: The number of individuals participating in each tournament.
-	    :returns: A list of selected individuals.
+	    Args:
+	    	individuals (ndarray or list): 2D-array of individuals to select from.
+	    	k (int): The number of individuals to select.
+	    	tournsize (int): The number of individuals participating in each tournament.
+	   
+	   	Returns:
+	   		ndarray: Selected individuals.
 	    
-	    This function uses the :func:`~random.choice` function from the python base
-	    :mod:`random` module.
 	    """
 	    chosen = []
 	    for i in xrange(k):
@@ -90,12 +100,11 @@ class GenericAlgorithm(object):
 	    return np.array(chosen)
 
 	def _two_point_cross_over(self, pop):
-		"""Return the cross-overed result of original pop
+		"""Performs a two-point cross-over of the population.
 	    
-	    Parameters:
+	    Args:
 			pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
-		    ind_prob (float): Probability of a feature can cross-over.
-	    
+
 		"""
 		child_group1 = pop[::2]
 		child_group2 = pop[1::2]
@@ -111,17 +120,12 @@ class GenericAlgorithm(object):
 				= child2[cxpoint1:cxpoint2].copy(), child1[cxpoint1:cxpoint2].copy()
 	
 	def _uniform_cross_over(self, pop, ind_prob):
-		"""
-	    Return the cross-overed result of original pop
-	    Parameters
-	    ----------
-		pop: ndarray
-		    The population for cross over operation
-	    ind_prob : float
-	        A probability of a feature can corss over.
-	    Returns
-	    -------
-	    out : None/ revise in place
+		"""Performs a uniform cross-over of the population.
+	    
+	    Args:
+	    	pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
+	    	ind_prob (float): Probability of feature cross-over.
+	    
 		"""
 		child_group1 = pop[::2]
 		child_group2 = pop[1::2]
@@ -131,8 +135,16 @@ class GenericAlgorithm(object):
 				if np.random.random() < ind_prob:
 					child1[i], child2[i] = child2[i], child1[i]
 
-	def _mutate(self, pop, ind_prob):
-		"""
+	def _mutate(self, pop, ind_prob, scale=2.0):
+		"""Mutates individual's elements. The individual has a probability
+		of 'self.mut_prob' of beeing selected and every element in this 
+		individual has a probability 'ind_prob' of beeing mutated. The mutated
+		value is a random number.
+
+		Args:
+			pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
+	    	ind_prob (float): Probability of feature mutation.
+	    	scale (float): The scaling of the random generated number for mutation. 
 
 		"""
 		pop_tmp = np.copy(pop)
@@ -140,18 +152,29 @@ class GenericAlgorithm(object):
 		for i in mutate_index:
 			feature_index = np.random.choice(self.num_feature, int(ind_prob * self.num_feature), replace=False)
 			for j in feature_index:
-				pop[i][j] = np.random.random()*2
+				pop[i][j] = np.random.random()*scale
 	
-	def _uniform_mutation(self, pop, ind_prob):
+	def _uniform_mutation(self, pop, ind_prob, scale=2.0):
+		"""Mutates individual's elements. The individual has a probability
+		of 'self.mut_prob' of beeing selected and every element in this 
+		individual has a probability 'ind_prob' of beeing mutated. The mutated
+		value is the current value plus a scaled uniform [-0.5,0.5] random value.
+
+		Args:
+			pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
+	    	ind_prob (float): Probability of feature mutation.
+	    	scale (float): The scaling of the random generated number for mutation.
+
+	    """ 
 		pop_len = len(pop)
 		mutate_index = np.random.choice(pop_len, int(self.mut_prob * pop_len), replace=False)
 		for i in mutate_index:
 			prob = np.random.random(self.num_feature) 
-			inc = (np.random.random(self.num_feature) - 0.5) 
+			inc = (np.random.random(self.num_feature) - 0.5)*scale
 			pop[i] += (prob > (1.0-ind_prob)).astype(int)*inc
 			pop[i] = np.maximum(0.0, pop[i])
 
-	def _show_evaluation(self, fits, pop):
+	def _show_evolution(self, fits, pop):
 		"""Print statistics of the evolution of the population."""
 		length = len(pop)
 		mean = fits.mean()
@@ -175,13 +198,15 @@ class GenericAlgorithm(object):
 		return np.copy(survive_pop), np.copy(survive_fitness)
 
 	def run(self):
-		"""
+		"""Start the evolution process.
 		The evolution steps:
-		1. Select all of the individuals as candidate for cross over
-		2. Cross over among the selected candidate, random pick two and use uniform cross over method.
-		3. Mutation after Cross over take the result as offspring
-		4. Combine the result of offspring and parent together. And selected the top 80% of original population amount
-		5. Random Generate 20% of original population amount new individuals and combine the above new population
+			1. Select the individuals to perform cross-over and mutation.
+			2. Cross over among the selected candidate.
+			3. Mutate result as offspring.
+			4. Combine the result of offspring and parent together. And selected the top 
+			   80 percent of original population amount.
+			5. Random Generate 20 percent of original population amount new individuals 
+			   and combine the above new population.
 		"""
 		print("----------------Genetic Evolution Starting----------------")
 		pop = self._generate_population()
@@ -190,12 +215,12 @@ class GenericAlgorithm(object):
 		fitness = np.array([val[0] for val in fitness])
 		for g in range(0, self.num_gen):
 			print ("-- Generation {} --".format(g+1))
-			pop_select = self._select(np.copy(pop), rate=1) # this works since we have rate=1 ?!
-			#pop_select = self._selection_tournament(pop, len(pop), 4, fitness)
+			#pop_select = self._select(np.copy(pop), rate=1) # this works since we have rate=1 ?!
+			pop_select = self._selection_tournament(pop, len(pop), 4, fitness)
 			#self._two_point_cross_over(pop_select)
-			self._uniform_cross_over(pop_select, 0.5)
-			self._mutate(pop_select, 0.25)
-			#self._uniform_mutation(pop_select, 0.1)
+			self._uniform_cross_over(pop_select, 0.50)
+			#self._mutate(pop_select, 0.10, np.exp(-g/self.num_gen))
+			self._uniform_mutation(pop_select, 0.1, np.exp(-g/self.num_gen))
 
 			fitness_select = pool.map(self._evaluate, pop_select)
 			fitness_select = np.array([val[0] for val in fitness_select])
@@ -211,7 +236,7 @@ class GenericAlgorithm(object):
 
 			pop = np.append(pop_survive, pop_new, axis=0)
 			fitness = np.append(fitness_survive, fitness_new, axis=0)
-			self._show_evaluation(fitness, pop)
+			self._show_evolution(fitness, pop)
 
 		fitness = pool.map(self._evaluate, pop)
 		fitness = np.array([val[0] for val in fitness])
@@ -272,6 +297,7 @@ class GradientSearch(object) :
 		u_hist[0] = self.u.utility(initial_point)
 		x_hist[0] = initial_point
 		prev_grad = 0.0
+		half_iter = int(self.iterations / 2)
 
 		for i in range(self.iterations):
 			grad = self.u.numerical_gradient(x_hist[i])
@@ -284,15 +310,15 @@ class GradientSearch(object) :
 			x_hist[i+1] = new_x
 			u_hist[i+1] = current
 			prev_grad = grad.copy()
-			if i != 0:
+			if i > half_iter:
 				x_diff = np.abs(x_hist[i+1] - x_hist[i]).sum()
 				u_diff = np.abs(u_hist[i+1] - u_hist[i])
-				if x_diff < 1e-03 or u_diff < self.accuracy:
+				if x_diff < 1e-04 or u_diff < self.accuracy:
 					print("Broke iteration..")
 					break
 			print("-- Interation {} -- \n Current Utility: {}".format(i+1, current))
 
-		return x_hist[-1], current
+		return x_hist[i+1], current
 
 	def run(self, topk=4, initial_point_list=None, size=None):
 		"""Initiate the gradient search algorithm. 
@@ -321,6 +347,7 @@ class GradientSearch(object) :
 		for cp in candidate_points:
 			if not isinstance(cp, np.ndarray):
 				cp = np.array(cp)
+			print cp
 			print("Starting process {} of Gradient Descent".format(count))
 			result.append(self.gradient_descent(cp))
 			count += 1
@@ -336,7 +363,7 @@ class GAGradientSearch(object):
 	def run(self):
 		final_pop, fitness = self.ga_model.run()
 		sort_pop = final_pop[np.argsort(fitness)][::-1]
-		res = self.gs_model.run(initial_point_list=sort_pop)
+		res = self.gs_model.run(initial_point_list=sort_pop, topk=2)
 		return res
 
 
