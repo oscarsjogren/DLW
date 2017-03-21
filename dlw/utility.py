@@ -347,21 +347,6 @@ class EZUtility(Utility):
 					mu_tree_1.set_value(period, self._mu_2(cons_tree.tree[period], prev_cons, prev_ce))
 		return mu_tree_0, mu_tree_1, mu_tree_2
 
-	def numerical_gradient(self, m, delta=1e-06):
-		"""Gradient of utility at a point 'm'."""
-		if not isinstance(m, np.ndarray):
-			m = np.array(m)
-		m_copy = m.copy()
-		grad = np.zeros(len(m))
-		for i in range(len(m)):
-			m_copy[i] -= delta
-			minus_utility = self.utility(m_copy)
-			m_copy[i] += 2*delta
-			plus_utility = self.utility(m_copy)
-
-			grad[i] = (plus_utility-minus_utility) / (2*delta)
-		return grad
-
 	def _grad_helper(self, i):
 		m_copy = self.m.copy()
 		m_copy[i] -= self.delta
@@ -371,7 +356,7 @@ class EZUtility(Utility):
 		grad = (plus_utility-minus_utility) / (2*self.delta)
 		return grad, i
 
-	def parallelized_num_gradient(self, m, delta=1e-06):
+	def numerical_gradient(self, m, delta=1e-06):
 		self.delta = delta
 		self.m = m 
 		grad = np.zeros(len(m))
