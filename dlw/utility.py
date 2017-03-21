@@ -319,34 +319,6 @@ class EZUtility(Utility):
 			if mu_2 is not None:
 				mu_tree_2.set_value(period, mu_2)
 
-			"""
-			damage_period = utility_tree.between_decision_times(period)
-			#cert_equiv = self._certain_equivalence(period, damage_period, utility_tree)
-			#ce_term = self.b * cert_equiv**self.r
-			#ce_tree.set_value(period, ce_term)
-			mu_tree_0.set_value(period, self._mu_0(cons_tree[period], ce_term))
-
-			if period == (utility_tree.last_period-self.period_len):
-				self._end_period_marginal_utility(mu_tree_0, mu_tree_1, ce_tree, utility_tree, cons_tree)
-
-			else:
-				prev_ce = ce_tree.get_next_period_array(period)
-				prev_cons = cons_tree.get_next_period_array(period)
-				if utility_tree.is_information_period(period):
-					probs = self.tree.get_probs_in_period(damage_period+1)
-					up_prob = np.array([probs[i]/(probs[i]+probs[i+1]) for i in range(0, len(probs), 2)])
-					down_prob = 1.0 - up_prob
-
-					up_cons = prev_cons[::2]
-					down_cons = prev_cons[1::2]
-
-					up_ce = prev_ce[::2]
-					down_ce = prev_ce[1::2]
-					mu_tree_1.set_value(period, self._mu_1(cons_tree.tree[period], up_prob, up_cons, down_cons, up_ce, down_ce))
-					mu_tree_2.set_value(period, self._mu_1(cons_tree.tree[period], down_prob, down_cons, up_cons, down_ce, up_ce))
-				else:
-					mu_tree_1.set_value(period, self._mu_2(cons_tree.tree[period], prev_cons, prev_ce))
-			"""
 		return mu_tree_0, mu_tree_1, mu_tree_2
 
 
