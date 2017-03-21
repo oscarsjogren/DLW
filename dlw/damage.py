@@ -255,8 +255,6 @@ class DLWDamage(Damage):
 		forcing = self.forcing.forcing_at_node(m, node)
 		force_mitigation = self._forcing_based_mitigation(forcing, period)
 
-		if period >= self.tree.num_periods:
-			period = self.tree.num_periods-1
 		worst_end_state, best_end_state = self.tree.reachable_end_states(node, period=period)
 		probs = self.tree.final_states_prob[worst_end_state:best_end_state+1]
 
@@ -325,14 +323,19 @@ if __name__ == "__main__":
 		forcing_p1=0.13173, forcing_p2=0.607773, forcing_p3=315.3785, absorbtion_p1=0.94835,
 		absorbtion_p2=0.741547, lsc_p1=285.6268, lsc_p2=0.88414)
 
-	m = np.array([0.65008568,0.85875049,0.54217134,1.07955134,0.9877534, 0.77247265, 0.56376919, 
-		1.24655422,1.19889565,1.19689472,1.11533683,1.02905754, 0.98775609,0.9220353, 0.40883236, 
-		1.24345642,1.2089326, 1.19166262, 1.20695374,1.25336552,1.15316835,1.26275239,1.27616561, 
-		1.58004691, 1.54678685,1.54882351,1.54244846,1.61874177,1.55798868,0.97827295,0.92593044, 
-		1.12546888,1.37701839,1.28417959,1.03635404,1.26199039,1.36531198,1.08989185,1.11143913, 
-		1.28253073,1.1936995, 1.49007705,1.08933526,1.52637337,1.3024672, 1.30407295,1.15306861, 
-		1.2353126,1.31761603,1.23053655,1.30587102,1.47995449,1.49003184,1.35051339,1.39986976, 
-		1.31363221,1.5914582, 1.62406314,1.48378497,1.66121659,1.49494204,1.44710524,1.20213858])
+	m = np.array([ 0.65008568,  0.81440062,  0.57156974,  1.02442677,  0.94972038,
+          0.80001195,  0.56711807,  1.25885777,  1.20418622,  1.22675892,
+                 1.08200462,  1.059628  ,  0.97288246,  0.90817513,  0.41352478,
+       1.2497254 ,  1.20470048,  1.19457448,  1.19942113,  1.25305931,
+         1.14961153,  1.2680144 ,  1.26744892,  1.60484919,  1.54971032,
+         1.56207038,  1.53777281,  1.62949171,  1.55358956,  0.97519823,
+         0.92102587,  1.12843339,  1.37744208,  1.28497502,  1.0367739 ,
+         1.26343189,  1.36535276,  1.0905257 ,  1.11133567,  1.28375479,
+         1.19406048,  1.49001237,  1.08942412,  1.52660931,  1.30240349,
+         1.30398985,  1.15276375,  1.23884217,  1.31855489,  1.23195591,
+         1.30590214,  1.48104488,  1.48990133,  1.35075056,  1.39940133,
+         1.31771028,  1.59167383,  1.62456475,  1.48355491,  1.66158315,
+         1.49468617,  1.44681469,  1.2018028 ])
 	"""
 	m = np.array([0.63033831,0.79493609,0.63961916,1.00100798,0.89883409,0.90650158,0.63261796,
 		1.27838304,1.22254166,1.26107556,0.93073007,1.29769024,0.93561291,0.95227753,0.56268567,
@@ -345,15 +348,15 @@ if __name__ == "__main__":
 	"""
 
 	u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0)
-	utility_t, cons_t, cost_t = u.utility(m, return_trees=True)
-	n_cons_t, cost_arr = delta_consumption(m, u, cons_t, cost_t, 0.01)
+	#utility_t, cons_t, cost_t = u.utility(m, return_trees=True)
+	#n_cons_t, cost_arr = delta_consumption(m, u, cons_t, cost_t, 0.01)
 	#ssc_decomposition(m, u, utility_t, cons_t, cost_t, 0.01)
 	
 
-	#ga_gs = GAGradientSearch(ga_pop=150, ga_generations=10, ga_cxprob=0.8, ga_mutprob=0.5, 
-	#						upper_bound=3.0, gs_learning_rate=0.1, gs_iterations=100, 
-	#						gs_acc=1e-06, num_features=63, utility=u)
-	#res = ga_gs.run()
+	ga_gs = GAGradientSearch(ga_pop=150, ga_generations=100, ga_cxprob=0.8, ga_mutprob=0.5, 
+							upper_bound=3.0, gs_learning_rate=0.1, gs_iterations=100, 
+							gs_acc=1e-07, num_features=63, utility=u)
+	res = ga_gs.run()
 	#print "Starting Generic Algorithm \n"
 	#ga = GenericAlgorithm(300, 63, 50, 3.0, 0.80, 0.50, u.utility)
 	#pop, fitness = ga.run()
