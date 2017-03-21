@@ -42,7 +42,7 @@ class DLWCost(Cost):
 		self.max_price = max_price
 		self.tech_const = tech_const
 		self.tech_scale = tech_scale
-		self.cbs_level = (join_price / (g + a))**(1.0 / (a - 1.0))
+		self.cbs_level = (join_price / (g * a))**(1.0 / (a - 1.0))
 		self.cbs_deriv = self.cbs_level / (join_price * (a - 1.0))
 		self.cbs_b = self.cbs_deriv * (max_price - join_price) / self.cbs_level
 		self.cbs_k = self.cbs_level * (max_price - join_price)**self.cbs_b
@@ -102,7 +102,9 @@ class DLWCost(Cost):
 					- self.cbs_b*mitigation * (self.cbs_k/mitigation)**(1.0/self.cbs_b) / (self.cbs_b-1.0)
 					+ self.cbs_b*self.cbs_level * (self.cbs_k/self.cbs_level)**(1.0/self.cbs_b) / (self.cbs_b-1.0))
 		
-		return (cbs * bool_arr + (base_cbs + extension)*bool_arr2) * tech_term / self.cons_per_ton
+		c = (cbs * bool_arr + (base_cbs + extension)*bool_arr2) * tech_term / self.cons_per_ton
+		c = np.nan_to_num(c) # we might have nan values that should be set to zero
+		return c
 
 	def price(self, years, mitigation, ave_mitigation):
 		"""Inverse of the cost function. Gives emissions price for any given 
