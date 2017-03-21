@@ -84,10 +84,10 @@ class EZUtility(Utility):
 		ce_tree.set_value(ce_tree.last_period, ce_term)
 
 		mu_0 = (1.0 - self.b)*(utility_tree.tree[utility_tree.last_period-self.period_len] / cons_tree.last)**(1.0-self.r)
-		mu_tree_0.set_value(mu_tree_0.last_period, mu_0)
+		mu_tree_0.set_value(mu_tree_0.last_period-self.period_len, mu_0)
 
 		next_term = self.b * (1.0 - self.b) / (1.0 - self.b * self.growth_term**self.r)
-		mu_1 = utility_tree.tree[utility_tree.last_period-self.period_len]**(1-self.r) * next_term * cons_tree.last**(1.0-self.r)
+		mu_1 = utility_tree.tree[utility_tree.last_period-self.period_len]**(1-self.r) * next_term * cons_tree.last**(self.r-1.0)
 		mu_tree_1.set_value(mu_tree_1.last_period-self.period_len, mu_1)
         #u_term = ( (1.0 - b) * cons_of_x**r + next_term * cons_at_t_plus_1**r )
         #tree.final_total_derivative_term[period_node] = next_term * cons_at_t_plus_1**(r-1) * tree.utility_by_state[node]**(1.0 - r)
@@ -113,61 +113,6 @@ class EZUtility(Utility):
 			cert_equiv = utility_tree.get_next_period_array(period)
 		return cert_equiv
 
-	def _mu_0(self, cons, ce_term):
-		"""Marginal utility with respect to consumption function."""
-		t1 = ((1.0 - self.b)*cons)**(self.r-1.0)
-		t2 = ((ce_term - (self.b-1.0)*cons)**self.r)**((1.0/self.r)-1.0)
-		return t1 * t2
-
-	def _mu_1(self, cons, prob, cons_1, cons_2, ce_1, ce_2):
-		""" marginal utility with respect to consumption next period."""
-		t1 = (1.0-self.b) * self.b * prob * cons_1**(self.r-1.0)
-		t2 = (ce_1 - (self.b-1.0) * cons_1**self.r )**(self.a/(self.r-1))
-		t3 = (prob * (ce_1 - (self.b*cons_1**self.r) + cons_1**self.r)**(self.a/self.r) \
-			 + (1.0-prob) * (ce_2 - (self.b-1.0) * cons_2**self.r)**(self.a/self.r))**((self.r/self.a)-1.0)
-		t4 = prob * (ce_1-self.b * cons_1**self.r + cons_1**self.r)**(self.a/self.r) \
-			 + (1.0-prob) * (ce_2 - self.b * cons_2**self.r + cons_2**self.r)**(self.a/self.r)
-		t5 = (self.b * t4**(self.r/self.a) - (self.b-1.0) * cons**self.r )**((1.0/self.r)-1.0)
-		return t1 * t2 * t3 * t5 
-
-	def _mu_2(self, cons, prev_cons, ce_term):
-		"""Marginal utility with respect to last period consumption."""
-		t1 = (1.0-self.b) * self.b * prev_cons**(self.r-1.0)
-		t2 = ((1.0 - self.b) * cons**self.r - (self.b - 1.0) * self.b \
-		     * prev_cons**self.r + self.b * ce_term)**((1.0/self.r)-1.0)
-		return t1 * t2
-
-	def _period_marginal_utility(self, prev_mu_0, prev_mu_1, m, period, utility_tree, cons_tree, ce_tree):
-		"""Marginal utility for each node in a period."""
-		damage_period = utility_tree.between_decision_times(period)
-		mu_0 = self._mu_0(cons_tree[period], ce_tree[period])
-
-		if period == (utility_tree.last_period-self.period_len):
-				self._end_period_marginal_utility(mu_tree_0, mu_tree_1, ce_tree, utility_tree, cons_tree)
-
-		else:
-			prev_ce = ce_tree.get_next_period_array(period)
-			prev_cons = cons_tree.get_next_period_array(period)
-			if utility_tree.is_information_period(period):
-				probs = self.tree.get_probs_in_period(damage_period+1)
-				up_prob = np.array([probs[i]/(probs[i]+probs[i+1]) for i in range(0, len(probs), 2)])
-				down_prob = 1.0 - up_prob
-
-				up_cons = prev_cons[::2]
-				down_cons = prev_cons[1::2]
-				up_ce = prev_ce[::2]
-				down_ce = prev_ce[1::2]
-				
-				mu_1 = self._mu_1(cons_tree[period], up_prob, up_cons, down_cons, up_ce, down_ce)
-				mu_2 = self._mu_1(cons_tree[period], down_prob, down_cons, up_cons, down_ce, up_ce)
-				# not optimal
-				return mu_0, mu_1, mu_2 
-			else:
-				mu_1 = self._mu_2(cons_tree[period], prev_cons, prev_ce)
-				# not optimal
-				return mu_0, mu_1, None 
-
-
 	def _utility_generator(self, m, utility_tree, cons_tree, cost_tree, ce_tree, cons_adj=0.0):
 		"""Generator for calculating utility for each utility period besides the terminal utility."""
 		periods = utility_tree.periods[::-1]
@@ -189,22 +134,19 @@ class EZUtility(Utility):
 			if period == 0:
 				period_consumption += cons_adj
 		
-			# this needs revising!! store the costs!
 			if not utility_tree.is_decision_period(period):
 				next_consumption = cons_tree.get_next_period_array(period)
 				segment = period - utility_tree.decision_times[damage_period]
 				interval = segment + utility_tree.subinterval_len
 
 				if utility_tree.is_decision_period(period+self.period_len):
-					# this needs to be fixed! something wrong here
 					next_cost = cost_tree[period+self.period_len]
 					if period < utility_tree.decision_times[-2]:
 						next_consumption *= (1.0 - np.repeat(period_cost,2)) /(1.0 - next_cost)
 					# don't we want to do this also for the 'straight' periods?
 					#else:
 					#	next_consumption *= (1.0 - period_cost) / (1.0 - next_cost)
-					#	if period == 380:
-					#		print next_consumption
+					#	
 						
 				if period < utility_tree.decision_times[-2]:
 					period_consumption = ((next_consumption/np.repeat(period_consumption,2))**(segment/float(interval))) * np.repeat(period_consumption,2)
@@ -241,7 +183,7 @@ class EZUtility(Utility):
 			utility_tree.set_value(period, u)
 			
 		if return_trees:
-			return utility_tree, cons_tree, cost_tree
+			return utility_tree, cons_tree, cost_tree, ce_tree
 		return utility_tree[0]
 
 
@@ -281,7 +223,7 @@ class EZUtility(Utility):
 			if period == periods[1]:
 				mu_0 = (1.0 - self.b)*(u / cons_tree.last)**(1.0-self.r)
 				next_term = self.b * (1.0 - self.b) / (1.0 - self.b * self.growth_term**self.r)
-				mu_1 = u**(1-self.r) * next_term * cons_tree.last**(1.0-self.r)
+				mu_1 = (u**(1.0-self.r)) * next_term * (cons_tree.last**(self.r-1.0))
 				u += (final_cons_eps + period_cons_eps[-1]) * mu_1
 				u +=  (period_cons_eps[i] + node_cons_eps.tree[period])*mu_0
 				utility_tree.set_value(period, u)
@@ -292,10 +234,61 @@ class EZUtility(Utility):
 			i -= 1
 
 		if return_trees:
-			return utility_tree, cons_tree, cost_tree
+			return utility_tree, cons_tree, cost_tree, ce_tree
 		return utility_tree.tree[0]
 
-	def marginal_utility(self, m, utility_tree, cons_tree, cost_tree):
+	def _mu_0(self, cons, ce_term):
+		"""Marginal utility with respect to consumption function."""
+		t1 = (1.0 - self.b)*cons**(self.r-1.0)
+		t2 = (ce_term - (self.b-1.0)*cons**self.r)**((1.0/self.r)-1.0)
+		return t1 * t2
+
+	def _mu_1(self, cons, prob, cons_1, cons_2, ce_1, ce_2, do_print=False):
+		""" marginal utility with respect to consumption next period."""
+		t1 = (1.0-self.b) * self.b * prob * cons_1**(self.r-1.0)
+		t2 = (ce_1 - (self.b-1.0) * cons_1**self.r )**((self.a/self.r)-1)
+		t3 = (prob * (ce_1 - (self.b*(cons_1**self.r)) + cons_1**self.r)**(self.a/self.r) \
+			 + (1.0-prob) * (ce_2 - (self.b-1.0) * cons_2**self.r)**(self.a/self.r))**((self.r/self.a)-1.0)
+		t4 = prob * (ce_1-self.b * (cons_1**self.r) + cons_1**self.r)**(self.a/self.r) \
+			 + (1.0-prob) * (ce_2 - self.b * (cons_2**self.r) + cons_2**self.r)**(self.a/self.r)
+		t5 = (self.b * t4**(self.r/self.a) - (self.b-1.0) * cons**self.r )**((1.0/self.r)-1.0)
+
+		return t1 * t2 * t3 * t5 
+
+	def _mu_2(self, cons, prev_cons, ce_term):
+		"""Marginal utility with respect to last period consumption."""
+		t1 = (1.0-self.b) * self.b * prev_cons**(self.r-1.0)
+		t2 = ((1.0 - self.b) * cons**self.r - (self.b - 1.0) * self.b \
+		     * prev_cons**self.r + self.b * ce_term)**((1.0/self.r)-1.0)
+		return t1 * t2
+
+	def _period_marginal_utility(self, prev_mu_0, prev_mu_1, m, period, utility_tree, cons_tree, ce_tree):
+		"""Marginal utility for each node in a period."""
+		damage_period = utility_tree.between_decision_times(period)
+		mu_0 = self._mu_0(cons_tree[period], ce_tree[period])
+		
+		prev_ce = ce_tree.get_next_period_array(period)
+		prev_cons = cons_tree.get_next_period_array(period)
+		if utility_tree.is_information_period(period):
+			probs = self.tree.get_probs_in_period(damage_period+1)
+			up_prob = np.array([probs[i]/(probs[i]+probs[i+1]) for i in range(0, len(probs), 2)])
+			down_prob = 1.0 - up_prob
+
+			up_cons = prev_cons[::2]
+			down_cons = prev_cons[1::2]
+			up_ce = prev_ce[::2]
+			down_ce = prev_ce[1::2]
+			
+			mu_1 = self._mu_1(cons_tree[period], up_prob, up_cons, down_cons, up_ce, down_ce)
+			mu_2 = self._mu_1(cons_tree[period], down_prob, down_cons, up_cons, down_ce, up_ce)
+			# not optimal
+			return mu_0, mu_1, mu_2 
+		else:
+			mu_1 = self._mu_2(cons_tree[period], prev_cons, prev_ce)
+			# not optimal
+			return mu_0, mu_1, None 
+
+	def marginal_utility(self, m, utility_tree, cons_tree, cost_tree, ce_tree):
 		"""Calculating marginal utility for sensitivity analysis, e.g. in the SSC decomposition.
 
 		Args:
@@ -313,16 +306,24 @@ class EZUtility(Utility):
 		#could add ce_tree to parameter list.
 		mu_tree_0 = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
 		mu_tree_1 = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
-		mu_tree_2 = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
-		ce_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
-
+		mu_tree_2 = SmallStorageTree(decision_times=self.decision_times)
+		#ce_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
+		self._end_period_marginal_utility(mu_tree_0, mu_tree_1, ce_tree, utility_tree, cons_tree)
 		periods = utility_tree.periods[::-1]
 
-		for period in periods[1:]:
+		for period in periods[2:]:
+			mu_0, mu_1, mu_2 = self._period_marginal_utility(mu_tree_0.get_next_period_array(period),
+				mu_tree_1.get_next_period_array(period), m, period, utility_tree, cons_tree, ce_tree)
+			mu_tree_0.set_value(period, mu_0)
+			mu_tree_1.set_value(period, mu_1)
+			if mu_2 is not None:
+				mu_tree_2.set_value(period, mu_2)
+
+			"""
 			damage_period = utility_tree.between_decision_times(period)
-			cert_equiv = self._certain_equivalence(period, damage_period, utility_tree)
-			ce_term = self.b * cert_equiv**self.r
-			ce_tree.set_value(period, ce_term)
+			#cert_equiv = self._certain_equivalence(period, damage_period, utility_tree)
+			#ce_term = self.b * cert_equiv**self.r
+			#ce_tree.set_value(period, ce_term)
 			mu_tree_0.set_value(period, self._mu_0(cons_tree[period], ce_term))
 
 			if period == (utility_tree.last_period-self.period_len):
@@ -345,7 +346,10 @@ class EZUtility(Utility):
 					mu_tree_2.set_value(period, self._mu_1(cons_tree.tree[period], down_prob, down_cons, up_cons, down_ce, up_ce))
 				else:
 					mu_tree_1.set_value(period, self._mu_2(cons_tree.tree[period], prev_cons, prev_ce))
+			"""
 		return mu_tree_0, mu_tree_1, mu_tree_2
+
+
 
 	def _grad_helper(self, i):
 		m_copy = self.m.copy()

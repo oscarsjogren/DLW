@@ -65,8 +65,21 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	m_copy[0] += delta_m
 	fixed_values = np.zeros(len(m_copy))
 	fixed_values[0] = m_copy[0]
-	new_m = optimization(m, utility, fixed_values)
-	new_utility_tree, new_cons_tree, new_cost_tree = utility.utility(new_m, return_trees=True)
+	#new_m = optimization(m, utility, fixed_values)
+	new_m = np.array([ 0.62334303,  0.79628799,  0.58696159,  1.00614484,  0.89410153,
+        0.80719024,  0.62069048,  1.27556084,  1.22086958,  1.26319685,
+        0.90846292,  1.05588145,  0.94751332,  0.95568079,  0.53474436,
+        1.33650395,  1.16870101,  1.27146268,  1.10974618,  1.21040468,
+        1.11753037,  1.61578421,  1.46272895,  1.69033267,  1.56259402,
+        1.64400118,  1.52575005,  1.74200663,  1.61843574,  1.15591134,
+        0.57058352,  2.0263746 ,  1.43553246,  1.7144272 ,  1.34148383,
+        1.70345802,  1.39594392,  1.68280731,  1.59526   ,  1.79359602,
+        1.4970879 ,  1.67775859,  1.37867148,  1.81155459,  1.45546003,
+        1.54443054,  1.29019977,  2.01668242,  1.72628686,  1.75914831,
+        1.37814604,  1.9083813 ,  1.55133377,  1.75595166,  1.2827079 ,
+        1.90024558,  1.47719133,  1.72810305,  1.57664682,  3.43064262,
+        1.00859306,  0.54341325,  0.8093946 ])
+	new_utility_tree, new_cons_tree, new_cost_tree, new_ce_tree = utility.utility(new_m, return_trees=True)
 
 	for period in new_cons_tree.periods:
 		new_cons_tree.tree[period] = (new_cons_tree.tree[period]-cons_tree.tree[period]) / delta_m
@@ -75,6 +88,7 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	cost_array = np.zeros((first_period_intervals, 2))
 	for i in range(first_period_intervals):
 		potential_consumption = (1.0 + utility.cons_growth)**(new_cons_tree.subinterval_len * i)
+		print potential_consumption
 		cost_array[i, 0] = potential_consumption * cost_tree[0]
 		cost_array[i, 1] = (potential_consumption * new_cost_tree[0] - cost_array[i, 0]) / delta_m
 	
@@ -96,10 +110,8 @@ def ssc_decomposition(m, utility, utility_tree, cons_tree, cost_tree, delta_m):
 	delta_cons_tree, delta_cost_array = delta_consumption(m, utility, cons_tree, cost_tree, delta_m)
 
 	years_to_maturity = utility_tree.last_period - utility_tree.subinterval_len
-	num_periods = len(utility_tree)-1
-	#discount_prices[-1] = find_term_structure(m, utility, len(utility_tree)-1, 0.01)
-	discount_prices[-1] = 0.001
-	#grad = utility.numerical_gradient(m)
+	discount_prices[-1] = find_term_structure(m, utility, len(utility_tree), 0.01)
+	grad = utility.numerical_gradient(m)
 	mu_0, mu_1, mu_2 = utility.marginal_utility(m, utility_tree, cons_tree, cost_tree)
 	sub_len = sdf_tree.subinterval_len
 	for period in sdf_tree.periods[1:]:
@@ -156,7 +168,7 @@ def find_ir(m, utility, payment, a=0.0, b=1.0):
 
     return brentq(min_func, a, b)
 
-def find_term_structure(m, utility, num_periods, payment, a=0.0, b=1.0): # or find_ir
+def find_term_structure(m, utility, num_periods, payment, a=0.0, b=0.99): # or find_ir
     """
       Function called by a zero root finder which is used
       to find the price of a bond that creates equal utility at time 0 as adding .01 to the value of consumption in the final period
@@ -166,7 +178,7 @@ def find_term_structure(m, utility, num_periods, payment, a=0.0, b=1.0): # or fi
     """
     def min_func(price):
     	period_cons_eps = np.zeros(num_periods)
-    	period_cons_eps[-1] = payment
+    	period_cons_eps[-2] = payment
     	utility_with_payment = utility.adjusted_utility(m, period_cons_eps=period_cons_eps)
 
     	first_period_eps = payment * price
