@@ -6,8 +6,8 @@ class Forcing(object):
 	Parameters:
 		tree (obj: 'TreeModel'): Provides the tree structure used.
 		bau (obj: 'BusinessAsUsual'): Provides the business as usual case.
-		sink_start (float): 
-		forcing_start (float): 
+		sink_start (float):
+		forcing_start (float):
 		ghg_start (int): Today's GHG-level.
 		partition_interval (int): The interval, in years, where forcing is calculated.
 		forcing_p1 (float):
@@ -39,7 +39,7 @@ class Forcing(object):
 		"""Calculates the forcing based mitigation leading up to the damage calculation in "node".
 
 		Args:
-			m (ndarray): Array of mitigations in each node. 
+			m (ndarray): Array of mitigations in each node.
 			node (int): The node for which the forcing leading to the
 				damages is being calculated.
 			k (int, optional): The ghg-path in cum_forcings to update.
@@ -50,13 +50,13 @@ class Forcing(object):
 		"""
 		if node == 0:
 			return 0.0
-			
+
 		period = self.tree.get_period(node)
 		path = self.tree.get_path(node, period)
 
 		period_lengths = self.tree.decision_times[1:period+1] - self.tree.decision_times[:period]
 		increments = period_lengths/self.partition_interval
-
+		increments = increments.astype(int)
 		cum_sink = self.sink_start
 		cum_forcing = self.forcing_start
 		ghg_level = self.ghg_start
@@ -71,7 +71,7 @@ class Forcing(object):
 			for i in range(0, increment):
 				p_co2_emission = start_emission + i * (end_emission-start_emission) / increment
 				p_co2 = 0.71 * p_co2_emission # where are these numbers coming from?
-				p_c = p_co2 / 3.67 
+				p_c = p_co2 / 3.67
 				add_p_ppm = self.partition_interval * p_c / 2.13
 				lsc = self.lsc_p1 + self.lsc_p2 * cum_sink
 				absorbtion = 0.5 * self.absorbtion_p1 * np.sign(ghg_level-lsc) * np.abs(ghg_level-lsc)**self.absorbtion_p2
@@ -79,6 +79,5 @@ class Forcing(object):
 				cum_forcing += self.forcing_p1 * np.sign(ghg_level-self.forcing_p3) * np.abs(ghg_level-self.forcing_p3)**self.forcing_p2
 				#cum_forcing += forcing
 				ghg_level += add_p_ppm - absorbtion
-		
+
 		return cum_forcing
-		

@@ -59,9 +59,9 @@ class BaseStorageTree(object):
 	def set_value(self, period, values):
 		"""If period is in periods, set the value of element to values (ndarray)."""
 		if period not in self.periods:
-			print ValueError("Not a valid period")
+			print (ValueError("Not a valid period"))
 		if self.tree[period].shape != values.shape:
-			raise ValueError("shapes {} and {} not aligned".format(self.tree[period].shape, values.shape))
+			raise (ValueError("shapes {} and {} not aligned".format(self.tree[period].shape, values.shape)))
 		self.tree[period] = values
 
 	def is_decision_period(self, time_period):

@@ -75,6 +75,10 @@ def write_csv_2D(array, file_name, delimiter=';', end_char=None, open_as='wb'):
 		if end_char is not None:
 			writer.writerow(end_char)
 
+def load_csv(file_name, delimiter=';', comment=None):
+	import csv
+	d = find_path(file_name)
+	pass
 
 ##########
 ### MP ###

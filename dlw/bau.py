@@ -28,8 +28,8 @@ class DLWBusinessAsUsual(BusinessAsUsual):
     Parameters:
         ghg_start (float): Start value of GHG level.
         ghg_end (float): Assumed GHG level at the end of last period.
-        emit_level (list): Emission levels in future times.
-        emit_time (list): Times of given emission levels 'emit_level'.
+        emit_level (ndarray or list): Emission levels in future times.
+        emit_time (ndarray or list): Times of given emission levels 'emit_level'.
         
     """
 
@@ -57,7 +57,7 @@ class DLWBusinessAsUsual(BusinessAsUsual):
         at the beginning and at the end of the period.
 
         Args:
-            tree (obj 'TreeModel'): DLW tree-model.
+            tree (obj: 'TreeModel'): DLW tree-model.
 
         """
         num_periods = tree.num_periods
