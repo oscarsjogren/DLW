@@ -215,12 +215,13 @@ class GenericAlgorithm(object):
 		fitness = np.array([val[0] for val in fitness])
 		for g in range(0, self.num_gen):
 			print ("-- Generation {} --".format(g+1))
-			#pop_select = self._select(np.copy(pop), rate=1) # this works since we have rate=1 ?!
-			pop_select = self._selection_tournament(pop, len(pop), 4, fitness)
+			pop_select = self._select(np.copy(pop), rate=1) # this works since we have rate=1 ?!
+			#pop_select = self._selection_tournament(pop, len(pop), 4, fitness)
 			#self._two_point_cross_over(pop_select)
 			self._uniform_cross_over(pop_select, 0.50)
 			#self._mutate(pop_select, 0.10, np.exp(-g/self.num_gen))
-			self._uniform_mutation(pop_select, 0.1, np.exp(-g/self.num_gen))
+			
+			self._uniform_mutation(pop_select, 0.10,np.exp(-float(g)/self.num_gen)**2)
 
 			fitness_select = pool.map(self._evaluate, pop_select)
 			fitness_select = np.array([val[0] for val in fitness_select])
@@ -262,8 +263,9 @@ class GradientSearch(object) :
 			self.fixed_values = np.zeros(var_nums)
 		self.non_zero_fv = np.where(self.fixed_values != 0.0)[0]
 
+
 	def _initial_values(self, size):
-		m = np.random.random(size) * 3.0
+		m = np.random.random(size) * 2
 		return m
 	
 	def _gradient(self, x): # not used
@@ -360,10 +362,10 @@ class GAGradientSearch(object):
 										 num_features, utility)
 		self.gs_model = GradientSearch(gs_learning_rate, num_features, utility, gs_acc, 
 									   gs_iterations)
-	def run(self):
+	def run(self, topk=4):
 		final_pop, fitness = self.ga_model.run()
 		sort_pop = final_pop[np.argsort(fitness)][::-1]
-		res = self.gs_model.run(initial_point_list=sort_pop, topk=2)
+		res = self.gs_model.run(initial_point_list=sort_pop, topk=topk)
 		return res
 
 
