@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.optimize import brentq
 from storage_tree import BigStorageTree
 
 def optimization(m, utility, fixed_values):
@@ -36,6 +35,7 @@ def save_output_result(m, utility, utility_tree, cons_tree, cost_tree, dir='data
 	ave_emissions = np.zeros(len(m))
 	additional_emissions = additional_ghg_emission(m, utility)
 	ghg_levels = ghg_level(utility, additional_emissions)
+
 	periods = tree.num_periods
 	for period in range(0, periods):
 		years = tree.decision_times[period]
@@ -65,20 +65,7 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	m_copy[0] += delta_m
 	fixed_values = np.zeros(len(m_copy))
 	fixed_values[0] = m_copy[0]
-	#new_m = optimization(m, utility, fixed_values)
-	new_m = np.array([ 0.62334303,  0.79628799,  0.58696159,  1.00614484,  0.89410153,
-        0.80719024,  0.62069048,  1.27556084,  1.22086958,  1.26319685,
-        0.90846292,  1.05588145,  0.94751332,  0.95568079,  0.53474436,
-        1.33650395,  1.16870101,  1.27146268,  1.10974618,  1.21040468,
-        1.11753037,  1.61578421,  1.46272895,  1.69033267,  1.56259402,
-        1.64400118,  1.52575005,  1.74200663,  1.61843574,  1.15591134,
-        0.57058352,  2.0263746 ,  1.43553246,  1.7144272 ,  1.34148383,
-        1.70345802,  1.39594392,  1.68280731,  1.59526   ,  1.79359602,
-        1.4970879 ,  1.67775859,  1.37867148,  1.81155459,  1.45546003,
-        1.54443054,  1.29019977,  2.01668242,  1.72628686,  1.75914831,
-        1.37814604,  1.9083813 ,  1.55133377,  1.75595166,  1.2827079 ,
-        1.90024558,  1.47719133,  1.72810305,  1.57664682,  3.43064262,
-        1.00859306,  0.54341325,  0.8093946 ])
+	new_m = optimization(m_copy, utility, fixed_values)
 	new_utility_tree, new_cons_tree, new_cost_tree, new_ce_tree = utility.utility(new_m, return_trees=True)
 
 	for period in new_cons_tree.periods:
@@ -88,21 +75,21 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	cost_array = np.zeros((first_period_intervals, 2))
 	for i in range(first_period_intervals):
 		potential_consumption = (1.0 + utility.cons_growth)**(new_cons_tree.subinterval_len * i)
-		print potential_consumption
 		cost_array[i, 0] = potential_consumption * cost_tree[0]
 		cost_array[i, 1] = (potential_consumption * new_cost_tree[0] - cost_array[i, 0]) / delta_m
 	
 	return new_cons_tree, cost_array
 
-def ssc_decomposition(m, utility, utility_tree, cons_tree, cost_tree, delta_m):
+def ssc_decomposition(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, delta_m):
 	""" create_output in dlw_optimization. Maybe we only want to use gradient desecent here"""
 
 	sdf_tree = BigStorageTree(utility.period_len, utility.decision_times)
 	sdf_tree.set_value(0, np.array([1.0]))
 
 	discount_prices = np.zeros(len(sdf_tree))
-	net_exptected_damages = np.zeros(len(sdf_tree))
-	risk_premium = np.zeros(len(sdf_tree))
+	discount_prices[0] = 1.0
+	net_expected_damages = np.zeros(len(sdf_tree))
+	risk_premiums = np.zeros(len(sdf_tree))
 	cost_sum = 0
 	discounted_expected_damages = 0
 	net_discounted_expected_damages = 0
@@ -112,39 +99,60 @@ def ssc_decomposition(m, utility, utility_tree, cons_tree, cost_tree, delta_m):
 	years_to_maturity = utility_tree.last_period - utility_tree.subinterval_len
 	discount_prices[-1] = find_term_structure(m, utility, len(utility_tree), 0.01)
 	grad = utility.numerical_gradient(m)
-	mu_0, mu_1, mu_2 = utility.marginal_utility(m, utility_tree, cons_tree, cost_tree)
+	mu_0, mu_1, mu_2 = utility.marginal_utility(m, utility_tree, cons_tree, cost_tree, ce_tree)
 	sub_len = sdf_tree.subinterval_len
+	i = 1
 	for period in sdf_tree.periods[1:]:
 		node_period = sdf_tree.decision_interval(period)
-		expected_damages = np.dot(delta_cons_tree.tree[period], utility.tree.get_probs_in_period(node_period))
+		print "Period {}".format(period)
+		print "-"*30
 		period_probs = utility.tree.get_probs_in_period(node_period)
+		expected_damages = np.dot(delta_cons_tree[period], period_probs)
+		print "expected_damages {}".format(-expected_damages/delta_cons_tree[0])
 		
 		if sdf_tree.is_information_period(period-sdf_tree.subinterval_len):
 			total_probs = period_probs[::2] + period_probs[1::2]
-			sdf = (np.repeat(total_probs, 2) / period_probs) * np.repeat(mu_1.tree[period-sub_len]/mu_0.tree[period-sub_len], 2)
+			mu_temp = np.zeros(2*len(mu_1[period-sub_len]))
+			mu_temp[::2] = mu_1[period-sub_len]
+			mu_temp[1::2] = mu_2[period-sub_len]
+			sdf = (np.repeat(total_probs, 2) / period_probs) * (mu_temp/np.repeat(mu_0[period-sub_len], 2))
+			period_sdf = np.repeat(sdf_tree.tree[period-sub_len],2)*sdf 
 		else:
-			sdf = mu_1.tree[period-sub_len]/mu_0.tree[period-sub_len]
-		
-		period_sdf = sdf_tree.tree[period-sub_len]*sdf
-		expected_sdf = np.dot(period_sdf, period_probs)
-		cross_sdf_damages = np.dot(period_sdf, delta_cons_tree.tree[period]*period_probs)
-		cov_term = cross_sdf_damages - expected_sdf*expected_damages
+			sdf = mu_1[period-sub_len]/mu_0[period-sub_len]
+			period_sdf = sdf_tree[period-sub_len]*sdf 
 
-		discount_prices[period] = expected_sdf
+		print "sdf {}".format(sdf)
+		print "period_sdf {}".format(period_sdf)
+		expected_sdf = np.dot(period_sdf, period_probs)
+		print "expected_sdf {}".format(expected_sdf)
+		cross_sdf_damages = np.dot(period_sdf, delta_cons_tree[period]*period_probs)
+		print "cross_sdf_damages {}".format(-cross_sdf_damages/delta_cons_tree[0])
+		cov_term = cross_sdf_damages - expected_sdf*expected_damages
+		print "cov_term {}".format(-cov_term/delta_cons_tree[0])
+
+		discount_prices[i] = expected_sdf
 		sdf_tree.set_value(period, period_sdf)
 
-		if not sdf_tree.is_decision_period(period):
-			net_discount_damage = -(expected_damages + cost_array[period, 1]) * expected_sdf / delta_cons_tree.tree[period]
-			cost_sum += - cost_array[period, 1] * expected_sdf / delta_cons_tree.tree[period]
+		if i < len(delta_cost_array):
+			net_discount_damage = -(expected_damages + delta_cost_array[i, 1]) * expected_sdf / delta_cons_tree.tree[0]
+			cost_sum += - delta_cost_array[i, 1] * expected_sdf / delta_cons_tree.tree[0]
 		else:
-			net_discount_damage = -expected_damages * expected_sdf / delta_cons_tree.tree[period]
+			net_discount_damage = -expected_damages * expected_sdf / delta_cons_tree.tree[0]
 
-		net_exptected_damages[period] = net_discount_damage
-		risk_premium[period] = -cov_term/delta_cons_tree.tree[period]
-		discounted_expected_damages += -expected_damages * expected_sdf / delta_cons_tree.tree[period]
+		net_expected_damages[i] = net_discount_damage
+		print "net_discount_damage {}".format(net_discount_damage)
+
+		risk_premiums[i] = -cov_term/delta_cons_tree.tree[0]
+		discounted_expected_damages += -expected_damages * expected_sdf / delta_cons_tree.tree[0]
 		net_discounted_expected_damages += net_discount_damage
-		risk_premium += risk_premium[period]
-	
+		risk_premium += risk_premiums[i]
+		i += 1
+		print "\n"
+
+	print "discount_prices \n{}".format(discount_prices)
+	print "net_exptected_damages \n {}".format(net_expected_damages)
+	print "risk_premium \n {}".format(risk_premium) 
+	print "cost_sum \n {}".format(cost_sum) 
 	total = risk_premium + net_discounted_expected_damages
 	price = utility.cost.price(0, m[0], 0)
 	ed = net_discounted_expected_damages/total * price
@@ -160,6 +168,8 @@ def find_ir(m, utility, payment, a=0.0, b=1.0):
 
       first calculate the utility with a final payment
     """
+    from scipy.optimize import brentq
+
     def min_func(price):
     	utility_with_final_payment = utility.adjusted_utility(m, final_cons_eps=payment)
     	first_period_eps = payment * price
@@ -176,6 +186,8 @@ def find_term_structure(m, utility, num_periods, payment, a=0.0, b=0.99): # or f
 
       first calculate the utility with a final payment
     """
+    from scipy.optimize import brentq
+
     def min_func(price):
     	period_cons_eps = np.zeros(num_periods)
     	period_cons_eps[-2] = payment
@@ -202,6 +214,8 @@ def find_bec(m, utility, constraint_cost, a=-0.1, b=1.0):
     Returns:
     	float: Consumption of new solution.
     """
+    from scipy.optimize import brentq
+
     def min_func(delta_con):
     	base_utility = utility.adjusted_utility(m)
     	new_utility = utility.adjusted_utility(m, first_period_consadj=delta_con)
@@ -209,14 +223,15 @@ def find_bec(m, utility, constraint_cost, a=-0.1, b=1.0):
 
     return brentq(min_func, a, b)
 
-def perpetuity_yield(self, perp_yield, price, start_date):
+def perpetuity_yield(self, price, start_date, a=0.1, b=10.0):
     '''
       Function called by a zero root finder which is used
       to find the yield of a perpetuity starting at year start_date
 
     '''
-  
-    return price - (100. / (perp_yield+100.))**start_date * (perp_yield + 100)/perp_yield
+    from scipy.optimize import brentq
 
-
+    def min_finc(perp_yield):
+    	return price - (100. / (perp_yield+100.))**start_date * (perp_yield + 100)/perp_yield
+    return brentq(min_func, a, b)
 
