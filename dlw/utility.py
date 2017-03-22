@@ -83,14 +83,15 @@ class EZUtility(Utility):
 		ce_term = utility_tree.last**self.r - (1.0 - self.b)*cons_tree.last**self.r
 		ce_tree.set_value(ce_tree.last_period, ce_term)
 
-		mu_0 = (1.0 - self.b)*(utility_tree.tree[utility_tree.last_period-self.period_len] / cons_tree.last)**(1.0-self.r)
+		mu_0_last = (1.0 - self.b)*(utility_tree[utility_tree.last_period-self.period_len] / cons_tree.last)**(1.0-self.r)
+		mu_tree_0.set_value(mu_tree_0.last_period, mu_0_last)
+		mu_0 = self._mu_0(cons_tree[cons_tree.last_period-self.period_len], ce_tree[ce_tree.last_period-self.period_len])
 		mu_tree_0.set_value(mu_tree_0.last_period-self.period_len, mu_0)
 
 		next_term = self.b * (1.0 - self.b) / (1.0 - self.b * self.growth_term**self.r)
-		mu_1 = utility_tree.tree[utility_tree.last_period-self.period_len]**(1-self.r) * next_term * cons_tree.last**(self.r-1.0)
+		mu_1 = utility_tree[utility_tree.last_period-self.period_len]**(1-self.r) * next_term * cons_tree.last**(self.r-1.0)
 		mu_tree_1.set_value(mu_tree_1.last_period-self.period_len, mu_1)
-        #u_term = ( (1.0 - b) * cons_of_x**r + next_term * cons_at_t_plus_1**r )
-        #tree.final_total_derivative_term[period_node] = next_term * cons_at_t_plus_1**(r-1) * tree.utility_by_state[node]**(1.0 - r)
+		
 
 	def _certain_equivalence(self, period, damage_period, utility_tree):
 		"""Caclulate certainty equivalence utility. If we are between decision nodes, i.e. no branching,
@@ -221,7 +222,7 @@ class EZUtility(Utility):
 		i = len(utility_tree)-2
 		for u, period in it:
 			if period == periods[1]:
-				mu_0 = (1.0 - self.b)*(u / cons_tree.last)**(1.0-self.r)
+				mu_0 = (1.0 - self.b)*(u / cons_tree[period])**(1.0-self.r)
 				next_term = self.b * (1.0 - self.b) / (1.0 - self.b * self.growth_term**self.r)
 				mu_1 = (u**(1.0-self.r)) * next_term * (cons_tree.last**(self.r-1.0))
 				u += (final_cons_eps + period_cons_eps[-1]) * mu_1
