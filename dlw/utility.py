@@ -3,7 +3,10 @@ from abc import ABCMeta, abstractmethod
 from storage_tree import BigStorageTree, SmallStorageTree
 import multiprocessing
 from tools import _pickle_method, _unpickle_method
-import copy_reg
+try:
+    import copy_reg
+except:
+    import copyreg as copy_reg
 import types
 
 np.seterr(all='ignore')
