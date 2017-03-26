@@ -2,7 +2,10 @@ import numpy as np
 import multiprocessing as mp
 from tools import _pickle_method, _unpickle_method
 from tools import write_csv_2D, append_to_csv_2D
-import copy_reg
+try:
+    import copy_reg
+except:
+    import copyreg as copy_reg
 import types
 
 copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)

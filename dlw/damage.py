@@ -39,6 +39,8 @@ class DLWDamage(Damage):
 		cons_growth (float): Constant consumption growth rate.
 		ghg_levels (ndarray or list): End GHG levels for each end scenario.
 
+	TODO:
+		* re-write the _recombine_nodes
 	"""
 
 	def __init__(self, tree, bau, cons_growth, ghg_levels):
@@ -202,7 +204,7 @@ class DLWDamage(Damage):
 				node = self.tree.get_node(n, 0)
 				self.cum_forcings[n-1, i] = self.forcing.forcing_at_node(mitigation[i], node, i)
 
-	def _average_mitigation_node(self, m, node, period):
+	def average_mitigation_node(self, m, node, period):
 		"""Calculate the average mitigation until node.
 
 		Args:
@@ -232,7 +234,7 @@ class DLWDamage(Damage):
 		ave_mitigation = np.zeros(nodes)
 		for i in range(nodes):
 			node = self.tree.get_node(period, i)
-			ave_mitigation[i] = self._average_mitigation_node(m, node, period)
+			ave_mitigation[i] = self.average_mitigation_node(m, node, period)
 		return ave_mitigation
 
 	def _damage_function_node(self, m, node):
@@ -272,7 +274,7 @@ class DLWDamage(Damage):
 			damage = 0.0
 			i = 0
 			for state in range(worst_end_state, best_end_state+1): 
-				if self.d[0, state, period-1] > 10e-4:
+				if self.d[0, state, period-1] > 1e-5:
 					deriv = 2.0 * self.damage_coefs[state, period-1, 0, 0]*self.emit_pct[0] \
 							+ self.damage_coefs[state, period-1, 0, 1]
 					decay_scale = deriv / (self.d[0, state, period-1]*np.log(0.5))
@@ -306,8 +308,6 @@ if __name__ == "__main__":
 	from cost import DLWCost
 	from damage import DLWDamage
 	from utility import EZUtility
-	from optimization import GenericAlgorithm, GradientSearch
-	from optimization import GAGradientSearch
 	from output_functions import *
 
 	t = TreeModel(decision_times=[0, 15, 45, 85, 185, 285, 385], prob_scale=1.0)
@@ -322,41 +322,37 @@ if __name__ == "__main__":
 	df.forcing_init(sink_start=35.596, forcing_start=4.926, ghg_start=400, partition_interval=5,
 		forcing_p1=0.13173, forcing_p2=0.607773, forcing_p3=315.3785, absorbtion_p1=0.94835,
 		absorbtion_p2=0.741547, lsc_p1=285.6268, lsc_p2=0.88414)
-
-	m = np.array([ 0.65008568,  0.81440062,  0.57156974,  1.02442677,  0.94972038,
-          0.80001195,  0.56711807,  1.25885777,  1.20418622,  1.22675892,
-                 1.08200462,  1.059628  ,  0.97288246,  0.90817513,  0.41352478,
-       1.2497254 ,  1.20470048,  1.19457448,  1.19942113,  1.25305931,
-         1.14961153,  1.2680144 ,  1.26744892,  1.60484919,  1.54971032,
-         1.56207038,  1.53777281,  1.62949171,  1.55358956,  0.97519823,
-         0.92102587,  1.12843339,  1.37744208,  1.28497502,  1.0367739 ,
-         1.26343189,  1.36535276,  1.0905257 ,  1.11133567,  1.28375479,
-         1.19406048,  1.49001237,  1.08942412,  1.52660931,  1.30240349,
-         1.30398985,  1.15276375,  1.23884217,  1.31855489,  1.23195591,
-         1.30590214,  1.48104488,  1.48990133,  1.35075056,  1.39940133,
-         1.31771028,  1.59167383,  1.62456475,  1.48355491,  1.66158315,
-         1.49468617,  1.44681469,  1.2018028 ])
-	"""
-	m = np.array([0.63033831,0.79493609,0.63961916,1.00100798,0.89883409,0.90650158,0.63261796,
-		1.27838304,1.22254166,1.26107556,0.93073007,1.29769024,0.93561291,0.95227753,0.56268567,
-		1.29278316,1.15256622,1.2307686,1.11031776,1.23969716,1.11810618,1.55663593,1.42213896,
-		1.25113711,1.12736059,1.60594014,1.48023671,1.71172097,1.59794234,1.33202771,0.42229699,
-		2.02341063,1.61617494,1.76098407,1.45681979,1.80320135,1.4876755, 1.63924136,1.29798736,
-		1.81450273,1.50371422,1.64708828,1.30479554,1.83540965,1.43450589,1.62121368,1.19193555,
-		1.82614187,1.51256235,1.65722273,1.30874109,1.85953769,1.4531849, 1.64829521,1.20749883,
-		1.94156574,1.53071302,1.70118658,1.24272015,3.35803589,2.59176097,0.91533447,0.0])
-	"""
+	
+	
+	m = np.array([0.61053004,0.79246812,0.58157155,1.01485702,0.88055513,0.78830025,0.63919678,
+				  1.27605078,1.23010852,1.27284628,0.93278258,1.02821083,0.94334363,0.94319353,
+				  0.57852567,1.30397034,1.15580694,1.22157915,1.13071263,1.25878603,1.1162571, 
+				  1.57046613,1.4283019, 1.70395503,1.59262015,1.68384978,1.56395966,1.74293419,
+				  1.63780257,1.38892971,0.4412861, 2.03792726,1.58020076,1.7380882, 1.50968748,
+				  1.75140343,1.62919952,1.32564331,1.25431191,1.75616436,1.5240563, 1.65222977,
+				  1.3323968, 1.8620841, 1.32573398,1.94555827,1.54948187,2.04135856,1.72350611,
+				  1.74782477,1.40318014,1.88609473,1.47565477,1.79073532,1.20956671,1.90214444,
+				  1.98376249,1.76240106,1.40637397,3.05066765,2.27157144,0.73707128,0.88290111])
 
 	u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0)
-	#utility_t, cons_t, cost_t = u.utility(m, return_trees=True)
-	#n_cons_t, cost_arr = delta_consumption(m, u, cons_t, cost_t, 0.01)
-	#ssc_decomposition(m, u, utility_t, cons_t, cost_t, 0.01)
+	utility_t, cons_t, cost_t, ce_t = u.utility(m, return_trees=True)
 	
+	save_output(m, u, utility_t, cons_t, cost_t, ce_t)
+	delta_cons_tree, delta_cost_array = delta_consumption(m, u, cons_t, cost_t, 0.01)
+	save_sensitivity_analysis(m, u, utility_t, cons_t, cost_t, ce_t, delta_cons_tree, delta_cost_array)
 
-	ga_gs = GAGradientSearch(ga_pop=150, ga_generations=100, ga_cxprob=0.8, ga_mutprob=0.5, 
-							upper_bound=3.0, gs_learning_rate=0.1, gs_iterations=100, 
-							gs_acc=1e-07, num_features=63, utility=u)
-	res = ga_gs.run()
+	# Constraint first period mitigation to 0.0
+	cfp_m, cfp_cons_tree, cfp_cost_array = constraint_first_period(m, u, 0.0)
+	cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t = u.utility(cfp_m, return_trees=True)
+	save_output(cfp_m, u cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t)
+	delta_cfp_cons_t, delta_cfp_cost_array = delta_consumption(cfp_m, u, cfp_cons_t, cfp_cost_t, 0.01)
+	save_sensitivity_analysis(cfp_m, u, cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t, 
+							  cfp_cons_tree, cfp_cost_array, "CFP")
+
+	
+	#res = gags_optimization(u, ga_pop=150, ga_generations=300, ga_cxprob=0.8, ga_mutprob=0.50, 
+	#				 upper_bound=3.0, gs_learning_rate=1.0, gs_iterations=100, gs_acc=1e-07, 
+	#				 num_features=63, topk=4, fixed_values=None, fixed_indicies=None)
 	#print "Starting Generic Algorithm \n"
 	#ga = GenericAlgorithm(300, 63, 50, 3.0, 0.80, 0.50, u.utility)
 	#pop, fitness = ga.run()

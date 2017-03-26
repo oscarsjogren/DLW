@@ -46,16 +46,6 @@ class BaseStorageTree(object):
 	def get_next_period_array(self, period):
 		pass
 
-	def write_csv(self, file_name):
-		"""Save the entire tree as csv-file."""
-		from tools import write_csv_dict
-		write_csv_dict(self.tree, file_name)
-
-	def write_decision_times_csv(self, file_name):
-		"""Save the data in decision periods as csv-file."""
-		from tools import write_csv_2D
-		write_csv_dict(self.tree, file_name, self.decision_times[:-1])
-
 	def set_value(self, period, values):
 		"""If period is in periods, set the value of element to values (ndarray)."""
 		if period not in self.periods:
@@ -100,6 +90,67 @@ class BaseStorageTree(object):
 
 		"""
 		return time_period in self.information_times
+
+	def write_tree(self, file_name, header, delimiter=";"):
+		from tools import find_path
+		import csv
+		
+		real_times = self.decision_times[:-1]
+		size = len(self.tree[real_times[-1]])
+		output_lst = []
+		prev_k = size
+
+		for t in real_times:
+			temp_lst = [""]*(size*2)
+			k = size/len(self.tree[t])
+			temp_lst[k::prev_k] = self.tree[t].tolist()
+			output_lst.append(temp_lst)
+			prev_k = k
+
+		write_lst = zip(*output_lst)
+		d = find_path(file_name)
+		with open(d, 'wb') as f:
+			writer = csv.writer(f, delimiter=delimiter)
+			writer.writerow([header])
+			for row in write_lst:
+				writer.writerow(row)
+
+	def write_csv(self, file_name):
+		"""Save the entire tree as csv-file."""
+		from tools import write_csv_dict
+		write_csv_dict(self.tree, file_name)
+
+	def write_decision_times_csv(self, file_name):
+		"""Save the data in decision periods as csv-file."""
+		from tools import write_csv_dict
+		write_csv_dict(self.tree, file_name, self.decision_times[:-1])
+
+	def write_columns(self, file_name, header, start_year):
+		from tools import write_columns_csv, file_exists
+		if file_exists(file_name):
+			self.write_columns_existing(file_name, header)
+		else:
+			real_times = self.decision_times[:-1]
+			years = []
+			nodes = []
+			output_lst = []
+			k = 0
+			for t in real_times:
+				for n in range(len(self.tree[t])):
+					years.append(t+start_year)
+					nodes.append(k)
+					output_lst.append(self.tree[t][n])
+					k += 1
+
+			write_columns_csv([output_lst], file_name, ["Year", "Node", header], [years, nodes])
+
+	def write_columns_existing(self, file_name, header):
+		from tools import write_columns_to_existing
+		output_lst = []
+		for t in self.decision_times[:-1]:
+			output_lst.extend(self.tree[t])
+		write_columns_to_existing(output_lst, file_name, header)
+
 
 class SmallStorageTree(BaseStorageTree):
 

@@ -16,7 +16,8 @@ class GenericAlgorithm(object):
 
 	TODO: Create and individual class.
 	"""
-	def __init__(self, pop_amount, num_generations, cx_prob, mut_prob, bound, num_feature, utility):
+	def __init__(self, pop_amount, num_generations, cx_prob, mut_prob, bound, num_feature, utility,
+				 fixed_values=None, fixed_indicies=None):
 		self.num_feature = num_feature
 		self.pop_amount = pop_amount
 		self.num_gen = num_generations
@@ -24,15 +25,20 @@ class GenericAlgorithm(object):
 		self.mut_prob = mut_prob
 		self.u = utility
 		self.bound = bound
+		self.fixed_values = fixed_values
+		self.fixed_indicies = fixed_indicies
 
-	def _generate_population(self):
+	def _generate_population(self, size):
 		"""Return 1D-array of random value in the given bound as the initial population.
 	    
 	    Returns:
 	    	ndarray: Array of random value in the given bound with the shape of ('pop_amount', 'num_feature').
 		"""
 		#pop = np.random.random([self.pop_amount, self.num_feature]).cumsum(axis=1)*0.1
-		pop = np.random.random([self.pop_amount, self.num_feature])*self.bound
+		pop = np.random.random([size, self.num_feature])*self.bound
+		if self.fixed_values is not None:
+			for ind in pop:
+				ind[self.fixed_indicies] = self.fixed_values
 		return pop
 
 	def _evaluate(self, indvidual):
@@ -118,6 +124,9 @@ class GenericAlgorithm(object):
 					cxpoint1, cxpoint2 = cxpoint2, cxpoint1
 				child1[cxpoint1:cxpoint2], child2[cxpoint1:cxpoint2] \
 				= child2[cxpoint1:cxpoint2].copy(), child1[cxpoint1:cxpoint2].copy()
+				if self.fixed_values is not None:
+					child1[self.fixed_indicies] = self.fixed_values
+					child2[self.fixed_indicies] = self.fixed_values
 	
 	def _uniform_cross_over(self, pop, ind_prob):
 		"""Performs a uniform cross-over of the population.
@@ -152,6 +161,8 @@ class GenericAlgorithm(object):
 		for i in mutate_index:
 			feature_index = np.random.choice(self.num_feature, int(ind_prob * self.num_feature), replace=False)
 			for j in feature_index:
+				if self.fixed_indicies is not None and j in self.fixed_indicies:
+					continue
 				pop[i][j] = np.random.random()*scale
 	
 	def _uniform_mutation(self, pop, ind_prob, scale=2.0):
@@ -173,6 +184,8 @@ class GenericAlgorithm(object):
 			inc = (np.random.random(self.num_feature) - 0.5)*scale
 			pop[i] += (prob > (1.0-ind_prob)).astype(int)*inc
 			pop[i] = np.maximum(0.0, pop[i])
+			if self.fixed_values is not None:
+				pop[i][self.fixed_indicies] = self.fixed_values
 
 	def _show_evolution(self, fits, pop):
 		"""Print statistics of the evolution of the population."""
@@ -183,7 +196,7 @@ class GenericAlgorithm(object):
 		max_val = fits.max()
 		print (" Min {} \n Max {} \n Avg {}".format(min_val, max_val, mean))
 		print (" Std {} \n Population Size {}".format(std, length))
-		print (" Best Individual: ", pop[np.argmax(fits)])
+		#print (" Best Individual: ", pop[np.argmax(fits)])
 
 	def _survive(self, pop_tmp, fitness_tmp):
 		"""
@@ -209,7 +222,7 @@ class GenericAlgorithm(object):
 			   and combine the above new population.
 		"""
 		print("----------------Genetic Evolution Starting----------------")
-		pop = self._generate_population()
+		pop = self._generate_population(self.pop_amount)
 		pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
 		fitness = pool.map(self._evaluate, pop) # how do we know pop[i] belongs to fitness[i]?
 		fitness = np.array([val[0] for val in fitness])
@@ -231,7 +244,8 @@ class GenericAlgorithm(object):
 
 			pop_survive, fitness_survive = self._survive(pop_tmp, fitness_tmp)
 
-			pop_new = np.random.random([self.pop_amount - len(pop_survive), self.num_feature])*self.bound
+			#pop_new = np.random.random([self.pop_amount - len(pop_survive), self.num_feature])*self.bound
+			pop_new = self._generate_population(self.pop_amount - len(pop_survive))
 			fitness_new = pool.map(self._evaluate, pop_new)
 			fitness_new = np.array([val[0] for val in fitness_new])
 
@@ -251,7 +265,7 @@ class GradientSearch(object) :
 	"""
 
 	def __init__(self, learning_rate, var_nums, utility, accuracy=1e-06, iterations=100, 
-				 step=0.00001, fixed_values=None):
+				 step=0.00001, fixed_values=None, fixed_indicies=None):
 		self.alpha = learning_rate
 		self.u = utility
 		self.var_nums = var_nums
@@ -259,10 +273,7 @@ class GradientSearch(object) :
 		self.accuracy = accuracy
 		self.iterations = iterations
 		self.fixed_values  = fixed_values
-		if self.fixed_values is None:
-			self.fixed_values = np.zeros(var_nums)
-		self.non_zero_fv = np.where(self.fixed_values != 0.0)[0]
-
+		self.fixed_indicies = fixed_indicies
 
 	def _initial_values(self, size):
 		m = np.random.random(size) * 2
@@ -299,7 +310,6 @@ class GradientSearch(object) :
 		u_hist[0] = self.u.utility(initial_point)
 		x_hist[0] = initial_point
 		prev_grad = 0.0
-		half_iter = int(self.iterations / 2)
 
 		for i in range(self.iterations):
 			grad = self.u.numerical_gradient(x_hist[i])
@@ -307,12 +317,13 @@ class GradientSearch(object) :
 				learning_rate = self._dynamic_alpha(x_hist[i]-x_hist[i-1], grad-prev_grad)
 
 			new_x = x_hist[i] + grad*learning_rate
-			new_x[self.non_zero_fv] = self.fixed_values[self.non_zero_fv]
+			if self.fixed_values is not None:
+				new_x[self.fixed_indicies] = self.fixed_values
 			current = self.u.utility(new_x)[0]
 			x_hist[i+1] = new_x
 			u_hist[i+1] = current
 			prev_grad = grad.copy()
-			if i > half_iter:
+			if i > 25:
 				x_diff = np.abs(x_hist[i+1] - x_hist[i]).sum()
 				u_diff = np.abs(u_hist[i+1] - u_hist[i])
 				if x_diff < 1e-04 or u_diff < self.accuracy:
@@ -344,28 +355,17 @@ class GradientSearch(object) :
 			raise ValueError("topk {} > number of initial points {}".format(topk, len(initial_point_list)))
 
 		candidate_points = initial_point_list[:topk]
-		result = []
-		count = 1
-		for cp in candidate_points:
+		mitigations = []
+		utilities = np.zeros(topk)
+		for cp, count in zip(candidate_points, range(topk)):
 			if not isinstance(cp, np.ndarray):
 				cp = np.array(cp)
-			print cp
-			print("Starting process {} of Gradient Descent".format(count))
-			result.append(self.gradient_descent(cp))
-			count += 1
-		return result
+			print("Starting process {} of Gradient Descent".format(count+1))
+			m, u = self.gradient_descent(cp)
+			mitigations.append(m)
+			utilities[count] = u
+		best_index = np.argmax(utilities)
+		return mitigations[best_index], utilities[best_index]
 
-class GAGradientSearch(object):
-	def __init__(self, ga_pop, ga_generations, ga_cxprob, ga_mutprob, upper_bound, 
-				 gs_learning_rate, gs_iterations, gs_acc, num_features, utility):
-		self.ga_model = GenericAlgorithm(ga_pop, ga_generations, ga_cxprob, ga_mutprob, upper_bound, 
-										 num_features, utility)
-		self.gs_model = GradientSearch(gs_learning_rate, num_features, utility, gs_acc, 
-									   gs_iterations)
-	def run(self, topk=4):
-		final_pop, fitness = self.ga_model.run()
-		sort_pop = final_pop[np.argsort(fitness)][::-1]
-		res = self.gs_model.run(initial_point_list=sort_pop, topk=topk)
-		return res
 
 

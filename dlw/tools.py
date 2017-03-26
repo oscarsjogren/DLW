@@ -1,4 +1,4 @@
-
+import numpy as np
 ################
 ### Plotting ###
 ################
@@ -26,6 +26,8 @@ def plot_dict(dictionary, title, xlabel, ylabel):
 ### I/O ###
 ###########
 
+import csv
+
 def find_path(file_name):
 	import os
 	cwd = os.getcwd()
@@ -33,6 +35,18 @@ def find_path(file_name):
 		os.makedirs('data')
 	d = os.path.join(cwd, os.path.join('data',file_name+'.csv'))
 	return d
+
+def create_file(file_name):
+	import os
+	d = find_path(file_name)
+	if not os.path.isfile(d):
+		open(d, 'w').close()
+	return d
+
+def file_exists(file_name):
+	import os
+	d = find_path(file_name)
+	return os.path.isfile(d)
 
 def append_to_csv_1D(array, file_name, delimiter=';', end_char=None):
 	write_csv_1D(array, file_name, delimiter, end_char, open_as='a')
@@ -55,7 +69,6 @@ def write_csv_dict(d, file_name, key_items=None, delimiter=';'):
 			append_to_csv_1D(od[key], file_name, delimiter=delimiter)
 
 def write_csv_1D(array, file_name, delimiter=';', end_char=None, open_as='wb'):
-	import csv
 	assert len(array.shape) == 1, "Array need to be 1D"
 	d = find_path(file_name)
 	with open(d, open_as) as f:
@@ -65,8 +78,6 @@ def write_csv_1D(array, file_name, delimiter=';', end_char=None, open_as='wb'):
 			writer.writerow(end_char)
 
 def write_csv_2D(array, file_name, delimiter=';', end_char=None, open_as='wb'):
-	import csv
-	assert len(array.shape) == 2, "Array need to be 2D"
 	d = find_path(file_name)
 	with open(d, open_as) as f:
 		writer = csv.writer(f, delimiter=delimiter)
@@ -76,9 +87,55 @@ def write_csv_2D(array, file_name, delimiter=';', end_char=None, open_as='wb'):
 			writer.writerow(end_char)
 
 def load_csv(file_name, delimiter=';', comment=None):
-	import csv
 	d = find_path(file_name)
 	pass
+
+def write_columns_csv(lst, file_name, header=[], index=None, start_char=None, delimiter=';', open_as='wb'):
+	d = find_path(file_name)
+	if index is not None:
+		index.extend(lst)
+		output_lst = zip(*index)
+	else:
+		output_lst = zip(*lst)
+
+	with open(d, open_as) as f:
+		writer = csv.writer(f, delimiter=delimiter)
+		if start_char is not None:
+			writer.writerow([start_char])
+		writer.writerow(header)
+		for row in output_lst:
+			writer.writerow(row)
+
+def write_columns_to_existing(lst, file_name, header="", delimiter=';'):
+	d = find_path(file_name)
+	with open(d, 'r') as finput:
+			reader = csv.reader(finput, delimiter=delimiter)
+			all_lst = []
+			row = next(reader)
+			nested_list = isinstance(lst[0], list) or isinstance(lst[0], np.ndarray)
+			if nested_list:
+				lst = zip(*lst)
+				row.extend(header)	
+			else:
+				row.append(header)
+			all_lst.append(row)
+			n = len(lst)
+			i = 0
+			for row in reader:
+				if nested_list:
+					row.extend(lst[i])
+				else:
+					row.append(lst[i])
+				all_lst.append(row)
+				i += 1
+	with open(d, 'w') as foutput:
+			writer = csv.writer(foutput, delimiter=delimiter)
+			writer.writerows(all_lst)
+			
+def append_to_existing(lst, file_name, header="", index=None, delimiter=';'):
+	write_columns_csv(lst, file_name, header, index, start_char='\n', delimiter=delimiter, open_as='a')
+
+
 
 ##########
 ### MP ###
