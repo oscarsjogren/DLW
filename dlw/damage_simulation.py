@@ -1,7 +1,8 @@
+from __future__ import division
 import numpy as np
 import multiprocessing as mp
 from tools import _pickle_method, _unpickle_method
-from tools import write_csv_2D, append_to_csv_2D
+from tools import write_columns_csv, append_to_existing
 try:
     import copy_reg
 except:
@@ -48,9 +49,9 @@ class DamageSimulation(object):
 
     def _write_to_file(self):
         filename = "simulated_damages"
-        write_csv_2D(self.d[0], filename, end_char="#")
+        write_columns_csv(self.d[0].T, filename)
         for arr in self.d[1:]:
-            append_to_csv_2D(arr, filename, end_char="#")
+            append_to_existing(arr.T, filename, start_char='#')
 
     def _gamma_array(self, shape, rate, dimension):
         return np.random.gamma(shape, 1.0/rate, dimension)

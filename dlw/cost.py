@@ -1,5 +1,7 @@
+from __future__ import division
 import numpy as np
 from abc import ABCMeta, abstractmethod
+from storage_tree import BigStorageTree
 
 class Cost(object):
 	"""Abstract Cost class for the DLW-model."""
@@ -34,7 +36,7 @@ class DLWCost(Cost):
 	"""
 
 	def __init__(self, tree, emit_at_0, g, a, join_price, max_price,
-				tech_const, tech_scale, cons_at_0):
+				tech_const, tech_scale, cons_at_0, max_penalty, penalty_scale):
 		self.tree = tree
 		self.g = g
 		self.a = a
@@ -48,6 +50,8 @@ class DLWCost(Cost):
 		self.cbs_k = self.cbs_level * (max_price - join_price)**self.cbs_b
 		self.cons_per_ton = cons_at_0 / emit_at_0
 		self.cost_gradient = np.zeros((tree.num_decision_nodes, tree.num_decision_nodes))
+		self.max_penalty = max_penalty
+		self.penalty_scale = penalty_scale
 
 	def cost_by_state(self, node, mitigation, ave_mitigation):
 		"""Calculates the mitigation cost by state.
@@ -88,13 +92,13 @@ class DLWCost(Cost):
 		Returns:
 			ndarray: Cost by state (cbs)
 
-		"""
+		"""		
 		years = self.tree.decision_times[period]
 		tech_term = (1.0 - ((self.tech_const + self.tech_scale*ave_mitigation) / 100.0))**years
 		cbs = self.g * (mitigation**self.a) 
 		bool_arr = (mitigation < self.cbs_level).astype(int)
 		if np.all(bool_arr):
-			return cbs * tech_term / self.cons_per_ton
+			return (cbs * tech_term / self.cons_per_ton)
 
 		base_cbs = self.g * self.cbs_level**self.a
 		bool_arr2 = (mitigation > self.cbs_level).astype(int)
@@ -104,7 +108,9 @@ class DLWCost(Cost):
 		
 		c = (cbs * bool_arr + (base_cbs + extension)*bool_arr2) * tech_term / self.cons_per_ton
 		c = np.nan_to_num(c) # we might have nan values that should be set to zero
+
 		return c
+		#return c
 
 	def price(self, years, mitigation, ave_mitigation):
 		"""Inverse of the cost function. Gives emissions price for any given 

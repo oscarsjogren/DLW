@@ -1,39 +1,87 @@
 import numpy as np
+import seaborn as sns
+import csv
+
 ################
 ### Plotting ###
 ################
 
-def plot(y_data, x_data, index=None, title=None, xlabel=None, ylabel=None):
+markers = (u'o', u'v', u'^', u'<', u'>', u'8', u's', u'p', u'*', u'h', u'H', u'D', u'd')
+
+def plot(y_data, x_data, index=None, title=None, xlabel=None, ylabel=None, 
+		 legend=None, vertical_line=None, save=False, file_name=None,
+		 points=False):
 	import matplotlib.pyplot as plt
+	sns.set_style("whitegrid", {"font.family": [u'Bitstream Vera Sans']})
+	sns.set_palette("PuBuGn_d")
 	fig = plt.figure()
 	ax = fig.add_subplot(1,1,1)
-	ax.plot(x_data, y_data)
+
+	if len(y_data.shape)==1:
+		ax.plot(x_data, y_data, label=legend)
+		if points:
+			ax.scatter(x_data, y_data)
+	else:
+		for i in range(len(y_data)):
+			ax.plot(x_data, y_data[i], label=legend[i])
+			if points:
+				ax.plot(x_data, y_data[i], markers[i])
+
+	ax.xaxis.grid(False)
+	if vertical_line is not None:
+		ax.axvline(x=vertical_line, linestyle='dashed', linewidth=1, color='black')
 	if index is not None:
 		ax.set_xtocklabels(index)
 	if title is not None:
 		ax.set_title(title, fontsize='large')
 	if xlabel is not None:
-		ax.set_xlabel(xlabel)
+		ax.set_xlabel(xlabel, fontsize='large')
 	if ylabel is not None:
-		ax.set_ylabel(ylabel)
+		ax.set_ylabel(ylabel, fontsize='large')
+	if legend is not None:
+		plt.legend(fontsize='large')
+	if save:
+		d = find_path(file_name, "plots", ".png")
+		plt.savefig(d)
+		plt.close(fig)
+
 	plt.show()
 
 def plot_dict(dictionary, title, xlabel, ylabel):
 	y_data, x_data = dictionary.items()
 	plot(y_data, x_data, title=title, xlabel=xlabel, ylabel=ylabel)
 
+def plot_mitigation_at_node(m, node, utility, save=False):
+	m_copy = m.copy()
+	x = np.append(np.linspace(0.0, m[node], 25), np.linspace(m[node], max(m[node], 2.5), 25))
+	x = np.unique(x)
+	y = np.zeros(len(x))
+	for i in range(len(x)):
+		m_copy[node] = x[i]
+		y[i] = utility.utility(m_copy)
+
+	plot(y, x, title="Utility vs. Mitigation in Node {}".format(node), xlabel="Mitigation", 
+		 ylabel="Utility", vertical_line=m[node], save=save, file_name="MAT_{}".format(node))
+
+def plot_first_order_condition(m, node, utility):
+	x = np.array([1.0/(10)**i for i in range(1, 11)])
+	y = np.zeros(len(x))
+	for i in range(len(x)):
+		grad, k = utility.partial_grad(node, m, x[i])
+		y[i] = grad
+	plot(y, x, title="First Order Check for node {}".format(node), xlabel="Delta", 
+		 ylabel="Partial deriv. w.r.t. Mitigation")
+
 ###########
 ### I/O ###
 ###########
 
-import csv
-
-def find_path(file_name):
+def find_path(file_name, directory="data", file_type=".csv"):
 	import os
 	cwd = os.getcwd()
-	if not os.path.exists('data'):
-		os.makedirs('data')
-	d = os.path.join(cwd, os.path.join('data',file_name+'.csv'))
+	if not os.path.exists(directory):
+		os.makedirs(directory)
+	d = os.path.join(cwd, os.path.join(directory,file_name+file_type))
 	return d
 
 def create_file(file_name):
@@ -47,44 +95,6 @@ def file_exists(file_name):
 	import os
 	d = find_path(file_name)
 	return os.path.isfile(d)
-
-def append_to_csv_1D(array, file_name, delimiter=';', end_char=None):
-	write_csv_1D(array, file_name, delimiter, end_char, open_as='a')
-
-def append_to_csv_2D(array, file_name, delimiter=';', end_char=None):
-	write_csv_2D(array, file_name, delimiter, end_char, open_as='a')
-
-def write_csv_dict(d, file_name, key_items=None, delimiter=';'):
-	import collections
-	od = collections.OrderedDict(sorted(d.items()))
-	if key_items is None:
-		keys = od.keys()
-		vals = od.values()
-		write_csv_1D(od[keys[0]], file_name, delimiter=delimiter)
-		for val in vals[1:]:
-			append_to_csv_1D(val, file_name, delimiter=delimiter)
-	else:
-		write_csv_1D(od[key_items[0]], file_name, delimiter=delimiter)
-		for key in key_items[1:]:
-			append_to_csv_1D(od[key], file_name, delimiter=delimiter)
-
-def write_csv_1D(array, file_name, delimiter=';', end_char=None, open_as='wb'):
-	assert len(array.shape) == 1, "Array need to be 1D"
-	d = find_path(file_name)
-	with open(d, open_as) as f:
-		writer = csv.writer(f, delimiter=delimiter)
-		writer.writerow(array)
-		if end_char is not None:
-			writer.writerow(end_char)
-
-def write_csv_2D(array, file_name, delimiter=';', end_char=None, open_as='wb'):
-	d = find_path(file_name)
-	with open(d, open_as) as f:
-		writer = csv.writer(f, delimiter=delimiter)
-		for row in array:
-			writer.writerow(row)
-		if end_char is not None:
-			writer.writerow(end_char)
 
 def load_csv(file_name, delimiter=';', comment=None):
 	d = find_path(file_name)
@@ -102,7 +112,8 @@ def write_columns_csv(lst, file_name, header=[], index=None, start_char=None, de
 		writer = csv.writer(f, delimiter=delimiter)
 		if start_char is not None:
 			writer.writerow([start_char])
-		writer.writerow(header)
+		if header:
+			writer.writerow(header)
 		for row in output_lst:
 			writer.writerow(row)
 
@@ -132,8 +143,32 @@ def write_columns_to_existing(lst, file_name, header="", delimiter=';'):
 			writer = csv.writer(foutput, delimiter=delimiter)
 			writer.writerows(all_lst)
 			
-def append_to_existing(lst, file_name, header="", index=None, delimiter=';'):
-	write_columns_csv(lst, file_name, header, index, start_char='\n', delimiter=delimiter, open_as='a')
+def append_to_existing(lst, file_name, header="", index=None, delimiter=';', start_char=None):
+	write_columns_csv(lst, file_name, header, index, start_char=start_char, delimiter=delimiter, open_as='a')
+
+def import_csv(file_name, delimiter=';', header=True, indices=None, start_at=0, break_at='\n', ignore=""):
+	d = find_path(file_name)
+	input_lst = []
+	with open(d, 'r') as f:
+		reader = csv.reader(f, delimiter=delimiter)
+		for _ in range(0, start_at):
+			next(reader)
+		if header:
+			header_row = next(reader)
+		for row in reader:
+			if row[0] == break_at:
+				break
+			if row[0] == ignore:
+				continue
+			if indices:
+				input_lst.append(row[indices:])
+			else:
+				input_lst.append(row)
+	if header and not indices :
+		return header_row, np.array(input_lst, dtype="float64")
+	elif header and indices:
+		return header_row[indices:], np.array(input_lst, dtype="float64")
+	return np.array(input_lst, dtype="float64")
 
 
 

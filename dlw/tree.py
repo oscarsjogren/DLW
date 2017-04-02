@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 
 class TreeModel(object):
@@ -13,21 +14,28 @@ class TreeModel(object):
         if isinstance(self.decision_times, list):
             self.decision_times = np.array(self.decision_times)
         self.prob_scale = prob_scale
-        self.num_periods = len(decision_times) - 1
-        self.num_decision_nodes = 2**self.num_periods - 1
-        self.num_final_states = 2**(self.num_periods - 1)
-        self.final_states_prob = np.zeros(self.num_final_states)
-        self.node_prob = np.zeros(self.num_decision_nodes)
-
         self._create_probs()
+
+    @property
+    def num_periods(self):
+        return len(self.decision_times)-1
+
+    @property
+    def num_decision_nodes(self):
+        return (2**self.num_periods) - 1
+
+    @property
+    def num_final_states(self):
+        return 2**(self.num_periods-1)
 
     def _create_probs(self):
         """Creates the probabilities of every nodes in the tree structure."""
+        self.final_states_prob = np.zeros(self.num_final_states)
+        self.node_prob = np.zeros(self.num_decision_nodes)
         self.final_states_prob[0] = 1.0
         sum_probs = 1.0
         next_prob = 1.0
 
-        ##Calculate the probability for the final state
         for n in range(1, self.num_final_states):
             next_prob = next_prob * self.prob_scale**(1.0 / n)
             self.final_states_prob[n] = next_prob
@@ -90,13 +98,13 @@ class TreeModel(object):
     def get_path(self, node, period=None):
         """Returns the unique path taken to come to given node."""
         if period is None:
-            period = self.tree.get_period(node)
+            period = self.get_period(node)
         path = [node]
         for i in range(0, period):
             parent = self.get_parent_node(path[i])
             path.append(parent)
         path.reverse()
-        return path
+        return np.array(path)
 
     def get_probs_in_period(self, period):
         """Returns the probabilities in given period."""
@@ -112,7 +120,7 @@ class TreeModel(object):
         if state is None:
             state = self.get_state(node, period)
 
-        k = self.num_final_states / 2**period
+        k = int(self.num_final_states / 2**period)
         return (k*state, k*(state+1)-1)
 
   

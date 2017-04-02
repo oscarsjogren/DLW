@@ -1,7 +1,8 @@
-import numpy as np
+from __future__ import division, print_function
 from abc import ABCMeta, abstractmethod
-from storage_tree import BigStorageTree, SmallStorageTree
+import numpy as np
 import multiprocessing
+from storage_tree import BigStorageTree, SmallStorageTree
 from tools import _pickle_method, _unpickle_method
 try:
     import copy_reg
@@ -117,9 +118,62 @@ class EZUtility(Utility):
 			cert_equiv = utility_tree.get_next_period_array(period)
 		return cert_equiv
 
+
+	def _interval_penalty(self, period_ghg):
+		return np.maximum(0.0, np.minimum(np.sign(period_ghg)*((280.0-period_ghg)/period_ghg), self.cost.max_penalty))
+
+	def _penalty_cost(self, m):
+		ghg_levels = self.damage.ghg_level(m, periods=self.tree.num_periods)
+		penalty_cost = BigStorageTree(self.period_len, self.decision_times)
+		interval_length = self.decision_times[1:] - self.decision_times[:-1] 
+		temp_array = np.zeros(len(ghg_levels))
+		cache = set()
+		for node in range(self.tree.num_decision_nodes, len(ghg_levels)):
+			path = self.tree.get_path(node)
+			for i in range(1, len(path)):
+				n = path[i]
+				if n not in cache:
+					temp_array[n] = temp_array[path[i-1]] + self._interval_penalty(ghg_levels[n])/interval_length[i-1]	
+					cache.add(n)
+
+		penalty_cost.tree[0][0] = temp_array[0]
+		sum_size = 1
+		prev_ghg_level = ghg_levels[0]
+
+		for i in range(1, len(self.tree.decision_times)):
+			time_period = self.tree.decision_times[i]
+			prev_time_period = self.tree.decision_times[i-1]
+			prev_penalty_cost = penalty_cost[prev_time_period]
+			len_arr = len(penalty_cost[time_period])			
+			penalty_cost.set_value(time_period, temp_array[sum_size:sum_size+len_arr])
+
+			ghg_level = ghg_levels[sum_size:sum_size+len_arr]
+			increment = self.period_len
+			total_increment = time_period-prev_time_period
+			if prev_ghg_level.shape != ghg_level.shape:
+				prev_ghg_level = np.repeat(prev_ghg_level, 2)
+				prev_penalty_cost = np.repeat(prev_penalty_cost, 2)
+
+			while prev_time_period < time_period:
+				prev_time_period += self.period_len
+				this_period_ghg = prev_ghg_level + (increment/total_increment) * (ghg_level-prev_ghg_level)
+				if np.any(this_period_ghg == 0):
+					this_period_ghg[this_period_ghg == 0] = 1.0 # doesn't really matter if we put 1.0 or a value closer to 0
+				penalty_cost.set_value(prev_time_period, prev_penalty_cost + self._interval_penalty(this_period_ghg)/self.period_len)
+				
+				prev_penalty_cost = penalty_cost[prev_time_period]
+				increment += self.period_len
+
+			prev_ghg_level = ghg_level
+			sum_size += len_arr
+
+		return penalty_cost
+
 	def _utility_generator(self, m, utility_tree, cons_tree, cost_tree, ce_tree, cons_adj=0.0):
 		"""Generator for calculating utility for each utility period besides the terminal utility."""
 		periods = utility_tree.periods[::-1]
+		#penalty_cost = self._penalty_cost(m)
+
 		for period in periods[1:]:
 			damage_period = utility_tree.between_decision_times(period)
 			cert_equiv = self._certain_equivalence(period, damage_period, utility_tree)
@@ -132,13 +186,12 @@ class EZUtility(Utility):
 				period_damage = self.damage.damage_function(m, damage_period)
 				cost_tree.set_value(cost_tree.index_below(period+self.period_len), period_cost)
 
-			
-			# should this be (1.0 - period_damage - period_cost)?
+			# should this be (1.0 - period_damage - period_cost)
+		
 			period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) * (1.0 - period_cost)
-			if period == 0:
-				period_consumption += cons_adj
 		
 			if not utility_tree.is_decision_period(period):
+
 				next_consumption = cons_tree.get_next_period_array(period)
 				segment = period - utility_tree.decision_times[damage_period]
 				interval = segment + utility_tree.subinterval_len
@@ -147,21 +200,30 @@ class EZUtility(Utility):
 					next_cost = cost_tree[period+self.period_len]
 					if period < utility_tree.decision_times[-2]:
 						next_consumption *= (1.0 - np.repeat(period_cost,2)) /(1.0 - next_cost)
-					# don't we want to do this also for the 'straight' periods?
-					#else:
-					#	next_consumption *= (1.0 - period_cost) / (1.0 - next_cost)
-					#	
 						
 				if period < utility_tree.decision_times[-2]:
+					#period_consumption = self.potential_cons[damage_period] * (1.0 - np.repeat(period_damage,2)) \
+					#					 * (1.0 - np.repeat(period_cost,2)*(1.0 + self.cost.penalty_scale*penalty_cost[period]))
 					period_consumption = ((next_consumption/np.repeat(period_consumption,2))**(segment/float(interval))) * np.repeat(period_consumption,2)
 				else:
-					period_consumption = ((next_consumption/period_consumption)**(segment/float(interval)))* period_consumption
+					#period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) \
+					# 					 * (1.0 - period_cost*(1.0 + self.cost.penalty_scale*penalty_cost[period]))
+					period_consumption = ((next_consumption/period_consumption)**(segment/float(interval)))*period_consumption
 				
+				#period_consumption = ((next_consumption/period_consumption)**(segment/float(interval)))*period_consumption
+			
+			#else:
+			#	period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) \
+			#						 * (1.0 - period_cost*(1.0 + self.cost.penalty_scale*penalty_cost[period]))
+			
+			if period == 0:
+				period_consumption += cons_adj
+
 			ce_term = self.b * cert_equiv**self.r
 			ce_tree.set_value(period, ce_term)
 			cons_tree.set_value(period, period_consumption)
 			u = ((1.0-self.b)*period_consumption**self.r + ce_term)**(1.0/self.r)
-			u[np.where(np.isnan(u))] = 0.0 	# get nan-values when negative 
+			u[np.where(np.isnan(u))] = 0.0 	# get nan-values when negative consumption
 			yield u, period
 
 	def utility(self, m, return_trees=False):
@@ -285,11 +347,9 @@ class EZUtility(Utility):
 			
 			mu_1 = self._mu_1(cons_tree[period], up_prob, up_cons, down_cons, up_ce, down_ce)
 			mu_2 = self._mu_1(cons_tree[period], down_prob, down_cons, up_cons, down_ce, up_ce)
-			# not optimal
 			return mu_0, mu_1, mu_2 
 		else:
 			mu_1 = self._mu_2(cons_tree[period], prev_cons, prev_ce)
-			# not optimal
 			return mu_0, mu_1, None 
 
 	def marginal_utility(self, m, utility_tree, cons_tree, cost_tree, ce_tree):
@@ -311,7 +371,7 @@ class EZUtility(Utility):
 		mu_tree_0 = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
 		mu_tree_1 = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
 		mu_tree_2 = SmallStorageTree(decision_times=self.decision_times)
-		#ce_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
+		
 		self._end_period_marginal_utility(mu_tree_0, mu_tree_1, ce_tree, utility_tree, cons_tree)
 		periods = utility_tree.periods[::-1]
 
@@ -326,8 +386,11 @@ class EZUtility(Utility):
 		return mu_tree_0, mu_tree_1, mu_tree_2
 
 
-
-	def _grad_helper(self, i):
+	def partial_grad(self, i, m=None, delta=None):
+		if m is not None:
+			self.m = m
+		if delta is not None:
+			self.delta = delta
 		m_copy = self.m.copy()
 		m_copy[i] -= self.delta
 		minus_utility = self.utility(m_copy)
@@ -336,7 +399,9 @@ class EZUtility(Utility):
 		grad = (plus_utility-minus_utility) / (2*self.delta)
 		return grad, i
 
-	def numerical_gradient(self, m, delta=1e-06):
+	def numerical_gradient(self, m, delta=1e-08, fixed_indicies=None):
+		if fixed_indicies is None:
+			fixed_indicies = []
 		self.delta = delta
 		self.m = m 
 		grad = np.zeros(len(m))
@@ -344,7 +409,8 @@ class EZUtility(Utility):
 			self.m = np.array(m)
 
 		pool = multiprocessing.Pool()
-		res = pool.map(self._grad_helper, range(len(m)))
+		indicies = np.delete(range(len(m)), fixed_indicies)
+		res = pool.map(self.partial_grad, indicies)
 		for g, i in res:
 			grad[i] = g
 		pool.close()

@@ -1,3 +1,4 @@
+from __future__ import division, print_function
 import numpy as np
 from abc import ABCMeta, abstractmethod
 from damage_simulation import DamageSimulation
@@ -75,23 +76,17 @@ class DLWDamage(Damage):
 		
 		sum_nodes = np.append(0, sum_class.cumsum())
 		prob_sum = np.array([self.tree.final_states_prob[sum_nodes[i]:sum_nodes[i+1]].sum() for i in range(len(sum_nodes)-1)])
-		
 		for period in range(nperiods):
 			for k in range(self.dnum):
 				d_sum = np.zeros(nperiods)
 				old_state = 0
 				for d_class in range(nperiods):
-					for i in range(sum_class[d_class]):
-						d_sum[d_class] += self.tree.final_states_prob[old_state] * self.d[k, old_state, period]
-						old_state += 1
-				for d_class in range(nperiods):
-					for i in range(sum_class[d_class]):
-						self.d[k, new_state[d_class, i], period] = d_sum[d_class] / prob_sum[d_class]
-
-		old_state = 0
-		for d_class in range(nperiods):
-			for i in range(sum_class[d_class]):
-				self.tree.final_states_prob[new_state[d_class, i]] = temp_prob[old_state]
+					d_sum[d_class] = (self.tree.final_states_prob[old_state:old_state+sum_class[d_class]] \
+						 			 * self.d[k, old_state:old_state+sum_class[d_class], period]).sum()	
+					old_state += sum_class[d_class]
+					self.tree.final_states_prob[new_state[d_class, 0:sum_class[d_class]]] = temp_prob[0]
+				for d_class in range(nperiods):	
+					self.d[k, new_state[d_class, 0:sum_class[d_class]], period] = d_sum[d_class] / prob_sum[d_class]
 
 		self.tree.node_prob[-len(self.tree.final_states_prob):] = self.tree.final_states_prob
 		for p in range(1,nperiods-1):
@@ -125,10 +120,10 @@ class DLWDamage(Damage):
 			bmat[:, 1:] = self.d[:-1, state, :].T
 			self.damage_coefs[state, :, 0] = np.linalg.solve(amat, bmat)
 
-	def import_damages(self, loc="data/simulated_damages.csv"):
+	def import_damages(self, loc="simulated_damages"):
+		from tools import import_csv
 		try:
-			with open(loc, 'r') as f:
-				d = np.loadtxt(f, delimiter=";", comments="#")
+			d = import_csv(loc, ignore="#", header=False)
 		except IOError as e:
 			import sys
 			print("Could not import simulated damages:\n\t{}".format(e))
@@ -220,9 +215,8 @@ class DLWDamage(Damage):
 		period = self.tree.get_period(node)
 		state = self.tree.get_state(node, period)
 		path = self.tree.get_path(node, period)
-		new_m = np.zeros(len(path)-1)
-		for i in range(len(new_m)):
-			new_m[i] = m[path[i]]
+		new_m = m[path[:-1]]
+	
 		period_len = self.tree.decision_times[1:period+1] - self.tree.decision_times[:period]
 		bau_emissions = self.bau.emission_by_decisions[:period]
 		total_emission = np.dot(bau_emissions, period_len)
@@ -236,6 +230,39 @@ class DLWDamage(Damage):
 			node = self.tree.get_node(period, i)
 			ave_mitigation[i] = self.average_mitigation_node(m, node, period)
 		return ave_mitigation
+
+	def _ghg_level_node(self, m, node):
+		return self.forcing.ghg_level_at_node(m, node)
+
+	def ghg_level_period(self, m, period=None, nodes=None):
+		if nodes is None and period is not None:
+			start_node, end_node = self.tree.get_nodes_in_period(period)
+			nodes = range(start_node, end_node+1)
+		if period is None and nodes is None:
+			raise ValueError("Need to give function either nodes or the period")
+		#nodes = self.tree.get_num_nodes_period(period)
+		ghg_level = np.zeros(len(nodes))
+		for i in range(len(nodes)):
+			#node = self.tree.get_node(period, i)
+			ghg_level[i] = self._ghg_level_node(m, nodes[i])
+		return ghg_level
+
+	def ghg_level(self, m, periods=None):
+		if periods is None:
+			periods = self.tree.num_periods-1
+		if periods >= self.tree.num_periods:
+			ghg_level = np.zeros(self.tree.num_decision_nodes+self.tree.num_final_states)
+		else:
+			ghg_level = np.zeros(self.tree.num_decision_nodes)
+		for period in range(periods+1):
+			start_node, end_node = self.tree.get_nodes_in_period(period)
+			if period >= self.tree.num_periods:
+				add = end_node-start_node+1
+				start_node += add
+				end_node += add
+			nodes = np.array(range(start_node, end_node+1))
+			ghg_level[nodes] = self.ghg_level_period(m, nodes=nodes)
+		return ghg_level
 
 	def _damage_function_node(self, m, node):
 		"""Calculate the damage at any given node, based on mitigation actions.
@@ -300,72 +327,5 @@ class DLWDamage(Damage):
 			node = self.tree.get_node(period, i)
 			damages[i] = self._damage_function_node(m, node)
 		return damages
-
-
-if __name__ == "__main__":
-	from tree import TreeModel
-	from bau import DLWBusinessAsUsual
-	from cost import DLWCost
-	from damage import DLWDamage
-	from utility import EZUtility
-	from output_functions import *
-
-	t = TreeModel(decision_times=[0, 15, 45, 85, 185, 285, 385], prob_scale=1.0)
-	bau_default_model = DLWBusinessAsUsual()
-	bau_default_model.bau_emissions_setup(t)
-	c = DLWCost(t, bau_default_model.emit_level[0], g=92.08, a=3.413, join_price=2000.0, max_price=2500.0,
-				tech_const=1.5, tech_scale=0.0, cons_at_0=30460.0)
-	df = DLWDamage(tree=t, bau=bau_default_model, cons_growth=0.015, ghg_levels=[450, 650, 1000])
-	#df.damage_simulation(draws=4000000, peak_temp=6.0, disaster_tail=18.0, tip_on=True, 
-	#		temp_map=1, temp_dist_params=None, maxh=100.0, cons_growth=0.015)
-	df.import_damages()
-	df.forcing_init(sink_start=35.596, forcing_start=4.926, ghg_start=400, partition_interval=5,
-		forcing_p1=0.13173, forcing_p2=0.607773, forcing_p3=315.3785, absorbtion_p1=0.94835,
-		absorbtion_p2=0.741547, lsc_p1=285.6268, lsc_p2=0.88414)
-	
-	
-	m = np.array([0.61053004,0.79246812,0.58157155,1.01485702,0.88055513,0.78830025,0.63919678,
-				  1.27605078,1.23010852,1.27284628,0.93278258,1.02821083,0.94334363,0.94319353,
-				  0.57852567,1.30397034,1.15580694,1.22157915,1.13071263,1.25878603,1.1162571, 
-				  1.57046613,1.4283019, 1.70395503,1.59262015,1.68384978,1.56395966,1.74293419,
-				  1.63780257,1.38892971,0.4412861, 2.03792726,1.58020076,1.7380882, 1.50968748,
-				  1.75140343,1.62919952,1.32564331,1.25431191,1.75616436,1.5240563, 1.65222977,
-				  1.3323968, 1.8620841, 1.32573398,1.94555827,1.54948187,2.04135856,1.72350611,
-				  1.74782477,1.40318014,1.88609473,1.47565477,1.79073532,1.20956671,1.90214444,
-				  1.98376249,1.76240106,1.40637397,3.05066765,2.27157144,0.73707128,0.88290111])
-
-	u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0)
-	utility_t, cons_t, cost_t, ce_t = u.utility(m, return_trees=True)
-	
-	save_output(m, u, utility_t, cons_t, cost_t, ce_t)
-	delta_cons_tree, delta_cost_array = delta_consumption(m, u, cons_t, cost_t, 0.01)
-	save_sensitivity_analysis(m, u, utility_t, cons_t, cost_t, ce_t, delta_cons_tree, delta_cost_array)
-
-	# Constraint first period mitigation to 0.0
-	cfp_m, cfp_cons_tree, cfp_cost_array = constraint_first_period(m, u, 0.0)
-	cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t = u.utility(cfp_m, return_trees=True)
-	save_output(cfp_m, u cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t)
-	delta_cfp_cons_t, delta_cfp_cost_array = delta_consumption(cfp_m, u, cfp_cons_t, cfp_cost_t, 0.01)
-	save_sensitivity_analysis(cfp_m, u, cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t, 
-							  cfp_cons_tree, cfp_cost_array, "CFP")
-
-	
-	#res = gags_optimization(u, ga_pop=150, ga_generations=300, ga_cxprob=0.8, ga_mutprob=0.50, 
-	#				 upper_bound=3.0, gs_learning_rate=1.0, gs_iterations=100, gs_acc=1e-07, 
-	#				 num_features=63, topk=4, fixed_values=None, fixed_indicies=None)
-	#print "Starting Generic Algorithm \n"
-	#ga = GenericAlgorithm(300, 63, 50, 3.0, 0.80, 0.50, u.utility)
-	#pop, fitness = ga.run()
-
-	#sort_pop = pop[np.argsort(fitness)][::-1]
-	
-	#gs = GradientSearch(learning_rate=0.1, var_nums=63, utility=u, iterations=10, fixed_values=fixed_values)
-	#res = gs.run(initial_point_list=[m], topk=1)
-	
-
-	#print "Moving over to Gradient Descent \n"
-	#fixed_values = np.zeros(len(m))
-	#fixed_values[0] = m[0]
-	#m_hist = gd.run(u, m=m, alpha=0.1, num_iter=200)
 
 

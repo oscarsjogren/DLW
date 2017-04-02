@@ -1,3 +1,4 @@
+from __future__ import division, print_function
 import numpy as np
 import multiprocessing
 
@@ -17,7 +18,7 @@ class GenericAlgorithm(object):
 	TODO: Create and individual class.
 	"""
 	def __init__(self, pop_amount, num_generations, cx_prob, mut_prob, bound, num_feature, utility,
-				 fixed_values=None, fixed_indicies=None):
+				 fixed_values=None, fixed_indicies=None, print_progress=False):
 		self.num_feature = num_feature
 		self.pop_amount = pop_amount
 		self.num_gen = num_generations
@@ -27,6 +28,7 @@ class GenericAlgorithm(object):
 		self.bound = bound
 		self.fixed_values = fixed_values
 		self.fixed_indicies = fixed_indicies
+		self.print_progress = print_progress
 
 	def _generate_population(self, size):
 		"""Return 1D-array of random value in the given bound as the initial population.
@@ -163,7 +165,8 @@ class GenericAlgorithm(object):
 			for j in feature_index:
 				if self.fixed_indicies is not None and j in self.fixed_indicies:
 					continue
-				pop[i][j] = np.random.random()*scale
+				else:
+					pop[i][j] = max(0.0, pop[i][j]+(np.random.random()-0.5)*scale)
 	
 	def _uniform_mutation(self, pop, ind_prob, scale=2.0):
 		"""Mutates individual's elements. The individual has a probability
@@ -228,14 +231,14 @@ class GenericAlgorithm(object):
 		fitness = np.array([val[0] for val in fitness])
 		for g in range(0, self.num_gen):
 			print ("-- Generation {} --".format(g+1))
-			pop_select = self._select(np.copy(pop), rate=1) # this works since we have rate=1 ?!
+			pop_select = self._select(np.copy(pop), rate=1)
 			#pop_select = self._selection_tournament(pop, len(pop), 4, fitness)
 			#self._two_point_cross_over(pop_select)
 			self._uniform_cross_over(pop_select, 0.50)
-			#self._mutate(pop_select, 0.10, np.exp(-g/self.num_gen))
+			#do the check for mutation other here and save the indices
+			self._uniform_mutation(pop_select, 0.20, np.exp(-float(g)/self.num_gen)**2)
+			self._mutate(pop_select, 0.05)
 			
-			self._uniform_mutation(pop_select, 0.10,np.exp(-float(g)/self.num_gen)**2)
-
 			fitness_select = pool.map(self._evaluate, pop_select)
 			fitness_select = np.array([val[0] for val in fitness_select])
 			
@@ -251,7 +254,8 @@ class GenericAlgorithm(object):
 
 			pop = np.append(pop_survive, pop_new, axis=0)
 			fitness = np.append(fitness_survive, fitness_new, axis=0)
-			self._show_evolution(fitness, pop)
+			if self.print_progress:
+				self._show_evolution(fitness, pop)
 
 		fitness = pool.map(self._evaluate, pop)
 		fitness = np.array([val[0] for val in fitness])
@@ -265,7 +269,7 @@ class GradientSearch(object) :
 	"""
 
 	def __init__(self, learning_rate, var_nums, utility, accuracy=1e-06, iterations=100, 
-				 step=0.00001, fixed_values=None, fixed_indicies=None):
+				 step=0.00001, fixed_values=None, fixed_indicies=None, print_progress=False, scale_alpha=None):
 		self.alpha = learning_rate
 		self.u = utility
 		self.var_nums = var_nums
@@ -274,31 +278,22 @@ class GradientSearch(object) :
 		self.iterations = iterations
 		self.fixed_values  = fixed_values
 		self.fixed_indicies = fixed_indicies
+		self.print_progress = print_progress
+		self.scale_alpha = scale_alpha
+		if scale_alpha is None:
+			self.scale_alpha = np.exp(np.linspace(0.0, 3.0, var_nums))
 
 	def _initial_values(self, size):
 		m = np.random.random(size) * 2
 		return m
 	
-	def _gradient(self, x): # not used
-		"""
-		Use the centered formula for gradient calculation
-		"""
-		base = np.array([x] * len(x))
-		shift = np.diag([self.step] * len(x))
-		base_plus = base + shift
-		base_minus = base - shift
-		utility_plus = np.apply_along_axis(self.u.utility, 1, base_plus)
-		utility_minus = np.apply_along_axis(self.u.utility, 1, base_minus)
-		gradient_val = (utility_plus - utility_minus) / (2 * self.step)
-		return gradient_val.flatten()
-	
-	def _dynamic_alpha(self, x_increase, grad_increase):
+	def _dynamic_alpha(self, x_increase, grad_increase, grad_size):
 		if np.all(grad_increase == 0):
-			return 0.0
-		return np.abs(np.dot(x_increase, grad_increase) /  np.square(grad_increase).sum())
+			return np.zeros(grad_size)
+		cons = np.abs(np.dot(x_increase, grad_increase) /  np.square(grad_increase).sum())
+		return cons*self.scale_alpha
 
-
-	def gradient_descent(self, initial_point):
+	def gradient_descent(self, initial_point, return_last=False):
 		"""
 		Annealing the learning rate. Step decay: Reduce the learning rate by some factor every few epochs.
 		Typical values might be reducing the learning rate by a half every 5 epochs,
@@ -310,28 +305,34 @@ class GradientSearch(object) :
 		u_hist[0] = self.u.utility(initial_point)
 		x_hist[0] = initial_point
 		prev_grad = 0.0
-
+		
 		for i in range(self.iterations):
-			grad = self.u.numerical_gradient(x_hist[i])
+			grad = self.u.numerical_gradient(x_hist[i], fixed_indicies=self.fixed_indicies)
 			if i != 0:
-				learning_rate = self._dynamic_alpha(x_hist[i]-x_hist[i-1], grad-prev_grad)
+				learning_rate = self._dynamic_alpha(x_hist[i]-x_hist[i-1], grad-prev_grad, len(grad))
 
 			new_x = x_hist[i] + grad*learning_rate
 			if self.fixed_values is not None:
 				new_x[self.fixed_indicies] = self.fixed_values
+			
 			current = self.u.utility(new_x)[0]
 			x_hist[i+1] = new_x
 			u_hist[i+1] = current
 			prev_grad = grad.copy()
-			if i > 25:
-				x_diff = np.abs(x_hist[i+1] - x_hist[i]).sum()
-				u_diff = np.abs(u_hist[i+1] - u_hist[i])
-				if x_diff < 1e-04 or u_diff < self.accuracy:
-					print("Broke iteration..")
-					break
-			print("-- Interation {} -- \n Current Utility: {}".format(i+1, current))
-
-		return x_hist[i+1], current
+			#if i > 50:
+			#	x_diff = np.abs(x_hist[i+1] - x_hist[i]).sum()
+			#	u_diff = np.abs(u_hist[i+1] - u_hist[i])
+			#	if x_diff < self.accuracy or u_diff < self.accuracy:
+			#		print("Broke iteration..")
+			#		break
+			if self.print_progress:
+				print("-- Interation {} -- \n Current Utility: {}".format(i+1, current))
+				print(new_x)
+	
+		if return_last:
+			return x_hist[i+1], u_hist[i+1]
+		best_index = np.argmax(u_hist)
+		return x_hist[best_index], u_hist[best_index]
 
 	def run(self, topk=4, initial_point_list=None, size=None):
 		"""Initiate the gradient search algorithm. 
@@ -365,7 +366,33 @@ class GradientSearch(object) :
 			mitigations.append(m)
 			utilities[count] = u
 		best_index = np.argmax(utilities)
+	
 		return mitigations[best_index], utilities[best_index]
+
+
+class NodeMaximum(object):
+
+	@staticmethod
+	def _min_func(x, m, i, utility):
+  		m_copy = m.copy()
+   		m_copy[i] = x
+   		return -utility.utility(m_copy)[0]
+
+	@classmethod
+	def run(cls, m, utility):
+		from scipy.optimize import fmin
+		print("Utility before {}".format(utility.utility(m)[0]))
+		print("Starting maximizing node wise..")
+		for i in range(len(m))[::-1]:
+			m[i] = fmin(cls._min_func, x0=m[i], args=(m, i, utility), disp=False)
+		print("Done!")
+		print("Utility after {}".format(utility.utility(m)[0]))
+		return m
+
+
+
+
+
 
 
 

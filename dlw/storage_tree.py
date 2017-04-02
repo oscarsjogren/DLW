@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 from abc import ABCMeta, abstractmethod
 
@@ -114,17 +115,7 @@ class BaseStorageTree(object):
 			writer.writerow([header])
 			for row in write_lst:
 				writer.writerow(row)
-
-	def write_csv(self, file_name):
-		"""Save the entire tree as csv-file."""
-		from tools import write_csv_dict
-		write_csv_dict(self.tree, file_name)
-
-	def write_decision_times_csv(self, file_name):
-		"""Save the data in decision periods as csv-file."""
-		from tools import write_csv_dict
-		write_csv_dict(self.tree, file_name, self.decision_times[:-1])
-
+	
 	def write_columns(self, file_name, header, start_year):
 		from tools import write_columns_csv, file_exists
 		if file_exists(file_name):
@@ -141,15 +132,14 @@ class BaseStorageTree(object):
 					nodes.append(k)
 					output_lst.append(self.tree[t][n])
 					k += 1
-
-			write_columns_csv([output_lst], file_name, ["Year", "Node", header], [years, nodes])
+			write_columns_csv(lst=[output_lst], file_name=file_name, header=["Year", "Node", header], index=[years, nodes])
 
 	def write_columns_existing(self, file_name, header):
 		from tools import write_columns_to_existing
 		output_lst = []
 		for t in self.decision_times[:-1]:
 			output_lst.extend(self.tree[t])
-		write_columns_to_existing(output_lst, file_name, header)
+		write_columns_to_existing(lst=output_lst, file_name=file_name, header=header)
 
 
 class SmallStorageTree(BaseStorageTree):
@@ -193,6 +183,7 @@ class BigStorageTree(BaseStorageTree):
 							 self.subinterval_len)
 		self._init_tree()
 
+	@property
 	def first_period_intervals(self):
 		"""Returns the number of subintervals in the first period."""
 		return int((self.decision_times[1] - self.decision_times[0]) / self.subinterval_len)
