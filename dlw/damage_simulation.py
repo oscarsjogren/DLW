@@ -14,23 +14,70 @@ copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)
 class DamageSimulation(object):
     """Simulation of damages for the DLW-model.
 
-    Parameters:
-        tree (obj: 'TreeModel'): Provides the tree structure used.
-        ghg_levels (ndarray or list): End GHG levels for each path.
-        peak_temp (float): Determines the probability of a tipping point.
-        disaster_tail (float): Curvature of the cost function.
-        tip_on (bool): Flag that turns tipping points on or off.
-        temp_map (int): The mapping from GHG to temperature.
-            0 implies Pindyck displace gamma
-            1 implies Wagner-Weitzman normal
-            2 implies Roe-Baker
-            3 implies user-defined normal 
-            4 implies user-defined gamma
-        temp_dist_params (ndarray or list): If temp_map is either 3 or 4, user needs
-            to define the distribution parameters. 
-        maxh (float): Time paramter from Pindyck which indicates the time it takes for temp to get half 
-            way to its max value for a given level of ghg.
-        cons_growth (float): Yearly growth in consumption.
+    The damage function simulation is a key input into the pricing engine. Damages are 
+    represented in arrays of dimension n x p, where n = num states and p = num periods.
+    The arrays are created by Monte Carlo simulation. Each array specifies for each state 
+    and time period a damage coefficient. 
+
+    Up to a point, the Monte Carlo follows Pindyck (2012) Uncertain Outcomes and Climate Change 
+    Policy:
+        - There is a gamma distribution for temperature
+        - There is a gamma distribution for economic impact (conditional on temperature)
+
+    However, in addition, this program adds a probability of a tipping point (conditional on temperature).
+    This probability is a decreasing function of the parameter `peak_temp`, conditional on a tipping
+    point. Damage itself is a decreasing function of the parameter `disaster_tail`.
+
+    Parameters
+    ----------
+    tree : `TreeModel` object
+        tree structure used
+    ghg_levels : ndarray or list
+        end GHG level for each path
+    peak_temp : float
+        tipping point parameter 
+    disaster_tail : float
+        curvature of tipping point
+    tip_on : bool
+        flag that turns tipping points on or off
+    temp_map : int
+        mapping from GHG to temperature
+            **0** implies Pindyck displace gamma
+            **1** implies Wagner-Weitzman normal
+            **2** implies Roe-Baker
+            **3** implies user-defined normal 
+            **4** implies user-defined gamma
+    temp_dist_params : ndarray or list
+        if temp_map is either 3 or 4, user needs to define the distribution parameters
+    maxh : float
+        time paramter from Pindyck which indicates the time it takes for temp to get half 
+            way to its max value for a given level of ghg
+    cons_growth : float 
+        yearly growth in consumption
+
+    Attributes
+    ----------
+    tree : `TreeModel` object
+        tree structure used
+    ghg_levels : ndarray or list
+        end GHG level for each path
+    peak_temp : float
+        tipping point parameter 
+    disaster_tail : float
+        curvature of tipping point
+    tip_on : bool
+        flag that turns tipping points on or off
+    temp_map : int
+        mapping from GHG to temperature
+    temp_dist_params : ndarray or list
+        if temp_map is either 3 or 4, user needs to define the distribution parameters
+    maxh : float
+        time paramter from Pindyck which indicates the time it takes for temp to get half 
+            way to its max value for a given level of ghg
+    cons_growth : float 
+        yearly growth in consumption
+    d : ndarray
+        simulated damages
 
     """
   
@@ -68,13 +115,6 @@ class DamageSimulation(object):
     def _normal_simulation(self):
         """Draw random samples from normal distribution for mapping GHG to temperature for 
         user-defined distribution parameters.
-        
-        Args:
-            draws (int): Number of draws from distribution.
-
-        Returns: 
-            ndarray
-
         """
         assert self.temp_dist_params and len(self.temp_dist_params) == 2, "Normal distribution needs 2 parameters."
 
@@ -86,13 +126,6 @@ class DamageSimulation(object):
     def _gamma_simulation(self):
         """Draw random samples from gamma distribution for mapping GHG to temperature for 
         user-defined distribution parameters.
-        
-        Args:
-            draws (int): Number of draws from distribution.
-
-        Returns: 
-            ndarray
-
         """
         assert self.temp_dist_params and len(self.temp_dist_params) == 3, "Gamma distribution needs 3 parameters."
 
@@ -102,17 +135,10 @@ class DamageSimulation(object):
                          + displace[i] for i in range(0, n)])
 
     def _pindyck_simulation(self):
-        """Draw random samples for mapping GHG to temperature based on Pindyck. The
-        pindyck_impact_k  is the shape parameter from Pyndyck damage function, 
-        pindyck_impact_theta the scale parameter from Pyndyck damage function, and pindyck_impact_displace 
-        the displacement parameter from Pyndyck damage function.
-
-        Args:
-            draws (int): Number of draws from distribution.
-
-        Returns: 
-            ndarray: Damages.
-
+        """Draw random samples for mapping GHG to temperature based on Pindyck. The `pindyck_impact_k` 
+        is the shape parameter from Pyndyck damage function, `pindyck_impact_theta` the scale parameter 
+        from Pyndyck damage function, and `pindyck_impact_displace` the displacement parameter from Pyndyck
+        damage function.
         """
         pindyck_temp_k = [2.81, 4.6134, 6.14]
         pindyck_temp_theta = [1.6667, 1.5974, 1.53139]
@@ -121,15 +147,7 @@ class DamageSimulation(object):
                          + pindyck_temp_displace[i] for i in range(0, 3)])
 
     def _ww_simulation(self):
-        """Draw random samples for mapping GHG to temperature based on Wagner-Weitzman.
-
-        Args:
-            draws (int): Number of draws from distribution.
-
-        Returns: 
-            ndarray
-
-        """
+        """Draw random samples for mapping GHG to temperature based on Wagner-Weitzman."""
         ww_temp_ave = [0.573, 1.148, 1.563]
         ww_temp_stddev = [0.462, 0.441, 0.432]
         temperature = np.array([self._normal_array(ww_temp_ave[i], ww_temp_stddev[i], self.draws) 
@@ -137,15 +155,7 @@ class DamageSimulation(object):
         return np.exp(temperature)
 
     def _rb_simulation(self):
-        """Draw random samples for mapping GHG to temperature based on Roe-Baker.
-
-        Args:
-            draws (int): Number of draws from distribution.
-
-        Returns: 
-            ndarray
-
-        """        
+        """Draw random samples for mapping GHG to temperature based on Roe-Baker."""        
         rb_fbar = [0.75233, 0.844652, 0.858332]
         rb_sigf = [0.049921, 0.033055, 0.042408]
         rb_theta = [2.304627, 3.333599, 2.356967]
@@ -154,15 +164,7 @@ class DamageSimulation(object):
         return np.maximum(0.0, (1.0 / (1.0 - temperature)) - np.array(rb_theta)[:, np.newaxis])
 
     def _pindyck_impact_simulation(self):
-        """Pindyck gamma distribution mapping temperature into damages.
-
-        Args:
-            draws (int): Number of draws from distribution.
-            
-        Returns:
-            ndarray
-
-        """
+        """Pindyck gamma distribution mapping temperature into damages."""
         pindyck_impact_k=4.5
         pindyck_impact_theta=21341.0
         pindyck_impact_displace=-0.0000746,
@@ -172,49 +174,22 @@ class DamageSimulation(object):
 
     def _disaster_simulation(self):
         """Simulating disaster random variable, allowing for a tipping point to occur
-        with a given probability, leading to a disaster and a "disaster_tail" impact on consumption.
-
-        Args:
-            draws (int): Number of draws from distribution.
-
-        Returns:
-            ndarray
-
+        with a given probability, leading to a disaster and a `disaster_tail` impact on consumption.
         """
         disaster = self._uniform_array((self.draws, self.tree.num_periods))
         return disaster
 
     def _disaster_cons_simulation(self):
-        """Simulates consumption conditional on disaster, based on the parameter disaster_tail.
-
-        Args:
-            draws (int): Number of draws from distribution.
-    
-        Returns:
-            ndarray
-
-        """
+        """Simulates consumption conditional on disaster, based on the parameter disaster_tail."""
         disaster_cons = self._gamma_array(1.0, self.disaster_tail, self.draws)
         return disaster_cons
 
-    def _interpolation_of_temp(self, temperature): # what to call this one?
-        """
-
-
-        """
+    def _interpolation_of_temp(self, temperature): 
         return temperature[:, np.newaxis] * 2.0 * (1.0 - 0.5**(self.tree.decision_times[1:] / self.maxh))
       
 
     def _economic_impact_of_temp(self, temperature):
-        """Economic impact of temperatures, Pindyck [2009].
-
-        Args:
-            temperature (ndarray): Array of simulated temperatures.
-
-        Returns:
-            ndarray: Consumptions.
-
-        """
+        """Economic impact of temperatures, Pindyck [2009]."""
         impact = self._pindyck_impact_simulation()
         term1 = -2.0 * impact[:, np.newaxis] * self.maxh * temperature[:,np.newaxis] / np.log(0.5)
         term2 = (self.cons_growth - 2.0 * impact[:, np.newaxis] \
@@ -226,17 +201,6 @@ class DamageSimulation(object):
     def _tipping_point_update(self, tmp, consump, peak_temp_interval=30.0):
         """Determine whether a tipping point has occurred, if so reduce consumption for 
         all periods after this date.
-
-        Args:
-            tmp (ndarray): Array of temperatures.
-            damage (ndarray): Array of damages.
-            consump (ndarray): Array of consumption.
-            peak_temp_interval (float): The normalization of the peak_temp parameter period length, 
-                which specifies the probability of a tipping point(temperature) over a given time interval.
-
-        Returns:
-            ndarray: Updated consumptions.
-
         """
         draws = tmp.shape[0]
         disaster = self._disaster_simulation()
@@ -256,16 +220,9 @@ class DamageSimulation(object):
         return consump
 
     def _run_path(self, temperature):
-        """Calculate the distribution of damage for specific GHG-path. 
-
-        Args:
-            temperature (ndarray): Array of simulated temperatures.
-
-        Returns:
-            ndarray: Distribution of damages.
-
+        """Calculate the distribution of damage for specific GHG-path. Implementation of 
+        the temperature and economic impacts from Pindyck [2012] page 6.
         """
-        # implementation of the temperature and economic impacts from Pindyck [2012] page 6
         d = np.zeros((self.tree.num_final_states, self.tree.num_periods))
         tmp = self._interpolation_of_temp(temperature)
         consump = self._economic_impact_of_temp(temperature)
@@ -289,31 +246,22 @@ class DamageSimulation(object):
     def simulate(self, draws, write_to_file=True):
         """Create damage function values in 'p-period' version of the Summers - Zeckhauser model.
 
-        The damage function simulation is a key input into the pricing engine. Damages are 
-        represented in arrays of dimension n x p, where n = num states and p = num periods.
-        The arrays are created by Monte Carlo simulation. Each array specifies for each state 
-        and time period a damage coefficient. GHG levels are increasing along a path that leads
-        to a given level at a given time in the future, e.g. a path in which GHG = 1000 ppm in 2200
-        a state, 1 ... num_states is an index of the worst to best damage outcomes. For each state
-        d(1,i) gives the average percentage damage that occurs at the end of period one in that state.
-        For each state d(2,i) gives the average percentage damage that occurs at the end of period two
-        in that state, and so on. These d arrays determine the damage in optimizations that follow. 
+        Parameters
+        ----------
+        draws : int
+            number of samples drawn in Monte Carlo simulation.
+        write_to_file : bool, optional
+            wheter to save simulated values 
+       
+        Returns
+        -------
+        ndarray 
+            3D-array of simulated damages 
 
-        Up to a point, the Monte Carlo follows Pindyck (2012) Uncertain Outcomes and Climate Change 
-        Policy:
-            - There is a gamma distribution for temperature
-            - There is a gamma distribution for economic impact (conditional on temp)
-
-        However, in addition, this program adds a probability of a tipping point (conditional on temp).
-        This probability is a decreasing function of the parameter peak_temp, conditional on a tipping
-        point. Damage itself is a decreasing function of the parameter disaster_tail.
-
-        Args:
-            dist_params (ndarray or list): Distribution parameters for temperature simulation.
-            draws (int): Number of samples drawn in Monte Carlo simulation.
-
-        Returns:
-            ndarray: 3D-array of simulated damages.
+        Raises
+        ------
+        ValueError
+            If temp_map is not in the interval 0-4.         
 
         """
         dnum = len(self.ghg_levels)

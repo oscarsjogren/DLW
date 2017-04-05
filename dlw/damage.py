@@ -7,9 +7,19 @@ from forcing import Forcing
 class Damage(object):
 	"""Abstract damage class for the DLW-model.
 
-	Parameters:
-		tree (obj: 'TreeModel'): Provides the tree structure used.
-		bau (obj: 'BusinessAsUsual'): Business-as-usual scenario of emissions.
+	Parameters
+	----------
+	tree : `TreeModel` object
+		provides the tree structure used
+	bau : `BusinessAsUsual` object
+		business-as-usual scenario of emissions
+
+	Attributes
+	----------
+	tree : `TreeModel` object
+		provides the tree structure used
+	bau : `BusinessAsUsual` object
+		business-as-usual scenario of emissions
 
 	"""
 	__metaclass__ = ABCMeta
@@ -34,26 +44,51 @@ class Damage(object):
 class DLWDamage(Damage):
 	"""Damage class for the DLW-model. Provides the damages from emissions and mitigation outcomes.
 
-	Parameters:
-		tree (obj: 'TreeModel'): Provides the tree structure used.
-		bau (obj: 'BusinessAsUsual'): Business-as-usual scenario of emissions.
-		cons_growth (float): Constant consumption growth rate.
-		ghg_levels (ndarray or list): End GHG levels for each end scenario.
+	Parameters
+	----------
+	tree : `TreeModel` object
+		provides the tree structure used
+	bau : `BusinessAsUsual` object
+		business-as-usual scenario of emissions
+	cons_growth : float
+		constant consumption growth rate
+	ghg_levels : ndarray or list
+		end GHG levels for each end scenario
 
-	TODO:
-		* re-write the _recombine_nodes
+	Attributes
+	----------
+	tree : `TreeModel` object
+		provides the tree structure used
+	bau : `BusinessAsUsual` object
+		business-as-usual scenario of emissions
+	cons_growth : float
+		constant consumption growth rate
+	ghg_levels : ndarray or list
+		end GHG levels for each end scenario
+	dnum : int 
+		number of simulated damage paths
+	d : ndarray
+		simulated damages 
+	cum_forcing : ndarray
+		cumulative forcing interpolation coeffiecients, used to calculate forcing based mitigation 
+	forcing : `Forcing` object
+		class for calculating cumulative forcing and GHG levels
+	damage_coefs : ndarray
+		interpolation coefficients used to calculate damages
+
 	"""
 
-	def __init__(self, tree, bau, cons_growth, ghg_levels):
+	def __init__(self, tree, bau, cons_growth, ghg_levels, subinterval_len):
 		super(DLWDamage, self).__init__(tree, bau)
 		self.ghg_levels = ghg_levels
 		if isinstance(self.ghg_levels, list):
 			self.ghg_levels = np.array(self.ghg_levels)
 		self.cons_growth = cons_growth
 		self.dnum = len(ghg_levels)
+		self.subinterval_len = subinterval_len
 		self.cum_forcings = None
 		self.d = None
-		self.forcing = None
+		self.emit_pct = None
 		self.damage_coefs = None
 
 	def _recombine_nodes(self):
@@ -96,13 +131,15 @@ class DLWDamage(Damage):
 				self.tree.node_prob[node] = self.tree.final_states_prob[worst_end_state:best_end_state+1].sum()
 
 	def _damage_interpolation(self):
-		"""Create the interpolation coeffiecients used to calculate damages.
-		"""
+		"""Create the interpolation coeffiecients used in `damage_function`."""
 		if self.d is None:
 			print("Importing stored damage simulation")
 			self.import_damages()
 
 		self._recombine_nodes()
+		if self.emit_pct is None:
+			bau_emission = self.bau.ghg_end - self.bau.ghg_start
+			self.emit_pct = 1.0 - (self.ghg_levels-self.bau.ghg_start) / bau_emission
 		
 		self.damage_coefs = np.zeros((self.tree.num_final_states, self.tree.num_periods, self.dnum-1, self.dnum))
 		amat = np.ones((self.tree.num_periods, self.dnum, self.dnum))
@@ -120,10 +157,24 @@ class DLWDamage(Damage):
 			bmat[:, 1:] = self.d[:-1, state, :].T
 			self.damage_coefs[state, :, 0] = np.linalg.solve(amat, bmat)
 
-	def import_damages(self, loc="simulated_damages"):
+	def import_damages(self, file_name="simulated_damages"):
+		"""Import saved simulated damages. File must be saved in 'data' directory
+		inside current working directory. Save imported values in `d`. 
+
+		Parameters
+		----------
+		file_name : str, optional
+			name of file of saved simulated damages
+
+		Raises
+		------
+		IOError
+			If file does not exist.
+
+		"""
 		from tools import import_csv
 		try:
-			d = import_csv(loc, ignore="#", header=False)
+			d = import_csv(file_name, ignore="#", header=False)
 		except IOError as e:
 			import sys
 			print("Could not import simulated damages:\n\t{}".format(e))
@@ -132,17 +183,41 @@ class DLWDamage(Damage):
 		n = self.tree.num_final_states	
 		self.d = np.array([d[n*i:n*(i+1)] for i in range(0, self.dnum)])
 
-	def damage_simulation(self, draws, peak_temp, disaster_tail, tip_on, temp_map, temp_dist_params,
-				          maxh, cons_growth, save_simulation=True):					  	  
-		"""Initializion of simulation of damages. Either import stored simulation 
-		of damages or simulate new values.
+	def damage_simulation(self, draws, peak_temp=9.0, disaster_tail=12.0, tip_on=True, 
+		temp_map=1, temp_dist_params=None, maxh=100.0, cons_growth=0.015, save_simulation=True):
+		"""Initializion and simulation of damages, given by `DamageSimulation` class.
 
-		Args:
-			import_damages (bool): If program should import already stored values.
-				Default is True.
-			**kwargs: Arguments to initialize DamageSimulation class, in the
-				case of import_damages = False. See DamageSimulation class for 
-				more info.
+		Parameters
+		----------
+		draws : int
+			number of Monte Carlo draws
+		peak_temp : float, optional 
+			tipping point parameter 
+	    disaster_tail : float, optional
+	    	curvature of tipping point
+	    tip_on : bool, optional
+	    	flag that turns tipping points on or off
+	    temp_map : int, optional
+	    	mapping from GHG to temperature
+	            **0** implies Pindyck displace gamma
+	            **1** implies Wagner-Weitzman normal
+	            **2** implies Roe-Baker
+	            **3** implies user-defined normal 
+	            **4** implies user-defined gamma
+	    temp_dist_params : ndarray or list, optional
+	    	if temp_map is either 3 or 4, user needs to define the distribution parameters
+	    maxh : float, optional
+	    	time paramter from Pindyck which indicates the time it takes for temp to get half 
+	            way to its max value for a given level of ghg
+	    cons_growth : float, optional 
+	    	yearly growth in consumption
+	    save_simulation : bool, optional
+	    	True if simulated values should be save, False otherwise
+		
+	    Returns
+	    -------
+	    ndarray
+	    	simulated damages
 
 		"""
 		ds = DamageSimulation(tree=self.tree, ghg_levels=self.ghg_levels, peak_temp=peak_temp,
@@ -152,15 +227,7 @@ class DLWDamage(Damage):
 		return self.d
 
 	def _forcing_based_mitigation(self, forcing, period): 
-		"""Calculation of mitigation based on forcing up to period.
-
-		Args:
-			forcing (float): Cumulative forcing up to node.
-			period (int): Period of node.
-
-		Returns:
-			float: Mitigation.
-		"""
+		"""Calculation of mitigation based on forcing up to period."""
 		p = period - 1
 		if forcing > self.cum_forcings[p][1]:
 			weight_on_sim2 = (self.cum_forcings[p][2] - forcing) / (self.cum_forcings[p][2] - self.cum_forcings[p][1])
@@ -174,45 +241,43 @@ class DLWDamage(Damage):
 		
 		return weight_on_sim2 * self.emit_pct[1] + weight_on_sim3*self.emit_pct[0]
 
-	def forcing_init(self, sink_start, forcing_start, ghg_start, partition_interval, forcing_p1, 
-					 forcing_p2, forcing_p3, absorbtion_p1, absorbtion_p2, lsc_p1, lsc_p2): 
-		"""Initialize Forcing object and cum_forcings used in calculating 
-		the mitigation up to a node. 
+	def _forcing_init(self):
+		"""Initialize `Forcing` object and cum_forcings used in calculating the force mitigation up to a node.""" 
+		if self.emit_pct is None:
+			bau_emission = self.bau.ghg_end - self.bau.ghg_start
+			self.emit_pct = 1.0 - (self.ghg_levels-self.bau.ghg_start) / bau_emission
 
-		Args:
-			**kwargs: Arguments to initialize Forcing object, see
-				Forcing class for more info.
-
-		"""
-		bau_emission = self.bau.ghg_end - self.bau.ghg_start
-		self.emit_pct = 1.0 - (self.ghg_levels-self.bau.ghg_start) / bau_emission
 		self.cum_forcings = np.zeros((self.tree.num_periods, self.dnum))
-		self.forcing = Forcing(self.tree, self.bau, sink_start, forcing_start, ghg_start, partition_interval,
-							forcing_p1, forcing_p2, forcing_p3, absorbtion_p1, absorbtion_p2, lsc_p1, lsc_p2)
-
 		mitigation = np.ones((self.dnum, self.tree.num_decision_nodes)) * self.emit_pct[:, np.newaxis]
-		path_ghg_levels = np.zeros((self.dnum, self.tree.num_periods+1))
-		path_ghg_levels[0,:] = self.bau.ghg_start
 
 		for i in range(0, self.dnum):
 			for n in range(1, self.tree.num_periods+1):
 				node = self.tree.get_node(n, 0)
-				self.cum_forcings[n-1, i] = self.forcing.forcing_at_node(mitigation[i], node, i)
+				self.cum_forcings[n-1, i] = Forcing.forcing_at_node(mitigation[i], node, self.tree,
+																	self.bau, self.subinterval_len)
 
-	def average_mitigation_node(self, m, node, period):
+	def average_mitigation_node(self, m, node, period=None):
 		"""Calculate the average mitigation until node.
 
-		Args:
-			m (ndarray): Array of mitigation.
-			node (int): The node for which average mitigation is to be calculated for.
-
-		Returns:
-			float: Average mitigation.
+		Parameters
+		----------
+		m : ndarray or list
+			array of mitigation
+		node : int
+			node for which average mitigation is to be calculated for
+		period : int, optional
+			the period the node is in
+	
+		Returns
+		-------
+		float
+			average mitigation
 
 		"""
 		if period == 0:
 			return 0
-		period = self.tree.get_period(node)
+		if period is None:
+			period = self.tree.get_period(node)
 		state = self.tree.get_state(node, period)
 		path = self.tree.get_path(node, period)
 		new_m = m[path[:-1]]
@@ -224,6 +289,19 @@ class DLWDamage(Damage):
 		return ave_mitigation / total_emission
 
 	def average_mitigation(self, m, period):
+		"""Calculate the average mitigation for all node in a period.
+
+		m : ndarray or list
+			array of mitigation
+		period : int
+			period to calculate average mitigation for
+		
+		Returns
+		-------
+		ndarray
+			average mitigations 
+
+		"""
 		nodes = self.tree.get_num_nodes_period(period)
 		ave_mitigation = np.zeros(nodes)
 		for i in range(nodes):
@@ -232,22 +310,53 @@ class DLWDamage(Damage):
 		return ave_mitigation
 
 	def _ghg_level_node(self, m, node):
-		return self.forcing.ghg_level_at_node(m, node)
+		return Forcing.ghg_level_at_node(m, node, self.tree, self.bau, self.subinterval_len)
 
 	def ghg_level_period(self, m, period=None, nodes=None):
+		"""Calculate the GHG levels corresponding to the given mitigation.
+		Need to provide either `period` or `nodes`.
+
+		Parameters
+		----------
+		m : ndarray or list
+			array of mitigation
+		period : int, optional
+			what period to calculate GHG levels for
+		nodes : ndarray or list, optional
+			the nodes to calculate GHG levels for
+		
+		Returns
+		-------
+		ndarray
+			GHG levels
+
+		"""
 		if nodes is None and period is not None:
 			start_node, end_node = self.tree.get_nodes_in_period(period)
 			nodes = range(start_node, end_node+1)
 		if period is None and nodes is None:
 			raise ValueError("Need to give function either nodes or the period")
-		#nodes = self.tree.get_num_nodes_period(period)
 		ghg_level = np.zeros(len(nodes))
 		for i in range(len(nodes)):
-			#node = self.tree.get_node(period, i)
 			ghg_level[i] = self._ghg_level_node(m, nodes[i])
 		return ghg_level
 
 	def ghg_level(self, m, periods=None):
+		"""Calculate the GHG levels for more than one period.
+
+		Parameters
+		----------
+		m : ndarray or list
+			array of mitigation
+		periods : int, optional
+			number of periods to calculate GHG levels for
+		
+		Returns
+		-------
+		ndarray
+			GHG levels 
+
+		"""
 		if periods is None:
 			periods = self.tree.num_periods-1
 		if periods >= self.tree.num_periods:
@@ -265,23 +374,16 @@ class DLWDamage(Damage):
 		return ghg_level
 
 	def _damage_function_node(self, m, node):
-		"""Calculate the damage at any given node, based on mitigation actions.
-
-		Args:
-			m (ndarray): Array of mitigation.
-			node (int): The node for which damage is to be calculated for.
-
-		Returns:
-			float: damage at node.
-
-		"""
+		"""Calculate the damage at any given node, based on mitigation actions in `m`."""
 		if self.damage_coefs is None:
 			self._damage_interpolation()
+		if self.cum_forcings is None:
+			self._forcing_init()
 		if node == 0:
 			return 0.0
 
 		period = self.tree.get_period(node)
-		forcing = self.forcing.forcing_at_node(m, node)
+		forcing = Forcing.forcing_at_node(m, node, self.tree, self.bau, self.subinterval_len)
 		force_mitigation = self._forcing_based_mitigation(forcing, period)
 
 		worst_end_state, best_end_state = self.tree.reachable_end_states(node, period=period)
@@ -296,7 +398,6 @@ class DLWDamage(Damage):
 					  + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 1] * force_mitigation \
 					  + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 2])).sum()
 		
-		######### what's happening here? ##############
 		else: 
 			damage = 0.0
 			i = 0
@@ -312,14 +413,20 @@ class DLWDamage(Damage):
 		return damage / probs.sum()
 
 	def damage_function(self, m, period):
-		"""Calculate the damage for every node in a period, based on mitigation actions.
+		"""Calculate the damage for every node in a period, based on mitigation actions `m`.
 
-		Args:
-			m (ndarray): Array of mitigation.
-			period (int): The period for which damage is to be calculated.
+		Parameters
+		----------
+		m : ndarray or list
+			array of mitigation
+		period : int
+			period to calculate damages for
+		
+		Returns
+		-------
+		ndarray
+			array of damages
 
-		Returns:
-			ndarray: Array of damages.
 		"""
 		nodes = self.tree.get_num_nodes_period(period)
 		damages = np.zeros(nodes)

@@ -3,43 +3,75 @@ import numpy as np
 from storage_tree import BigStorageTree
 
 
-
 def additional_ghg_emission(m, utility):
+	"""Calculate the emission added by every node.
+
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	
+	Returns
+	-------
+	ndarray
+		additional emission in nodes
+	
+	"""
 	additional_emission = np.zeros(len(m))
-	for i in range(len(m)):
-		period = utility.tree.get_period(i)
-		additional_emission[i] = (1.0 - m[i]) * utility.damage.bau.emission_to_ghg[period]
+	cache = set()
+	for node in range(utility.tree.num_final_states, len(m)):
+		path = utility.tree.get_path(node)
+		for i in range(len(path)):
+			if path[i] not in cache:
+				additional_emission[path[i]] = (1.0 - m[path[i]]) *  utility.damage.bau.emission_to_ghg[i]
+				cache.add(path[i])
 	return additional_emission
 
-def ghg_level(utility, additional_emissions):
-	""" dlw_tree_model in the end"""
-	ghg_levels = np.zeros(len(additional_emissions))
-	ghg_levels[0] = utility.damage.bau.ghg_start
-	for i in range(1, len(ghg_levels)):
-		ghg_levels[i] = ghg_levels[i-1] + additional_emissions[i-1]
-	return ghg_levels
-
-def new_ghg_level(m, utility):
-	periods = utility.tree.num_periods
-	ghg_levels = np.array([])
-	for period in range(periods):
-		ghg_levels = np.append(ghg_levels, utility.damage.ghg_level(m, period))
-	return ghg_levels
-
-def store_price(m, utility, file_name, run_name, delimiter=';'):
-	from tools import create_file
-	d = create_file(file_name) # creates a file if does not already exists and returns the path
-	price = utility.cost.price(0, m[0], 0)
-	with open(d, 'a') as f:
-		f.write(run_name + delimiter + str(price) + "\n")
-
 def store_trees(prefix=None, start_year=2015, **kwargs):
+	"""Saves values of `BaseStorageTree` objects. The file is saved into the 'data' directory
+	in the current working directory. If there is no 'data' directory, one is created. 
+
+	Parameters
+	----------
+	prefix : str, optional 
+		prefix to be added to file_name
+	start_year : int, optional
+		start year of analysis
+	**kwargs 
+		arbitrary keyword arguments of `BaseStorageTree` objects
+
+	"""
 	if prefix is None:
 		prefix = ""
 	for name, tree in kwargs.items():
 		tree.write_columns(prefix + "trees", name, start_year)
 
 def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
+	"""Calculate the changes in consumption and the mitigation cost component 
+	of consumption when increaseing period 0 mitigiation with `delta_m`.
+
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	cons_tree : `BigStorageTree` object
+		consumption storage tree of consumption values
+		from optimal mitigation values
+	cost_tree : `SmallStorageTree` object
+		cost storage tree of cost values from optimal mitigation values
+	delta_m : float 
+		value to increase period 0 mitigation by
+	
+	Returns
+	-------
+	tuple
+		(storage tree of changes in consumption, ndarray of costs in first sub periods)
+
+	"""
 	from optimization import GradientSearch
 
 	m_copy = m.copy()
@@ -48,20 +80,18 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	fixed_indicies = np.array([0])
 	gs = GradientSearch(learning_rate=0.0001, var_nums=len(m), utility=utility, fixed_values=fixed_values,
 					    fixed_indicies=fixed_indicies, iterations=50, print_progress=True)
-	new_m, new_utility = gs.gradient_descent(m_copy)
-	"""
-	new_m = np.array([ 0.70033867,0.86865245,0.67098035,1.06141196,0.97311665,0.97993871
-					,0.55132393,1.15705216,1.14675973,1.17721683,1.04983024,1.21784221
-					,0.96739575,0.78037597,0.40707034,0.99909131,0.99780697,1.01233518
-					,1.01040717,1.01673395,1.01446842,1.16169517,1.1328475, 1.01982179
-					,1.02177152,1.28702776,1.334815,1.57358229,1.09967642,0.7862151
-					,0.58370214,1.00033001,1.00382667,1.01144669,1.04556213,0.9961837
-					,0.99384797,1.01188767,1.07204843,0.99500551,0.98737794,0.99790583
-					,1.09990163,0.97023149,0.92715767,1.01660077,1.18930204,0.99816741
-					,0.99806466,1.26905728,0.85662665,0.97496219,0.97011147,0.24951529
-					,0.738269,1.06450414,1.89834871,1.41917625,1.56180019,1.41963751
-					,0.69262635,1.46785784,0.86731506])
-	"""
+	#new_m, new_utility = gs.gradient_descent(m_copy)
+	new_m = np.array([ 0.01, 0.78824846,0.58508793,1.0793555, 0.87276349,0.83227749
+					,0.59321162,1.23932217,1.23715003,1.12651173,0.70515073,1.02599857
+					,0.81972626,0.71812895,0.60490766,1.0000786, 0.99991533,0.99597102
+					,1.00342248,1.24811976,1.22865303,1.26025693,1.25489448,1.3550156
+					,1.39898312,1.63839418,1.39452366,1.6707743, 0.87281147,0.50159931
+					,0.59023953,0.99964796,1.02726416,1.08777123,0.97123516,1.08684712
+					,1.04915634,0.99814674,0.71325348,0.93816392,1.00285859,0.96058354
+					,0.93463693,1.67369065,1.71097296,1.50254306,2.20806497,1.00503636
+					,1.00486623,0.98147334,0.86463592,0.74216614,1.29771723,1.0178112
+					,0.66534999,1.14538711,0.39910146,0.99323851,1.89178438,1.96957663
+					,1.93852741,1.26593956,1.14926961])
 	new_utility_tree, new_cons_tree, new_cost_tree, new_ce_tree = utility.utility(new_m, return_trees=True)
 
 	for period in new_cons_tree.periods:
@@ -77,10 +107,28 @@ def delta_consumption(m, utility, cons_tree, cost_tree, delta_m):
 	return new_cons_tree, cost_array
 
 def constraint_first_period(m, utility, first_node):
+	"""Calculate the changes in consumption, the mitigation cost component of consumption,
+	and new mitigation values when constraining the first period mitigation to `first_node`.
+
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	first_node : float
+		value to constrain first period to
+	
+	Returns
+	-------
+	tuple
+		(new mitigation array, storage tree of changes in consumption, ndarray of costs in first sub periods)
+
+	"""
 	from optimization import GenericAlgorithm, GradientSearch
-	fixed_values = np.repeat(first_node, 3)
-	fixed_indicies = np.array([0,1,2])
-	ga_model = GenericAlgorithm(pop_amount=250, num_generations=250, cx_prob=0.8, mut_prob=0.5, bound=3.0,
+	fixed_values = np.array([first_node])
+	fixed_indicies = np.array([0])
+	ga_model = GenericAlgorithm(pop_amount=250, num_generations=200, cx_prob=0.8, mut_prob=0.5, bound=3.0,
 								num_feature=len(m), utility=utility, fixed_values=fixed_values, 
 								fixed_indicies=fixed_indicies, print_progress=True)
 
@@ -88,105 +136,197 @@ def constraint_first_period(m, utility, first_node):
 							  iterations=100, fixed_values=fixed_values, fixed_indicies=fixed_indicies, 
 							  print_progress=True)
 
-	final_pop, fitness = ga_model.run()
-	sort_pop = final_pop[np.argsort(fitness)][::-1]
-	new_m, new_utility = gs_model.run(initial_point_list=sort_pop, topk=2)
-	new_utility_tree, new_cons_tree, new_cost_tree, new_ce_tree = utility.utility(new_m, return_trees=True)
-	
-	for period in new_cons_tree.periods:
-		new_cons_tree.tree[period] = (new_cons_tree.tree[period]-cons_tree.tree[period]) / delta_m
+	#final_pop, fitness = ga_model.run()
+	#sort_pop = final_pop[np.argsort(fitness)][::-1]
+	#new_m, new_utility = gs_model.run(initial_point_list=sort_pop, topk=1)
+	new_m = np.array([ 0.,0.7882696, 0.58508105,1.07943186,0.8731261, 0.83241017
+					,0.59330286,1.23992245,1.23717968,1.1270462, 0.7050969, 1.02625494
+					,0.81955393,0.71807122,0.60503416,1.0005276, 1.0005276, 0.99536339
+					,1.00412582,1.24954285,1.22904588,1.26034804,1.25495678,1.35538958
+					,1.39976507,1.638699,1.39446657,1.67095233,0.87280804,0.50154055
+					,0.5902515, 0.99931359,1.02783932,1.08821456,0.97095914,1.08737374
+					,1.04944987,0.99851374,0.71316054,0.93899318,1.00331359,0.96113676
+					,0.93450013,1.67405632,1.71108871,1.50264644,2.20814373,1.00546816
+					,1.00594499,0.98282418,0.86421222,0.7407718, 1.29791955,1.01760887
+					,0.66529758,1.14576276,0.39895113,0.99319427,1.89182733,1.9695831
+					,1.93856945,1.26595294,1.14928655])
+	return new_m
 
-	first_period_intervals = new_cons_tree.first_period_intervals
-	cost_array = np.zeros((first_period_intervals, 2))
-	for i in range(first_period_intervals):
-		potential_consumption = (1.0 + utility.cons_growth)**(new_cons_tree.subinterval_len * i)
-		cost_array[i, 0] = potential_consumption * cost_tree[0]
-		cost_array[i, 1] = (potential_consumption * new_cost_tree[0] - cost_array[i, 0]) / delta_m
-	
-	return new_m, new_cons_tree, cost_array
 
 def find_ir(m, utility, payment, a=0.0, b=1.0): 
-    """
-      Function called by a zero root finder which is used
-      to find the price of a bond that creates equal utility at time 0 as adding .01 to the value of consumption in the final period
-      the purpose of this function is to find the interest rate embedded in the EZ Utility model
+	"""Find the price of a bond that creates equal utility at time 0 as adding `payment` to the value of 
+	consumption in the final period. The purpose of this function is to find the interest rate 
+	embedded in the `EZUtility` model. 
 
-      first calculate the utility with a final payment
-    """
-    from scipy.optimize import brentq
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	payment : float
+		value added to consumption in the final period
+	a : float, optional
+		initial guess
+	b : float, optional
+		initial guess - f(b) needs to give different sign than f(a)
+	
+	Returns
+	-------
+	tuple
+		result of optimization
 
-    def min_func(price):
-    	utility_with_final_payment = utility.adjusted_utility(m, final_cons_eps=payment)
-    	first_period_eps = payment * price
-    	utility_with_initial_payment = utility.adjusted_utility(m, first_period_consadj=first_period_eps)
-    	return utility_with_final_payment - utility_with_initial_payment
+	.. note:: requires the 'scipy' package
 
-    return brentq(min_func, a, b)
+	"""
+	from scipy.optimize import brentq
 
-def find_term_structure(m, utility, num_periods, payment, a=0.0, b=0.99): # or find_ir
-    """
-      Function called by a zero root finder which is used
-      to find the price of a bond that creates equal utility at time 0 as adding .01 to the value of consumption in the final period
-      the purpose of this function is to find the interest rate embedded in the EZ Utility model
+	def min_func(price):
+		utility_with_final_payment = utility.adjusted_utility(m, final_cons_eps=payment)
+		first_period_eps = payment * price
+		utility_with_initial_payment = utility.adjusted_utility(m, first_period_consadj=first_period_eps)
+		return utility_with_final_payment - utility_with_initial_payment
 
-      first calculate the utility with a final payment
-    """
-    from scipy.optimize import brentq
+	return brentq(min_func, a, b)
 
-    def min_func(price):
-    	period_cons_eps = np.zeros(num_periods)
-    	period_cons_eps[-2] = payment
-    	utility_with_payment = utility.adjusted_utility(m, period_cons_eps=period_cons_eps)
+def find_term_structure(m, utility, payment, a=0.0, b=0.99): 
+	"""Find the price of a bond that creates equal utility at time 0 as adding `payment` to the value of 
+	consumption in the final period. The purpose of this function is to find the interest rate 
+	embedded in the `EZUtility` model. 
 
-    	first_period_eps = payment * price
-    	utility_with_initial_payment = utility.adjusted_utility(m, first_period_consadj=first_period_eps)
-    	return  utility_with_payment - utility_with_initial_payment
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	payment : float
+		value added to consumption in the final period
+	a : float, optional
+		initial guess
+	b : float, optional
+		initial guess - f(b) needs to give different sign than f(a)
+	
+	Returns
+	-------
+	tuple
+		result of optimization
 
-    return brentq(min_func, a, b)
+	.. note:: requires the 'scipy' package
+
+	"""
+	from scipy.optimize import brentq
+	def min_func(price):
+		period_cons_eps = np.zeros(int(utility.decision_times[-1]/utility.period_len) + 1)
+		period_cons_eps[-2] = payment
+		utility_with_payment = utility.adjusted_utility(m, period_cons_eps=period_cons_eps)
+
+		first_period_eps = payment * price
+		utility_with_initial_payment = utility.adjusted_utility(m, first_period_consadj=first_period_eps)
+		return  utility_with_payment - utility_with_initial_payment
+
+	return brentq(min_func, a, b)
 
 def find_bec(m, utility, constraint_cost, a=-0.1, b=1.0):
-    """Used to find a value for consumption that equalizes utility at time 0 in two different solutions.
+	"""Used to find a value for consumption that equalizes utility at time 0 in two different solutions.
 
-    Args:
-    	m (ndarray): 1D-array of mitigation decisions.
-    	utility (obj 'Utility'): Object where the utility is calculated.
-    	constraint_cost (float): Difference in utility between two solutions.
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	constraint_cost : float
+		utility cost of constraining period 0 to zero
+	a : float, optional
+		initial guess
+	b : float, optional
+		initial guess - f(b) needs to give different sign than f(a)
+	
+	Returns
+	-------
+	tuple
+		result of optimization
 
-    Returns:
-    	float: Consumption of new solution.
-    """
-    from scipy.optimize import brentq
+	.. note:: requires the 'scipy' package
 
-    def min_func(delta_con):
-    	base_utility = utility.adjusted_utility(m)
-    	new_utility = utility.adjusted_utility(m, first_period_consadj=delta_con)
-    	return new_utility - base_utility - constraint_cost
+	"""
+	from scipy.optimize import brentq
 
-    return brentq(min_func, a, b)
+	def min_func(delta_con):
+		base_utility = utility.adjusted_utility(m)
+		new_utility = utility.adjusted_utility(m, first_period_consadj=delta_con)
+		return new_utility - base_utility - constraint_cost
+
+	return brentq(min_func, a, b)
 
 def perpetuity_yield(price, start_date, a=0.1, b=10.0):
-    """Function used to find the yield of a perpetuity starting at year 'start_date'.
+	"""Find the yield of a perpetuity starting at year `start_date`.
 
-    Args:
-    	price (float): Price of zero coupon bond maturing at 'start_date'.
-    	start_date (int): Start date of perpetuity.
-    	a (float): Initial guess.
-    	b (float): Initial guess.
+	Parameters
+	----------
+	price : float
+		price of bond ending at `start_date`
+	start_date : int
+		start year of perpetuity
+	a : float, optional
+		initial guess
+	b : float, optional
+		initial guess - f(b) needs to give different sign than f(a)
+	
+	Returns
+	-------
+	tuple
+		result of optimization
 
-    Returns:
-    	float: Perpetuity yield.
+	.. note:: requires the 'scipy' package
 
-    """
-    from scipy.optimize import brentq
+	"""
+	from scipy.optimize import brentq
 
-    def min_func(perp_yield):
-    	return price - (100. / (perp_yield+100.))**start_date * (perp_yield + 100)/perp_yield
+	def min_func(perp_yield):
+		return price - (100. / (perp_yield+100.))**start_date * (perp_yield + 100)/perp_yield
 
-    return brentq(min_func, a, b)
+	return brentq(min_func, a, b)
 
 
-def save_output(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, delta_cons_analysis=True,
-				constraint_first_period=True, prefix=None):
+def save_output(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, prefix=None):
+	"""Save the result of optimization and calculated values based on optimal mitigation. For every node the 
+	function calculates and saves:
+		* average mitigation
+		* average emission
+		* GHG level 
+		* SCC 
+	into the file `prefix` + 'node_period_output' in the 'data' directory in the current working directory. 
+
+	For every period the function calculates and appends:
+		* expected SCC/price
+		* expected mitigation 
+		* expected emission 
+	into the file  `prefix` + 'node_period_output' in the 'data' directory in the current working directory. 
+
+	The function also saves the values stored in the `BaseStorageTree` object parameters to a file called 
+	`prefix` + 'tree' in the 'data' directory in the current working directory. If there is no 'data' 
+	directory, one is created. 
+
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	utility_tree : `BigStorageTree` object
+		utility values from optimal mitigation values
+	cons_tree : `BigStorageTree` object
+		consumption values from optimal mitigation values
+	cost_tree : `SmallStorageTree` object
+		cost values from optimal mitigation values
+	ce_tree : `BigStorageTree` object
+		certain equivalence values from optimal mitigation values
+	prefix : str, optional
+		prefix to be added to file_name
+
+	"""
 	from tools import write_columns_csv, append_to_existing
 	bau = utility.damage.bau
 	tree = utility.tree
@@ -236,7 +376,47 @@ def save_output(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, delta_c
 
 	
 def save_sensitivity_analysis(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, prefix=None):
-	""" create_output in dlw_optimization. Maybe we only want to use gradient desecent here"""
+	"""Calculate and save sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the 
+	periods given by the utility calculations, the function calculates and saves:
+		* discount prices
+		* net expected damages
+		* expected damages
+		* risk premium
+		* expected SDF
+		* cross SDF & damages
+		* discounted expected damages
+		* cov term
+		* scaled net expected damages
+		* scaled risk premiums
+	into the file  `prefix` + 'sensitivity_output' in the 'data' directory in the current working directory. 
+
+	Furthermore, for every node the function calculates and saves:
+		* SDF 
+		* delta consumption
+		* forward marginal utility  
+		* up-node marginal utility
+		* down-node marginal utility
+	into the file `prefix` + 'tree' in the 'data' directory in the current working directory. If there is no 'data' 
+	directory, one is created. 
+
+	Parameters
+	----------
+	m : ndarray or list
+		array of mitigation
+	utility : `Utility` object
+		object of utility class
+	utility_tree : `BigStorageTree` object
+		utility values from optimal mitigation values
+	cons_tree : `BigStorageTree` object
+		consumption values from optimal mitigation values
+	cost_tree : `SmallStorageTree` object
+		cost values from optimal mitigation values
+	ce_tree : `BigStorageTree` object
+		certain equivalence values from optimal mitigation values
+	prefix : str, optional
+		prefix to be added to file_name
+
+	"""
 	from tools import write_columns_csv
 
 	sdf_tree = BigStorageTree(utility.period_len, utility.decision_times)
@@ -255,12 +435,11 @@ def save_sensitivity_analysis(m, utility, utility_tree, cons_tree, cost_tree, ce
 	discount_prices[0] = 1.0
 	cost_sum = 0
 
-	end_price = find_term_structure(m, utility, len(utility_tree), 0.01)
+	end_price = find_term_structure(m, utility, 0.01)
 	perp_yield = perpetuity_yield(end_price, sdf_tree.periods[-2])
 	print("Zero coupon bond maturing in {} years has price {} and perpetuity yield {}".format(int(sdf_tree.periods[-2]), end_price, perp_yield))
+	# save -^ somewhere
 
-	#grad = utility.numerical_gradient(m)
-	#years_to_maturity = utility_tree.last_period - utility_tree.subinterval_len
 	delta_cons_tree, delta_cost_array = delta_consumption(m, utility, cons_tree, cost_tree, 0.01)
 	mu_0, mu_1, mu_2 = utility.marginal_utility(m, utility_tree, cons_tree, cost_tree, ce_tree)
 	sub_len = sdf_tree.subinterval_len

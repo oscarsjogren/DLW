@@ -1,21 +1,64 @@
 from __future__ import division, print_function
 import numpy as np
 import multiprocessing
+from tools import _pickle_method, _unpickle_method
+try:
+    import copy_reg
+except:
+    import copyreg as copy_reg
+import types
+
+copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)
 
 class GenericAlgorithm(object):
-	"""Optimization algorithm for the DLW model. 
+	"""Optimization algorithm for the DLW-model. 
 
-	Args:
-		pop_amount (int): Number of individuals in the population.
-		num_feature (int): The number of elements in each individual, i.e. number of nodes in tree-model.
-		num_generations (int): Number of generations of the populations to be evaluated.
-		bound (float): Amount to reduce the 
-		cx_prob (float): Probability of mating.
-		mut_prob (float): Probability of mutation.
-		utility (obj 'Utility'): Utility object containing the valuation function.
-		constraints (ndarray): 1D-array of size (ind_size)
+	Parameters
+	----------
+	pop_amount : int
+		number of individuals in the population
+	num_feature : int 
+		number of elements in each individual, i.e. number of nodes in tree-model
+	num_generations : int 
+		number of generations of the populations to be evaluated
+	bound : float
+		upper bound of mitigation in each node
+	cx_prob : float
+		 probability of mating
+	mut_prob : float
+		probability of mutation.
+	utility : `Utility` object
+		object of utility class
+	fixed_values : ndarray, optional
+		nodes to keep fixed
+	fixed_indicies : ndarray, optional
+		indicies of nodes to keep fixed
+	print_progress : bool, optional
+		if the progress of the evolution should be printed
 
-	TODO: Create and individual class.
+	Attributes
+	----------
+	pop_amount : int
+		number of individuals in the population
+	num_feature : int 
+		number of elements in each individual, i.e. number of nodes in tree-model
+	num_generations : int 
+		number of generations of the populations to be evaluated
+	bound : float
+		upper bound of mitigation in each node
+	cx_prob : float
+		 probability of mating
+	mut_prob : float
+		probability of mutation.
+	u : `Utility` object
+		object of utility class
+	fixed_values : ndarray, optional
+		nodes to keep fixed
+	fixed_indicies : ndarray, optional
+		indicies of nodes to keep fixed
+	print_progress : bool, optional
+		if the progress of the evolution should be printed
+
 	"""
 	def __init__(self, pop_amount, num_generations, cx_prob, mut_prob, bound, num_feature, utility,
 				 fixed_values=None, fixed_indicies=None, print_progress=False):
@@ -31,12 +74,7 @@ class GenericAlgorithm(object):
 		self.print_progress = print_progress
 
 	def _generate_population(self, size):
-		"""Return 1D-array of random value in the given bound as the initial population.
-	    
-	    Returns:
-	    	ndarray: Array of random value in the given bound with the shape of ('pop_amount', 'num_feature').
-		"""
-		#pop = np.random.random([self.pop_amount, self.num_feature]).cumsum(axis=1)*0.1
+		"""Return 1D-array of random values in the given bound as the initial population."""
 		pop = np.random.random([size, self.num_feature])*self.bound
 		if self.fixed_values is not None:
 			for ind in pop:
@@ -44,26 +82,23 @@ class GenericAlgorithm(object):
 		return pop
 
 	def _evaluate(self, indvidual):
-		"""Returns the utility of given individual.
-	    
-	    Parameters
-	    	indvidual (ndarray or list): The shape of 'pop' define as 1 times of num_feature.
-	   
-	    Returns:
-	    	ndarray: Array with utility at time zero.
-
-		"""
+		"""Returns the utility of given individual."""
 		return self.u.utility(indvidual)
 
 	def _select(self, pop, rate):
 		"""Returns a 1D-array of selected individuals.
 	    
-	    Parameters:
-		    pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
-		    rate (float): The probability of an individual can be selected among population
+	    Parameters
+	    ----------
+	    pop : ndarray 
+	    	population given by 2D-array with shape ('pop_amount', 'num_feature')
+	    rate : float 
+	    	the probability of an individual being selected
 		    
-	    Returns:
-	    	ndarray: Selected individuals.
+	    Returns
+	    -------
+	    ndarray 
+	    	selected individuals
 
 		"""
 		index = np.random.choice(self.pop_amount, int(rate*self.pop_amount), replace=False)
@@ -72,28 +107,39 @@ class GenericAlgorithm(object):
 	def _random_index(self, individuals, size):
 		"""Generate a random index of individuals of size 'size'.
 
-		Args:
-			individuals (ndarray or list): 2D-array of individuals.
-			size (int): The number of indices to generate.
+		Parameters
+		----------
+		individuals : ndarray or list
+			2D-array of individuals
+		size : int 
+			number of indices to generate
 		
-		Returns:
-			ndarray: 1D-array of indices.
+		Returns
+		-------
+		ndarray 
+			1D-array of indices
 
 		"""
 		inds_size = len(individuals)
 		return np.random.choice(inds_size, size)
 
 	def _selection_tournament(self, pop, k, tournsize, fitness):
-	    """Select 'k' individuals from the input 'individuals' using 'k'
-	    tournaments of 'tournsize' individuals.
+	    """Select `k` individuals from the input `individuals` using `k`
+	    tournaments of `tournsize` individuals.
 	    
-	    Args:
-	    	individuals (ndarray or list): 2D-array of individuals to select from.
-	    	k (int): The number of individuals to select.
-	    	tournsize (int): The number of individuals participating in each tournament.
+	    Parameters
+	    ----------
+	    individuals : ndarray or list
+	    	2D-array of individuals to select from
+	    k : int
+	    	 number of individuals to select
+	    tournsize : int
+	    	number of individuals participating in each tournament
 	   
-	   	Returns:
-	   		ndarray: Selected individuals.
+	   	Returns
+	   	-------
+	   	ndarray s
+	   		selected individuals
 	    
 	    """
 	    chosen = []
@@ -110,8 +156,10 @@ class GenericAlgorithm(object):
 	def _two_point_cross_over(self, pop):
 		"""Performs a two-point cross-over of the population.
 	    
-	    Args:
-			pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
+	    Parameters
+	    ----------
+		pop : ndarray 
+			population given by 2D-array with shape ('pop_amount', 'num_feature')
 
 		"""
 		child_group1 = pop[::2]
@@ -133,9 +181,12 @@ class GenericAlgorithm(object):
 	def _uniform_cross_over(self, pop, ind_prob):
 		"""Performs a uniform cross-over of the population.
 	    
-	    Args:
-	    	pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
-	    	ind_prob (float): Probability of feature cross-over.
+	    Parameters
+	    ----------
+	    pop : ndarray
+	    	population given by 2D-array with shape ('pop_amount', 'num_feature')
+	    ind_prob : float
+	    	probability of feature cross-over
 	    
 		"""
 		child_group1 = pop[::2]
@@ -147,15 +198,18 @@ class GenericAlgorithm(object):
 					child1[i], child2[i] = child2[i], child1[i]
 
 	def _mutate(self, pop, ind_prob, scale=2.0):
-		"""Mutates individual's elements. The individual has a probability
-		of 'self.mut_prob' of beeing selected and every element in this 
-		individual has a probability 'ind_prob' of beeing mutated. The mutated
-		value is a random number.
+		"""Mutates individual's elements. The individual has a probability of `mut_prob` of 
+		beeing selected and every element in this individual has a probability `ind_prob` of beeing 
+		mutated. The mutated value is a random number.
 
-		Args:
-			pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
-	    	ind_prob (float): Probability of feature mutation.
-	    	scale (float): The scaling of the random generated number for mutation. 
+		Parameters
+		----------
+		pop : ndarray
+			population given by 2D-array with shape ('pop_amount', 'num_feature')
+	    ind_prob : float 
+	    	probability of feature mutation 
+	    scale : float 
+	    	scaling constant of the random generated number for mutation
 
 		"""
 		pop_tmp = np.copy(pop)
@@ -169,15 +223,18 @@ class GenericAlgorithm(object):
 					pop[i][j] = max(0.0, pop[i][j]+(np.random.random()-0.5)*scale)
 	
 	def _uniform_mutation(self, pop, ind_prob, scale=2.0):
-		"""Mutates individual's elements. The individual has a probability
-		of 'self.mut_prob' of beeing selected and every element in this 
-		individual has a probability 'ind_prob' of beeing mutated. The mutated
-		value is the current value plus a scaled uniform [-0.5,0.5] random value.
+		"""Mutates individual's elements. The individual has a probability of `mut_prob` of
+		beeing selected and every element in this individual has a probability `ind_prob` of beeing 
+		mutated. The mutated value is the current value plus a scaled uniform [-0.5,0.5] random value.
 
-		Args:
-			pop (ndarray): Population given by 2D-array with shape ('pop_amount', 'num_feature').
-	    	ind_prob (float): Probability of feature mutation.
-	    	scale (float): The scaling of the random generated number for mutation.
+		Parameters
+		----------
+		pop : ndarray
+			population given by 2D-array with shape ('pop_amount', 'num_feature')
+	    ind_prob : float 
+	    	probability of feature mutation 
+	    scale : float 
+	    	scaling constant of the random generated number for mutation
 
 	    """ 
 		pop_len = len(pop)
@@ -199,10 +256,23 @@ class GenericAlgorithm(object):
 		max_val = fits.max()
 		print (" Min {} \n Max {} \n Avg {}".format(min_val, max_val, mean))
 		print (" Std {} \n Population Size {}".format(std, length))
-		#print (" Best Individual: ", pop[np.argmax(fits)])
+		print (" Best Individual: ", pop[np.argmax(fits)])
 
 	def _survive(self, pop_tmp, fitness_tmp):
-		"""
+		"""The 80 percent of the individuals with best fitness survives to
+		the next generation.
+
+		Parameters
+		----------
+		pop_tmp : ndarray
+			population
+		fitness_tmp : ndarray
+			fitness values of `pop_temp`
+
+		Returns
+		-------
+		ndarray 
+			individuals that survived
 
 		"""
 		index_fits  = np.argsort(fitness_tmp)[::-1]
@@ -215,7 +285,8 @@ class GenericAlgorithm(object):
 
 	def run(self):
 		"""Start the evolution process.
-		The evolution steps:
+		
+		The evolution steps are:
 			1. Select the individuals to perform cross-over and mutation.
 			2. Cross over among the selected candidate.
 			3. Mutate result as offspring.
@@ -223,6 +294,11 @@ class GenericAlgorithm(object):
 			   80 percent of original population amount.
 			5. Random Generate 20 percent of original population amount new individuals 
 			   and combine the above new population.
+
+		Returns
+		-------
+		tuple
+			final population and the fitness for the final population
 		"""
 		print("----------------Genetic Evolution Starting----------------")
 		pop = self._generate_population(self.pop_amount)
@@ -264,16 +340,53 @@ class GenericAlgorithm(object):
 
 
 class GradientSearch(object) :
-	"""
-    reference the algorithm in http://cs231n.github.io/neural-networks-3/
+	"""Gradient search optimization algorithm for the DLW-model.
+
+	Parameters
+	----------
+	utility : `Utility` object
+		object of utility class
+	learning_rate : float
+		starting learning rate of gradient descent
+	var_nums : int
+		number of elements in array to optimize
+	accuracy : float
+		stop value for the gradient descent
+	fixed_values : ndarray, optional
+		nodes to keep fixed
+	fixed_indicies : ndarray, optional
+		indicies of nodes to keep fixed
+	print_progress : bool, optional
+		if the progress of the evolution should be printed
+	scale_alpha : ndarray, optional
+		array to scale the learning rate
+
+	Attributes
+	----------
+	utility : `Utility` object
+		object of utility class
+	learning_rate : float
+		starting learning rate of gradient descent
+	var_nums : int
+		number of elements in array to optimize
+	accuracy : float
+		stop value for the gradient descent
+	fixed_values : ndarray, optional
+		nodes to keep fixed
+	fixed_indicies : ndarray, optional
+		indicies of nodes to keep fixed
+	print_progress : bool, optional
+		if the progress of the evolution should be printed
+	scale_alpha : ndarray, optional
+		array to scale the learning rate
+
 	"""
 
-	def __init__(self, learning_rate, var_nums, utility, accuracy=1e-06, iterations=100, 
-				 step=0.00001, fixed_values=None, fixed_indicies=None, print_progress=False, scale_alpha=None):
+	def __init__(self, utility, learning_rate, var_nums, accuracy=1e-06, iterations=100, 
+				 fixed_values=None, fixed_indicies=None, print_progress=False, scale_alpha=None):
 		self.alpha = learning_rate
 		self.u = utility
 		self.var_nums = var_nums
-		self.step = step
 		self.accuracy = accuracy
 		self.iterations = iterations
 		self.fixed_values  = fixed_values
@@ -283,20 +396,76 @@ class GradientSearch(object) :
 		if scale_alpha is None:
 			self.scale_alpha = np.exp(np.linspace(0.0, 3.0, var_nums))
 
-	def _initial_values(self, size):
-		m = np.random.random(size) * 2
-		return m
+	def _partial_grad(self, i):
+		"""Calculate the ith element of the gradient vector."""
+		m_copy = self.m.copy()
+		m_copy[i] -= self.delta
+		minus_utility = self.u.utility(m_copy)
+		m_copy[i] += 2*self.delta
+		plus_utility = self.u.utility(m_copy)
+		grad = (plus_utility-minus_utility) / (2*self.delta)
+		return grad, i
+
+	def numerical_gradient(self, m, delta=1e-08, fixed_indicies=None):
+		"""Calculate utility gradient numerically.
+
+		Parameters
+		----------
+		m : ndarray or list
+			array of mitigation
+		delta : float, optional
+			change in mitigation 
+		fixed_indicies : ndarray or list, optional
+			indicies of gradient that should not be calculated
+
+		Returns
+		-------
+		ndarray
+			gradient
+
+		"""
+		self.delta = delta
+		self.m = m
+		if fixed_indicies is None:
+			fixed_indicies = []
+		grad = np.zeros(len(m))
+		if not isinstance(m, np.ndarray):
+			self.m = np.array(m)
+		pool = multiprocessing.Pool()
+		indicies = np.delete(range(len(m)), fixed_indicies)
+		res = pool.map(self._partial_grad, indicies)
+		for g, i in res:
+			grad[i] = g
+		pool.close()
+		pool.join()
+		del self.m
+		del self.delta
+		return grad
 	
 	def _dynamic_alpha(self, x_increase, grad_increase, grad_size):
+		"""Dynamic learning rate."""
 		if np.all(grad_increase == 0):
 			return np.zeros(grad_size)
 		cons = np.abs(np.dot(x_increase, grad_increase) /  np.square(grad_increase).sum())
 		return cons*self.scale_alpha
 
 	def gradient_descent(self, initial_point, return_last=False):
-		"""
-		Annealing the learning rate. Step decay: Reduce the learning rate by some factor every few epochs.
-		Typical values might be reducing the learning rate by a half every 5 epochs,
+		"""Gradient descent algorithm. The `initial_point` is updated in the direction
+		where the utility function is increases fastest.
+
+		Parameters
+		----------
+		initial_point : ndarray
+			initial guess of the mitigation
+		return_last : bool, optional
+			if True the function returns the last point, else the point 
+				with highest utility
+
+		Returns
+		-------
+		tuple
+			(best point, best utility)
+		
 		"""
 		learning_rate = self.alpha	
 		num_decision_nodes = initial_point.shape[0]
@@ -307,7 +476,7 @@ class GradientSearch(object) :
 		prev_grad = 0.0
 		
 		for i in range(self.iterations):
-			grad = self.u.numerical_gradient(x_hist[i], fixed_indicies=self.fixed_indicies)
+			grad = self.numerical_gradient(x_hist[i], fixed_indicies=self.fixed_indicies)
 			if i != 0:
 				learning_rate = self._dynamic_alpha(x_hist[i]-x_hist[i-1], grad-prev_grad, len(grad))
 
@@ -334,24 +503,30 @@ class GradientSearch(object) :
 		best_index = np.argmax(u_hist)
 		return x_hist[best_index], u_hist[best_index]
 
-	def run(self, topk=4, initial_point_list=None, size=None):
+	def run(self, initial_point_list, topk=4):
 		"""Initiate the gradient search algorithm. 
 
-		Args:
-			m (ndarray or list): 1D numpy array of size (num_decision_nodes).
-			alpha (float): Step size in gradient descent.
-			num_iter (int): Number of iterations to run.
+		Parameters
+		----------
+		initial_point_list : list
+			list of initial points to select from
+		topk : int, optional
+			select and run gradient descent on the `topk` first points of 
+			`initial_point_list`
 
-		Returns:
-			ndarray: The history of parameter vector, 2D numpy array of size (num_iter+1, num_decision_nodes) 
+		Returns
+		-------
+		tuple
+			best mitigation point and the utility of the best mitigation point
+
+		Raises
+		------
+		ValueError
+			If `topk` is larger than the length of `initial_point_list`.
 
 		"""
 		print("----------------Gradient Search Starting----------------")
-		if initial_point_list is None:
-			if size is None:
-				raise ValueError("Need size of the initial point array")
-			initial_point_list = np.array(self._initial_values(size))
-
+		
 		if topk > len(initial_point_list):
 			raise ValueError("topk {} > number of initial points {}".format(topk, len(initial_point_list)))
 
@@ -371,6 +546,9 @@ class GradientSearch(object) :
 
 
 class NodeMaximum(object):
+	"""Optimization node wise, keeping the rest of the nodes fixed. Starting from the 
+	back of the tree and working back to node 0.
+	"""
 
 	@staticmethod
 	def _min_func(x, m, i, utility):

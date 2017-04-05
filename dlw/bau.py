@@ -2,13 +2,35 @@ import numpy as np
 from abc import ABCMeta, abstractmethod
 
 class BusinessAsUsual(object):
-    """Abstract BAU class for the DLW-model."""
+    """Abstract BAU class for the DLW-model.
+
+    Parameters
+    ----------
+    ghg_start : float
+        today's GHG-level
+    ghg_end : float
+        GHG-level in the last period
+    
+    Attributes
+    ----------
+    ghg_start : float
+        today's GHG-level
+    ghg_end : float
+        GHG-level in the last period
+    emission_by_decisions : ndarray
+        emissions at decision time periods??
+    emission_per_period : ndarray
+        total emission at decision time period??
+    emission_to_ghg : ndarray
+        GHG levels in decision time period??
+    emission_to_bau : float
+        constant for converting GHG to emission??
+
+    """
     __metaclass__ = ABCMeta
-    def __init__(self, ghg_start, ghg_end, emit_time, emit_level):
+    def __init__(self, ghg_start, ghg_end):
         self.ghg_start = ghg_start
         self.ghg_end = ghg_end
-        self.emit_time = emit_time
-        self.emit_level = emit_level
         self.emission_by_decisions = None
         self.emission_per_period = None
         self.emission_to_ghg = None
@@ -21,24 +43,59 @@ class BusinessAsUsual(object):
 
 
 class DLWBusinessAsUsual(BusinessAsUsual):
-    """Business-as-usual scenario of emissions. Emissions growth is assumed to 
-    slow down exogenously - these assumptions represent an attempt to model 
-    emissions growth in a business-as-usual scenario that is in the absence of incentives.
+    """Business-as-usual scenario of emissions. Emissions growth is assumed to slow down 
+    exogenously - these assumptions represent an attempt to model emissions growth in a 
+    business-as-usual scenario that is in the absence of incentives.
 
-    Parameters:
-        ghg_start (float): Start value of GHG level.
-        ghg_end (float): Assumed GHG level at the end of last period.
-        emit_level (ndarray or list): Emission levels in future times.
-        emit_time (ndarray or list): Times of given emission levels 'emit_level'.
-        
+    Parameters
+    ----------
+    ghg_start : float
+        today's GHG-level
+    ghg_end : float
+        GHG-level in the last period
+    emit_time : ndarray or list
+        time, in years, from now when emissions occurs
+    emit_level : ndarray or list
+        emission levels in future times `emit_time`
+
+    Attributes
+    ----------
+    ghg_start : float
+        today's GHG-level
+    ghg_end : float
+        GHG-level in the last period
+    emission_by_decisions : ndarray
+        emissions at decision time periods??
+    emission_per_period : ndarray
+        total emission at decision time period??
+    emission_to_ghg : ndarray
+        GHG levels in decision time period??
+    emission_to_bau : float
+        constant for converting GHG to emission??
+    emit_time : ndarray or list
+        time, in years, from now when emissions occurs
+    emit_level : ndarray or list
+        emission levels in future times `emit_time`
+
     """
-
     def __init__(self, ghg_start=400.0, ghg_end=1000.0, emit_time=[0, 30, 60], emit_level=[52.0, 70.0, 81.4]):
-        super(DLWBusinessAsUsual, self).__init__(ghg_start, ghg_end, emit_time, emit_level)
+        super(DLWBusinessAsUsual, self).__init__(ghg_start, ghg_end)
+        self.emit_time = emit_time
+        self.emit_level = emit_level
 
     def emission_by_time(self, time):
-        """
-        Return the BAU emissions at any time.
+        """Returns the BAU emissions at any time
+
+        Parameters
+        ----------
+        time : int 
+            future time period in years
+
+        Returns
+        -------
+        float
+            emission
+
         """
         if time < self.emit_time[1]:
             emissions = self.emit_level[0] + float(time) / (self.emit_time[1] - self.emit_time[0]) \
@@ -51,19 +108,18 @@ class DLWBusinessAsUsual(BusinessAsUsual):
         return emissions
 
     def bau_emissions_setup(self, tree):
-        """
-        Create default business as usual emissions path.
-        The emissions rate in each period are assumed to be the average of the emissions 
-        at the beginning and at the end of the period.
+        """Create default business as usual emissions path. The emission rate in each period is 
+        assumed to be the average of the emissions at the beginning and at the end of the period.
 
-        Args:
-            tree (obj: 'TreeModel'): DLW tree-model.
-
+        Parameters
+        ----------
+        tree : `TreeModel` object
+            provides the tree structure used
+            
         """
         num_periods = tree.num_periods
         self.emission_by_decisions = np.zeros(num_periods)
         self.emission_per_period = np.zeros(num_periods)
-        #self.emissions_to_ghg = np.zeros(num_periods)
         self.bau_path = np.zeros(num_periods)
         self.bau_path[0] = self.ghg_start
         self.emission_by_decisions[0] = self.emission_by_time(tree.decision_times[0])

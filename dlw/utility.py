@@ -1,21 +1,43 @@
 from __future__ import division, print_function
 from abc import ABCMeta, abstractmethod
 import numpy as np
-import multiprocessing
 from storage_tree import BigStorageTree, SmallStorageTree
-from tools import _pickle_method, _unpickle_method
-try:
-    import copy_reg
-except:
-    import copyreg as copy_reg
-import types
 
 np.seterr(all='ignore')
-copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)
 
 
 class Utility(object):
-	"""Abstract utility class for the DLW-model."""
+	"""Abstract utility class for the DLW-model.
+
+	Parameters
+	----------
+	tree : `TreeModel` object
+		tree structure used
+	damage : `Damage` object
+		class that provides damage methods
+	cost : `Cost` object
+		class that procides cost methods
+	period_len : float
+		subinterval length
+
+	Attributes
+	----------
+	tree : `TreeModel` object
+		tree structure used
+	damage : `Damage` object
+		class that provides damage methods
+	cost : `Cost` object
+		class that procides cost methods
+	period_len : float
+		subinterval length
+	decision_times : ndarray 
+		years in the future where decisions will be made
+	cons_growth : float
+		consumption growth 
+	growth_term : float
+		1 + cons_growth
+
+	"""
 	__metaclass__ = ABCMeta
 
 	def __init__(self, tree, damage, cost, period_len):
@@ -29,44 +51,98 @@ class Utility(object):
 
 	@abstractmethod
 	def utility(self):
+		"""Method to calculate utility given mitigation decisions."""
 		pass
 
 	@abstractmethod
 	def adjusted_utility(self):
+		"""Method to calculate utility given mitigation decisions and
+		adjusting values for sensitivity analysis purposes.
+		"""
 		pass
 
 	@abstractmethod
 	def marginal_utility(self):
-		pass
-
-	@abstractmethod
-	def numerical_gradient(self):
+		"""Method to calculate marginal utility given mitigation decisions."""
 		pass
 
 class EZUtility(Utility):
-	"""Calculation of Epstein-Zin utility for the DLW-model.
+	"""Calculation of Epstein-Zin utility for the DLW-model. 
 
-	Parameters:
-		tree (obj 'TreeModel'): Provides the tree structure used.
-		damage (obj 'Damage'): Provides methods for calculating damages.
-		cost (obj 'Cost'): Provides methods for calculating cost of mitigation.
-		period_len (int): The length of the sub-intervals.
-		eis (float): Elasticity of intertemporal substitution.
-		ra (float): Risk-aversion.
-		time_pref (float): Pure rate of time preference.
+	The Epstein-Zin utility allows for different rates of substitution across time and 
+	states. For specification see DLW-paper.
+
+	If `add_penalty_cost` is True the model will calculate a penalty cost for GHG levels 
+	below 280. How large this penalty becomes is controlled using the parameters `max_penalty` 
+	and `penalty_scale`.
+
+	Parameters
+	----------
+	tree : `TreeModel` object 
+		tree structure used
+	damage : `Damage` object
+		class that provides damage methods
+	cost : `Cost` object
+		class that procides cost methods
+	period_len : float
+		subinterval length
+	eis : float, optional
+		elasticity of intertemporal substitution
+	ra : float, optional
+		risk-aversion
+	time_pref : float, optional
+		pure rate of time preference
+	add_penalty_cost : bool, optional
+		True if utility calculation should include penalty cost for 
+			GHG levels below 280, else False
+	max_penalty : float, optional
+		maximum penalty that can be added to penalty cost for one period	
+	penalty_scale : float, optional
+		constant that is multiplied to the penalty cost
+
+	Attributes
+	----------
+	tree : `TreeModel` object 
+		tree structure used
+	damage : `Damage` object
+		class that provides damage methods
+	cost : `Cost` object
+		class that procides cost methods
+	period_len : float
+		subinterval length
+	decision_times : ndarray 
+		years in the future where decisions will be made
+	cons_growth : float
+		consumption growth 
+	growth_term : float
+		1 + cons_growth
+	r : float
+		the parameter rho from the DLW-paper
+	a : float
+		the parameter alpha from the DLW-paper
+	b : float
+		the parameter beta from the DLW-paper
+	add_penalty_cost : bool, optional
+		True if utility calculation should include penalty cost for 
+			GHG levels below 280, else False
+	max_penalty : float
+		maximum penalty that can be added to penalty cost for one period	
+	penalty_scale : float
+		constant that is multiplied to the penalty cost
 
 	"""
 
-	def __init__(self, tree, damage, cost, period_len, eis=0.9, ra=7.0, time_pref=0.005):
+	def __init__(self, tree, damage, cost, period_len, eis=0.9, ra=7.0, time_pref=0.005, 
+		add_penalty_cost=False, max_penalty=0.0, penalty_scale=1.0):
 		super(EZUtility, self).__init__(tree, damage, cost, period_len)
-		self.eis = eis
-		self.ra = ra
-		self.time_pref = time_pref
 		self.r = 1.0 - 1.0/eis
 		self.a = 1.0 - ra
 		self.b = (1.0-time_pref)**period_len
 		self.potential_cons = np.ones(self.decision_times.shape) + self.cons_growth
 		self.potential_cons = self.potential_cons ** self.decision_times
+		self.add_penalty_cost = add_penalty_cost
+		self.max_penalty = max_penalty
+		self.penalty_scale = penalty_scale
 
 	def _end_period_utility(self, m, utility_tree, cons_tree, cost_tree):
 		"""Calculate the terminal utility."""
@@ -120,23 +196,47 @@ class EZUtility(Utility):
 
 
 	def _interval_penalty(self, period_ghg):
-		return np.maximum(0.0, np.minimum(np.sign(period_ghg)*((280.0-period_ghg)/period_ghg), self.cost.max_penalty))
+		"""Penalty cost function."""
+		return np.maximum(0.0, np.minimum(np.sign(period_ghg)*((280.0-period_ghg)/period_ghg), self.max_penalty))
 
-	def _penalty_cost(self, m):
-		ghg_levels = self.damage.ghg_level(m, periods=self.tree.num_periods)
+	def penalty_cost(self, m):
+		"""Calculate and return the penalty cost of GHG levels below 280. The penalties in previous nodes
+		in the path leading to the current node is summed and added to current period's penalty, given by
+
+			max(0, min((280-GHG level)/GHG level, max_penalty)
+
+		The method returns a `BigStorageTree` object with penalties for every period where utilities are calculated. 
+
+		Parameters
+		----------
+		m : ndarray or list
+			array of mitigation
+		
+		Returns
+		-------
+		`BigStorageTree`
+			penalties in every period where utilities are calculated
+
+		"""
 		penalty_cost = BigStorageTree(self.period_len, self.decision_times)
+		if not self.add_penalty_cost:
+			return penalty_cost
+
+		ghg_levels = self.damage.ghg_level(m, periods=self.tree.num_periods)
 		interval_length = self.decision_times[1:] - self.decision_times[:-1] 
 		temp_array = np.zeros(len(ghg_levels))
 		cache = set()
-		for node in range(self.tree.num_decision_nodes, len(ghg_levels)):
+		for node in range(self.tree.num_decision_nodes, len(ghg_levels), 2):
 			path = self.tree.get_path(node)
 			for i in range(1, len(path)):
 				n = path[i]
 				if n not in cache:
-					temp_array[n] = temp_array[path[i-1]] + self._interval_penalty(ghg_levels[n])/interval_length[i-1]	
-					cache.add(n)
+					temp_array[n] = temp_array[path[i-1]] + self._interval_penalty(ghg_levels[n])/interval_length[i-1]
+					cache.add(n)	
+					if i == len(path)-1:
+						temp_array[n+1] = temp_array[path[i-1]] + self._interval_penalty(ghg_levels[n+1])/interval_length[i-1]	
 
-		penalty_cost.tree[0][0] = temp_array[0]
+		penalty_cost.set_value(0, [temp_array[0]])
 		sum_size = 1
 		prev_ghg_level = ghg_levels[0]
 
@@ -157,8 +257,7 @@ class EZUtility(Utility):
 			while prev_time_period < time_period:
 				prev_time_period += self.period_len
 				this_period_ghg = prev_ghg_level + (increment/total_increment) * (ghg_level-prev_ghg_level)
-				if np.any(this_period_ghg == 0):
-					this_period_ghg[this_period_ghg == 0] = 1.0 # doesn't really matter if we put 1.0 or a value closer to 0
+				this_period_ghg[this_period_ghg == 0] = 1.0 # doesn't really matter if we put 1.0 or a value closer to 0
 				penalty_cost.set_value(prev_time_period, prev_penalty_cost + self._interval_penalty(this_period_ghg)/self.period_len)
 				
 				prev_penalty_cost = penalty_cost[prev_time_period]
@@ -172,7 +271,7 @@ class EZUtility(Utility):
 	def _utility_generator(self, m, utility_tree, cons_tree, cost_tree, ce_tree, cons_adj=0.0):
 		"""Generator for calculating utility for each utility period besides the terminal utility."""
 		periods = utility_tree.periods[::-1]
-		#penalty_cost = self._penalty_cost(m)
+		penalty_cost = self.penalty_cost(m)
 
 		for period in periods[1:]:
 			damage_period = utility_tree.between_decision_times(period)
@@ -186,9 +285,7 @@ class EZUtility(Utility):
 				period_damage = self.damage.damage_function(m, damage_period)
 				cost_tree.set_value(cost_tree.index_below(period+self.period_len), period_cost)
 
-			# should this be (1.0 - period_damage - period_cost)
-		
-			period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) * (1.0 - period_cost)
+			#period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) * (1.0 - period_cost)
 		
 			if not utility_tree.is_decision_period(period):
 
@@ -202,19 +299,19 @@ class EZUtility(Utility):
 						next_consumption *= (1.0 - np.repeat(period_cost,2)) /(1.0 - next_cost)
 						
 				if period < utility_tree.decision_times[-2]:
-					#period_consumption = self.potential_cons[damage_period] * (1.0 - np.repeat(period_damage,2)) \
-					#					 * (1.0 - np.repeat(period_cost,2)*(1.0 + self.cost.penalty_scale*penalty_cost[period]))
-					period_consumption = ((next_consumption/np.repeat(period_consumption,2))**(segment/float(interval))) * np.repeat(period_consumption,2)
+					period_consumption = self.potential_cons[damage_period] * (1.0 - np.repeat(period_damage,2)) \
+										 * (1.0 - np.repeat(period_cost,2)*(1.0 + self.penalty_scale*penalty_cost[period]))
+					#period_consumption = ((next_consumption/np.repeat(period_consumption,2))**(segment/float(interval))) * np.repeat(period_consumption,2)
 				else:
-					#period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) \
-					# 					 * (1.0 - period_cost*(1.0 + self.cost.penalty_scale*penalty_cost[period]))
-					period_consumption = ((next_consumption/period_consumption)**(segment/float(interval)))*period_consumption
+					period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) \
+					 					 * (1.0 - period_cost*(1.0 + self.penalty_scale*penalty_cost[period]))
+					#period_consumption = ((next_consumption/period_consumption)**(segment/float(interval)))*period_consumption
 				
-				#period_consumption = ((next_consumption/period_consumption)**(segment/float(interval)))*period_consumption
+				period_consumption = ((next_consumption/period_consumption)**(segment/float(interval)))*period_consumption
 			
-			#else:
-			#	period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) \
-			#						 * (1.0 - period_cost*(1.0 + self.cost.penalty_scale*penalty_cost[period]))
+			else:
+				period_consumption = self.potential_cons[damage_period] * (1.0 - period_damage) \
+									 * (1.0 - period_cost*(1.0 + self.penalty_scale*penalty_cost[period]))
 			
 			if period == 0:
 				period_consumption += cons_adj
@@ -227,17 +324,28 @@ class EZUtility(Utility):
 			yield u, period
 
 	def utility(self, m, return_trees=False):
-		"""Calculating utility for the specific mitigation decisions 'm'.
+		"""Calculating utility for the specific mitigation decisions `m`.
 
-		Args:
-			m (ndarray): Array of mitigations.
-			return_trees (bool): True if method should return trees calculculated in producing the utility.
+		Parameters
+		----------
+		m : ndarray or list
+			array of mitigations
+		return_trees : bool
+			True if methid should return trees calculated in producing the utility
 
-		Returns:
-			tuple of ndarrays if return_trees else float of period 0's utility.
+		Returns
+		-------
+		ndarray or tuple 
+			tuple of `BaseStorageTree` if return_trees else ndarray with utility at period 0
+
+		Examples:
+		---------
+		Assuming we have declared a EZUtility object as 'ezu' and have a mitigation array 'm'
+		>>> ezu.utility(m)
+		array([ 9.83391921])
+		>>> utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)
 
 		"""
-		# can we make this smarter and not create these every time we call the utility?
 		utility_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
 		cons_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
 		ce_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
@@ -256,20 +364,52 @@ class EZUtility(Utility):
 	def adjusted_utility(self, m, period_cons_eps=None, node_cons_eps=None, final_cons_eps=0.0,
 						 first_period_consadj=0.0, return_trees=False):
 		"""Calculating adjusted utility for sensitivity analysis. Used e.g. to find zero-coupon bond price.
+		Values in parameters are used to adjusted the utility in different ways.
 
-		Args:
-			m (ndarray): 1D-array of mitigations.
-			period_cons_eps (optionla, ndarray): Array of increases in consumption per period. #77
-			node_cons_eps (optional, ndarray): Array of increases in consumption per node. #(big_storage)
-			final_cons_eps (optional, float): Number to increase the final utility.
-			first_period_consadj (optional, float): Adjustment of consumption at time 0.
-			return_trees (bool): True if method should return trees calculculated in producing the utility.
+		Parameters
+		----------
+		m : ndarray 
+			array of mitigations
+		period_cons_eps : ndarray, optional
+			array of increases in consumption per period
+		node_cons_eps : `SmallStorageTree`, optional 
+			increases in consumption per node
+		final_cons_eps : float, optional
+			value to increase the final utilities by
+		first_period_consadj : float, optional 
+			value to increase consumption at period 0 by
+		return_trees : bool, optional 
+			True if method should return trees calculculated in producing the utility
 
-		Returns:
-			tuple of ndarrays if return_trees else float of period 0's utility.
+		Returns
+		-------
+		ndarray or tuple 
+			tuple of `BaseStorageTree` if return_trees else ndarray with utility at period 0
+
+		Examples:
+		---------
+		Assuming we have declared a EZUtility object as 'ezu' and have a mitigation array 'm'
+		>>> ezu.adjusted_utility(m, final_cons_eps=0.1)
+		array([ 9.83424045])
+		>>> utility_tree, cons_tree, cost_tree, ce_tree = ezu.adjusted_utility(m, final_cons_eps=0.1, return_trees=True)
+		
+		>>> arr = np.zeros(int(ezu.decision_times[-1]/ezu.period_len) + 1)
+		>>> arr[-1] = 0.1
+		>>> ezu.adjusted_utility(m, period_cons_eps=arr)
+		array([ 9.83424045])
+		
+		>>> bst = BigStorageTree(5.0, [0, 15, 45, 85, 185, 285, 385])
+		>>> bst.set_value(bst.last_period, np.repeat(0.1, len(bst.last)))
+		>>> ezu.adjusted_utility(m, node_cons_eps=bst)
+		array([ 9.83391921])
+
+		The last example differs from the rest in that the last values of the `node_cons_eps` will never be
+		used. Hence if you want to update the last period consumption, use one of these two methods. 
+
+		>>> ezu.adjusted_utility(m, first_period_consadj=0.1)
+		array([ 9.86518772])
 
 		"""
-		# can we make this smarter and not create these every time we call the utility?
 		utility_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
 		cons_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
 		ce_tree = BigStorageTree(subinterval_len=self.period_len, decision_times=self.decision_times)
@@ -355,16 +495,35 @@ class EZUtility(Utility):
 	def marginal_utility(self, m, utility_tree, cons_tree, cost_tree, ce_tree):
 		"""Calculating marginal utility for sensitivity analysis, e.g. in the SSC decomposition.
 
-		Args:
-			m (ndarray): 1D-array of mitigations.
-			period_cons_eps (optionla, ndarray): Array of increases in consumption per period. #77
-			node_cons_eps (optional, ndarray): Array of increases in consumption per node. #(big_storage)
-			final_cons_eps (optional, float): Number to increase the final utility.
-			first_period_consadj (optional, float): Adjustment of consumption at time 0.
-			return_trees (bool): True if method should return trees calculculated in producing the utility.
+		Parameters
+		----------
+		m : ndarray
+			array of mitigations
+		utility_tree : `BigStorageTree` object 
+			utility values from using mitigation `m`
+		cons_tree : `BigStorageTree` object
+			consumption values from using mitigation `m`
+		cost_tree : `SmallStorageTree` object
+			cost values from using mitigation `m`
+		ce_tree : `BigStorageTree` object
+			certain equivalence values from using mitigation `m`
 
-		Returns:
-			tuple of ndarrays if return_trees else float of period 0's utility.
+		Returns
+		-------
+		tuple
+			marginal utility tree
+
+		Examples
+		--------
+		Assuming we have declared a EZUtility object as 'ezu' and have a mitigation array 'm'.
+		>>> utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)
+		>>> mu_0_tree, mu_1_tree, mu_2_tree = ezu.marginal_utility(m, utility_tree, cons_tree, cost_tree, ce_tree)
+		>>> mu_0_tree[0] # value at period 0
+		array([ 0.33001256])
+		>>> mu_1_tree[0] # value at period 0
+		array([ 0.15691619])
+		>>> mu_2_tree[0] # value at period 0
+		array([ 0.13948175])
 
 		"""
 		#could add ce_tree to parameter list.
@@ -384,40 +543,5 @@ class EZUtility(Utility):
 				mu_tree_2.set_value(period, mu_2)
 
 		return mu_tree_0, mu_tree_1, mu_tree_2
-
-
-	def partial_grad(self, i, m=None, delta=None):
-		if m is not None:
-			self.m = m
-		if delta is not None:
-			self.delta = delta
-		m_copy = self.m.copy()
-		m_copy[i] -= self.delta
-		minus_utility = self.utility(m_copy)
-		m_copy[i] += 2*self.delta
-		plus_utility = self.utility(m_copy)
-		grad = (plus_utility-minus_utility) / (2*self.delta)
-		return grad, i
-
-	def numerical_gradient(self, m, delta=1e-08, fixed_indicies=None):
-		if fixed_indicies is None:
-			fixed_indicies = []
-		self.delta = delta
-		self.m = m 
-		grad = np.zeros(len(m))
-		if not isinstance(m, np.ndarray):
-			self.m = np.array(m)
-
-		pool = multiprocessing.Pool()
-		indicies = np.delete(range(len(m)), fixed_indicies)
-		res = pool.map(self.partial_grad, indicies)
-		for g, i in res:
-			grad[i] = g
-		pool.close()
-		pool.join()
-		del self.m
-		del self.delta
-		return grad
-
 
 	
