@@ -9,9 +9,10 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
   * :doc:`Overview <overview>`
   * :doc:`Installation <installation>`
 
-* **Examples:**
+* **Basic tutorials:**
 
   * :doc:`Tree <examples/tree>`
+  * :doc:`BUA <examples/bau>`
 
 * :doc:`api/index`
 
@@ -23,6 +24,7 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
   overview
   installation
   examples/tree
+  examples/bau
   api/index
 
 .. _paper: http://www.nber.org/papers/w22795
