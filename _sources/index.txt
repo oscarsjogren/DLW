@@ -12,7 +12,7 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
 * **Basic tutorials:**
 
   * :doc:`Tree <examples/tree>`
-  * :doc:`BUA <examples/bau>`
+  * :doc:`BAU <examples/bau>`
 
 * :doc:`api/index`
 
