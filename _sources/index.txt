@@ -23,7 +23,7 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
   * :doc:`Analysis <tutorials/analysis>`
   * :doc:`Tools <tutorials/tools>`
 
-* :doc:`examples/output_paper`
+* :doc:`examples/index`
 * :doc:`api/index`
 
 
@@ -44,7 +44,7 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
   tutorials/optimization
   tutorials/analysis
   tutorials/tools
-  examples/output_paper
+  examples/index
   api/index
 
 .. _paper: http://www.nber.org/papers/w22795
