@@ -1,13 +1,17 @@
 dlw documentation
 ==================
 
-This project is based on the working paper_ “Applying Asset Pricing Theory to Calibrate the Price of Climate Risk"  by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing a analyzing framework for pricing greenhouse gas emissions. 
+This project is based on the working paper_ “Applying Asset Pricing Theory to Calibrate the Price of Climate Risk"  by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing an analyzing framework for pricing greenhouse gas emissions. 
 
 
 * **First steps:** 
 
-  * :doc:`Overview (Start Here!) <overview>`
+  * :doc:`Overview <overview>`
   * :doc:`Installation <installation>`
+
+* **Examples:**
+
+  * :doc:`Tree <examples/tree>`
 
 * :doc:`api/index`
 
@@ -18,6 +22,7 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
 
   overview
   installation
+  examples/tree
   api/index
 
 .. _paper: http://www.nber.org/papers/w22795

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Library Reference &#8212; dlw 1.0.1 documentation</title>
+    <title>Tree &#8212; dlw 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
-    <link rel="next" title="dlw.tree module" href="tree.html" />
-    <link rel="prev" title="Tree" href="../examples/tree.html" /> 
+    <link rel="next" title="Library Reference" href="../api/index.html" />
+    <link rel="prev" title="Installation" href="../installation.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,10 +38,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tree.html" title="dlw.tree module"
+          <a href="../api/index.html" title="Library Reference"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../examples/tree.html" title="Tree"
+          <a href="../installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li> 
       </ul>
@@ -52,23 +52,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="library-reference">
-<h1>Library Reference<a class="headerlink" href="#library-reference" title="Permalink to this headline">¶</a></h1>
-<p>Description of the functions, classes and modules contained within dlw.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tree.html">dlw.tree module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bau.html">dlw.bau module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="damage_simulation.html">dlw.damage_simulation module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="forcing.html">dlw.forcing module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="damage.html">dlw.damage module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cost.html">dlw.cost module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="storage_tree.html">dlw.storage_tree module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utility.html">dlw.utility module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optimization.html">dlw.optimization module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="analysis.html">dlw.analysis module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">dlw.tools module</a></li>
-</ul>
+  <div class="section" id="tree">
+<h1>Tree<a class="headerlink" href="#tree" title="Permalink to this headline">¶</a></h1>
+<p>The <cite>dlw.tree.TreeModel</cite> provides the structure for a non-recombining tree but does not store the actual values for the nodes in the tree. The tree can therefore be stored in a 1D-array and nodes, periods and states can be reached using the methods in <cite>dlw.tree.TreeModel</cite>. The last period will have no brachning, and hence the same number of nodes as the previous period.</p>
+<a class="reference internal image-reference" href="examples/_static/tree.png"><img alt="examples/_static/tree.png" class="align-center" src="examples/_static/tree.png" style="width: 300px;" /></a>
+<div class="section" id="accessing-nodes">
+<h2>Accessing Nodes<a class="headerlink" href="#accessing-nodes" title="Permalink to this headline">¶</a></h2>
+<p>Assuming we have a non-recombining tree with 6 periods. The last period will then have 32 states.</p>
 </div>
 </div>
 
@@ -78,16 +68,24 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tree</a><ul>
+<li><a class="reference internal" href="#accessing-nodes">Accessing Nodes</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../examples/tree.html"
-                        title="previous chapter">Tree</a></p>
+  <p class="topless"><a href="../installation.html"
+                        title="previous chapter">Installation</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="tree.html"
-                        title="next chapter">dlw.tree module</a></p>
+  <p class="topless"><a href="../api/index.html"
+                        title="next chapter">Library Reference</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/index.txt"
+      <li><a href="../_sources/examples/tree.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -115,10 +113,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tree.html" title="dlw.tree module"
+          <a href="../api/index.html" title="Library Reference"
              >next</a> |</li>
         <li class="right" >
-          <a href="../examples/tree.html" title="Tree"
+          <a href="../installation.html" title="Installation"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li> 
       </ul>
