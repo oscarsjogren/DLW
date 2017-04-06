@@ -52,7 +52,7 @@
 <span class="kn">from</span> <span class="nn">storage_tree</span> <span class="k">import</span> <span class="n">BigStorageTree</span>
 
 
-<div class="viewcode-block" id="additional_ghg_emission"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.additional_ghg_emission">[docs]</a><span class="k">def</span> <span class="nf">additional_ghg_emission</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">):</span>
+<div class="viewcode-block" id="additional_ghg_emission"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.additional_ghg_emission">[docs]</a><span class="k">def</span> <span class="nf">additional_ghg_emission</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Calculate the emission added by every node.</span>
 
 <span class="sd">	Parameters</span>
@@ -78,7 +78,7 @@
 				<span class="n">cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 	<span class="k">return</span> <span class="n">additional_emission</span></div>
 
-<div class="viewcode-block" id="store_trees"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.store_trees">[docs]</a><span class="k">def</span> <span class="nf">store_trees</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_year</span><span class="o">=</span><span class="mi">2015</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="store_trees"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.store_trees">[docs]</a><span class="k">def</span> <span class="nf">store_trees</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_year</span><span class="o">=</span><span class="mi">2015</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Saves values of `BaseStorageTree` objects. The file is saved into the &#39;data&#39; directory</span>
 <span class="sd">	in the current working directory. If there is no &#39;data&#39; directory, one is created. </span>
 
@@ -97,7 +97,7 @@
 	<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tree</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 		<span class="n">tree</span><span class="o">.</span><span class="n">write_columns</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;trees&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">start_year</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="delta_consumption"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.delta_consumption">[docs]</a><span class="k">def</span> <span class="nf">delta_consumption</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">delta_m</span><span class="p">):</span>
+<div class="viewcode-block" id="delta_consumption"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.delta_consumption">[docs]</a><span class="k">def</span> <span class="nf">delta_consumption</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">delta_m</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Calculate the changes in consumption and the mitigation cost component </span>
 <span class="sd">	of consumption when increaseing period 0 mitigiation with `delta_m`.</span>
 
@@ -155,7 +155,7 @@
 	
 	<span class="k">return</span> <span class="n">new_cons_tree</span><span class="p">,</span> <span class="n">cost_array</span></div>
 
-<div class="viewcode-block" id="constraint_first_period"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.constraint_first_period">[docs]</a><span class="k">def</span> <span class="nf">constraint_first_period</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">first_node</span><span class="p">):</span>
+<div class="viewcode-block" id="constraint_first_period"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.constraint_first_period">[docs]</a><span class="k">def</span> <span class="nf">constraint_first_period</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">first_node</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Calculate the changes in consumption, the mitigation cost component of consumption,</span>
 <span class="sd">	and new mitigation values when constraining the first period mitigation to `first_node`.</span>
 
@@ -202,7 +202,7 @@
 	<span class="k">return</span> <span class="n">new_m</span></div>
 
 
-<div class="viewcode-block" id="find_ir"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.find_ir">[docs]</a><span class="k">def</span> <span class="nf">find_ir</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">payment</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span> 
+<div class="viewcode-block" id="find_ir"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.find_ir">[docs]</a><span class="k">def</span> <span class="nf">find_ir</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">payment</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span> 
 	<span class="sd">&quot;&quot;&quot;Find the price of a bond that creates equal utility at time 0 as adding `payment` to the value of </span>
 <span class="sd">	consumption in the final period. The purpose of this function is to find the interest rate </span>
 <span class="sd">	embedded in the `EZUtility` model. </span>
@@ -238,7 +238,7 @@
 
 	<span class="k">return</span> <span class="n">brentq</span><span class="p">(</span><span class="n">min_func</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="find_term_structure"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.find_term_structure">[docs]</a><span class="k">def</span> <span class="nf">find_term_structure</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">payment</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span> 
+<div class="viewcode-block" id="find_term_structure"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.find_term_structure">[docs]</a><span class="k">def</span> <span class="nf">find_term_structure</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">payment</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.99</span><span class="p">):</span> 
 	<span class="sd">&quot;&quot;&quot;Find the price of a bond that creates equal utility at time 0 as adding `payment` to the value of </span>
 <span class="sd">	consumption in the final period. The purpose of this function is to find the interest rate </span>
 <span class="sd">	embedded in the `EZUtility` model. </span>
@@ -276,7 +276,7 @@
 
 	<span class="k">return</span> <span class="n">brentq</span><span class="p">(</span><span class="n">min_func</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="find_bec"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.find_bec">[docs]</a><span class="k">def</span> <span class="nf">find_bec</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">constraint_cost</span><span class="p">,</span> <span class="n">a</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<div class="viewcode-block" id="find_bec"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.find_bec">[docs]</a><span class="k">def</span> <span class="nf">find_bec</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">constraint_cost</span><span class="p">,</span> <span class="n">a</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Used to find a value for consumption that equalizes utility at time 0 in two different solutions.</span>
 
 <span class="sd">	Parameters</span>
@@ -309,7 +309,7 @@
 
 	<span class="k">return</span> <span class="n">brentq</span><span class="p">(</span><span class="n">min_func</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="perpetuity_yield"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.perpetuity_yield">[docs]</a><span class="k">def</span> <span class="nf">perpetuity_yield</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
+<div class="viewcode-block" id="perpetuity_yield"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.perpetuity_yield">[docs]</a><span class="k">def</span> <span class="nf">perpetuity_yield</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">10.0</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Find the yield of a perpetuity starting at year `start_date`.</span>
 
 <span class="sd">	Parameters</span>
@@ -339,7 +339,7 @@
 	<span class="k">return</span> <span class="n">brentq</span><span class="p">(</span><span class="n">min_func</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="save_output"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.save_output">[docs]</a><span class="k">def</span> <span class="nf">save_output</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="save_output"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.save_output">[docs]</a><span class="k">def</span> <span class="nf">save_output</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Save the result of optimization and calculated values based on optimal mitigation. For every node the </span>
 <span class="sd">	function calculates and saves:</span>
 <span class="sd">		</span>
@@ -428,7 +428,7 @@
 				<span class="n">Cost</span><span class="o">=</span><span class="n">cost_tree</span><span class="p">,</span> <span class="n">CertainEquivalence</span><span class="o">=</span><span class="n">ce_tree</span><span class="p">)</span></div>
 
 	
-<div class="viewcode-block" id="save_sensitivity_analysis"><a class="viewcode-back" href="../../dlw.html#dlw.analysis.save_sensitivity_analysis">[docs]</a><span class="k">def</span> <span class="nf">save_sensitivity_analysis</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="save_sensitivity_analysis"><a class="viewcode-back" href="../../api/analysis.html#dlw.analysis.save_sensitivity_analysis">[docs]</a><span class="k">def</span> <span class="nf">save_sensitivity_analysis</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;Calculate and save sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the </span>
 <span class="sd">	periods given by the utility calculations, the function calculates and saves:</span>
 <span class="sd">		</span>

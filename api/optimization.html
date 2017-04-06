@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dlw.optimization module &#8212; dlw 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Library Reference" href="index.html" />
+    <link rel="next" title="dlw.analysis module" href="analysis.html" />
+    <link rel="prev" title="dlw.utility module" href="utility.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="analysis.html" title="dlw.analysis module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utility.html" title="dlw.utility module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dlw.optimization">
+<span id="dlw-optimization-module"></span><h1>dlw.optimization module<a class="headerlink" href="#module-dlw.optimization" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dlw.optimization.GenericAlgorithm">
+<em class="property">class </em><code class="descclassname">dlw.optimization.</code><code class="descname">GenericAlgorithm</code><span class="sig-paren">(</span><em>pop_amount</em>, <em>num_generations</em>, <em>cx_prob</em>, <em>mut_prob</em>, <em>bound</em>, <em>num_feature</em>, <em>utility</em>, <em>fixed_values=None</em>, <em>fixed_indicies=None</em>, <em>print_progress=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/optimization.html#GenericAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GenericAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Optimization algorithm for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pop_amount</strong> (<em>int</em>) &#8211; number of individuals in the population</li>
+<li><strong>num_feature</strong> (<em>int</em>) &#8211; number of elements in each individual, i.e. number of nodes in tree-model</li>
+<li><strong>num_generations</strong> (<em>int</em>) &#8211; number of generations of the populations to be evaluated</li>
+<li><strong>bound</strong> (<em>float</em>) &#8211; upper bound of mitigation in each node</li>
+<li><strong>cx_prob</strong> (<em>float</em>) &#8211; probability of mating</li>
+<li><strong>mut_prob</strong> (<em>float</em>) &#8211; probability of mutation.</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>fixed_values</strong> (<em>ndarray, optional</em>) &#8211; nodes to keep fixed</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray, optional</em>) &#8211; indicies of nodes to keep fixed</li>
+<li><strong>print_progress</strong> (<em>bool, optional</em>) &#8211; if the progress of the evolution should be printed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.pop_amount">
+<code class="descname">pop_amount</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.pop_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of individuals in the population</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.num_feature">
+<code class="descname">num_feature</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.num_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of elements in each individual, i.e. number of nodes in tree-model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.num_generations">
+<code class="descname">num_generations</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.num_generations" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of generations of the populations to be evaluated</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.bound">
+<code class="descname">bound</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.bound" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; upper bound of mitigation in each node</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.cx_prob">
+<code class="descname">cx_prob</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.cx_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; probability of mating</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.mut_prob">
+<code class="descname">mut_prob</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.mut_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; probability of mutation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.u">
+<code class="descname">u</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.u" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.fixed_values">
+<code class="descname">fixed_values</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.fixed_values" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.fixed_indicies">
+<code class="descname">fixed_indicies</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.fixed_indicies" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; indicies of nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.print_progress">
+<code class="descname">print_progress</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.print_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211; if the progress of the evolution should be printed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GenericAlgorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/optimization.html#GenericAlgorithm.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the evolution process.</p>
+<dl class="docutils">
+<dt>The evolution steps are:</dt>
+<dd><ol class="first last arabic simple">
+<li>Select the individuals to perform cross-over and mutation.</li>
+<li>Cross over among the selected candidate.</li>
+<li>Mutate result as offspring.</li>
+<li>Combine the result of offspring and parent together. And selected the top
+80 percent of original population amount.</li>
+<li>Random Generate 20 percent of original population amount new individuals
+and combine the above new population.</li>
+</ol>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">final population and the fitness for the final population</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.optimization.GradientSearch">
+<em class="property">class </em><code class="descclassname">dlw.optimization.</code><code class="descname">GradientSearch</code><span class="sig-paren">(</span><em>utility</em>, <em>learning_rate</em>, <em>var_nums</em>, <em>accuracy=1e-06</em>, <em>iterations=100</em>, <em>fixed_values=None</em>, <em>fixed_indicies=None</em>, <em>print_progress=False</em>, <em>scale_alpha=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/optimization.html#GradientSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Gradient search optimization algorithm for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>learning_rate</strong> (<em>float</em>) &#8211; starting learning rate of gradient descent</li>
+<li><strong>var_nums</strong> (<em>int</em>) &#8211; number of elements in array to optimize</li>
+<li><strong>accuracy</strong> (<em>float</em>) &#8211; stop value for the gradient descent</li>
+<li><strong>fixed_values</strong> (<em>ndarray, optional</em>) &#8211; nodes to keep fixed</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray, optional</em>) &#8211; indicies of nodes to keep fixed</li>
+<li><strong>print_progress</strong> (<em>bool, optional</em>) &#8211; if the progress of the evolution should be printed</li>
+<li><strong>scale_alpha</strong> (<em>ndarray, optional</em>) &#8211; array to scale the learning rate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.utility">
+<code class="descname">utility</code><a class="headerlink" href="#dlw.optimization.GradientSearch.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.learning_rate">
+<code class="descname">learning_rate</code><a class="headerlink" href="#dlw.optimization.GradientSearch.learning_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; starting learning rate of gradient descent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.var_nums">
+<code class="descname">var_nums</code><a class="headerlink" href="#dlw.optimization.GradientSearch.var_nums" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of elements in array to optimize</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.accuracy">
+<code class="descname">accuracy</code><a class="headerlink" href="#dlw.optimization.GradientSearch.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; stop value for the gradient descent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.fixed_values">
+<code class="descname">fixed_values</code><a class="headerlink" href="#dlw.optimization.GradientSearch.fixed_values" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.fixed_indicies">
+<code class="descname">fixed_indicies</code><a class="headerlink" href="#dlw.optimization.GradientSearch.fixed_indicies" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; indicies of nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.print_progress">
+<code class="descname">print_progress</code><a class="headerlink" href="#dlw.optimization.GradientSearch.print_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211; if the progress of the evolution should be printed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.scale_alpha">
+<code class="descname">scale_alpha</code><a class="headerlink" href="#dlw.optimization.GradientSearch.scale_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; array to scale the learning rate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GradientSearch.gradient_descent">
+<code class="descname">gradient_descent</code><span class="sig-paren">(</span><em>initial_point</em>, <em>return_last=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/optimization.html#GradientSearch.gradient_descent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch.gradient_descent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gradient descent algorithm. The <cite>initial_point</cite> is updated in the direction
+where the utility function is increases fastest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</li>
+<li><strong>return_last</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
+<dt>if True the function returns the last point, else the point</dt>
+<dd>with highest utility</dd>
+</dl>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(best point, best utility)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GradientSearch.numerical_gradient">
+<code class="descname">numerical_gradient</code><span class="sig-paren">(</span><em>m</em>, <em>delta=1e-08</em>, <em>fixed_indicies=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/optimization.html#GradientSearch.numerical_gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch.numerical_gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate utility gradient numerically.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>delta</strong> (<em>float, optional</em>) &#8211; change in mitigation</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray or list, optional</em>) &#8211; indicies of gradient that should not be calculated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">gradient</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GradientSearch.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>initial_point_list</em>, <em>topk=4</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/optimization.html#GradientSearch.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the gradient search algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>initial_point_list</strong> (<em>list</em>) &#8211; list of initial points to select from</li>
+<li><strong>topk</strong> (<em>int, optional</em>) &#8211; select and run gradient descent on the <cite>topk</cite> first points of
+<cite>initial_point_list</cite></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">best mitigation point and the utility of the best mitigation point</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If <cite>topk</cite> is larger than the length of <cite>initial_point_list</cite>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.optimization.NodeMaximum">
+<em class="property">class </em><code class="descclassname">dlw.optimization.</code><code class="descname">NodeMaximum</code><a class="reference internal" href="../_modules/dlw/optimization.html#NodeMaximum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.NodeMaximum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Optimization node wise, keeping the rest of the nodes fixed. Starting from the
+back of the tree and working back to node 0.</p>
+<dl class="classmethod">
+<dt id="dlw.optimization.NodeMaximum.run">
+<em class="property">classmethod </em><code class="descname">run</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/optimization.html#NodeMaximum.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.NodeMaximum.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="utility.html"
+                        title="previous chapter">dlw.utility module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="analysis.html"
+                        title="next chapter">dlw.analysis module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/optimization.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="analysis.html" title="dlw.analysis module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="utility.html" title="dlw.utility module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Oscar Sjogren.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

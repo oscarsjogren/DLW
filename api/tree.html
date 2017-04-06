@@ -1,0 +1,453 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dlw.tree module &#8212; dlw 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Library Reference" href="index.html" />
+    <link rel="next" title="dlw.bau module" href="bau.html" />
+    <link rel="prev" title="Library Reference" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bau.html" title="dlw.bau module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Library Reference"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dlw.tree">
+<span id="dlw-tree-module"></span><h1>dlw.tree module<a class="headerlink" href="#module-dlw.tree" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dlw.tree.TreeModel">
+<em class="property">class </em><code class="descclassname">dlw.tree.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times</em>, <em>prob_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Tree model for the DLW-model. It provides the structure of a non-recombining tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; years in the future where decisions will be made</li>
+<li><strong>prob_scale</strong> (<em>float, optional</em>) &#8211; scaling constant for probabilities</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.tree.TreeModel.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.prob_scale">
+<code class="descname">prob_scale</code><a class="headerlink" href="#dlw.tree.TreeModel.prob_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; scaling constant for probabilities</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.node_prob">
+<code class="descname">node_prob</code><a class="headerlink" href="#dlw.tree.TreeModel.node_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; probability of reaching node from period 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.final_states_prob">
+<code class="descname">final_states_prob</code><a class="headerlink" href="#dlw.tree.TreeModel.final_states_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; last periods <cite>node_prob</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_node">
+<code class="descname">get_node</code><span class="sig-paren">(</span><em>period</em>, <em>state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the node in period and state provided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (<em>int</em>) &#8211; period</li>
+<li><strong>state</strong> (<em>int</em>) &#8211; state of the node</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">node number</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="go">ValueError: No such state in period 4</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If period is too large or if the state is too large
+for the period.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_nodes_in_period">
+<code class="descname">get_nodes_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_nodes_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_nodes_in_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first and last nodes in the period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_nodes_in_period</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">(0, 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_nodes_in_period</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">(1, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_nodes_in_period</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">(15, 30)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_num_nodes_period">
+<code class="descname">get_num_nodes_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_num_nodes_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_num_nodes_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of nodes in the period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_num_nodes_period</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_num_nodes_period</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">32</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_parent_node">
+<code class="descname">get_parent_node</code><span class="sig-paren">(</span><em>child</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_parent_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_parent_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the previous or parent node of the given child node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>child</strong> (<em>int</em>) &#8211; the child node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">partent node</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the unique path taken to come to given node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path to get to <cite>node</cite></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([0, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([0, 1, 4])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">62</span><span class="p">)</span>
+<span class="go">array([ 0,  2,  6, 14, 30, 62])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_period">
+<code class="descname">get_period</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns what period the node is in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_probs_in_period">
+<code class="descname">get_probs_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_probs_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_probs_in_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the probabilities to get from period 0 to nodes in period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; the period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">probabilities</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_probs_in_period</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([ 0.25,  0.25,  0.25,  0.25])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_probs_in_period</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([ 0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,</span>
+<span class="go">        0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,</span>
+<span class="go">        0.0625,  0.0625])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_state">
+<code class="descname">get_state</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the state the node represents.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> (<em>int</em>) &#8211; the node</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">state</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.num_decision_nodes">
+<code class="descname">num_decision_nodes</code><a class="headerlink" href="#dlw.tree.TreeModel.num_decision_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; the number of nodes in tree.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.num_final_states">
+<code class="descname">num_final_states</code><a class="headerlink" href="#dlw.tree.TreeModel.num_final_states" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; the number of nodes in the last period.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.num_periods">
+<code class="descname">num_periods</code><a class="headerlink" href="#dlw.tree.TreeModel.num_periods" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; the number of periods in the tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.reachable_end_states">
+<code class="descname">reachable_end_states</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.reachable_end_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.reachable_end_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns what future end states can be reached from given node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> (<em>int</em>) &#8211; the node</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; the period</li>
+<li><strong>state</strong> (<em>int, optional</em>) &#8211; the state the node is in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(worst end state, best end state)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">reachable_end_states</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">(0, 31)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">reachable_end_states</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">(12, 15)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">reachable_end_states</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="go">(1, 1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Library Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="bau.html"
+                        title="next chapter">dlw.bau module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/tree.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="bau.html" title="dlw.bau module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Library Reference"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Oscar Sjogren.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

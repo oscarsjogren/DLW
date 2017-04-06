@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dlw.cost module &#8212; dlw 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Library Reference" href="index.html" />
+    <link rel="next" title="dlw.storage_tree module" href="storage_tree.html" />
+    <link rel="prev" title="dlw.damage module" href="damage.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="storage_tree.html" title="dlw.storage_tree module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="damage.html" title="dlw.damage module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dlw.cost">
+<span id="dlw-cost-module"></span><h1>dlw.cost module<a class="headerlink" href="#module-dlw.cost" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dlw.cost.Cost">
+<em class="property">class </em><code class="descclassname">dlw.cost.</code><code class="descname">Cost</code><a class="reference internal" href="../_modules/dlw/cost.html#Cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.Cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract Cost class for the DLW-model.</p>
+<dl class="method">
+<dt id="dlw.cost.Cost.cost">
+<code class="descname">cost</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/cost.html#Cost.cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.Cost.cost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dlw.cost.Cost.price">
+<code class="descname">price</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/cost.html#Cost.price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.Cost.price" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.cost.DLWCost">
+<em class="property">class </em><code class="descclassname">dlw.cost.</code><code class="descname">DLWCost</code><span class="sig-paren">(</span><em>tree</em>, <em>emit_at_0</em>, <em>g</em>, <em>a</em>, <em>join_price</em>, <em>max_price</em>, <em>tech_const</em>, <em>tech_scale</em>, <em>cons_at_0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/cost.html#DLWCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.DLWCost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.cost.Cost" title="dlw.cost.Cost"><code class="xref py py-class docutils literal"><span class="pre">dlw.cost.Cost</span></code></a></p>
+<p>Class to evaluate the cost curve for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
+<li><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</li>
+<li><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</li>
+<li><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</li>
+<li><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</li>
+<li><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</li>
+<li><strong>tech_const</strong> (<em>float</em>) &#8211; <dl class="docutils">
+<dt>determines the degree of exogenous technological improvement over time. A number</dt>
+<dd>of 1.0 implies 1 percent per yer lower cost</dd>
+</dl>
+</li>
+<li><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</li>
+<li><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.cost.DLWCost.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.g">
+<code class="descname">g</code><a class="headerlink" href="#dlw.cost.DLWCost.g" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; intital scale of the cost function</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.a">
+<code class="descname">a</code><a class="headerlink" href="#dlw.cost.DLWCost.a" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; curvature of the cost function</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.max_price">
+<code class="descname">max_price</code><a class="headerlink" href="#dlw.cost.DLWCost.max_price" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.tech_const">
+<code class="descname">tech_const</code><a class="headerlink" href="#dlw.cost.DLWCost.tech_const" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211;</p>
+<dl class="docutils">
+<dt>determines the degree of exogenous technological improvement over time. A number</dt>
+<dd>of 1.0 implies 1 percent per yer lower cost</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.tech_scale">
+<code class="descname">tech_scale</code><a class="headerlink" href="#dlw.cost.DLWCost.tech_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; determines the sensitivity of technological change to previous mitigation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.cons_at_0">
+<code class="descname">cons_at_0</code><a class="headerlink" href="#dlw.cost.DLWCost.cons_at_0" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; intital consumption. Default $30460bn based on US 2010 values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.cost.DLWCost.cost">
+<code class="descname">cost</code><span class="sig-paren">(</span><em>period</em>, <em>mitigation</em>, <em>ave_mitigation</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/cost.html#DLWCost.cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.DLWCost.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the mitigation cost for the period. For details about the cost function
+see DLW-paper.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (<em>int</em>) &#8211; period in tree for which mitigation cost is calculated</li>
+<li><strong>mitigation</strong> (<em>ndarray</em>) &#8211; current mitigation values for period</li>
+<li><strong>ave_mitigation</strong> (<em>ndarray</em>) &#8211; average mitigation up to this period for all nodes in the period</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cost</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.cost.DLWCost.price">
+<code class="descname">price</code><span class="sig-paren">(</span><em>years</em>, <em>mitigation</em>, <em>ave_mitigation</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/cost.html#DLWCost.price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.DLWCost.price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse of the cost function. Gives emissions price for any given
+degree of mitigation, average_mitigation, and horizon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>years</strong> (<em>int y</em>) &#8211; years of technological change so far</li>
+<li><strong>mitigation</strong> (<em>float</em>) &#8211; mitigation value in node</li>
+<li><strong>ave_mitigation</strong> (<em>float</em>) &#8211; average mitigation up to this period</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the price.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="damage.html"
+                        title="previous chapter">dlw.damage module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="storage_tree.html"
+                        title="next chapter">dlw.storage_tree module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/cost.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="storage_tree.html" title="dlw.storage_tree module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="damage.html" title="dlw.damage module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Oscar Sjogren.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

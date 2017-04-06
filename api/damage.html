@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dlw.damage module &#8212; dlw 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Library Reference" href="index.html" />
+    <link rel="next" title="dlw.cost module" href="cost.html" />
+    <link rel="prev" title="dlw.forcing module" href="forcing.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cost.html" title="dlw.cost module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="forcing.html" title="dlw.forcing module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dlw.damage">
+<span id="dlw-damage-module"></span><h1>dlw.damage module<a class="headerlink" href="#module-dlw.damage" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dlw.damage.DLWDamage">
+<em class="property">class </em><code class="descclassname">dlw.damage.</code><code class="descname">DLWDamage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em>, <em>cons_growth</em>, <em>ghg_levels</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.damage.Damage" title="dlw.damage.Damage"><code class="xref py py-class docutils literal"><span class="pre">dlw.damage.Damage</span></code></a></p>
+<p>Damage class for the DLW-model. Provides the damages from emissions and mitigation outcomes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; provides the tree structure used</li>
+<li><strong>bau</strong> (<cite>BusinessAsUsual</cite> object) &#8211; business-as-usual scenario of emissions</li>
+<li><strong>cons_growth</strong> (<em>float</em>) &#8211; constant consumption growth rate</li>
+<li><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG levels for each end scenario</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.damage.DLWDamage.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; provides the tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.bau">
+<code class="descname">bau</code><a class="headerlink" href="#dlw.damage.DLWDamage.bau" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>BusinessAsUsual</cite> object &#8211; business-as-usual scenario of emissions</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.damage.DLWDamage.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; constant consumption growth rate</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.ghg_levels">
+<code class="descname">ghg_levels</code><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_levels" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray or list</em> &#8211; end GHG levels for each end scenario</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.dnum">
+<code class="descname">dnum</code><a class="headerlink" href="#dlw.damage.DLWDamage.dnum" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of simulated damage paths</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.d">
+<code class="descname">d</code><a class="headerlink" href="#dlw.damage.DLWDamage.d" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; simulated damages</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.cum_forcing">
+<code class="descname">cum_forcing</code><a class="headerlink" href="#dlw.damage.DLWDamage.cum_forcing" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; cumulative forcing interpolation coeffiecients, used to calculate forcing based mitigation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.forcing">
+<code class="descname">forcing</code><a class="headerlink" href="#dlw.damage.DLWDamage.forcing" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Forcing</cite> object &#8211; class for calculating cumulative forcing and GHG levels</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.damage_coefs">
+<code class="descname">damage_coefs</code><a class="headerlink" href="#dlw.damage.DLWDamage.damage_coefs" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; interpolation coefficients used to calculate damages</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.average_mitigation">
+<code class="descname">average_mitigation</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.average_mitigation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the average mitigation for all node in a period.</p>
+<dl class="docutils">
+<dt>m</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or list</span><dd>array of mitigation</dd>
+<dt>period</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>period to calculate average mitigation for</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">average mitigations</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.average_mitigation_node">
+<code class="descname">average_mitigation_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.average_mitigation_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.average_mitigation_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the average mitigation until node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>node</strong> (<em>int</em>) &#8211; node for which average mitigation is to be calculated for</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; the period the node is in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">average mitigation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.damage_function">
+<code class="descname">damage_function</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.damage_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the damage for every node in a period, based on mitigation actions <cite>m</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>period</strong> (<em>int</em>) &#8211; period to calculate damages for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">array of damages</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.damage_simulation">
+<code class="descname">damage_simulation</code><span class="sig-paren">(</span><em>draws</em>, <em>peak_temp=9.0</em>, <em>disaster_tail=12.0</em>, <em>tip_on=True</em>, <em>temp_map=1</em>, <em>temp_dist_params=None</em>, <em>maxh=100.0</em>, <em>cons_growth=0.015</em>, <em>save_simulation=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.damage_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.damage_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializion and simulation of damages, given by <cite>DamageSimulation</cite> class.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>draws</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>number of Monte Carlo draws</dd>
+<dt>peak_temp</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd>tipping point parameter</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>disaster_tail</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd>curvature of tipping point</dd>
+<dt>tip_on</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span><dd>flag that turns tipping points on or off</dd>
+<dt>temp_map</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span><dd><dl class="first last docutils">
+<dt>mapping from GHG to temperature</dt>
+<dd><strong>0</strong> implies Pindyck displace gamma
+<strong>1</strong> implies Wagner-Weitzman normal
+<strong>2</strong> implies Roe-Baker
+<strong>3</strong> implies user-defined normal
+<strong>4</strong> implies user-defined gamma</dd>
+</dl>
+</dd>
+<dt>temp_dist_params</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or list, optional</span><dd>if temp_map is either 3 or 4, user needs to define the distribution parameters</dd>
+<dt>maxh</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd><dl class="first last docutils">
+<dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
+<dd>way to its max value for a given level of ghg</dd>
+</dl>
+</dd>
+<dt>cons_growth</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd>yearly growth in consumption</dd>
+<dt>save_simulation</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span><dd>True if simulated values should be save, False otherwise</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">simulated damages</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.ghg_level">
+<code class="descname">ghg_level</code><span class="sig-paren">(</span><em>m</em>, <em>periods=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.ghg_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the GHG levels for more than one period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>periods</strong> (<em>int, optional</em>) &#8211; number of periods to calculate GHG levels for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.ghg_level_period">
+<code class="descname">ghg_level_period</code><span class="sig-paren">(</span><em>m</em>, <em>period=None</em>, <em>nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.ghg_level_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_level_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the GHG levels corresponding to the given mitigation.
+Need to provide either <cite>period</cite> or <cite>nodes</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; what period to calculate GHG levels for</li>
+<li><strong>nodes</strong> (<em>ndarray or list, optional</em>) &#8211; the nodes to calculate GHG levels for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.import_damages">
+<code class="descname">import_damages</code><span class="sig-paren">(</span><em>file_name='simulated_damages'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.import_damages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.import_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import saved simulated damages. File must be saved in &#8216;data&#8217; directory
+inside current working directory. Save imported values in <cite>d</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> (<em>str, optional</em>) &#8211; name of file of saved simulated damages</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">IOError</span></code> &#8211; If file does not exist.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.damage.Damage">
+<em class="property">class </em><code class="descclassname">dlw.damage.</code><code class="descname">Damage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#Damage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract damage class for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; provides the tree structure used</li>
+<li><strong>bau</strong> (<cite>BusinessAsUsual</cite> object) &#8211; business-as-usual scenario of emissions</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.damage.Damage.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.damage.Damage.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; provides the tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.Damage.bau">
+<code class="descname">bau</code><a class="headerlink" href="#dlw.damage.Damage.bau" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>BusinessAsUsual</cite> object &#8211; business-as-usual scenario of emissions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.Damage.average_mitigation">
+<code class="descname">average_mitigation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#Damage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage.average_mitigation" title="Permalink to this definition">¶</a></dt>
+<dd><p>The average_mitigation function should return a 1D array of the
+average mitigation for every node in the period.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.Damage.damage_function">
+<code class="descname">damage_function</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#Damage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage.damage_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>The damage_function should return a 1D array of the damages for
+every node in the period.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="forcing.html"
+                        title="previous chapter">dlw.forcing module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="cost.html"
+                        title="next chapter">dlw.cost module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/damage.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cost.html" title="dlw.cost module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="forcing.html" title="dlw.forcing module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Oscar Sjogren.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

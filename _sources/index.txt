@@ -9,7 +9,7 @@ This project is based on the working paper “Applying Asset Pricing Theory to C
   * :doc:`Overview (Start Here!) <overview>`
   * :doc:`Installation <installation>`
 
-* :doc:`modules`
+* :doc:`api/index`
 
 
 
@@ -18,4 +18,4 @@ This project is based on the working paper “Applying Asset Pricing Theory to C
 
   overview
   installation
-  modules
+  api/index

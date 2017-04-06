@@ -1,0 +1,463 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dlw.utility module &#8212; dlw 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="up" title="Library Reference" href="index.html" />
+    <link rel="next" title="dlw.optimization module" href="optimization.html" />
+    <link rel="prev" title="dlw.storage_tree module" href="storage_tree.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimization.html" title="dlw.optimization module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="storage_tree.html" title="dlw.storage_tree module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dlw.utility">
+<span id="dlw-utility-module"></span><h1>dlw.utility module<a class="headerlink" href="#module-dlw.utility" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dlw.utility.EZUtility">
+<em class="property">class </em><code class="descclassname">dlw.utility.</code><code class="descname">EZUtility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em>, <em>eis=0.9</em>, <em>ra=7.0</em>, <em>time_pref=0.005</em>, <em>add_penalty_cost=False</em>, <em>max_penalty=0.0</em>, <em>penalty_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.utility.Utility" title="dlw.utility.Utility"><code class="xref py py-class docutils literal"><span class="pre">dlw.utility.Utility</span></code></a></p>
+<p>Calculation of Epstein-Zin utility for the DLW-model.</p>
+<p>The Epstein-Zin utility allows for different rates of substitution across time and
+states. For specification see DLW-paper.</p>
+<p>If <cite>add_penalty_cost</cite> is True the model will calculate a penalty cost for GHG levels
+below 280. How large this penalty becomes is controlled using the parameters <cite>max_penalty</cite>
+and <cite>penalty_scale</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
+<li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
+<li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
+<li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
+<li><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</li>
+<li><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</li>
+<li><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</li>
+<li><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
+<dt>True if utility calculation should include penalty cost for</dt>
+<dd>GHG levels below 280, else False</dd>
+</dl>
+</li>
+<li><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</li>
+<li><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.utility.EZUtility.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.damage">
+<code class="descname">damage</code><a class="headerlink" href="#dlw.utility.EZUtility.damage" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Damage</cite> object &#8211; class that provides damage methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.cost">
+<code class="descname">cost</code><a class="headerlink" href="#dlw.utility.EZUtility.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Cost</cite> object &#8211; class that procides cost methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.period_len">
+<code class="descname">period_len</code><a class="headerlink" href="#dlw.utility.EZUtility.period_len" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; subinterval length</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.utility.EZUtility.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.utility.EZUtility.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; consumption growth</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.growth_term">
+<code class="descname">growth_term</code><a class="headerlink" href="#dlw.utility.EZUtility.growth_term" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; 1 + cons_growth</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.r">
+<code class="descname">r</code><a class="headerlink" href="#dlw.utility.EZUtility.r" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; the parameter rho from the DLW-paper</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.a">
+<code class="descname">a</code><a class="headerlink" href="#dlw.utility.EZUtility.a" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; the parameter alpha from the DLW-paper</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.b">
+<code class="descname">b</code><a class="headerlink" href="#dlw.utility.EZUtility.b" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; the parameter beta from the DLW-paper</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.add_penalty_cost">
+<code class="descname">add_penalty_cost</code><a class="headerlink" href="#dlw.utility.EZUtility.add_penalty_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211;</p>
+<dl class="docutils">
+<dt>True if utility calculation should include penalty cost for</dt>
+<dd>GHG levels below 280, else False</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.max_penalty">
+<code class="descname">max_penalty</code><a class="headerlink" href="#dlw.utility.EZUtility.max_penalty" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; maximum penalty that can be added to penalty cost for one period</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.penalty_scale">
+<code class="descname">penalty_scale</code><a class="headerlink" href="#dlw.utility.EZUtility.penalty_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; constant that is multiplied to the penalty cost</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.adjusted_utility">
+<code class="descname">adjusted_utility</code><span class="sig-paren">(</span><em>m</em>, <em>period_cons_eps=None</em>, <em>node_cons_eps=None</em>, <em>final_cons_eps=0.0</em>, <em>first_period_consadj=0.0</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.adjusted_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.adjusted_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculating adjusted utility for sensitivity analysis. Used e.g. to find zero-coupon bond price.
+Values in parameters are used to adjusted the utility in different ways.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray</em>) &#8211; array of mitigations</li>
+<li><strong>period_cons_eps</strong> (<em>ndarray, optional</em>) &#8211; array of increases in consumption per period</li>
+<li><strong>node_cons_eps</strong> (<cite>SmallStorageTree</cite>, optional) &#8211; increases in consumption per node</li>
+<li><strong>final_cons_eps</strong> (<em>float, optional</em>) &#8211; value to increase the final utilities by</li>
+<li><strong>first_period_consadj</strong> (<em>float, optional</em>) &#8211; value to increase consumption at period 0 by</li>
+<li><strong>return_trees</strong> (<em>bool, optional</em>) &#8211; True if method should return trees calculculated in producing the utility</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of <cite>BaseStorageTree</cite> if return_trees else ndarray with utility at period 0</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray or tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Assuming we have declared a EZUtility object as &#8216;ezu&#8217; and have a mitigation array &#8216;m&#8217;</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ezu</span><span class="o">.</span><span class="n">adjusted_utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">final_cons_eps</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">array([ 9.83424045])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span> <span class="o">=</span> <span class="n">ezu</span><span class="o">.</span><span class="n">adjusted_utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">final_cons_eps</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">return_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ezu</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">ezu</span><span class="o">.</span><span class="n">period_len</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ezu</span><span class="o">.</span><span class="n">adjusted_utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">period_cons_eps</span><span class="o">=</span><span class="n">arr</span><span class="p">)</span>
+<span class="go">array([ 9.83424045])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span> <span class="o">=</span> <span class="n">BigStorageTree</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">bst</span><span class="o">.</span><span class="n">last_period</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bst</span><span class="o">.</span><span class="n">last</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ezu</span><span class="o">.</span><span class="n">adjusted_utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node_cons_eps</span><span class="o">=</span><span class="n">bst</span><span class="p">)</span>
+<span class="go">array([ 9.83391921])</span>
+</pre></div>
+</div>
+<p>The last example differs from the rest in that the last values of the <cite>node_cons_eps</cite> will never be
+used. Hence if you want to update the last period consumption, use one of these two methods.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ezu</span><span class="o">.</span><span class="n">adjusted_utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">first_period_consadj</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">array([ 9.86518772])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.marginal_utility">
+<code class="descname">marginal_utility</code><span class="sig-paren">(</span><em>m</em>, <em>utility_tree</em>, <em>cons_tree</em>, <em>cost_tree</em>, <em>ce_tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.marginal_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.marginal_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculating marginal utility for sensitivity analysis, e.g. in the SSC decomposition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray</em>) &#8211; array of mitigations</li>
+<li><strong>utility_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; utility values from using mitigation <cite>m</cite></li>
+<li><strong>cons_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; consumption values from using mitigation <cite>m</cite></li>
+<li><strong>cost_tree</strong> (<cite>SmallStorageTree</cite> object) &#8211; cost values from using mitigation <cite>m</cite></li>
+<li><strong>ce_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; certain equivalence values from using mitigation <cite>m</cite></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">marginal utility tree</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Assuming we have declared a EZUtility object as &#8216;ezu&#8217; and have a mitigation array &#8216;m&#8217;.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span> <span class="o">=</span> <span class="n">ezu</span><span class="o">.</span><span class="n">utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">return_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mu_0_tree</span><span class="p">,</span> <span class="n">mu_1_tree</span><span class="p">,</span> <span class="n">mu_2_tree</span> <span class="o">=</span> <span class="n">ezu</span><span class="o">.</span><span class="n">marginal_utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mu_0_tree</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># value at period 0</span>
+<span class="go">array([ 0.33001256])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mu_1_tree</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># value at period 0</span>
+<span class="go">array([ 0.15691619])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mu_2_tree</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># value at period 0</span>
+<span class="go">array([ 0.13948175])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.penalty_cost">
+<code class="descname">penalty_cost</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.penalty_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.penalty_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and return the penalty cost of GHG levels below 280. The penalties in previous nodes
+in the path leading to the current node is summed and added to current period&#8217;s penalty, given by</p>
+<blockquote>
+<div>max(0, min((280-GHG level)/GHG level, max_penalty)</div></blockquote>
+<p>The method returns a <cite>BigStorageTree</cite> object with penalties for every period where utilities are calculated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">penalties in every period where utilities are calculated</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>BigStorageTree</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.utility">
+<code class="descname">utility</code><span class="sig-paren">(</span><em>m</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculating utility for the specific mitigation decisions <cite>m</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigations</li>
+<li><strong>return_trees</strong> (<em>bool</em>) &#8211; True if methid should return trees calculated in producing the utility</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>ndarray or tuple</em> &#8211; tuple of <cite>BaseStorageTree</cite> if return_trees else ndarray with utility at period 0</li>
+<li><em>Examples</em></li>
+<li><em>&#8212;&#8212;&#8212;</em></li>
+<li><em>Assuming we have declared a EZUtility object as &#8216;ezu&#8217; and have a mitigation array &#8216;m&#8217;</em></li>
+<li><em>&gt;&gt;&gt; ezu.utility(m)</em></li>
+<li><em>array([ 9.83391921])</em></li>
+<li><em>&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)</em></li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.utility.Utility">
+<em class="property">class </em><code class="descclassname">dlw.utility.</code><code class="descname">Utility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract utility class for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
+<li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
+<li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
+<li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.utility.Utility.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.utility.Utility.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.damage">
+<code class="descname">damage</code><a class="headerlink" href="#dlw.utility.Utility.damage" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Damage</cite> object &#8211; class that provides damage methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.cost">
+<code class="descname">cost</code><a class="headerlink" href="#dlw.utility.Utility.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Cost</cite> object &#8211; class that procides cost methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.period_len">
+<code class="descname">period_len</code><a class="headerlink" href="#dlw.utility.Utility.period_len" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; subinterval length</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.utility.Utility.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.utility.Utility.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; consumption growth</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.growth_term">
+<code class="descname">growth_term</code><a class="headerlink" href="#dlw.utility.Utility.growth_term" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; 1 + cons_growth</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.Utility.adjusted_utility">
+<code class="descname">adjusted_utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility.adjusted_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.adjusted_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate utility given mitigation decisions and
+adjusting values for sensitivity analysis purposes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.Utility.marginal_utility">
+<code class="descname">marginal_utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility.marginal_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.marginal_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate marginal utility given mitigation decisions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.Utility.utility">
+<code class="descname">utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate utility given mitigation decisions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="storage_tree.html"
+                        title="previous chapter">dlw.storage_tree module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="optimization.html"
+                        title="next chapter">dlw.optimization module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/utility.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="optimization.html" title="dlw.optimization module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="storage_tree.html" title="dlw.storage_tree module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Oscar Sjogren.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
