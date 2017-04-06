@@ -435,9 +435,10 @@
 <span class="sd">		ndarray or tuple </span>
 <span class="sd">			tuple of `BaseStorageTree` if return_trees else ndarray with utility at period 0</span>
 
-<span class="sd">		Examples:</span>
+<span class="sd">		Examples</span>
 <span class="sd">		---------</span>
 <span class="sd">		Assuming we have declared a EZUtility object as &#39;ezu&#39; and have a mitigation array &#39;m&#39;</span>
+<span class="sd">		</span>
 <span class="sd">		&gt;&gt;&gt; ezu.adjusted_utility(m, final_cons_eps=0.1)</span>
 <span class="sd">		array([ 9.83424045])</span>
 <span class="sd">		&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.adjusted_utility(m, final_cons_eps=0.1, return_trees=True)</span>
@@ -565,6 +566,7 @@
 <span class="sd">		Examples</span>
 <span class="sd">		--------</span>
 <span class="sd">		Assuming we have declared a EZUtility object as &#39;ezu&#39; and have a mitigation array &#39;m&#39;.</span>
+<span class="sd">		</span>
 <span class="sd">		&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)</span>
 <span class="sd">		&gt;&gt;&gt; mu_0_tree, mu_1_tree, mu_2_tree = ezu.marginal_utility(m, utility_tree, cons_tree, cost_tree, ce_tree)</span>
 <span class="sd">		&gt;&gt;&gt; mu_0_tree[0] # value at period 0</span>
