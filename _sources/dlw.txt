@@ -1,6 +1,3 @@
-dlw package
-===========
-
 dlw.analysis module
 -------------------
 
