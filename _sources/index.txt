@@ -13,7 +13,17 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
 
   * :doc:`Tree <tutorials/tree>`
   * :doc:`BAU <tutorials/bau>`
+  * :doc:`Damage Simulation <tutorials/damage_simulation>`
+  * :doc:`Forcing <tutorials/forcing>`
+  * :doc:`Damage <tutorials/damage>`
+  * :doc:`Cost <tutorials/cost>`
+  * :doc:`Storage Tree <tutorials/storage_tree>`
+  * :doc:`Utility <tutorials/utility>`
+  * :doc:`Optimization <tutorials/optimization>`
+  * :doc:`Analysis <tutorials/analysis>`
+  * :doc:`Tools <tutorials/tools>`
 
+* :docs:`examples/output_paper`
 * :doc:`api/index`
 
 
@@ -25,6 +35,16 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
   installation
   tutorials/tree
   tutorials/bau
+  tutorials/damage_simulation
+  tutorials/forcing
+  tutorials/damage
+  tutorials/cost
+  tutorials/storage_tree
+  tutorials/utility
+  tutorials/optimization
+  tutorials/analysis
+  tutorials/tools
+  examples/output_paper
   api/index
 
 .. _paper: http://www.nber.org/papers/w22795
