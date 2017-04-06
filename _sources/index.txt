@@ -1,23 +1,21 @@
-.. dlw documentation master file, created by
-   sphinx-quickstart on Wed Apr  5 21:37:34 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to dlw's documentation!
-===============================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
-   dlw
-
-
-Indices and tables
+dlw documentation
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+This project is based on the working paper “Applying Asset Pricing Theory to Calibrate the Price of Climate Risk(http://www.nber.org/papers/w22795 by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing a analyzing framework for pricing greenhouse gas emissions.
 
+
+* **First steps:** 
+
+  * :doc:`Overview (Start Here!) <overview>`
+  * :doc:`Installation <installation>`
+
+* :doc:`modules`
+
+
+
+.. toctree::
+  :hidden:
+
+  overview
+  installation
+  modules

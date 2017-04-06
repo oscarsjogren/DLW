@@ -1,0 +1,10 @@
+Overview
+========
+If you are used to any other evolutionary algorithm framework, you'll notice
+we do things differently with DEAP. Instead of limiting you with predefined
+types, we provide ways of creating the appropriate ones. Instead of providing
+closed initializers, we enable you to customize them as you wish. Instead of
+suggesting unfit operators, we explicitly ask you to choose them wisely.
+Instead of implementing many sealed algorithms, we allow you to write the ones
+that fit all your needs. This tutorial will present a quick overview of what
+DEAP is all about along with what every DEAP program is made of.

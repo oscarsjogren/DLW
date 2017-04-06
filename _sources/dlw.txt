@@ -94,11 +94,3 @@ dlw.utility module
     :undoc-members:
     :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: dlw
-    :members:
-    :undoc-members:
-    :show-inheritance:
