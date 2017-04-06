@@ -1,0 +1,2942 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dlw package &#8212; dlw 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dlw 1.0.1 documentation" href="index.html" />
+    <link rel="up" title="dlw" href="modules.html" />
+    <link rel="prev" title="dlw" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dlw-package">
+<h1>dlw package<a class="headerlink" href="#dlw-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dlw.analysis">
+<span id="dlw-analysis-module"></span><h2>dlw.analysis module<a class="headerlink" href="#module-dlw.analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dlw.analysis.additional_ghg_emission">
+<code class="descclassname">dlw.analysis.</code><code class="descname">additional_ghg_emission</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#additional_ghg_emission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.additional_ghg_emission" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the emission added by every node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">additional emission in nodes</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.constraint_first_period">
+<code class="descclassname">dlw.analysis.</code><code class="descname">constraint_first_period</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em>, <em>first_node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#constraint_first_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.constraint_first_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the changes in consumption, the mitigation cost component of consumption,
+and new mitigation values when constraining the first period mitigation to <cite>first_node</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>first_node</strong> (<em>float</em>) &#8211; value to constrain first period to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(new mitigation array, storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.delta_consumption">
+<code class="descclassname">dlw.analysis.</code><code class="descname">delta_consumption</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em>, <em>cons_tree</em>, <em>cost_tree</em>, <em>delta_m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#delta_consumption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.delta_consumption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the changes in consumption and the mitigation cost component
+of consumption when increaseing period 0 mitigiation with <cite>delta_m</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>cons_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; consumption storage tree of consumption values
+from optimal mitigation values</li>
+<li><strong>cost_tree</strong> (<cite>SmallStorageTree</cite> object) &#8211; cost storage tree of cost values from optimal mitigation values</li>
+<li><strong>delta_m</strong> (<em>float</em>) &#8211; value to increase period 0 mitigation by</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.find_bec">
+<code class="descclassname">dlw.analysis.</code><code class="descname">find_bec</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em>, <em>constraint_cost</em>, <em>a=-0.1</em>, <em>b=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#find_bec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.find_bec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to find a value for consumption that equalizes utility at time 0 in two different solutions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>constraint_cost</strong> (<em>float</em>) &#8211; utility cost of constraining period 0 to zero</li>
+<li><strong>a</strong> (<em>float, optional</em>) &#8211; initial guess</li>
+<li><strong>b</strong> (<em>float, optional</em>) &#8211; initial guess - f(b) needs to give different sign than f(a)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>tuple</em> &#8211; result of optimization</li>
+<li><strong>.. note</strong> (<em>: requires the &#8216;scipy&#8217; package</em>)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.find_ir">
+<code class="descclassname">dlw.analysis.</code><code class="descname">find_ir</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em>, <em>payment</em>, <em>a=0.0</em>, <em>b=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#find_ir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.find_ir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the price of a bond that creates equal utility at time 0 as adding <cite>payment</cite> to the value of
+consumption in the final period. The purpose of this function is to find the interest rate
+embedded in the <cite>EZUtility</cite> model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>payment</strong> (<em>float</em>) &#8211; value added to consumption in the final period</li>
+<li><strong>a</strong> (<em>float, optional</em>) &#8211; initial guess</li>
+<li><strong>b</strong> (<em>float, optional</em>) &#8211; initial guess - f(b) needs to give different sign than f(a)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>tuple</em> &#8211; result of optimization</li>
+<li><strong>.. note</strong> (<em>: requires the &#8216;scipy&#8217; package</em>)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.find_term_structure">
+<code class="descclassname">dlw.analysis.</code><code class="descname">find_term_structure</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em>, <em>payment</em>, <em>a=0.0</em>, <em>b=0.99</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#find_term_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.find_term_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the price of a bond that creates equal utility at time 0 as adding <cite>payment</cite> to the value of
+consumption in the final period. The purpose of this function is to find the interest rate
+embedded in the <cite>EZUtility</cite> model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>payment</strong> (<em>float</em>) &#8211; value added to consumption in the final period</li>
+<li><strong>a</strong> (<em>float, optional</em>) &#8211; initial guess</li>
+<li><strong>b</strong> (<em>float, optional</em>) &#8211; initial guess - f(b) needs to give different sign than f(a)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>tuple</em> &#8211; result of optimization</li>
+<li><strong>.. note</strong> (<em>: requires the &#8216;scipy&#8217; package</em>)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.perpetuity_yield">
+<code class="descclassname">dlw.analysis.</code><code class="descname">perpetuity_yield</code><span class="sig-paren">(</span><em>price</em>, <em>start_date</em>, <em>a=0.1</em>, <em>b=10.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#perpetuity_yield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.perpetuity_yield" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the yield of a perpetuity starting at year <cite>start_date</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>price</strong> (<em>float</em>) &#8211; price of bond ending at <cite>start_date</cite></li>
+<li><strong>start_date</strong> (<em>int</em>) &#8211; start year of perpetuity</li>
+<li><strong>a</strong> (<em>float, optional</em>) &#8211; initial guess</li>
+<li><strong>b</strong> (<em>float, optional</em>) &#8211; initial guess - f(b) needs to give different sign than f(a)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>tuple</em> &#8211; result of optimization</li>
+<li><strong>.. note</strong> (<em>: requires the &#8216;scipy&#8217; package</em>)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.save_output">
+<code class="descclassname">dlw.analysis.</code><code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em>, <em>utility_tree</em>, <em>cons_tree</em>, <em>cost_tree</em>, <em>ce_tree</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.save_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the result of optimization and calculated values based on optimal mitigation. For every node the
+function calculates and saves:</p>
+<blockquote>
+<div><ul class="simple">
+<li>average mitigation</li>
+<li>average emission</li>
+<li>GHG level</li>
+<li>SCC</li>
+</ul>
+</div></blockquote>
+<p>into the file <cite>prefix</cite> + &#8216;node_period_output&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
+<p>For every period the function calculates and appends:</p>
+<blockquote>
+<div><ul class="simple">
+<li>expected SCC/price</li>
+<li>expected mitigation</li>
+<li>expected emission</li>
+</ul>
+</div></blockquote>
+<p>into the file  <cite>prefix</cite> + &#8216;node_period_output&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
+<p>The function also saves the values stored in the <cite>BaseStorageTree</cite> object parameters to a file called
+<cite>prefix</cite> + &#8216;tree&#8217; in the &#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
+directory, one is created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>utility_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; utility values from optimal mitigation values</li>
+<li><strong>cons_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; consumption values from optimal mitigation values</li>
+<li><strong>cost_tree</strong> (<cite>SmallStorageTree</cite> object) &#8211; cost values from optimal mitigation values</li>
+<li><strong>ce_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; certain equivalence values from optimal mitigation values</li>
+<li><strong>prefix</strong> (<em>str, optional</em>) &#8211; prefix to be added to file_name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.save_sensitivity_analysis">
+<code class="descclassname">dlw.analysis.</code><code class="descname">save_sensitivity_analysis</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em>, <em>utility_tree</em>, <em>cons_tree</em>, <em>cost_tree</em>, <em>ce_tree</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#save_sensitivity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.save_sensitivity_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and save sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the
+periods given by the utility calculations, the function calculates and saves:</p>
+<blockquote>
+<div><ul class="simple">
+<li>discount prices</li>
+<li>net expected damages</li>
+<li>expected damages</li>
+<li>risk premium</li>
+<li>expected SDF</li>
+<li>cross SDF &amp; damages</li>
+<li>discounted expected damages</li>
+<li>cov term</li>
+<li>scaled net expected damages</li>
+<li>scaled risk premiums</li>
+</ul>
+</div></blockquote>
+<p>into the file  <cite>prefix</cite> + &#8216;sensitivity_output&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
+<p>Furthermore, for every node the function calculates and saves:</p>
+<blockquote>
+<div><ul class="simple">
+<li>SDF</li>
+<li>delta consumption</li>
+<li>forward marginal utility</li>
+<li>up-node marginal utility</li>
+<li>down-node marginal utility</li>
+</ul>
+</div></blockquote>
+<p>into the file <cite>prefix</cite> + &#8216;tree&#8217; in the &#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
+directory, one is created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>utility_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; utility values from optimal mitigation values</li>
+<li><strong>cons_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; consumption values from optimal mitigation values</li>
+<li><strong>cost_tree</strong> (<cite>SmallStorageTree</cite> object) &#8211; cost values from optimal mitigation values</li>
+<li><strong>ce_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; certain equivalence values from optimal mitigation values</li>
+<li><strong>prefix</strong> (<em>str, optional</em>) &#8211; prefix to be added to file_name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dlw.analysis.store_trees">
+<code class="descclassname">dlw.analysis.</code><code class="descname">store_trees</code><span class="sig-paren">(</span><em>prefix=None</em>, <em>start_year=2015</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#store_trees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.store_trees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves values of <cite>BaseStorageTree</cite> objects. The file is saved into the &#8216;data&#8217; directory
+in the current working directory. If there is no &#8216;data&#8217; directory, one is created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prefix</strong> (<em>str, optional</em>) &#8211; prefix to be added to file_name</li>
+<li><strong>start_year</strong> (<em>int, optional</em>) &#8211; start year of analysis</li>
+<li><strong>**kwargs</strong> &#8211; arbitrary keyword arguments of <cite>BaseStorageTree</cite> objects</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.bau">
+<span id="dlw-bau-module"></span><h2>dlw.bau module<a class="headerlink" href="#module-dlw.bau" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.bau.BusinessAsUsual">
+<em class="property">class </em><code class="descclassname">dlw.bau.</code><code class="descname">BusinessAsUsual</code><span class="sig-paren">(</span><em>ghg_start</em>, <em>ghg_end</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/bau.html#BusinessAsUsual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.bau.BusinessAsUsual" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract BAU class for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ghg_start</strong> (<em>float</em>) &#8211; today&#8217;s GHG-level</li>
+<li><strong>ghg_end</strong> (<em>float</em>) &#8211; GHG-level in the last period</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.bau.BusinessAsUsual.ghg_start">
+<code class="descname">ghg_start</code><a class="headerlink" href="#dlw.bau.BusinessAsUsual.ghg_start" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; today&#8217;s GHG-level</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.BusinessAsUsual.ghg_end">
+<code class="descname">ghg_end</code><a class="headerlink" href="#dlw.bau.BusinessAsUsual.ghg_end" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; GHG-level in the last period</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.BusinessAsUsual.emission_by_decisions">
+<code class="descname">emission_by_decisions</code><a class="headerlink" href="#dlw.bau.BusinessAsUsual.emission_by_decisions" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; emissions at decision time periods??</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.BusinessAsUsual.emission_per_period">
+<code class="descname">emission_per_period</code><a class="headerlink" href="#dlw.bau.BusinessAsUsual.emission_per_period" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; total emission at decision time period??</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.BusinessAsUsual.emission_to_ghg">
+<code class="descname">emission_to_ghg</code><a class="headerlink" href="#dlw.bau.BusinessAsUsual.emission_to_ghg" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; GHG levels in decision time period??</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.BusinessAsUsual.emission_to_bau">
+<code class="descname">emission_to_bau</code><a class="headerlink" href="#dlw.bau.BusinessAsUsual.emission_to_bau" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; constant for converting GHG to emission??</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.bau.BusinessAsUsual.emission_by_time">
+<code class="descname">emission_by_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/bau.html#BusinessAsUsual.emission_by_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.bau.BusinessAsUsual.emission_by_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.bau.DLWBusinessAsUsual">
+<em class="property">class </em><code class="descclassname">dlw.bau.</code><code class="descname">DLWBusinessAsUsual</code><span class="sig-paren">(</span><em>ghg_start=400.0, ghg_end=1000.0, emit_time=[0, 30, 60], emit_level=[52.0, 70.0, 81.4]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/bau.html#DLWBusinessAsUsual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.bau.BusinessAsUsual" title="dlw.bau.BusinessAsUsual"><code class="xref py py-class docutils literal"><span class="pre">dlw.bau.BusinessAsUsual</span></code></a></p>
+<p>Business-as-usual scenario of emissions. Emissions growth is assumed to slow down
+exogenously - these assumptions represent an attempt to model emissions growth in a
+business-as-usual scenario that is in the absence of incentives.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ghg_start</strong> (<em>float</em>) &#8211; today&#8217;s GHG-level</li>
+<li><strong>ghg_end</strong> (<em>float</em>) &#8211; GHG-level in the last period</li>
+<li><strong>emit_time</strong> (<em>ndarray or list</em>) &#8211; time, in years, from now when emissions occurs</li>
+<li><strong>emit_level</strong> (<em>ndarray or list</em>) &#8211; emission levels in future times <cite>emit_time</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.ghg_start">
+<code class="descname">ghg_start</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.ghg_start" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; today&#8217;s GHG-level</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.ghg_end">
+<code class="descname">ghg_end</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.ghg_end" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; GHG-level in the last period</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.emission_by_decisions">
+<code class="descname">emission_by_decisions</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.emission_by_decisions" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; emissions at decision time periods??</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.emission_per_period">
+<code class="descname">emission_per_period</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.emission_per_period" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; total emission at decision time period??</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.emission_to_ghg">
+<code class="descname">emission_to_ghg</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.emission_to_ghg" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; GHG levels in decision time period??</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.emission_to_bau">
+<code class="descname">emission_to_bau</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.emission_to_bau" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; constant for converting GHG to emission??</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.emit_time">
+<code class="descname">emit_time</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.emit_time" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray or list</em> &#8211; time, in years, from now when emissions occurs</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.bau.DLWBusinessAsUsual.emit_level">
+<code class="descname">emit_level</code><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.emit_level" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray or list</em> &#8211; emission levels in future times <cite>emit_time</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.bau.DLWBusinessAsUsual.bau_emissions_setup">
+<code class="descname">bau_emissions_setup</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/bau.html#DLWBusinessAsUsual.bau_emissions_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.bau_emissions_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create default business as usual emissions path. The emission rate in each period is
+assumed to be the average of the emissions at the beginning and at the end of the period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; provides the tree structure used</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.bau.DLWBusinessAsUsual.emission_by_time">
+<code class="descname">emission_by_time</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/bau.html#DLWBusinessAsUsual.emission_by_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.bau.DLWBusinessAsUsual.emission_by_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the BAU emissions at any time</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> (<em>int</em>) &#8211; future time period in years</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">emission</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.cost">
+<span id="dlw-cost-module"></span><h2>dlw.cost module<a class="headerlink" href="#module-dlw.cost" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.cost.Cost">
+<em class="property">class </em><code class="descclassname">dlw.cost.</code><code class="descname">Cost</code><a class="reference internal" href="_modules/dlw/cost.html#Cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.Cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract Cost class for the DLW-model.</p>
+<dl class="method">
+<dt id="dlw.cost.Cost.cost">
+<code class="descname">cost</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/cost.html#Cost.cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.Cost.cost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dlw.cost.Cost.price">
+<code class="descname">price</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/cost.html#Cost.price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.Cost.price" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.cost.DLWCost">
+<em class="property">class </em><code class="descclassname">dlw.cost.</code><code class="descname">DLWCost</code><span class="sig-paren">(</span><em>tree</em>, <em>emit_at_0</em>, <em>g</em>, <em>a</em>, <em>join_price</em>, <em>max_price</em>, <em>tech_const</em>, <em>tech_scale</em>, <em>cons_at_0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/cost.html#DLWCost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.DLWCost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.cost.Cost" title="dlw.cost.Cost"><code class="xref py py-class docutils literal"><span class="pre">dlw.cost.Cost</span></code></a></p>
+<p>Class to evaluate the cost curve for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</p>
+</li>
+<li><p class="first"><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</p>
+</li>
+<li><p class="first"><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</p>
+</li>
+<li><p class="first"><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</p>
+</li>
+<li><p class="first"><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</p>
+</li>
+<li><p class="first"><strong>tech_const</strong> (<em>float</em>) &#8211;</p>
+<dl class="docutils">
+<dt>determines the degree of exogenous technological improvement over time. A number</dt>
+<dd><p class="first last">of 1.0 implies 1 percent per yer lower cost</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</p>
+</li>
+<li><p class="first"><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.cost.DLWCost.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.g">
+<code class="descname">g</code><a class="headerlink" href="#dlw.cost.DLWCost.g" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; intital scale of the cost function</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.a">
+<code class="descname">a</code><a class="headerlink" href="#dlw.cost.DLWCost.a" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; curvature of the cost function</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.max_price">
+<code class="descname">max_price</code><a class="headerlink" href="#dlw.cost.DLWCost.max_price" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.tech_const">
+<code class="descname">tech_const</code><a class="headerlink" href="#dlw.cost.DLWCost.tech_const" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211;</p>
+<dl class="docutils">
+<dt>determines the degree of exogenous technological improvement over time. A number</dt>
+<dd>of 1.0 implies 1 percent per yer lower cost</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.tech_scale">
+<code class="descname">tech_scale</code><a class="headerlink" href="#dlw.cost.DLWCost.tech_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; determines the sensitivity of technological change to previous mitigation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.cost.DLWCost.cons_at_0">
+<code class="descname">cons_at_0</code><a class="headerlink" href="#dlw.cost.DLWCost.cons_at_0" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; intital consumption. Default $30460bn based on US 2010 values.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.cost.DLWCost.cost">
+<code class="descname">cost</code><span class="sig-paren">(</span><em>period</em>, <em>mitigation</em>, <em>ave_mitigation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/cost.html#DLWCost.cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.DLWCost.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the mitigation cost for the period. For details about the cost function
+see DLW-paper.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (<em>int</em>) &#8211; period in tree for which mitigation cost is calculated</li>
+<li><strong>mitigation</strong> (<em>ndarray</em>) &#8211; current mitigation values for period</li>
+<li><strong>ave_mitigation</strong> (<em>ndarray</em>) &#8211; average mitigation up to this period for all nodes in the period</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cost</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.cost.DLWCost.price">
+<code class="descname">price</code><span class="sig-paren">(</span><em>years</em>, <em>mitigation</em>, <em>ave_mitigation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/cost.html#DLWCost.price"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.DLWCost.price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse of the cost function. Gives emissions price for any given
+degree of mitigation, average_mitigation, and horizon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>years</strong> (<em>int y</em>) &#8211; years of technological change so far</li>
+<li><strong>mitigation</strong> (<em>float</em>) &#8211; mitigation value in node</li>
+<li><strong>ave_mitigation</strong> (<em>float</em>) &#8211; average mitigation up to this period</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the price.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.damage">
+<span id="dlw-damage-module"></span><h2>dlw.damage module<a class="headerlink" href="#module-dlw.damage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.damage.DLWDamage">
+<em class="property">class </em><code class="descclassname">dlw.damage.</code><code class="descname">DLWDamage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em>, <em>cons_growth</em>, <em>ghg_levels</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.damage.Damage" title="dlw.damage.Damage"><code class="xref py py-class docutils literal"><span class="pre">dlw.damage.Damage</span></code></a></p>
+<p>Damage class for the DLW-model. Provides the damages from emissions and mitigation outcomes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; provides the tree structure used</li>
+<li><strong>bau</strong> (<cite>BusinessAsUsual</cite> object) &#8211; business-as-usual scenario of emissions</li>
+<li><strong>cons_growth</strong> (<em>float</em>) &#8211; constant consumption growth rate</li>
+<li><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG levels for each end scenario</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.damage.DLWDamage.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; provides the tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.bau">
+<code class="descname">bau</code><a class="headerlink" href="#dlw.damage.DLWDamage.bau" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>BusinessAsUsual</cite> object &#8211; business-as-usual scenario of emissions</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.damage.DLWDamage.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; constant consumption growth rate</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.ghg_levels">
+<code class="descname">ghg_levels</code><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_levels" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray or list</em> &#8211; end GHG levels for each end scenario</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.dnum">
+<code class="descname">dnum</code><a class="headerlink" href="#dlw.damage.DLWDamage.dnum" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of simulated damage paths</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.d">
+<code class="descname">d</code><a class="headerlink" href="#dlw.damage.DLWDamage.d" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; simulated damages</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.cum_forcing">
+<code class="descname">cum_forcing</code><a class="headerlink" href="#dlw.damage.DLWDamage.cum_forcing" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; cumulative forcing interpolation coeffiecients, used to calculate forcing based mitigation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.forcing">
+<code class="descname">forcing</code><a class="headerlink" href="#dlw.damage.DLWDamage.forcing" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Forcing</cite> object &#8211; class for calculating cumulative forcing and GHG levels</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.DLWDamage.damage_coefs">
+<code class="descname">damage_coefs</code><a class="headerlink" href="#dlw.damage.DLWDamage.damage_coefs" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; interpolation coefficients used to calculate damages</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.average_mitigation">
+<code class="descname">average_mitigation</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.average_mitigation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the average mitigation for all node in a period.</p>
+<dl class="docutils">
+<dt>m</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or list</span><dd>array of mitigation</dd>
+<dt>period</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>period to calculate average mitigation for</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">average mitigations</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.average_mitigation_node">
+<code class="descname">average_mitigation_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage.average_mitigation_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.average_mitigation_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the average mitigation until node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>node</strong> (<em>int</em>) &#8211; node for which average mitigation is to be calculated for</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; the period the node is in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">average mitigation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.damage_function">
+<code class="descname">damage_function</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.damage_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the damage for every node in a period, based on mitigation actions <cite>m</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>period</strong> (<em>int</em>) &#8211; period to calculate damages for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">array of damages</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.damage_simulation">
+<code class="descname">damage_simulation</code><span class="sig-paren">(</span><em>draws</em>, <em>peak_temp=9.0</em>, <em>disaster_tail=12.0</em>, <em>tip_on=True</em>, <em>temp_map=1</em>, <em>temp_dist_params=None</em>, <em>maxh=100.0</em>, <em>cons_growth=0.015</em>, <em>save_simulation=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage.damage_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.damage_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializion and simulation of damages, given by <cite>DamageSimulation</cite> class.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>draws</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int</span><dd>number of Monte Carlo draws</dd>
+<dt>peak_temp</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd>tipping point parameter</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>disaster_tail</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd>curvature of tipping point</dd>
+<dt>tip_on</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span><dd>flag that turns tipping points on or off</dd>
+<dt>temp_map</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span><dd><dl class="first last docutils">
+<dt>mapping from GHG to temperature</dt>
+<dd><strong>0</strong> implies Pindyck displace gamma
+<strong>1</strong> implies Wagner-Weitzman normal
+<strong>2</strong> implies Roe-Baker
+<strong>3</strong> implies user-defined normal
+<strong>4</strong> implies user-defined gamma</dd>
+</dl>
+</dd>
+<dt>temp_dist_params</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or list, optional</span><dd>if temp_map is either 3 or 4, user needs to define the distribution parameters</dd>
+<dt>maxh</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd><dl class="first last docutils">
+<dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
+<dd>way to its max value for a given level of ghg</dd>
+</dl>
+</dd>
+<dt>cons_growth</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span><dd>yearly growth in consumption</dd>
+<dt>save_simulation</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span><dd>True if simulated values should be save, False otherwise</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">simulated damages</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.ghg_level">
+<code class="descname">ghg_level</code><span class="sig-paren">(</span><em>m</em>, <em>periods=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage.ghg_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the GHG levels for more than one period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>periods</strong> (<em>int, optional</em>) &#8211; number of periods to calculate GHG levels for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.ghg_level_period">
+<code class="descname">ghg_level_period</code><span class="sig-paren">(</span><em>m</em>, <em>period=None</em>, <em>nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage.ghg_level_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_level_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the GHG levels corresponding to the given mitigation.
+Need to provide either <cite>period</cite> or <cite>nodes</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; what period to calculate GHG levels for</li>
+<li><strong>nodes</strong> (<em>ndarray or list, optional</em>) &#8211; the nodes to calculate GHG levels for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.DLWDamage.import_damages">
+<code class="descname">import_damages</code><span class="sig-paren">(</span><em>file_name='simulated_damages'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage.import_damages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.import_damages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import saved simulated damages. File must be saved in &#8216;data&#8217; directory
+inside current working directory. Save imported values in <cite>d</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> (<em>str, optional</em>) &#8211; name of file of saved simulated damages</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">IOError</span></code> &#8211; If file does not exist.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.damage.Damage">
+<em class="property">class </em><code class="descclassname">dlw.damage.</code><code class="descname">Damage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#Damage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract damage class for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; provides the tree structure used</li>
+<li><strong>bau</strong> (<cite>BusinessAsUsual</cite> object) &#8211; business-as-usual scenario of emissions</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.damage.Damage.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.damage.Damage.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; provides the tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage.Damage.bau">
+<code class="descname">bau</code><a class="headerlink" href="#dlw.damage.Damage.bau" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>BusinessAsUsual</cite> object &#8211; business-as-usual scenario of emissions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.Damage.average_mitigation">
+<code class="descname">average_mitigation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#Damage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage.average_mitigation" title="Permalink to this definition">¶</a></dt>
+<dd><p>The average_mitigation function should return a 1D array of the
+average mitigation for every node in the period.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage.Damage.damage_function">
+<code class="descname">damage_function</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#Damage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage.damage_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>The damage_function should return a 1D array of the damages for
+every node in the period.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.damage_simulation">
+<span id="dlw-damage-simulation-module"></span><h2>dlw.damage_simulation module<a class="headerlink" href="#module-dlw.damage_simulation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.damage_simulation.DamageSimulation">
+<em class="property">class </em><code class="descclassname">dlw.damage_simulation.</code><code class="descname">DamageSimulation</code><span class="sig-paren">(</span><em>tree</em>, <em>ghg_levels</em>, <em>peak_temp</em>, <em>disaster_tail</em>, <em>tip_on</em>, <em>temp_map</em>, <em>temp_dist_params</em>, <em>maxh</em>, <em>cons_growth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage_simulation.html#DamageSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Simulation of damages for the DLW-model.</p>
+<p>The damage function simulation is a key input into the pricing engine. Damages are
+represented in arrays of dimension n x p, where n = num states and p = num periods.
+The arrays are created by Monte Carlo simulation. Each array specifies for each state
+and time period a damage coefficient.</p>
+<p>Up to a point, the Monte Carlo follows Pindyck (2012) Uncertain Outcomes and Climate Change
+Policy:</p>
+<ul class="simple">
+<li>There is a gamma distribution for temperature</li>
+<li>There is a gamma distribution for economic impact (conditional on temperature)</li>
+</ul>
+<p>However, in addition, this program adds a probability of a tipping point (conditional on temperature).
+This probability is a decreasing function of the parameter <cite>peak_temp</cite>, conditional on a tipping
+point. Damage itself is a decreasing function of the parameter <cite>disaster_tail</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG level for each path</p>
+</li>
+<li><p class="first"><strong>peak_temp</strong> (<em>float</em>) &#8211; tipping point parameter</p>
+</li>
+<li><p class="first"><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</p>
+</li>
+<li><p class="first"><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</p>
+</li>
+<li><p class="first"><strong>temp_map</strong> (<em>int</em>) &#8211; mapping from GHG to temperature
+* <strong>0</strong>: implies Pindyck displace gamma
+* <strong>1</strong>: implies Wagner-Weitzman normal
+* <strong>2</strong>: implies Roe-Baker
+* <strong>3</strong>: implies user-defined normal
+* <strong>4</strong>: implies user-defined gamma</p>
+</li>
+<li><p class="first"><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</p>
+</li>
+<li><p class="first"><strong>maxh</strong> (<em>float</em>) &#8211;</p>
+<dl class="docutils">
+<dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
+<dd><p class="first last">way to its max value for a given level of ghg</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>cons_growth</strong> (<em>float</em>) &#8211; yearly growth in consumption</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.ghg_levels">
+<code class="descname">ghg_levels</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.ghg_levels" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray or list</em> &#8211; end GHG level for each path</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.peak_temp">
+<code class="descname">peak_temp</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.peak_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; tipping point parameter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.disaster_tail">
+<code class="descname">disaster_tail</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.disaster_tail" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; curvature of tipping point</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.tip_on">
+<code class="descname">tip_on</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.tip_on" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> &#8211; flag that turns tipping points on or off</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.temp_map">
+<code class="descname">temp_map</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.temp_map" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; mapping from GHG to temperature</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.temp_dist_params">
+<code class="descname">temp_dist_params</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.temp_dist_params" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray or list</em> &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.maxh">
+<code class="descname">maxh</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.maxh" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211;</p>
+<dl class="docutils">
+<dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
+<dd>way to its max value for a given level of ghg</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; yearly growth in consumption</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.damage_simulation.DamageSimulation.d">
+<code class="descname">d</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.d" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; simulated damages</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.damage_simulation.DamageSimulation.simulate">
+<code class="descname">simulate</code><span class="sig-paren">(</span><em>draws</em>, <em>write_to_file=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage_simulation.html#DamageSimulation.simulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create damage function values in &#8216;p-period&#8217; version of the Summers - Zeckhauser model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>draws</strong> (<em>int</em>) &#8211; number of samples drawn in Monte Carlo simulation.</li>
+<li><strong>write_to_file</strong> (<em>bool, optional</em>) &#8211; wheter to save simulated values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">3D-array of simulated damages</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">ndarray</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If temp_map is not in the interval 0-4.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.forcing">
+<span id="dlw-forcing-module"></span><h2>dlw.forcing module<a class="headerlink" href="#module-dlw.forcing" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.forcing.Forcing">
+<em class="property">class </em><code class="descclassname">dlw.forcing.</code><code class="descname">Forcing</code><a class="reference internal" href="_modules/dlw/forcing.html#Forcing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.forcing.Forcing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Forcing of GHG emissions for the DLW-model.</p>
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.sink_start">
+<code class="descname">sink_start</code><a class="headerlink" href="#dlw.forcing.Forcing.sink_start" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; sinking class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.forcing_start">
+<code class="descname">forcing_start</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_start" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing start class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.forcing_p1">
+<code class="descname">forcing_p1</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_p1" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.forcing_p2">
+<code class="descname">forcing_p2</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_p2" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.forcing_p3">
+<code class="descname">forcing_p3</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_p3" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.absorbtion_p1">
+<code class="descname">absorbtion_p1</code><a class="headerlink" href="#dlw.forcing.Forcing.absorbtion_p1" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; absorbtion class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.absorbtion_p2">
+<code class="descname">absorbtion_p2</code><a class="headerlink" href="#dlw.forcing.Forcing.absorbtion_p2" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; absorbtion class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.lsc_p1">
+<code class="descname">lsc_p1</code><a class="headerlink" href="#dlw.forcing.Forcing.lsc_p1" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.forcing.Forcing.lsc_p2">
+<code class="descname">lsc_p2</code><a class="headerlink" href="#dlw.forcing.Forcing.lsc_p2" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; class constant</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">absorbtion_p1</code><em class="property"> = 0.94835</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">absorbtion_p2</code><em class="property"> = 0.741547</em></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dlw.forcing.Forcing.forcing_at_node">
+<em class="property">classmethod </em><code class="descname">forcing_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>tree</em>, <em>bau</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/forcing.html#Forcing.forcing_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.forcing.Forcing.forcing_at_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the forcing based mitigation leading up to the
+damage calculation in <cite>node</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray</em>) &#8211; array of mitigations in each node.</li>
+<li><strong>node</strong> (<em>int</em>) &#8211; the node for which the forcing is being calculated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">forcing</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">forcing_p1</code><em class="property"> = 0.13173</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">forcing_p2</code><em class="property"> = 0.607773</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">forcing_p3</code><em class="property"> = 315.3785</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">forcing_start</code><em class="property"> = 4.926</em></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="dlw.forcing.Forcing.ghg_level_at_node">
+<em class="property">classmethod </em><code class="descname">ghg_level_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>tree</em>, <em>bau</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/forcing.html#Forcing.ghg_level_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.forcing.Forcing.ghg_level_at_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the GHG level leading up to the damage calculation in <cite>node</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray</em>) &#8211; array of mitigations in each node.</li>
+<li><strong>node</strong> (<em>int</em>) &#8211; the node for which the GHG level is being calculated.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG level at node</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">lsc_p1</code><em class="property"> = 285.6268</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">lsc_p2</code><em class="property"> = 0.88414</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">sink_start</code><em class="property"> = 35.596</em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="dlw-main-module">
+<h2>dlw.main module<a class="headerlink" href="#dlw-main-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dlw.optimization">
+<span id="dlw-optimization-module"></span><h2>dlw.optimization module<a class="headerlink" href="#module-dlw.optimization" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.optimization.GenericAlgorithm">
+<em class="property">class </em><code class="descclassname">dlw.optimization.</code><code class="descname">GenericAlgorithm</code><span class="sig-paren">(</span><em>pop_amount</em>, <em>num_generations</em>, <em>cx_prob</em>, <em>mut_prob</em>, <em>bound</em>, <em>num_feature</em>, <em>utility</em>, <em>fixed_values=None</em>, <em>fixed_indicies=None</em>, <em>print_progress=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#GenericAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GenericAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Optimization algorithm for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pop_amount</strong> (<em>int</em>) &#8211; number of individuals in the population</li>
+<li><strong>num_feature</strong> (<em>int</em>) &#8211; number of elements in each individual, i.e. number of nodes in tree-model</li>
+<li><strong>num_generations</strong> (<em>int</em>) &#8211; number of generations of the populations to be evaluated</li>
+<li><strong>bound</strong> (<em>float</em>) &#8211; upper bound of mitigation in each node</li>
+<li><strong>cx_prob</strong> (<em>float</em>) &#8211; probability of mating</li>
+<li><strong>mut_prob</strong> (<em>float</em>) &#8211; probability of mutation.</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>fixed_values</strong> (<em>ndarray, optional</em>) &#8211; nodes to keep fixed</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray, optional</em>) &#8211; indicies of nodes to keep fixed</li>
+<li><strong>print_progress</strong> (<em>bool, optional</em>) &#8211; if the progress of the evolution should be printed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.pop_amount">
+<code class="descname">pop_amount</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.pop_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of individuals in the population</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.num_feature">
+<code class="descname">num_feature</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.num_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of elements in each individual, i.e. number of nodes in tree-model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.num_generations">
+<code class="descname">num_generations</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.num_generations" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of generations of the populations to be evaluated</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.bound">
+<code class="descname">bound</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.bound" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; upper bound of mitigation in each node</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.cx_prob">
+<code class="descname">cx_prob</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.cx_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; probability of mating</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.mut_prob">
+<code class="descname">mut_prob</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.mut_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; probability of mutation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.u">
+<code class="descname">u</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.u" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.fixed_values">
+<code class="descname">fixed_values</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.fixed_values" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.fixed_indicies">
+<code class="descname">fixed_indicies</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.fixed_indicies" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; indicies of nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GenericAlgorithm.print_progress">
+<code class="descname">print_progress</code><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.print_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211; if the progress of the evolution should be printed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GenericAlgorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#GenericAlgorithm.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GenericAlgorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the evolution process.</p>
+<dl class="docutils">
+<dt>The evolution steps are:</dt>
+<dd><ol class="first last arabic simple">
+<li>Select the individuals to perform cross-over and mutation.</li>
+<li>Cross over among the selected candidate.</li>
+<li>Mutate result as offspring.</li>
+<li>Combine the result of offspring and parent together. And selected the top
+80 percent of original population amount.</li>
+<li>Random Generate 20 percent of original population amount new individuals
+and combine the above new population.</li>
+</ol>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">final population and the fitness for the final population</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.optimization.GradientSearch">
+<em class="property">class </em><code class="descclassname">dlw.optimization.</code><code class="descname">GradientSearch</code><span class="sig-paren">(</span><em>utility</em>, <em>learning_rate</em>, <em>var_nums</em>, <em>accuracy=1e-06</em>, <em>iterations=100</em>, <em>fixed_values=None</em>, <em>fixed_indicies=None</em>, <em>print_progress=False</em>, <em>scale_alpha=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#GradientSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Gradient search optimization algorithm for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>learning_rate</strong> (<em>float</em>) &#8211; starting learning rate of gradient descent</li>
+<li><strong>var_nums</strong> (<em>int</em>) &#8211; number of elements in array to optimize</li>
+<li><strong>accuracy</strong> (<em>float</em>) &#8211; stop value for the gradient descent</li>
+<li><strong>fixed_values</strong> (<em>ndarray, optional</em>) &#8211; nodes to keep fixed</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray, optional</em>) &#8211; indicies of nodes to keep fixed</li>
+<li><strong>print_progress</strong> (<em>bool, optional</em>) &#8211; if the progress of the evolution should be printed</li>
+<li><strong>scale_alpha</strong> (<em>ndarray, optional</em>) &#8211; array to scale the learning rate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.utility">
+<code class="descname">utility</code><a class="headerlink" href="#dlw.optimization.GradientSearch.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.learning_rate">
+<code class="descname">learning_rate</code><a class="headerlink" href="#dlw.optimization.GradientSearch.learning_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; starting learning rate of gradient descent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.var_nums">
+<code class="descname">var_nums</code><a class="headerlink" href="#dlw.optimization.GradientSearch.var_nums" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of elements in array to optimize</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.accuracy">
+<code class="descname">accuracy</code><a class="headerlink" href="#dlw.optimization.GradientSearch.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; stop value for the gradient descent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.fixed_values">
+<code class="descname">fixed_values</code><a class="headerlink" href="#dlw.optimization.GradientSearch.fixed_values" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.fixed_indicies">
+<code class="descname">fixed_indicies</code><a class="headerlink" href="#dlw.optimization.GradientSearch.fixed_indicies" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; indicies of nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.print_progress">
+<code class="descname">print_progress</code><a class="headerlink" href="#dlw.optimization.GradientSearch.print_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211; if the progress of the evolution should be printed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.optimization.GradientSearch.scale_alpha">
+<code class="descname">scale_alpha</code><a class="headerlink" href="#dlw.optimization.GradientSearch.scale_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; array to scale the learning rate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GradientSearch.gradient_descent">
+<code class="descname">gradient_descent</code><span class="sig-paren">(</span><em>initial_point</em>, <em>return_last=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#GradientSearch.gradient_descent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch.gradient_descent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gradient descent algorithm. The <cite>initial_point</cite> is updated in the direction
+where the utility function is increases fastest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first">
+<li><p class="first"><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</p>
+</li>
+<li><p class="first"><strong>return_last</strong> (<em>bool, optional</em>) &#8211;</p>
+<dl class="docutils">
+<dt>if True the function returns the last point, else the point</dt>
+<dd><p class="first last">with highest utility</p>
+</dd>
+</dl>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(best point, best utility)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GradientSearch.numerical_gradient">
+<code class="descname">numerical_gradient</code><span class="sig-paren">(</span><em>m</em>, <em>delta=1e-08</em>, <em>fixed_indicies=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#GradientSearch.numerical_gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch.numerical_gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate utility gradient numerically.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</li>
+<li><strong>delta</strong> (<em>float, optional</em>) &#8211; change in mitigation</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray or list, optional</em>) &#8211; indicies of gradient that should not be calculated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">gradient</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.optimization.GradientSearch.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>initial_point_list</em>, <em>topk=4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#GradientSearch.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GradientSearch.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the gradient search algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>initial_point_list</strong> (<em>list</em>) &#8211; list of initial points to select from</li>
+<li><strong>topk</strong> (<em>int, optional</em>) &#8211; select and run gradient descent on the <cite>topk</cite> first points of
+<cite>initial_point_list</cite></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">best mitigation point and the utility of the best mitigation point</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If <cite>topk</cite> is larger than the length of <cite>initial_point_list</cite>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.optimization.NodeMaximum">
+<em class="property">class </em><code class="descclassname">dlw.optimization.</code><code class="descname">NodeMaximum</code><a class="reference internal" href="_modules/dlw/optimization.html#NodeMaximum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.NodeMaximum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Optimization node wise, keeping the rest of the nodes fixed. Starting from the
+back of the tree and working back to node 0.</p>
+<dl class="classmethod">
+<dt id="dlw.optimization.NodeMaximum.run">
+<em class="property">classmethod </em><code class="descname">run</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#NodeMaximum.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.NodeMaximum.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.storage_tree">
+<span id="dlw-storage-tree-module"></span><h2>dlw.storage_tree module<a class="headerlink" href="#module-dlw.storage_tree" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.storage_tree.BaseStorageTree">
+<em class="property">class </em><code class="descclassname">dlw.storage_tree.</code><code class="descname">BaseStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract storage class for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; array of years from start where decisions about mitigation levels are done</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.storage_tree.BaseStorageTree.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; array of years from start where decisions about mitigation levels are done</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BaseStorageTree.information_times">
+<code class="descname">information_times</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; array of years where new information is given to the agent in the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BaseStorageTree.periods">
+<code class="descname">periods</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.periods" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; periods in the tree</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BaseStorageTree.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> &#8211; dictionary where keys are <cite>periods</cite> and values are nodes in period</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.get_next_period_array">
+<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the array of the next period from <cite>periods</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.is_decision_period">
+<code class="descname">is_decision_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.is_decision_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.is_decision_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if time_period is a decision time for mitigation, where
+time_period is the number of years since start.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is a decision time, else False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.is_information_period">
+<code class="descname">is_information_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.is_information_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.is_information_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if time_period is a information time for fragility, where
+time_period is the number of years since start.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is an information time, else False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.is_real_decision_period">
+<code class="descname">is_real_decision_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.is_real_decision_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.is_real_decision_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if time_period is a decision time besides the last period, where
+time_period is the number of years since start.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is a real decision time, else False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BaseStorageTree.last">
+<code class="descname">last</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.last" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; last period&#8217;s array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BaseStorageTree.last_period">
+<code class="descname">last_period</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.last_period" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; index of last period.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BaseStorageTree.nodes">
+<code class="descname">nodes</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of nodes in the tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.set_value">
+<code class="descname">set_value</code><span class="sig-paren">(</span><em>period</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.set_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.set_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>If period is in periods, set the value of element to <cite>values</cite> (ndarray).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.write_columns">
+<code class="descname">write_columns</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>start_year=2015</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.write_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.write_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save values in <cite>self.tree</cite> as columns into file  <cite>file_name</cite> in the
+&#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
+directory, one is created.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="34%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Year</th>
+<th class="head">Node</th>
+<th class="head">header</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>start_year</td>
+<td>0</td>
+<td>val0</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_name</strong> (<em>str</em>) &#8211; name of saved file</li>
+<li><strong>header</strong> (<em>str</em>) &#8211; description of values in tree</li>
+<li><strong>start_year</strong> (<em>int, optional</em>) &#8211; start year of analysis</li>
+<li><strong>delimiter</strong> (<em>str, optional</em>) &#8211; delimiter in file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.write_columns_existing">
+<code class="descname">write_columns_existing</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.write_columns_existing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.write_columns_existing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save values in <cite>self.tree</cite> as columns into file  <cite>file_name</cite> in the
+&#8216;data&#8217; directory in the current working directory, when <cite>file_name</cite> already exists.
+If there is no &#8216;data&#8217; directory, one is created.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="29%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Year</th>
+<th class="head">Node</th>
+<th class="head">other_header</th>
+<th class="head">header</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>start_year</td>
+<td>0</td>
+<td>other_val0</td>
+<td>val0</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_name</strong> (<em>str</em>) &#8211; name of saved file</li>
+<li><strong>header</strong> (<em>str</em>) &#8211; description of values in tree</li>
+<li><strong>start_year</strong> (<em>int, optional</em>) &#8211; start year of analysis</li>
+<li><strong>delimiter</strong> (<em>str, optional</em>) &#8211; delimiter in file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BaseStorageTree.write_tree">
+<code class="descname">write_tree</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree.write_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.write_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save values in <cite>self.tree</cite> as a tree into file  <cite>file_name</cite> in the
+&#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
+directory, one is created.</p>
+<blockquote>
+<div><blockquote>
+<div><blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<p>/</p>
+</div></blockquote>
+<p>node 1</p>
+</div></blockquote>
+<p>/      ..</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>node 0         ..</dt>
+<dd><dl class="first last docutils">
+<dt>     /</dt>
+<dd><dl class="first last docutils">
+<dt>node 2</dt>
+<dd><dl class="first last docutils">
+<dt></dt>
+<dd></dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_name</strong> (<em>str</em>) &#8211; name of saved file</li>
+<li><strong>header</strong> (<em>str</em>) &#8211; first row of file</li>
+<li><strong>delimiter</strong> (<em>str, optional</em>) &#8211; delimiter in file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.storage_tree.BigStorageTree">
+<em class="property">class </em><code class="descclassname">dlw.storage_tree.</code><code class="descname">BigStorageTree</code><span class="sig-paren">(</span><em>subinterval_len</em>, <em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BigStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.storage_tree.BaseStorageTree" title="dlw.storage_tree.BaseStorageTree"><code class="xref py py-class docutils literal"><span class="pre">dlw.storage_tree.BaseStorageTree</span></code></a></p>
+<p>Storage tree class for the DLW-model. Storage in nodes between
+periods in <cite>decision_times</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>subintervals_len</strong> (<em>float</em>) &#8211; years between periods in tree</li>
+<li><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; array of years from start where decisions about mitigation levels are done</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.storage_tree.BigStorageTree.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; array of years from start where decisions about mitigation levels are done</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BigStorageTree.information_times">
+<code class="descname">information_times</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; array of years where new information is given to the agent in the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BigStorageTree.periods">
+<code class="descname">periods</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.periods" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; periods in the tree</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BigStorageTree.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> &#8211; dictionary where keys are <cite>periods</cite> and values are nodes in period</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BigStorageTree.subintervals_len">
+<code class="descname">subintervals_len</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.subintervals_len" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; years between periods in tree</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BigStorageTree.between_decision_times">
+<code class="descname">between_decision_times</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BigStorageTree.between_decision_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.between_decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check which decision time the period is between and returns
+the index of the lower decision time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">index</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span> <span class="o">=</span> <span class="n">BigStorageTree</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span><span class="o">.</span><span class="n">between_decision_times</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span><span class="o">.</span><span class="n">between_decision_times</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BigStorageTree.decision_interval">
+<code class="descname">decision_interval</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BigStorageTree.decision_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.decision_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check which interval the period is between.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">index</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span> <span class="o">=</span> <span class="n">BigStorageTree</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span><span class="o">.</span><span class="n">decision_interval</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span><span class="o">.</span><span class="n">between_decision_times</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span><span class="o">.</span><span class="n">between_decision_times</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.BigStorageTree.first_period_intervals">
+<code class="descname">first_period_intervals</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.first_period_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; the number of subintervals in the first period.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.BigStorageTree.get_next_period_array">
+<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BigStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the array of the next period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bst</span> <span class="o">=</span> <span class="n">BigStorageTree</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span><span class="o">.</span><span class="n">get_next_period_array</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([0., 0.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span><span class="o">.</span><span class="n">get_next_period_array</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">array([ 0.,  0., 0., 0.])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">IndexError</span></code> &#8211; If <cite>period</cite> is not a valid period or too large</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.storage_tree.SmallStorageTree">
+<em class="property">class </em><code class="descclassname">dlw.storage_tree.</code><code class="descname">SmallStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#SmallStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.storage_tree.BaseStorageTree" title="dlw.storage_tree.BaseStorageTree"><code class="xref py py-class docutils literal"><span class="pre">dlw.storage_tree.BaseStorageTree</span></code></a></p>
+<p>Storage tree class for the DLW-model. No storage in nodes between
+periods in <cite>decision_times</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; array of years from start where decisions about mitigation levels are done</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.storage_tree.SmallStorageTree.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; array of years from start where decisions about mitigation levels are done</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.SmallStorageTree.information_times">
+<code class="descname">information_times</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; array of years where new information is given to the agent in the model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.SmallStorageTree.periods">
+<code class="descname">periods</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.periods" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; periods in the tree</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.storage_tree.SmallStorageTree.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> &#8211; dictionary where keys are <cite>periods</cite> and values are nodes in period</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.SmallStorageTree.get_next_period_array">
+<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#SmallStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the array of the next decision period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span> <span class="o">=</span> <span class="n">SmallStorageTree</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span><span class="o">.</span><span class="n">get_next_period_array</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">array([0., 0.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span><span class="o">.</span><span class="n">get_next_period_array</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">array([ 0.,  0.,  0.,  0.])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">IndexError</span></code> &#8211; If <cite>period</cite> is not in real decision times</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.storage_tree.SmallStorageTree.index_below">
+<code class="descname">index_below</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#SmallStorageTree.index_below"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.index_below" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the key of the previous decision period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span> <span class="o">=</span> <span class="n">SmallStorageTree</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span><span class="o">.</span><span class="n">index_below</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">IndexError</span></code> &#8211; If <cite>period</cite> is not in decision times or first element in decision times</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.tools">
+<span id="dlw-tools-module"></span><h2>dlw.tools module<a class="headerlink" href="#module-dlw.tools" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dlw.tools.append_to_existing">
+<code class="descclassname">dlw.tools.</code><code class="descname">append_to_existing</code><span class="sig-paren">(</span><em>lst</em>, <em>file_name</em>, <em>header=''</em>, <em>index=None</em>, <em>delimiter=';'</em>, <em>start_char=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#append_to_existing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.append_to_existing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.create_file">
+<code class="descclassname">dlw.tools.</code><code class="descname">create_file</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#create_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.create_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.file_exists">
+<code class="descclassname">dlw.tools.</code><code class="descname">file_exists</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#file_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.file_exists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.find_path">
+<code class="descclassname">dlw.tools.</code><code class="descname">find_path</code><span class="sig-paren">(</span><em>file_name</em>, <em>directory='data'</em>, <em>file_type='.csv'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#find_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.find_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.import_csv">
+<code class="descclassname">dlw.tools.</code><code class="descname">import_csv</code><span class="sig-paren">(</span><em>file_name</em>, <em>delimiter=';'</em>, <em>header=True</em>, <em>indices=None</em>, <em>start_at=0</em>, <em>break_at='\n'</em>, <em>ignore=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#import_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.import_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.load_csv">
+<code class="descclassname">dlw.tools.</code><code class="descname">load_csv</code><span class="sig-paren">(</span><em>file_name</em>, <em>delimiter=';'</em>, <em>comment=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#load_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.load_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.plot">
+<code class="descclassname">dlw.tools.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>y_data</em>, <em>x_data</em>, <em>index=None</em>, <em>title=None</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>legend=None</em>, <em>vertical_line=None</em>, <em>save=False</em>, <em>file_name=None</em>, <em>points=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.plot_dict">
+<code class="descclassname">dlw.tools.</code><code class="descname">plot_dict</code><span class="sig-paren">(</span><em>dictionary</em>, <em>title</em>, <em>xlabel</em>, <em>ylabel</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#plot_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.plot_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.plot_first_order_condition">
+<code class="descclassname">dlw.tools.</code><code class="descname">plot_first_order_condition</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#plot_first_order_condition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.plot_first_order_condition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.plot_mitigation_at_node">
+<code class="descclassname">dlw.tools.</code><code class="descname">plot_mitigation_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>utility</em>, <em>save=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#plot_mitigation_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.plot_mitigation_at_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.write_columns_csv">
+<code class="descclassname">dlw.tools.</code><code class="descname">write_columns_csv</code><span class="sig-paren">(</span><em>lst</em>, <em>file_name</em>, <em>header=[]</em>, <em>index=None</em>, <em>start_char=None</em>, <em>delimiter=';'</em>, <em>open_as='wb'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#write_columns_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.write_columns_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="dlw.tools.write_columns_to_existing">
+<code class="descclassname">dlw.tools.</code><code class="descname">write_columns_to_existing</code><span class="sig-paren">(</span><em>lst</em>, <em>file_name</em>, <em>header=''</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#write_columns_to_existing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.write_columns_to_existing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-dlw.tree">
+<span id="dlw-tree-module"></span><h2>dlw.tree module<a class="headerlink" href="#module-dlw.tree" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.tree.TreeModel">
+<em class="property">class </em><code class="descclassname">dlw.tree.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times</em>, <em>prob_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Tree model for the DLW-model. It provides the structure of a non-recombining tree.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; years in the future where decisions will be made</li>
+<li><strong>prob_scale</strong> (<em>float, optional</em>) &#8211; scaling constant for probabilities</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.tree.TreeModel.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.prob_scale">
+<code class="descname">prob_scale</code><a class="headerlink" href="#dlw.tree.TreeModel.prob_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; scaling constant for probabilities</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.node_prob">
+<code class="descname">node_prob</code><a class="headerlink" href="#dlw.tree.TreeModel.node_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; probability of reaching node from period 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.final_states_prob">
+<code class="descname">final_states_prob</code><a class="headerlink" href="#dlw.tree.TreeModel.final_states_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; last periods <cite>node_prob</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_node">
+<code class="descname">get_node</code><span class="sig-paren">(</span><em>period</em>, <em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the node in period and state provided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (<em>int</em>) &#8211; period</li>
+<li><strong>state</strong> (<em>int</em>) &#8211; state of the node</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">node number</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="go">ValueError: No such state in period 4</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If period is too large or if the state is too large
+for the period.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_nodes_in_period">
+<code class="descname">get_nodes_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_nodes_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_nodes_in_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the first and last nodes in the period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_nodes_in_period</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">(0, 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_nodes_in_period</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">(1, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_nodes_in_period</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">(15, 30)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_num_nodes_period">
+<code class="descname">get_num_nodes_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_num_nodes_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_num_nodes_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of nodes in the period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_num_nodes_period</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_num_nodes_period</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">32</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_parent_node">
+<code class="descname">get_parent_node</code><span class="sig-paren">(</span><em>child</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_parent_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_parent_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the previous or parent node of the given child node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>child</strong> (<em>int</em>) &#8211; the child node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">partent node</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the unique path taken to come to given node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path to get to <cite>node</cite></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([0, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([0, 1, 4])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="mi">62</span><span class="p">)</span>
+<span class="go">array([ 0,  2,  6, 14, 30, 62])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_period">
+<code class="descname">get_period</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns what period the node is in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_probs_in_period">
+<code class="descname">get_probs_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_probs_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_probs_in_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the probabilities to get from period 0 to nodes in period.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; the period</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">probabilities</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_probs_in_period</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([ 0.25,  0.25,  0.25,  0.25])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_probs_in_period</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">array([ 0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,</span>
+<span class="go">        0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,</span>
+<span class="go">        0.0625,  0.0625])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.get_state">
+<code class="descname">get_state</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the state the node represents.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> (<em>int</em>) &#8211; the node</li>
+<li><strong>period</strong> (<em>int, optional</em>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">state</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.num_decision_nodes">
+<code class="descname">num_decision_nodes</code><a class="headerlink" href="#dlw.tree.TreeModel.num_decision_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; the number of nodes in tree.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.num_final_states">
+<code class="descname">num_final_states</code><a class="headerlink" href="#dlw.tree.TreeModel.num_final_states" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; the number of nodes in the last period.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.tree.TreeModel.num_periods">
+<code class="descname">num_periods</code><a class="headerlink" href="#dlw.tree.TreeModel.num_periods" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; the number of periods in the tree.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.tree.TreeModel.reachable_end_states">
+<code class="descname">reachable_end_states</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel.reachable_end_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.reachable_end_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns what future end states can be reached from given node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> (<em>int</em>) &#8211; the node</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; the period</li>
+<li><strong>state</strong> (<em>int, optional</em>) &#8211; the state the node is in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(worst end state, best end state)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">TreeModel</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">185</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">385</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">reachable_end_states</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">(0, 31)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">reachable_end_states</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">(12, 15)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">reachable_end_states</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="go">(1, 1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dlw.utility">
+<span id="dlw-utility-module"></span><h2>dlw.utility module<a class="headerlink" href="#module-dlw.utility" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dlw.utility.EZUtility">
+<em class="property">class </em><code class="descclassname">dlw.utility.</code><code class="descname">EZUtility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em>, <em>eis=0.9</em>, <em>ra=7.0</em>, <em>time_pref=0.005</em>, <em>add_penalty_cost=False</em>, <em>max_penalty=0.0</em>, <em>penalty_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#EZUtility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dlw.utility.Utility" title="dlw.utility.Utility"><code class="xref py py-class docutils literal"><span class="pre">dlw.utility.Utility</span></code></a></p>
+<p>Calculation of Epstein-Zin utility for the DLW-model.</p>
+<p>The Epstein-Zin utility allows for different rates of substitution across time and
+states. For specification see DLW-paper.</p>
+<p>If <cite>add_penalty_cost</cite> is True the model will calculate a penalty cost for GHG levels
+below 280. How large this penalty becomes is controlled using the parameters <cite>max_penalty</cite>
+and <cite>penalty_scale</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</p>
+</li>
+<li><p class="first"><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</p>
+</li>
+<li><p class="first"><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</p>
+</li>
+<li><p class="first"><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</p>
+</li>
+<li><p class="first"><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</p>
+</li>
+<li><p class="first"><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</p>
+</li>
+<li><p class="first"><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211;</p>
+<dl class="docutils">
+<dt>True if utility calculation should include penalty cost for</dt>
+<dd><p class="first last">GHG levels below 280, else False</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</p>
+</li>
+<li><p class="first"><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.utility.EZUtility.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.damage">
+<code class="descname">damage</code><a class="headerlink" href="#dlw.utility.EZUtility.damage" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Damage</cite> object &#8211; class that provides damage methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.cost">
+<code class="descname">cost</code><a class="headerlink" href="#dlw.utility.EZUtility.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Cost</cite> object &#8211; class that procides cost methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.period_len">
+<code class="descname">period_len</code><a class="headerlink" href="#dlw.utility.EZUtility.period_len" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; subinterval length</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.utility.EZUtility.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.utility.EZUtility.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; consumption growth</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.growth_term">
+<code class="descname">growth_term</code><a class="headerlink" href="#dlw.utility.EZUtility.growth_term" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; 1 + cons_growth</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.r">
+<code class="descname">r</code><a class="headerlink" href="#dlw.utility.EZUtility.r" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; the parameter rho from the DLW-paper</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.a">
+<code class="descname">a</code><a class="headerlink" href="#dlw.utility.EZUtility.a" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; the parameter alpha from the DLW-paper</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.b">
+<code class="descname">b</code><a class="headerlink" href="#dlw.utility.EZUtility.b" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; the parameter beta from the DLW-paper</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.add_penalty_cost">
+<code class="descname">add_penalty_cost</code><a class="headerlink" href="#dlw.utility.EZUtility.add_penalty_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211;</p>
+<dl class="docutils">
+<dt>True if utility calculation should include penalty cost for</dt>
+<dd>GHG levels below 280, else False</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.max_penalty">
+<code class="descname">max_penalty</code><a class="headerlink" href="#dlw.utility.EZUtility.max_penalty" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; maximum penalty that can be added to penalty cost for one period</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.EZUtility.penalty_scale">
+<code class="descname">penalty_scale</code><a class="headerlink" href="#dlw.utility.EZUtility.penalty_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; constant that is multiplied to the penalty cost</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.adjusted_utility">
+<code class="descname">adjusted_utility</code><span class="sig-paren">(</span><em>m</em>, <em>period_cons_eps=None</em>, <em>node_cons_eps=None</em>, <em>final_cons_eps=0.0</em>, <em>first_period_consadj=0.0</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#EZUtility.adjusted_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.adjusted_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculating adjusted utility for sensitivity analysis. Used e.g. to find zero-coupon bond price.
+Values in parameters are used to adjusted the utility in different ways.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray</em>) &#8211; array of mitigations</li>
+<li><strong>period_cons_eps</strong> (<em>ndarray, optional</em>) &#8211; array of increases in consumption per period</li>
+<li><strong>node_cons_eps</strong> (<cite>SmallStorageTree</cite>, optional) &#8211; increases in consumption per node</li>
+<li><strong>final_cons_eps</strong> (<em>float, optional</em>) &#8211; value to increase the final utilities by</li>
+<li><strong>first_period_consadj</strong> (<em>float, optional</em>) &#8211; value to increase consumption at period 0 by</li>
+<li><strong>return_trees</strong> (<em>bool, optional</em>) &#8211; True if method should return trees calculculated in producing the utility</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>ndarray or tuple</em> &#8211; tuple of <cite>BaseStorageTree</cite> if return_trees else ndarray with utility at period 0</li>
+<li><em>Examples</em></li>
+<li><em>&#8212;&#8212;&#8212;</em></li>
+<li><em>Assuming we have declared a EZUtility object as &#8216;ezu&#8217; and have a mitigation array &#8216;m&#8217;</em></li>
+<li><em>&gt;&gt;&gt; ezu.adjusted_utility(m, final_cons_eps=0.1)</em></li>
+<li><em>array([ 9.83424045])</em></li>
+<li><em>&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.adjusted_utility(m, final_cons_eps=0.1, return_trees=True)</em></li>
+<li><em>&gt;&gt;&gt; arr = np.zeros(int(ezu.decision_times[-1]/ezu.period_len) + 1)</em></li>
+<li><em>&gt;&gt;&gt; arr[-1] = 0.1</em></li>
+<li><em>&gt;&gt;&gt; ezu.adjusted_utility(m, period_cons_eps=arr)</em></li>
+<li><em>array([ 9.83424045])</em></li>
+<li><em>&gt;&gt;&gt; bst = BigStorageTree(5.0, [0, 15, 45, 85, 185, 285, 385])</em></li>
+<li><em>&gt;&gt;&gt; bst.set_value(bst.last_period, np.repeat(0.1, len(bst.last)))</em></li>
+<li><em>&gt;&gt;&gt; ezu.adjusted_utility(m, node_cons_eps=bst)</em></li>
+<li><em>array([ 9.83391921])</em></li>
+<li>The last example differs from the rest in that the last values of the <cite>node_cons_eps</cite> will never be</li>
+<li><em>used. Hence if you want to update the last period consumption, use one of these two methods.</em></li>
+<li><em>&gt;&gt;&gt; ezu.adjusted_utility(m, first_period_consadj=0.1)</em></li>
+<li><em>array([ 9.86518772])</em></li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.marginal_utility">
+<code class="descname">marginal_utility</code><span class="sig-paren">(</span><em>m</em>, <em>utility_tree</em>, <em>cons_tree</em>, <em>cost_tree</em>, <em>ce_tree</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#EZUtility.marginal_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.marginal_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculating marginal utility for sensitivity analysis, e.g. in the SSC decomposition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray</em>) &#8211; array of mitigations</li>
+<li><strong>utility_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; utility values from using mitigation <cite>m</cite></li>
+<li><strong>cons_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; consumption values from using mitigation <cite>m</cite></li>
+<li><strong>cost_tree</strong> (<cite>SmallStorageTree</cite> object) &#8211; cost values from using mitigation <cite>m</cite></li>
+<li><strong>ce_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; certain equivalence values from using mitigation <cite>m</cite></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">marginal utility tree</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Assuming we have declared a EZUtility object as &#8216;ezu&#8217; and have a mitigation array &#8216;m&#8217;.
+&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)
+&gt;&gt;&gt; mu_0_tree, mu_1_tree, mu_2_tree = ezu.marginal_utility(m, utility_tree, cons_tree, cost_tree, ce_tree)
+&gt;&gt;&gt; mu_0_tree[0] # value at period 0
+array([ 0.33001256])
+&gt;&gt;&gt; mu_1_tree[0] # value at period 0
+array([ 0.15691619])
+&gt;&gt;&gt; mu_2_tree[0] # value at period 0
+array([ 0.13948175])</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.penalty_cost">
+<code class="descname">penalty_cost</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#EZUtility.penalty_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.penalty_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and return the penalty cost of GHG levels below 280. The penalties in previous nodes
+in the path leading to the current node is summed and added to current period&#8217;s penalty, given by</p>
+<blockquote>
+<div>max(0, min((280-GHG level)/GHG level, max_penalty)</div></blockquote>
+<p>The method returns a <cite>BigStorageTree</cite> object with penalties for every period where utilities are calculated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">penalties in every period where utilities are calculated</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>BigStorageTree</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.EZUtility.utility">
+<code class="descname">utility</code><span class="sig-paren">(</span><em>m</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#EZUtility.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculating utility for the specific mitigation decisions <cite>m</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigations</li>
+<li><strong>return_trees</strong> (<em>bool</em>) &#8211; True if methid should return trees calculated in producing the utility</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>ndarray or tuple</em> &#8211; tuple of <cite>BaseStorageTree</cite> if return_trees else ndarray with utility at period 0</li>
+<li><em>Examples</em></li>
+<li><em>&#8212;&#8212;&#8212;</em></li>
+<li><em>Assuming we have declared a EZUtility object as &#8216;ezu&#8217; and have a mitigation array &#8216;m&#8217;</em></li>
+<li><em>&gt;&gt;&gt; ezu.utility(m)</em></li>
+<li><em>array([ 9.83391921])</em></li>
+<li><em>&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)</em></li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dlw.utility.Utility">
+<em class="property">class </em><code class="descclassname">dlw.utility.</code><code class="descname">Utility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#Utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Abstract utility class for the DLW-model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
+<li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
+<li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
+<li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="dlw.utility.Utility.tree">
+<code class="descname">tree</code><a class="headerlink" href="#dlw.utility.Utility.tree" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.damage">
+<code class="descname">damage</code><a class="headerlink" href="#dlw.utility.Utility.damage" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Damage</cite> object &#8211; class that provides damage methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.cost">
+<code class="descname">cost</code><a class="headerlink" href="#dlw.utility.Utility.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Cost</cite> object &#8211; class that procides cost methods</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.period_len">
+<code class="descname">period_len</code><a class="headerlink" href="#dlw.utility.Utility.period_len" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; subinterval length</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#dlw.utility.Utility.decision_times" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.utility.Utility.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; consumption growth</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dlw.utility.Utility.growth_term">
+<code class="descname">growth_term</code><a class="headerlink" href="#dlw.utility.Utility.growth_term" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; 1 + cons_growth</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.Utility.adjusted_utility">
+<code class="descname">adjusted_utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#Utility.adjusted_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.adjusted_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate utility given mitigation decisions and
+adjusting values for sensitivity analysis purposes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.Utility.marginal_utility">
+<code class="descname">marginal_utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#Utility.marginal_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.marginal_utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate marginal utility given mitigation decisions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dlw.utility.Utility.utility">
+<code class="descname">utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#Utility.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to calculate utility given mitigation decisions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-dlw"></span></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dlw package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dlw.analysis">dlw.analysis module</a></li>
+<li><a class="reference internal" href="#module-dlw.bau">dlw.bau module</a></li>
+<li><a class="reference internal" href="#module-dlw.cost">dlw.cost module</a></li>
+<li><a class="reference internal" href="#module-dlw.damage">dlw.damage module</a></li>
+<li><a class="reference internal" href="#module-dlw.damage_simulation">dlw.damage_simulation module</a></li>
+<li><a class="reference internal" href="#module-dlw.forcing">dlw.forcing module</a></li>
+<li><a class="reference internal" href="#dlw-main-module">dlw.main module</a></li>
+<li><a class="reference internal" href="#module-dlw.optimization">dlw.optimization module</a></li>
+<li><a class="reference internal" href="#module-dlw.storage_tree">dlw.storage_tree module</a></li>
+<li><a class="reference internal" href="#module-dlw.tools">dlw.tools module</a></li>
+<li><a class="reference internal" href="#module-dlw.tree">dlw.tree module</a></li>
+<li><a class="reference internal" href="#module-dlw.utility">dlw.utility module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">dlw</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">dlw</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dlw.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Oscar Sjogren.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/dlw.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
