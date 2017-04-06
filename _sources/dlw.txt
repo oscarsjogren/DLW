@@ -1,9 +1,6 @@
 dlw package
 ===========
 
-Submodules
-----------
-
 dlw.analysis module
 -------------------
 
@@ -48,14 +45,6 @@ dlw.forcing module
 ------------------
 
 .. automodule:: dlw.forcing
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-dlw.main module
----------------
-
-.. automodule:: dlw.main
     :members:
     :undoc-members:
     :show-inheritance:
