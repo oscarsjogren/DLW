@@ -1,10 +1,9 @@
 Overview
 ========
-If you are used to any other evolutionary algorithm framework, you'll notice
-we do things differently with DEAP. Instead of limiting you with predefined
-types, we provide ways of creating the appropriate ones. Instead of providing
-closed initializers, we enable you to customize them as you wish. Instead of
-suggesting unfit operators, we explicitly ask you to choose them wisely.
-Instead of implementing many sealed algorithms, we allow you to write the ones
-that fit all your needs. This tutorial will present a quick overview of what
-DEAP is all about along with what every DEAP program is made of.
+Pricing greenhouse gas emissions is a risk management problem. It involves making trade-offs between consumption today and unknown damages in the (distant) future. The optimal carbon dioxide (CO2) price, thus, is based on society’ s willingness to substitute consumption across time and across uncertain states of nature. Standard constant relative risk aversion preference specifications, meanwhile, conflate the two. Moreover, they are inconsistent with observed asset valuations, based on a large body of work in macroeconomics and finance. This literature has developed a richer set of preferences that are more consistent with asset price behavior and separate risk across time and across states of nature. 
+
+In this model, we explore the implications of these richer preference specifications for the optimal CO2 price. We develop the EZ-Climate model, a simple discrete-time model in which the representative agent has an Epstein-Zin preference specification, and in which uncertainty about the effect of CO2 emissions on global temperature and on eventual damages is gradually resolved over time. In the EZ-Climate model the optimal price is equal to the price of one ton of CO2 emitted at any given point in time that maximizes the utility of the representative agent at that time. We embed a number of features including tail risk, the potential for technological change, and backstop technologies. In contrast to most modeled carbon price paths, the EZ-Climate model suggests a high optimal carbon price today that is expected to decline over time. It also points to the importance of backstop technologies and to potentially very large.
+
+See paper_ for futher detail.
+
+.. _paper: http://www.nber.org/papers/w22795
