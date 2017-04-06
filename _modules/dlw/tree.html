@@ -84,17 +84,17 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_periods</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;int: the number of periods in the tree.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;int: the number of periods in the tree&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_times</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_decision_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;int: the number of nodes in tree.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;int: the number of nodes in tree&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">num_final_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;int: the number of nodes in the last period.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;int: the number of nodes in the last period&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_create_probs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -218,6 +218,7 @@
 <span class="sd">        node : int</span>
 <span class="sd">            the node</span>
 <span class="sd">        period : int, optional</span>
+<span class="sd">            the period</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>

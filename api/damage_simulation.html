@@ -87,12 +87,13 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 <li><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</li>
 <li><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</li>
 <li><strong>temp_map</strong> (<em>int</em>) &#8211; <p>mapping from GHG to temperature</p>
-<blockquote>
-<div>0: implies Pindyck displace gamma
-1: implies Wagner-Weitzman normal
-2: implies Roe-Baker
-3: implies user-defined normal
-4: implies user-defined gamma</div></blockquote>
+<ul>
+<li>0: implies Pindyck displace gamma</li>
+<li>1: implies Wagner-Weitzman normal</li>
+<li>2: implies Roe-Baker</li>
+<li>3: implies user-defined normal</li>
+<li>4: implies user-defined gamma</li>
+</ul>
 </li>
 <li><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</li>
 <li><strong>maxh</strong> (<em>float</em>) &#8211; time paramter from Pindyck which indicates the time it takes for temp to get half
