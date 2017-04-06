@@ -23,7 +23,7 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
   * :doc:`Analysis <tutorials/analysis>`
   * :doc:`Tools <tutorials/tools>`
 
-* :docs:`examples/output_paper`
+* :doc:`examples/output_paper`
 * :doc:`api/index`
 
 
