@@ -549,20 +549,30 @@ assumed to be the average of the emissions at the beginning and at the end of th
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
-<li><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</li>
-<li><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</li>
-<li><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</li>
-<li><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</li>
-<li><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</li>
-<li><strong>tech_const</strong> (<em>float</em>) &#8211; <dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</p>
+</li>
+<li><p class="first"><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</p>
+</li>
+<li><p class="first"><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</p>
+</li>
+<li><p class="first"><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</p>
+</li>
+<li><p class="first"><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</p>
+</li>
+<li><p class="first"><strong>tech_const</strong> (<em>float</em>) &#8211;</p>
+<dl class="docutils">
 <dt>determines the degree of exogenous technological improvement over time. A number</dt>
-<dd>of 1.0 implies 1 percent per yer lower cost</dd>
+<dd><p class="first last">of 1.0 implies 1 percent per yer lower cost</p>
+</dd>
 </dl>
 </li>
-<li><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</li>
-<li><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</li>
+<li><p class="first"><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</p>
+</li>
+<li><p class="first"><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -986,27 +996,38 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
-<li><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG level for each path</li>
-<li><strong>peak_temp</strong> (<em>float</em>) &#8211; tipping point parameter</li>
-<li><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</li>
-<li><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</li>
-<li><strong>temp_map</strong> (<em>int</em>) &#8211; <p>mapping from GHG to temperature</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG level for each path</p>
+</li>
+<li><p class="first"><strong>peak_temp</strong> (<em>float</em>) &#8211; tipping point parameter</p>
+</li>
+<li><p class="first"><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</p>
+</li>
+<li><p class="first"><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</p>
+</li>
+<li><p class="first"><strong>temp_map</strong> (<em>int</em>) &#8211;</p>
+<p>mapping from GHG to temperature</p>
 <blockquote>
-<div>0: implies Pindyck displace gamma
+<div><p>0: implies Pindyck displace gamma
 1: implies Wagner-Weitzman normal
 2: implies Roe-Baker
 3: implies user-defined normal
-4: implies user-defined gamma</div></blockquote>
+4: implies user-defined gamma</p>
+</div></blockquote>
 </li>
-<li><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</li>
-<li><strong>maxh</strong> (<em>float</em>) &#8211; <dl class="docutils">
+<li><p class="first"><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</p>
+</li>
+<li><p class="first"><strong>maxh</strong> (<em>float</em>) &#8211;</p>
+<dl class="docutils">
 <dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
-<dd>way to its max value for a given level of ghg</dd>
+<dd><p class="first last">way to its max value for a given level of ghg</p>
+</dd>
 </dl>
 </li>
-<li><strong>cons_growth</strong> (<em>float</em>) &#8211; yearly growth in consumption</li>
+<li><p class="first"><strong>cons_growth</strong> (<em>float</em>) &#8211; yearly growth in consumption</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -1451,11 +1472,14 @@ where the utility function is increases fastest.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</li>
-<li><strong>return_last</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first">
+<li><p class="first"><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</p>
+</li>
+<li><p class="first"><strong>return_last</strong> (<em>bool, optional</em>) &#8211;</p>
+<dl class="docutils">
 <dt>if True the function returns the last point, else the point</dt>
-<dd>with highest utility</dd>
+<dd><p class="first last">with highest utility</p>
+</dd>
 </dl>
 </li>
 </ul>
@@ -2339,7 +2363,7 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>node</strong> (<em>int</em>) &#8211; the node</li>
-<li><strong>period</strong> (<em>int, optional</em>) &#8211; </li>
+<li><strong>period</strong> (<em>int, optional</em>)</li>
 </ul>
 </td>
 </tr>
@@ -2427,21 +2451,32 @@ and <cite>penalty_scale</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
-<li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
-<li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
-<li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
-<li><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</li>
-<li><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</li>
-<li><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</li>
-<li><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</p>
+</li>
+<li><p class="first"><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</p>
+</li>
+<li><p class="first"><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</p>
+</li>
+<li><p class="first"><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</p>
+</li>
+<li><p class="first"><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</p>
+</li>
+<li><p class="first"><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</p>
+</li>
+<li><p class="first"><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211;</p>
+<dl class="docutils">
 <dt>True if utility calculation should include penalty cost for</dt>
-<dd>GHG levels below 280, else False</dd>
+<dd><p class="first last">GHG levels below 280, else False</p>
+</dd>
 </dl>
 </li>
-<li><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</li>
-<li><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</li>
+<li><p class="first"><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</p>
+</li>
+<li><p class="first"><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</p>
+</li>
 </ul>
 </td>
 </tr>
