@@ -24,8 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="dlw 1.0.1 documentation" href="index.html" />
-    <link rel="up" title="dlw" href="modules.html" />
-    <link rel="prev" title="dlw" href="modules.html" /> 
+    <link rel="prev" title="EZ Climate Project Overview" href="index.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,10 +37,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="modules.html" title="dlw"
+          <a href="index.html" title="EZ Climate Project Overview"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">dlw 1.0.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">dlw</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">dlw 1.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -66,10 +64,7 @@
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">additional emission in nodes</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; additional emission in nodes</p>
 </td>
 </tr>
 </tbody>
@@ -92,10 +87,7 @@ and new mitigation values when constraining the first period mitigation to <cite
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(new mitigation array, storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (new mitigation array, storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
 </td>
 </tr>
 </tbody>
@@ -121,10 +113,7 @@ from optimal mitigation values</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
 </td>
 </tr>
 </tbody>
@@ -519,9 +508,7 @@ assumed to be the average of the emissions at the beginning and at the end of th
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> (<em>int</em>) &#8211; future time period in years</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">emission</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>float</em> &#8211; emission</td>
 </tr>
 </tbody>
 </table>
@@ -558,20 +545,30 @@ assumed to be the average of the emissions at the beginning and at the end of th
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
-<li><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</li>
-<li><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</li>
-<li><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</li>
-<li><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</li>
-<li><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</li>
-<li><strong>tech_const</strong> (<em>float</em>) &#8211; <dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</p>
+</li>
+<li><p class="first"><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</p>
+</li>
+<li><p class="first"><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</p>
+</li>
+<li><p class="first"><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</p>
+</li>
+<li><p class="first"><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</p>
+</li>
+<li><p class="first"><strong>tech_const</strong> (<em>float</em>) &#8211;</p>
+<dl class="docutils">
 <dt>determines the degree of exogenous technological improvement over time. A number</dt>
-<dd>of 1.0 implies 1 percent per yer lower cost</dd>
+<dd><p class="first last">of 1.0 implies 1 percent per yer lower cost</p>
+</dd>
 </dl>
 </li>
-<li><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</li>
-<li><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</li>
+<li><p class="first"><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</p>
+</li>
+<li><p class="first"><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -639,10 +636,7 @@ see DLW-paper.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cost</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; cost</p>
 </td>
 </tr>
 </tbody>
@@ -665,10 +659,7 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the price.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; the price.</p>
 </td>
 </tr>
 </tbody>
@@ -767,9 +758,7 @@ degree of mitigation, average_mitigation, and horizon.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">average mitigations</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; average mitigations</td>
 </tr>
 </tbody>
 </table>
@@ -790,10 +779,7 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">average mitigation</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; average mitigation</p>
 </td>
 </tr>
 </tbody>
@@ -814,10 +800,7 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">array of damages</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; array of damages</p>
 </td>
 </tr>
 </tbody>
@@ -868,9 +851,7 @@ degree of mitigation, average_mitigation, and horizon.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">simulated damages</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; simulated damages</td>
 </tr>
 </tbody>
 </table>
@@ -890,10 +871,7 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; GHG levels</p>
 </td>
 </tr>
 </tbody>
@@ -916,10 +894,7 @@ Need to provide either <cite>period</cite> or <cite>nodes</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; GHG levels</p>
 </td>
 </tr>
 </tbody>
@@ -1017,27 +992,38 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
-<li><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG level for each path</li>
-<li><strong>peak_temp</strong> (<em>float</em>) &#8211; tipping point parameter</li>
-<li><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</li>
-<li><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</li>
-<li><strong>temp_map</strong> (<em>int</em>) &#8211; <p>mapping from GHG to temperature</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG level for each path</p>
+</li>
+<li><p class="first"><strong>peak_temp</strong> (<em>float</em>) &#8211; tipping point parameter</p>
+</li>
+<li><p class="first"><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</p>
+</li>
+<li><p class="first"><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</p>
+</li>
+<li><p class="first"><strong>temp_map</strong> (<em>int</em>) &#8211;</p>
+<p>mapping from GHG to temperature</p>
 <blockquote>
-<div>0: implies Pindyck displace gamma
+<div><p>0: implies Pindyck displace gamma
 1: implies Wagner-Weitzman normal
 2: implies Roe-Baker
 3: implies user-defined normal
-4: implies user-defined gamma</div></blockquote>
+4: implies user-defined gamma</p>
+</div></blockquote>
 </li>
-<li><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</li>
-<li><strong>maxh</strong> (<em>float</em>) &#8211; <dl class="docutils">
+<li><p class="first"><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</p>
+</li>
+<li><p class="first"><strong>maxh</strong> (<em>float</em>) &#8211;</p>
+<dl class="docutils">
 <dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
-<dd>way to its max value for a given level of ghg</dd>
+<dd><p class="first last">way to its max value for a given level of ghg</p>
+</dd>
 </dl>
 </li>
-<li><strong>cons_growth</strong> (<em>float</em>) &#8211; yearly growth in consumption</li>
+<li><p class="first"><strong>cons_growth</strong> (<em>float</em>) &#8211; yearly growth in consumption</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -1121,13 +1107,10 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">3D-array of simulated damages</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><em>ndarray</em> &#8211; 3D-array of simulated damages</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">ndarray</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If temp_map is not in the interval 0-4.</p>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If temp_map is not in the interval 0-4.</p>
 </td>
 </tr>
 </tbody>
@@ -1223,10 +1206,7 @@ damage calculation in <cite>node</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">forcing</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; forcing</p>
 </td>
 </tr>
 </tbody>
@@ -1267,10 +1247,7 @@ damage calculation in <cite>node</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG level at node</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; GHG level at node</p>
 </td>
 </tr>
 </tbody>
@@ -1403,9 +1380,7 @@ and combine the above new population.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">final population and the fitness for the final population</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>tuple</em> &#8211; final population and the fitness for the final population</td>
 </tr>
 </tbody>
 </table>
@@ -1493,20 +1468,20 @@ where the utility function is increases fastest.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</li>
-<li><strong>return_last</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first">
+<li><p class="first"><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</p>
+</li>
+<li><p class="first"><strong>return_last</strong> (<em>bool, optional</em>) &#8211;</p>
+<dl class="docutils">
 <dt>if True the function returns the last point, else the point</dt>
-<dd>with highest utility</dd>
+<dd><p class="first last">with highest utility</p>
+</dd>
 </dl>
 </li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(best point, best utility)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (best point, best utility)</p>
 </td>
 </tr>
 </tbody>
@@ -1528,10 +1503,7 @@ where the utility function is increases fastest.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">gradient</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; gradient</p>
 </td>
 </tr>
 </tbody>
@@ -1553,13 +1525,10 @@ where the utility function is increases fastest.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">best mitigation point and the utility of the best mitigation point</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><em>tuple</em> &#8211; best mitigation point and the utility of the best mitigation point</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If <cite>topk</cite> is larger than the length of <cite>initial_point_list</cite>.</p>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If <cite>topk</cite> is larger than the length of <cite>initial_point_list</cite>.</p>
 </td>
 </tr>
 </tbody>
@@ -1638,9 +1607,7 @@ time_period is the number of years since start.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is a decision time, else False</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> &#8211; True if time_period also is a decision time, else False</td>
 </tr>
 </tbody>
 </table>
@@ -1657,9 +1624,7 @@ time_period is the number of years since start.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is an information time, else False</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> &#8211; True if time_period also is an information time, else False</td>
 </tr>
 </tbody>
 </table>
@@ -1676,9 +1641,7 @@ time_period is the number of years since start.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is a real decision time, else False</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> &#8211; True if time_period also is a real decision time, else False</td>
 </tr>
 </tbody>
 </table>
@@ -1911,9 +1874,7 @@ the index of the lower decision time.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">index</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; index</td>
 </tr>
 </tbody>
 </table>
@@ -1937,9 +1898,7 @@ the index of the lower decision time.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">index</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; index</td>
 </tr>
 </tbody>
 </table>
@@ -2212,10 +2171,7 @@ periods in <cite>decision_times</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">node number</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>int</em> &#8211; node number</p>
 </td>
 </tr>
 </tbody>
@@ -2251,9 +2207,7 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; number of nodes in period</td>
 </tr>
 </tbody>
 </table>
@@ -2279,9 +2233,7 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; number of nodes in period</td>
 </tr>
 </tbody>
 </table>
@@ -2305,9 +2257,7 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>child</strong> (<em>int</em>) &#8211; the child node</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">partent node</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; partent node</td>
 </tr>
 </tbody>
 </table>
@@ -2333,9 +2283,7 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path to get to <cite>node</cite></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; path to get to <cite>node</cite></td>
 </tr>
 </tbody>
 </table>
@@ -2361,9 +2309,7 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">period</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; period</td>
 </tr>
 </tbody>
 </table>
@@ -2387,9 +2333,7 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; the period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">probabilities</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; probabilities</td>
 </tr>
 </tbody>
 </table>
@@ -2415,14 +2359,11 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>node</strong> (<em>int</em>) &#8211; the node</li>
-<li><strong>period</strong> (<em>int, optional</em>) &#8211; </li>
+<li><strong>period</strong> (<em>int, optional</em>)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">state</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>int</em> &#8211; state</p>
 </td>
 </tr>
 </tbody>
@@ -2470,10 +2411,7 @@ for the period.</td>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(worst end state, best end state)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (worst end state, best end state)</p>
 </td>
 </tr>
 </tbody>
@@ -2509,21 +2447,32 @@ and <cite>penalty_scale</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
-<li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
-<li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
-<li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
-<li><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</li>
-<li><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</li>
-<li><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</li>
-<li><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
+<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
+</li>
+<li><p class="first"><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</p>
+</li>
+<li><p class="first"><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</p>
+</li>
+<li><p class="first"><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</p>
+</li>
+<li><p class="first"><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</p>
+</li>
+<li><p class="first"><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</p>
+</li>
+<li><p class="first"><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</p>
+</li>
+<li><p class="first"><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211;</p>
+<dl class="docutils">
 <dt>True if utility calculation should include penalty cost for</dt>
-<dd>GHG levels below 280, else False</dd>
+<dd><p class="first last">GHG levels below 280, else False</p>
+</dd>
 </dl>
 </li>
-<li><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</li>
-<li><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</li>
+<li><p class="first"><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</p>
+</li>
+<li><p class="first"><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</p>
+</li>
 </ul>
 </td>
 </tr>
@@ -2675,10 +2624,7 @@ Values in parameters are used to adjusted the utility in different ways.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">marginal utility tree</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; marginal utility tree</p>
 </td>
 </tr>
 </tbody>
@@ -2709,9 +2655,7 @@ in the path leading to the current node is summed and added to current period&#8
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">penalties in every period where utilities are calculated</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>BigStorageTree</cite></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><cite>BigStorageTree</cite> &#8211; penalties in every period where utilities are calculated</td>
 </tr>
 </tbody>
 </table>
@@ -2859,8 +2803,8 @@ adjusting values for sensitivity analysis purposes.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="modules.html"
-                        title="previous chapter">dlw</a></p>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">EZ Climate Project Overview</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -2892,10 +2836,9 @@ adjusting values for sensitivity analysis purposes.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="modules.html" title="dlw"
+          <a href="index.html" title="EZ Climate Project Overview"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">dlw 1.0.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >dlw</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">dlw 1.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
