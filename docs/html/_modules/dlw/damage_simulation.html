@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dlw.damage_simulation &#8212; code  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="code  documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">code  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for dlw.damage_simulation</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">from</span> <span class="nn">tools</span> <span class="k">import</span> <span class="n">_pickle_method</span><span class="p">,</span> <span class="n">_unpickle_method</span>
+<span class="kn">from</span> <span class="nn">tools</span> <span class="k">import</span> <span class="n">write_columns_csv</span><span class="p">,</span> <span class="n">append_to_existing</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">copy_reg</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">copyreg</span> <span class="k">as</span> <span class="nn">copy_reg</span>
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="n">copy_reg</span><span class="o">.</span><span class="n">pickle</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">,</span> <span class="n">_pickle_method</span><span class="p">,</span> <span class="n">_unpickle_method</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DamageSimulation"><a class="viewcode-back" href="../../dlw.html#dlw.damage_simulation.DamageSimulation">[docs]</a><span class="k">class</span> <span class="nc">DamageSimulation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Simulation of damages for the DLW-model.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        tree (obj: &#39;TreeModel&#39;): Provides the tree structure used.</span>
+<span class="sd">        ghg_levels (ndarray or list): End GHG levels for each path.</span>
+<span class="sd">        peak_temp (float): Determines the probability of a tipping point.</span>
+<span class="sd">        disaster_tail (float): Curvature of the cost function.</span>
+<span class="sd">        tip_on (bool): Flag that turns tipping points on or off.</span>
+<span class="sd">        temp_map (int): The mapping from GHG to temperature.</span>
+<span class="sd">            0 implies Pindyck displace gamma</span>
+<span class="sd">            1 implies Wagner-Weitzman normal</span>
+<span class="sd">            2 implies Roe-Baker</span>
+<span class="sd">            3 implies user-defined normal </span>
+<span class="sd">            4 implies user-defined gamma</span>
+<span class="sd">        temp_dist_params (ndarray or list): If temp_map is either 3 or 4, user needs</span>
+<span class="sd">            to define the distribution parameters. </span>
+<span class="sd">        maxh (float): Time paramter from Pindyck which indicates the time it takes for temp to get half </span>
+<span class="sd">            way to its max value for a given level of ghg.</span>
+<span class="sd">        cons_growth (float): Yearly growth in consumption.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+  
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">ghg_levels</span><span class="p">,</span> <span class="n">peak_temp</span><span class="p">,</span> <span class="n">disaster_tail</span><span class="p">,</span> <span class="n">tip_on</span><span class="p">,</span> 
+                 <span class="n">temp_map</span><span class="p">,</span> <span class="n">temp_dist_params</span><span class="p">,</span> <span class="n">maxh</span><span class="p">,</span> <span class="n">cons_growth</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peak_temp</span> <span class="o">=</span> <span class="n">peak_temp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disaster_tail</span> <span class="o">=</span> <span class="n">disaster_tail</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tip_on</span> <span class="o">=</span> <span class="n">tip_on</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temp_map</span> <span class="o">=</span> <span class="n">temp_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist_params</span> <span class="o">=</span> <span class="n">temp_dist_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxh</span> <span class="o">=</span> <span class="n">maxh</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cons_growth</span> <span class="o">=</span> <span class="n">cons_growth</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ghg_levels</span> <span class="o">=</span> <span class="n">ghg_levels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_write_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;simulated_damages&quot;</span>
+        <span class="n">write_columns_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">append_to_existing</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">start_char</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gamma_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="n">dimension</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">rate</span><span class="p">,</span> <span class="n">dimension</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_normal_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">stdev</span><span class="p">,</span> <span class="n">dimension</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">stdev</span><span class="p">,</span> <span class="n">dimension</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_uniform_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimension</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sort_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="n">array</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">num_periods</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span>
+
+    <span class="k">def</span> <span class="nf">_normal_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw random samples from normal distribution for mapping GHG to temperature for </span>
+<span class="sd">        user-defined distribution parameters.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+
+<span class="sd">        Returns: </span>
+<span class="sd">            ndarray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_dist_params</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temp_dist_params</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Normal distribution needs 2 parameters.&quot;</span>
+
+        <span class="n">ave</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">temp_dist_params</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ave</span><span class="p">)</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_normal_array</span><span class="p">(</span><span class="n">ave</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">std</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gamma_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw random samples from gamma distribution for mapping GHG to temperature for </span>
+<span class="sd">        user-defined distribution parameters.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+
+<span class="sd">        Returns: </span>
+<span class="sd">            ndarray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_dist_params</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temp_dist_params</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Gamma distribution needs 3 parameters.&quot;</span>
+
+        <span class="n">k</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">displace</span> <span class="o">=</span> <span class="n">temp_dist_params</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_gamma_array</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span> 
+                         <span class="o">+</span> <span class="n">displace</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">)])</span>
+
+    <span class="k">def</span> <span class="nf">_pindyck_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw random samples for mapping GHG to temperature based on Pindyck. The</span>
+<span class="sd">        pindyck_impact_k  is the shape parameter from Pyndyck damage function, </span>
+<span class="sd">        pindyck_impact_theta the scale parameter from Pyndyck damage function, and pindyck_impact_displace </span>
+<span class="sd">        the displacement parameter from Pyndyck damage function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+
+<span class="sd">        Returns: </span>
+<span class="sd">            ndarray: Damages.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pindyck_temp_k</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.81</span><span class="p">,</span> <span class="mf">4.6134</span><span class="p">,</span> <span class="mf">6.14</span><span class="p">]</span>
+        <span class="n">pindyck_temp_theta</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.6667</span><span class="p">,</span> <span class="mf">1.5974</span><span class="p">,</span> <span class="mf">1.53139</span><span class="p">]</span>
+        <span class="n">pindyck_temp_displace</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_gamma_array</span><span class="p">(</span><span class="n">pindyck_temp_k</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pindyck_temp_theta</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span> 
+                         <span class="o">+</span> <span class="n">pindyck_temp_displace</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+
+    <span class="k">def</span> <span class="nf">_ww_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw random samples for mapping GHG to temperature based on Wagner-Weitzman.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+
+<span class="sd">        Returns: </span>
+<span class="sd">            ndarray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ww_temp_ave</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.573</span><span class="p">,</span> <span class="mf">1.148</span><span class="p">,</span> <span class="mf">1.563</span><span class="p">]</span>
+        <span class="n">ww_temp_stddev</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.462</span><span class="p">,</span> <span class="mf">0.441</span><span class="p">,</span> <span class="mf">0.432</span><span class="p">]</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_normal_array</span><span class="p">(</span><span class="n">ww_temp_ave</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ww_temp_stddev</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span> 
+                                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_rb_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw random samples for mapping GHG to temperature based on Roe-Baker.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+
+<span class="sd">        Returns: </span>
+<span class="sd">            ndarray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">rb_fbar</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.75233</span><span class="p">,</span> <span class="mf">0.844652</span><span class="p">,</span> <span class="mf">0.858332</span><span class="p">]</span>
+        <span class="n">rb_sigf</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.049921</span><span class="p">,</span> <span class="mf">0.033055</span><span class="p">,</span> <span class="mf">0.042408</span><span class="p">]</span>
+        <span class="n">rb_theta</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.304627</span><span class="p">,</span> <span class="mf">3.333599</span><span class="p">,</span> <span class="mf">2.356967</span><span class="p">]</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_normal_array</span><span class="p">(</span><span class="n">rb_fbar</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rb_sigf</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span> 
+                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">temperature</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rb_theta</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_pindyck_impact_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pindyck gamma distribution mapping temperature into damages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pindyck_impact_k</span><span class="o">=</span><span class="mf">4.5</span>
+        <span class="n">pindyck_impact_theta</span><span class="o">=</span><span class="mf">21341.0</span>
+        <span class="n">pindyck_impact_displace</span><span class="o">=-</span><span class="mf">0.0000746</span><span class="p">,</span>
+        <span class="n">impact</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma_array</span><span class="p">(</span><span class="n">pindyck_impact_k</span><span class="p">,</span> <span class="n">pindyck_impact_theta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span> <span class="o">+</span> \
+                 <span class="n">pindyck_impact_displace</span> 
+        <span class="k">return</span> <span class="n">impact</span>
+
+    <span class="k">def</span> <span class="nf">_disaster_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Simulating disaster random variable, allowing for a tipping point to occur</span>
+<span class="sd">        with a given probability, leading to a disaster and a &quot;disaster_tail&quot; impact on consumption.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">disaster</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uniform_array</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">num_periods</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">disaster</span>
+
+    <span class="k">def</span> <span class="nf">_disaster_cons_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Simulates consumption conditional on disaster, based on the parameter disaster_tail.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            draws (int): Number of draws from distribution.</span>
+<span class="sd">    </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">disaster_cons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma_array</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">disaster_tail</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">disaster_cons</span>
+
+    <span class="k">def</span> <span class="nf">_interpolation_of_temp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span> <span class="c1"># what to call this one?</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">temperature</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxh</span><span class="p">))</span>
+      
+
+    <span class="k">def</span> <span class="nf">_economic_impact_of_temp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Economic impact of temperatures, Pindyck [2009].</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            temperature (ndarray): Array of simulated temperatures.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray: Consumptions.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">impact</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pindyck_impact_simulation</span><span class="p">()</span>
+        <span class="n">term1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">impact</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxh</span> <span class="o">*</span> <span class="n">temperature</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">term2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cons_growth</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">impact</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> \
+                <span class="o">*</span> <span class="n">temperature</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">term3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">impact</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxh</span> \
+                <span class="o">*</span> <span class="n">temperature</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxh</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span> <span class="o">+</span> <span class="n">term3</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_tipping_point_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmp</span><span class="p">,</span> <span class="n">consump</span><span class="p">,</span> <span class="n">peak_temp_interval</span><span class="o">=</span><span class="mf">30.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Determine whether a tipping point has occurred, if so reduce consumption for </span>
+<span class="sd">        all periods after this date.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tmp (ndarray): Array of temperatures.</span>
+<span class="sd">            damage (ndarray): Array of damages.</span>
+<span class="sd">            consump (ndarray): Array of consumption.</span>
+<span class="sd">            peak_temp_interval (float): The normalization of the peak_temp parameter period length, </span>
+<span class="sd">                which specifies the probability of a tipping point(temperature) over a given time interval.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray: Updated consumptions.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">draws</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">disaster</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_disaster_simulation</span><span class="p">()</span>
+        <span class="n">disaster_cons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_disaster_cons_simulation</span><span class="p">()</span>
+        <span class="n">period_lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="n">tmp_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">peak_temp</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+        <span class="n">ave_prob_of_survival</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">tmp</span> <span class="o">/</span> <span class="n">tmp_scale</span><span class="p">)</span> 
+        <span class="n">prob_of_survival</span> <span class="o">=</span> <span class="n">ave_prob_of_survival</span><span class="o">**</span><span class="p">(</span><span class="n">period_lengths</span> <span class="o">/</span> <span class="n">peak_temp_interval</span><span class="p">)</span>
+        <span class="c1"># this part may be done better, this takes a long time to loop over</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">prob_of_survival</span> <span class="o">&lt;</span> <span class="n">disaster</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">first_occurance</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">count</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">first_occurance</span><span class="p">:</span>
+            <span class="n">consump</span><span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]:]</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">disaster_cons</span><span class="p">[</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">consump</span>
+
+    <span class="k">def</span> <span class="nf">_run_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the distribution of damage for specific GHG-path. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            temperature (ndarray): Array of simulated temperatures.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray: Distribution of damages.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># implementation of the temperature and economic impacts from Pindyck [2012] page 6</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">num_final_states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">num_periods</span><span class="p">))</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interpolation_of_temp</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+        <span class="n">consump</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_economic_impact_of_temp</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+        <span class="n">peak_cons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cons_growth</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            
+        <span class="c1"># adding tipping points</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tip_on</span><span class="p">:</span>
+            <span class="n">consump</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tipping_point_update</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">consump</span><span class="p">)</span>
+                
+        <span class="c1"># sort based on outcome of simulation</span>
+        <span class="n">consump</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort_array</span><span class="p">(</span><span class="n">consump</span><span class="p">)</span>
+        <span class="n">damage</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">consump</span> <span class="o">/</span> <span class="n">peak_cons</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">final_states_prob</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">draws</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">cumsum</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    
+        <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">,]</span> <span class="o">=</span> <span class="n">damage</span><span class="p">[:</span><span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">num_final_states</span><span class="p">):</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">,]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">damage</span><span class="p">[</span><span class="n">weights</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span><span class="n">weights</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">d</span>
+
+<div class="viewcode-block" id="DamageSimulation.simulate"><a class="viewcode-back" href="../../dlw.html#dlw.damage_simulation.DamageSimulation.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">draws</span><span class="p">,</span> <span class="n">write_to_file</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create damage function values in &#39;p-period&#39; version of the Summers - Zeckhauser model.</span>
+
+<span class="sd">        The damage function simulation is a key input into the pricing engine. Damages are </span>
+<span class="sd">        represented in arrays of dimension n x p, where n = num states and p = num periods.</span>
+<span class="sd">        The arrays are created by Monte Carlo simulation. Each array specifies for each state </span>
+<span class="sd">        and time period a damage coefficient. GHG levels are increasing along a path that leads</span>
+<span class="sd">        to a given level at a given time in the future, e.g. a path in which GHG = 1000 ppm in 2200</span>
+<span class="sd">        a state, 1 ... num_states is an index of the worst to best damage outcomes. For each state</span>
+<span class="sd">        d(1,i) gives the average percentage damage that occurs at the end of period one in that state.</span>
+<span class="sd">        For each state d(2,i) gives the average percentage damage that occurs at the end of period two</span>
+<span class="sd">        in that state, and so on. These d arrays determine the damage in optimizations that follow. </span>
+
+<span class="sd">        Up to a point, the Monte Carlo follows Pindyck (2012) Uncertain Outcomes and Climate Change </span>
+<span class="sd">        Policy:</span>
+<span class="sd">            - There is a gamma distribution for temperature</span>
+<span class="sd">            - There is a gamma distribution for economic impact (conditional on temp)</span>
+
+<span class="sd">        However, in addition, this program adds a probability of a tipping point (conditional on temp).</span>
+<span class="sd">        This probability is a decreasing function of the parameter peak_temp, conditional on a tipping</span>
+<span class="sd">        point. Damage itself is a decreasing function of the parameter disaster_tail.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dist_params (ndarray or list): Distribution parameters for temperature simulation.</span>
+<span class="sd">            draws (int): Number of samples drawn in Monte Carlo simulation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ndarray: 3D-array of simulated damages.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dnum</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ghg_levels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draws</span> <span class="o">=</span> <span class="n">draws</span> <span class="c1"># should not be a class parameter!!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peak_cons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cons_growth</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_map</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">temperature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pindyck_simulation</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_map</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">temperature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ww_simulation</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_map</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">temperature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rb_simulation</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_map</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">temperature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normal_simulation</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_map</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">temperature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma_simulation</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;temp_map not in interval 0-4&quot;</span><span class="p">)</span>
+
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">dnum</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_run_path</span><span class="p">,</span> <span class="n">temperature</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">write_to_file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_write_to_file</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span></div></div>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">code  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

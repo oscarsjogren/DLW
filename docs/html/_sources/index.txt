@@ -1,35 +1,42 @@
-How To Package Your Python Code
-===============================
+.. code documentation master file, created by
+   sphinx-quickstart on Tue Mar 28 01:56:26 2017.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-This tutorial aims to put forth an opinionated and specific pattern to make trouble-free packages for community use. It doesn't describe the *only* way of doing things, merely one specific approach that works well.
+EZ Climate Project Overview
+===========================
+This project is based on the working paper “Applying Asset Pricing Theory to Calibrate the Price of Climate Risk”(http://www.nber.org/papers/w22795) by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing a analyzing framework for pricing greenhouse gas emissions.
 
-In particular, packages should make it easy:
 
-* To install with ``pip`` or ``easy_install``.
-* To specify as a dependency for another package.
-* For other users to download and run tests.
-* For other users to work on and have immediate familiary with the basic directory structure.
-* To add and distribute documentation.
-
-We'll walk through the basic steps of building up a contrived package **funniest** to support these things.
+Getting Started
+================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
-   minimal
-   dependencies
-   metadata
-   testing
-   command-line-scripts
-   non-code-files
-   everything
-   about
+   tree
+   bau
+   damage_simulation
+   forcing
+   damage
+   cost
+   storage_tree
+   utility
+   optimization
+   analysis
+   tools
 
-.. note::
 
-   At this time, this documentation focuses on Python 2.x only, and may not be *as* applicable to packages targeted to Python 3.x.
+Instructions on Contributing
+=============================
 
-.. seealso::
+Indices and tables
+==================
 
-    `Setuptools Documentation <http://peak.telecommunity.com/DevCenter/setuptools>`_
-        Core setuptools documentation and API reference.
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+About
+=====
+
