@@ -1,23 +1,17 @@
 .. dlw documentation master file, created by
-   sphinx-quickstart on Wed Apr  5 19:24:24 2017.
+   sphinx-quickstart on Wed Apr  5 21:37:34 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-EZ Climate Project Overview
-===========================
-This project is based on the working paper “Applying Asset Pricing Theory to Calibrate the Price of Climate Risk”(http://www.nber.org/papers/w22795) by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing a analyzing framework for pricing greenhouse gas emissions.
+Welcome to dlw's documentation!
+===============================
 
-
-Getting Started
-================================
+Contents:
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
-   modules
 
-Instructions on Contributing
-=============================
 
 Indices and tables
 ==================
@@ -25,7 +19,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-About
-=====
 

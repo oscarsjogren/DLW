@@ -2,13 +2,13 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Submodules &#8212; dlw 1.0.1 documentation</title>
+    <title>dlw package &#8212; dlw 1.0.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,37 +24,28 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="dlw 1.0.1 documentation" href="index.html" />
-    <link rel="up" title="dlw" href="modules.html" />
-    <link rel="prev" title="dlw" href="modules.html" /> 
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
   </head>
   <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="modules.html" title="dlw"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">dlw 1.0.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">dlw</a> &#187;</li> 
-      </ul>
-    </div>  
+  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="submodules">
-<h1>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="dlw-package">
+<h1>dlw package<a class="headerlink" href="#dlw-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-dlw.analysis">
-<span id="dlw-analysis-module"></span><h1>dlw.analysis module<a class="headerlink" href="#module-dlw.analysis" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-analysis-module"></span><h2>dlw.analysis module<a class="headerlink" href="#module-dlw.analysis" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="dlw.analysis.additional_ghg_emission">
 <code class="descclassname">dlw.analysis.</code><code class="descname">additional_ghg_emission</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/analysis.html#additional_ghg_emission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.analysis.additional_ghg_emission" title="Permalink to this definition">¶</a></dt>
@@ -69,7 +60,10 @@
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; additional emission in nodes</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">additional emission in nodes</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
 </td>
 </tr>
 </tbody>
@@ -92,7 +86,10 @@ and new mitigation values when constraining the first period mitigation to <cite
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (new mitigation array, storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(new mitigation array, storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
 </td>
 </tr>
 </tbody>
@@ -118,7 +115,10 @@ from optimal mitigation values</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(storage tree of changes in consumption, ndarray of costs in first sub periods)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
 </td>
 </tr>
 </tbody>
@@ -358,7 +358,7 @@ in the current working directory. If there is no &#8216;data&#8217; directory, o
 
 </div>
 <div class="section" id="module-dlw.bau">
-<span id="dlw-bau-module"></span><h1>dlw.bau module<a class="headerlink" href="#module-dlw.bau" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-bau-module"></span><h2>dlw.bau module<a class="headerlink" href="#module-dlw.bau" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.bau.BusinessAsUsual">
 <em class="property">class </em><code class="descclassname">dlw.bau.</code><code class="descname">BusinessAsUsual</code><span class="sig-paren">(</span><em>ghg_start</em>, <em>ghg_end</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/bau.html#BusinessAsUsual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.bau.BusinessAsUsual" title="Permalink to this definition">¶</a></dt>
@@ -513,7 +513,9 @@ assumed to be the average of the emissions at the beginning and at the end of th
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> (<em>int</em>) &#8211; future time period in years</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>float</em> &#8211; emission</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">emission</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
 </tr>
 </tbody>
 </table>
@@ -523,7 +525,7 @@ assumed to be the average of the emissions at the beginning and at the end of th
 
 </div>
 <div class="section" id="module-dlw.cost">
-<span id="dlw-cost-module"></span><h1>dlw.cost module<a class="headerlink" href="#module-dlw.cost" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-cost-module"></span><h2>dlw.cost module<a class="headerlink" href="#module-dlw.cost" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.cost.Cost">
 <em class="property">class </em><code class="descclassname">dlw.cost.</code><code class="descname">Cost</code><a class="reference internal" href="_modules/dlw/cost.html#Cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.cost.Cost" title="Permalink to this definition">¶</a></dt>
@@ -550,30 +552,20 @@ assumed to be the average of the emissions at the beginning and at the end of th
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
-<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
-</li>
-<li><p class="first"><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</p>
-</li>
-<li><p class="first"><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</p>
-</li>
-<li><p class="first"><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</p>
-</li>
-<li><p class="first"><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</p>
-</li>
-<li><p class="first"><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</p>
-</li>
-<li><p class="first"><strong>tech_const</strong> (<em>float</em>) &#8211;</p>
-<dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
+<li><strong>emit_at_0</strong> (<em>float</em>) &#8211; initial GHG emission level</li>
+<li><strong>g</strong> (<em>float</em>) &#8211; intital scale of the cost function</li>
+<li><strong>a</strong> (<em>float</em>) &#8211; curvature of the cost function</li>
+<li><strong>join_price</strong> (<em>float</em>) &#8211; price at which the cost curve is extended</li>
+<li><strong>max_price</strong> (<em>float</em>) &#8211; price at which carbon dioxide can be removed from atmosphere in unlimited scale</li>
+<li><strong>tech_const</strong> (<em>float</em>) &#8211; <dl class="docutils">
 <dt>determines the degree of exogenous technological improvement over time. A number</dt>
-<dd><p class="first last">of 1.0 implies 1 percent per yer lower cost</p>
-</dd>
+<dd>of 1.0 implies 1 percent per yer lower cost</dd>
 </dl>
 </li>
-<li><p class="first"><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</p>
-</li>
-<li><p class="first"><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</p>
-</li>
+<li><strong>tech_scale</strong> (<em>float</em>) &#8211; determines the sensitivity of technological change to previous mitigation</li>
+<li><strong>cons_at_0</strong> (<em>float</em>) &#8211; intital consumption. Default $30460bn based on US 2010 values.</li>
 </ul>
 </td>
 </tr>
@@ -641,7 +633,10 @@ see DLW-paper.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; cost</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cost</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
 </td>
 </tr>
 </tbody>
@@ -664,7 +659,10 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; the price.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the price.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
 </td>
 </tr>
 </tbody>
@@ -675,7 +673,7 @@ degree of mitigation, average_mitigation, and horizon.</p>
 
 </div>
 <div class="section" id="module-dlw.damage">
-<span id="dlw-damage-module"></span><h1>dlw.damage module<a class="headerlink" href="#module-dlw.damage" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-damage-module"></span><h2>dlw.damage module<a class="headerlink" href="#module-dlw.damage" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.damage.DLWDamage">
 <em class="property">class </em><code class="descclassname">dlw.damage.</code><code class="descname">DLWDamage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em>, <em>cons_growth</em>, <em>ghg_levels</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage.html#DLWDamage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage" title="Permalink to this definition">¶</a></dt>
@@ -763,7 +761,9 @@ degree of mitigation, average_mitigation, and horizon.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; average mitigations</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">average mitigations</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
 </tr>
 </tbody>
 </table>
@@ -784,7 +784,10 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; average mitigation</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">average mitigation</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
 </td>
 </tr>
 </tbody>
@@ -805,7 +808,10 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; array of damages</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">array of damages</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
 </td>
 </tr>
 </tbody>
@@ -856,7 +862,9 @@ degree of mitigation, average_mitigation, and horizon.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; simulated damages</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">simulated damages</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
 </tr>
 </tbody>
 </table>
@@ -876,7 +884,10 @@ degree of mitigation, average_mitigation, and horizon.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; GHG levels</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
 </td>
 </tr>
 </tbody>
@@ -899,7 +910,10 @@ Need to provide either <cite>period</cite> or <cite>nodes</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; GHG levels</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG levels</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
 </td>
 </tr>
 </tbody>
@@ -972,7 +986,7 @@ every node in the period.</p>
 
 </div>
 <div class="section" id="module-dlw.damage_simulation">
-<span id="dlw-damage-simulation-module"></span><h1>dlw.damage_simulation module<a class="headerlink" href="#module-dlw.damage_simulation" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-damage-simulation-module"></span><h2>dlw.damage_simulation module<a class="headerlink" href="#module-dlw.damage_simulation" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.damage_simulation.DamageSimulation">
 <em class="property">class </em><code class="descclassname">dlw.damage_simulation.</code><code class="descname">DamageSimulation</code><span class="sig-paren">(</span><em>tree</em>, <em>ghg_levels</em>, <em>peak_temp</em>, <em>disaster_tail</em>, <em>tip_on</em>, <em>temp_map</em>, <em>temp_dist_params</em>, <em>maxh</em>, <em>cons_growth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/damage_simulation.html#DamageSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation" title="Permalink to this definition">¶</a></dt>
@@ -982,8 +996,8 @@ every node in the period.</p>
 represented in arrays of dimension n x p, where n = num states and p = num periods.
 The arrays are created by Monte Carlo simulation. Each array specifies for each state
 and time period a damage coefficient.</p>
-<p>Up to a point, the Monte Carlo follows Pindyck (2012) Uncertain Outcomes and Climate Change
-Policy:</p>
+<p>Up to a point, the Monte Carlo follows Pindyck (2012) &#8216;Uncertain Outcomes and Climate Change
+Policy&#8217;:</p>
 <blockquote>
 <div><ul class="simple">
 <li>There is a gamma distribution for temperature</li>
@@ -997,38 +1011,24 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
-<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
-</li>
-<li><p class="first"><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG level for each path</p>
-</li>
-<li><p class="first"><strong>peak_temp</strong> (<em>float</em>) &#8211; tipping point parameter</p>
-</li>
-<li><p class="first"><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</p>
-</li>
-<li><p class="first"><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</p>
-</li>
-<li><p class="first"><strong>temp_map</strong> (<em>int</em>) &#8211;</p>
-<p>mapping from GHG to temperature</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
+<li><strong>ghg_levels</strong> (<em>ndarray or list</em>) &#8211; end GHG level for each path</li>
+<li><strong>peak_temp</strong> (<em>float</em>) &#8211; tipping point parameter</li>
+<li><strong>disaster_tail</strong> (<em>float</em>) &#8211; curvature of tipping point</li>
+<li><strong>tip_on</strong> (<em>bool</em>) &#8211; flag that turns tipping points on or off</li>
+<li><strong>temp_map</strong> (<em>int</em>) &#8211; <p>mapping from GHG to temperature</p>
 <blockquote>
-<div><p>0: implies Pindyck displace gamma
+<div>0: implies Pindyck displace gamma
 1: implies Wagner-Weitzman normal
 2: implies Roe-Baker
 3: implies user-defined normal
-4: implies user-defined gamma</p>
-</div></blockquote>
+4: implies user-defined gamma</div></blockquote>
 </li>
-<li><p class="first"><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</p>
-</li>
-<li><p class="first"><strong>maxh</strong> (<em>float</em>) &#8211;</p>
-<dl class="docutils">
-<dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
-<dd><p class="first last">way to its max value for a given level of ghg</p>
-</dd>
-</dl>
-</li>
-<li><p class="first"><strong>cons_growth</strong> (<em>float</em>) &#8211; yearly growth in consumption</p>
-</li>
+<li><strong>temp_dist_params</strong> (<em>ndarray or list</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</li>
+<li><strong>maxh</strong> (<em>float</em>) &#8211; time paramter from Pindyck which indicates the time it takes for temp to get half
+way to its max value for a given level of ghg</li>
+<li><strong>cons_growth</strong> (<em>float</em>) &#8211; yearly growth in consumption</li>
 </ul>
 </td>
 </tr>
@@ -1079,11 +1079,8 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 <dl class="attribute">
 <dt id="dlw.damage_simulation.DamageSimulation.maxh">
 <code class="descname">maxh</code><a class="headerlink" href="#dlw.damage_simulation.DamageSimulation.maxh" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211;</p>
-<dl class="docutils">
-<dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
-<dd>way to its max value for a given level of ghg</dd>
-</dl>
+<dd><p><em>float</em> &#8211; time paramter from Pindyck which indicates the time it takes for temp to get half
+way to its max value for a given level of ghg</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1112,10 +1109,13 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><em>ndarray</em> &#8211; 3D-array of simulated damages</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">3D-array of simulated damages</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If temp_map is not in the interval 0-4.</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">ndarray</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If temp_map is not in the interval 0-4.</p>
 </td>
 </tr>
 </tbody>
@@ -1126,7 +1126,7 @@ point. Damage itself is a decreasing function of the parameter <cite>disaster_ta
 
 </div>
 <div class="section" id="module-dlw.forcing">
-<span id="dlw-forcing-module"></span><h1>dlw.forcing module<a class="headerlink" href="#module-dlw.forcing" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-forcing-module"></span><h2>dlw.forcing module<a class="headerlink" href="#module-dlw.forcing" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.forcing.Forcing">
 <em class="property">class </em><code class="descclassname">dlw.forcing.</code><code class="descname">Forcing</code><a class="reference internal" href="_modules/dlw/forcing.html#Forcing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.forcing.Forcing" title="Permalink to this definition">¶</a></dt>
@@ -1211,7 +1211,10 @@ damage calculation in <cite>node</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; forcing</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">forcing</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
 </td>
 </tr>
 </tbody>
@@ -1252,7 +1255,10 @@ damage calculation in <cite>node</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>float</em> &#8211; GHG level at node</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">GHG level at node</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
 </td>
 </tr>
 </tbody>
@@ -1278,10 +1284,10 @@ damage calculation in <cite>node</cite>.</p>
 
 </div>
 <div class="section" id="dlw-main-module">
-<h1>dlw.main module<a class="headerlink" href="#dlw-main-module" title="Permalink to this headline">¶</a></h1>
+<h2>dlw.main module<a class="headerlink" href="#dlw-main-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-dlw.optimization">
-<span id="dlw-optimization-module"></span><h1>dlw.optimization module<a class="headerlink" href="#module-dlw.optimization" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-optimization-module"></span><h2>dlw.optimization module<a class="headerlink" href="#module-dlw.optimization" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.optimization.GenericAlgorithm">
 <em class="property">class </em><code class="descclassname">dlw.optimization.</code><code class="descname">GenericAlgorithm</code><span class="sig-paren">(</span><em>pop_amount</em>, <em>num_generations</em>, <em>cx_prob</em>, <em>mut_prob</em>, <em>bound</em>, <em>num_feature</em>, <em>utility</em>, <em>fixed_values=None</em>, <em>fixed_indicies=None</em>, <em>print_progress=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/optimization.html#GenericAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.optimization.GenericAlgorithm" title="Permalink to this definition">¶</a></dt>
@@ -1388,7 +1394,9 @@ and combine the above new population.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>tuple</em> &#8211; final population and the fitness for the final population</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">final population and the fitness for the final population</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
 </tr>
 </tbody>
 </table>
@@ -1476,20 +1484,20 @@ where the utility function is increases fastest.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first">
-<li><p class="first"><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</p>
-</li>
-<li><p class="first"><strong>return_last</strong> (<em>bool, optional</em>) &#8211;</p>
-<dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</li>
+<li><strong>return_last</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
 <dt>if True the function returns the last point, else the point</dt>
-<dd><p class="first last">with highest utility</p>
-</dd>
+<dd>with highest utility</dd>
 </dl>
 </li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (best point, best utility)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(best point, best utility)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
 </td>
 </tr>
 </tbody>
@@ -1511,7 +1519,10 @@ where the utility function is increases fastest.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>ndarray</em> &#8211; gradient</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">gradient</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
 </td>
 </tr>
 </tbody>
@@ -1533,10 +1544,13 @@ where the utility function is increases fastest.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><em>tuple</em> &#8211; best mitigation point and the utility of the best mitigation point</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">best mitigation point and the utility of the best mitigation point</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If <cite>topk</cite> is larger than the length of <cite>initial_point_list</cite>.</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If <cite>topk</cite> is larger than the length of <cite>initial_point_list</cite>.</p>
 </td>
 </tr>
 </tbody>
@@ -1560,7 +1574,7 @@ back of the tree and working back to node 0.</p>
 
 </div>
 <div class="section" id="module-dlw.storage_tree">
-<span id="dlw-storage-tree-module"></span><h1>dlw.storage_tree module<a class="headerlink" href="#module-dlw.storage_tree" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-storage-tree-module"></span><h2>dlw.storage_tree module<a class="headerlink" href="#module-dlw.storage_tree" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.storage_tree.BaseStorageTree">
 <em class="property">class </em><code class="descclassname">dlw.storage_tree.</code><code class="descname">BaseStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/storage_tree.html#BaseStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree" title="Permalink to this definition">¶</a></dt>
@@ -1615,7 +1629,9 @@ time_period is the number of years since start.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> &#8211; True if time_period also is a decision time, else False</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is a decision time, else False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
 </tr>
 </tbody>
 </table>
@@ -1632,7 +1648,9 @@ time_period is the number of years since start.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> &#8211; True if time_period also is an information time, else False</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is an information time, else False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
 </tr>
 </tbody>
 </table>
@@ -1649,7 +1667,9 @@ time_period is the number of years since start.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_period</strong> (<em>int</em>) &#8211; time since the start year of the model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>bool</em> &#8211; True if time_period also is a real decision time, else False</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if time_period also is a real decision time, else False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
 </tr>
 </tbody>
 </table>
@@ -1882,7 +1902,9 @@ the index of the lower decision time.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; index</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">index</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -1906,7 +1928,9 @@ the index of the lower decision time.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; index</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">index</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -2060,7 +2084,7 @@ periods in <cite>decision_times</cite>.</p>
 
 </div>
 <div class="section" id="module-dlw.tools">
-<span id="dlw-tools-module"></span><h1>dlw.tools module<a class="headerlink" href="#module-dlw.tools" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-tools-module"></span><h2>dlw.tools module<a class="headerlink" href="#module-dlw.tools" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="dlw.tools.append_to_existing">
 <code class="descclassname">dlw.tools.</code><code class="descname">append_to_existing</code><span class="sig-paren">(</span><em>lst</em>, <em>file_name</em>, <em>header=''</em>, <em>index=None</em>, <em>delimiter=';'</em>, <em>start_char=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tools.html#append_to_existing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tools.append_to_existing" title="Permalink to this definition">¶</a></dt>
@@ -2123,7 +2147,7 @@ periods in <cite>decision_times</cite>.</p>
 
 </div>
 <div class="section" id="module-dlw.tree">
-<span id="dlw-tree-module"></span><h1>dlw.tree module<a class="headerlink" href="#module-dlw.tree" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-tree-module"></span><h2>dlw.tree module<a class="headerlink" href="#module-dlw.tree" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.tree.TreeModel">
 <em class="property">class </em><code class="descclassname">dlw.tree.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times</em>, <em>prob_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/tree.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel" title="Permalink to this definition">¶</a></dt>
@@ -2179,7 +2203,10 @@ periods in <cite>decision_times</cite>.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>int</em> &#8211; node number</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">node number</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
 </td>
 </tr>
 </tbody>
@@ -2215,7 +2242,9 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; number of nodes in period</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -2241,7 +2270,9 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; number of nodes in period</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">number of nodes in period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -2265,7 +2296,9 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>child</strong> (<em>int</em>) &#8211; the child node</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; partent node</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">partent node</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -2291,7 +2324,9 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; path to get to <cite>node</cite></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path to get to <cite>node</cite></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
 </tr>
 </tbody>
 </table>
@@ -2317,7 +2352,9 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<em>int</em>) &#8211; the node</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>int</em> &#8211; period</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">period</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -2341,7 +2378,9 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (<em>int</em>) &#8211; the period</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>ndarray</em> &#8211; probabilities</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">probabilities</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
 </tr>
 </tbody>
 </table>
@@ -2367,11 +2406,14 @@ for the period.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>node</strong> (<em>int</em>) &#8211; the node</li>
-<li><strong>period</strong> (<em>int, optional</em>)</li>
+<li><strong>period</strong> (<em>int, optional</em>) &#8211; </li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>int</em> &#8211; state</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">state</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
 </td>
 </tr>
 </tbody>
@@ -2419,7 +2461,10 @@ for the period.</td>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; (worst end state, best end state)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(worst end state, best end state)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
 </td>
 </tr>
 </tbody>
@@ -2440,7 +2485,7 @@ for the period.</td>
 
 </div>
 <div class="section" id="module-dlw.utility">
-<span id="dlw-utility-module"></span><h1>dlw.utility module<a class="headerlink" href="#module-dlw.utility" title="Permalink to this headline">¶</a></h1>
+<span id="dlw-utility-module"></span><h2>dlw.utility module<a class="headerlink" href="#module-dlw.utility" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dlw.utility.EZUtility">
 <em class="property">class </em><code class="descclassname">dlw.utility.</code><code class="descname">EZUtility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em>, <em>eis=0.9</em>, <em>ra=7.0</em>, <em>time_pref=0.005</em>, <em>add_penalty_cost=False</em>, <em>max_penalty=0.0</em>, <em>penalty_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dlw/utility.html#EZUtility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility" title="Permalink to this definition">¶</a></dt>
@@ -2455,32 +2500,21 @@ and <cite>penalty_scale</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last">
-<li><p class="first"><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</p>
-</li>
-<li><p class="first"><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</p>
-</li>
-<li><p class="first"><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</p>
-</li>
-<li><p class="first"><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</p>
-</li>
-<li><p class="first"><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</p>
-</li>
-<li><p class="first"><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</p>
-</li>
-<li><p class="first"><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</p>
-</li>
-<li><p class="first"><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211;</p>
-<dl class="docutils">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
+<li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
+<li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
+<li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
+<li><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</li>
+<li><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</li>
+<li><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</li>
+<li><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
 <dt>True if utility calculation should include penalty cost for</dt>
-<dd><p class="first last">GHG levels below 280, else False</p>
-</dd>
+<dd>GHG levels below 280, else False</dd>
 </dl>
 </li>
-<li><p class="first"><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</p>
-</li>
-<li><p class="first"><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</p>
-</li>
+<li><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</li>
+<li><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</li>
 </ul>
 </td>
 </tr>
@@ -2632,7 +2666,10 @@ Values in parameters are used to adjusted the utility in different ways.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>tuple</em> &#8211; marginal utility tree</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">marginal utility tree</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
 </td>
 </tr>
 </tbody>
@@ -2663,7 +2700,9 @@ in the path leading to the current node is summed and added to current period&#8
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><cite>BigStorageTree</cite> &#8211; penalties in every period where utilities are calculated</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">penalties in every period where utilities are calculated</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><cite>BigStorageTree</cite></td>
 </tr>
 </tbody>
 </table>
@@ -2785,8 +2824,9 @@ adjusting values for sensitivity analysis purposes.</p>
 
 </div>
 <div class="section" id="module-contents">
-<h1>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h1>
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-dlw"></span></div>
+</div>
 
 
           </div>
@@ -2796,7 +2836,8 @@ adjusting values for sensitivity analysis purposes.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Submodules</a></li>
+<li><a class="reference internal" href="#">dlw package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-dlw.analysis">dlw.analysis module</a></li>
 <li><a class="reference internal" href="#module-dlw.bau">dlw.bau module</a></li>
 <li><a class="reference internal" href="#module-dlw.cost">dlw.cost module</a></li>
@@ -2811,10 +2852,15 @@ adjusting values for sensitivity analysis purposes.</p>
 <li><a class="reference internal" href="#module-dlw.utility">dlw.utility module</a></li>
 <li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="modules.html"
-                        title="previous chapter">dlw</a></p>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -2836,25 +2882,20 @@ adjusting values for sensitivity analysis purposes.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="modules.html" title="dlw"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">dlw 1.0.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >dlw</a> &#187;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2017, Oscar Sjogren.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/dlw.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Oscar Sjogren.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
-    </div>
+
+    
+
+    
   </body>
 </html>
