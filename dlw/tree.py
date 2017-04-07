@@ -35,17 +35,17 @@ class TreeModel(object):
 
     @property
     def num_periods(self):
-        """int: the number of periods in the tree."""
+        """int: the number of periods in the tree"""
         return len(self.decision_times)-1
 
     @property
     def num_decision_nodes(self):
-        """int: the number of nodes in tree."""
+        """int: the number of nodes in tree"""
         return (2**self.num_periods) - 1
 
     @property
     def num_final_states(self):
-        """int: the number of nodes in the last period."""
+        """int: the number of nodes in the last period"""
         return 2**(self.num_periods-1)
 
     def _create_probs(self):
@@ -169,6 +169,7 @@ class TreeModel(object):
         node : int
             the node
         period : int, optional
+            the period
 
         Returns
         -------

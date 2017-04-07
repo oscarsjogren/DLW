@@ -272,6 +272,7 @@ class EZUtility(Utility):
 		"""Generator for calculating utility for each utility period besides the terminal utility."""
 		periods = utility_tree.periods[::-1]
 		penalty_cost = self.penalty_cost(m)
+		self.pc = penalty_cost
 
 		for period in periods[1:]:
 			damage_period = utility_tree.between_decision_times(period)
@@ -341,6 +342,7 @@ class EZUtility(Utility):
 		Examples:
 		---------
 		Assuming we have declared a EZUtility object as 'ezu' and have a mitigation array 'm'
+		
 		>>> ezu.utility(m)
 		array([ 9.83391921])
 		>>> utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)
@@ -386,9 +388,10 @@ class EZUtility(Utility):
 		ndarray or tuple 
 			tuple of `BaseStorageTree` if return_trees else ndarray with utility at period 0
 
-		Examples:
+		Examples
 		---------
 		Assuming we have declared a EZUtility object as 'ezu' and have a mitigation array 'm'
+		
 		>>> ezu.adjusted_utility(m, final_cons_eps=0.1)
 		array([ 9.83424045])
 		>>> utility_tree, cons_tree, cost_tree, ce_tree = ezu.adjusted_utility(m, final_cons_eps=0.1, return_trees=True)
@@ -516,6 +519,7 @@ class EZUtility(Utility):
 		Examples
 		--------
 		Assuming we have declared a EZUtility object as 'ezu' and have a mitigation array 'm'.
+		>>> 
 		>>> utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)
 		>>> mu_0_tree, mu_1_tree, mu_2_tree = ezu.marginal_utility(m, utility_tree, cons_tree, cost_tree, ce_tree)
 		>>> mu_0_tree[0] # value at period 0

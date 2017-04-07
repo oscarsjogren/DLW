@@ -92,6 +92,12 @@ class DLWDamage(Damage):
 		self.damage_coefs = None
 
 	def _recombine_nodes(self):
+		"""Creating damage coefficients for recombining tree. The state reached by an up-down move is
+		separate from a down-up move because in general the two paths will lead to different degrees of 
+		mitigation and therefore of GHG level. A 'recombining' tree is one in which the movement from 
+		one state to the next through time is nonetheless such that an up move followed by a down move 
+		leads to the same fragility. 
+        """
 		nperiods = self.tree.num_periods
 		sum_class = np.zeros(nperiods, dtype=int)
 		new_state = np.zeros([nperiods, self.tree.num_final_states], dtype=int)

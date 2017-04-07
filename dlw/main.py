@@ -19,27 +19,28 @@ df = DLWDamage(tree=t, bau=bau_default_model, cons_growth=0.015, ghg_levels=[450
 #		temp_map=1, temp_dist_params=None, maxh=100.0, cons_growth=0.015)
 df.import_damages()
 
-m = np.array([0.69033867,0.86901052,0.67112552,1.06174977,0.97328999,0.98026425
-			,0.55130198,1.15782437,1.1470986, 1.17761229,1.04984526,1.21856301
-			,0.96739168,0.7803391, 0.40705306,0.99897783,0.99742034,1.01264097
-			,1.01051397,1.01683717,1.0147632, 1.16182373,1.13290088,1.020123
-			,1.02182366,1.28713016,1.33503218,1.57391551,1.09963307,0.78621563
-			,0.58371202,1.0006737, 1.00445704,1.01195281,1.04572151,0.9963772
-			,0.9936301, 1.01214498,1.07212626,0.99500166,0.98708549,0.99819421
-			,1.09999692,0.97000199,0.92702554,1.01677141,1.18936162,0.99819644
-			,0.99816849,1.26935332,0.85649588,0.9744461, 0.96990773,0.24921964
-			,0.73818256,1.06512262,1.89854024,1.41898561,1.56183604,1.41962237
-			,0.69262425,1.4678787, 0.86732196])
+m = np.array([ 0.67961073,0.85796937,0.67153906,1.06338793,0.96561344,0.95898243
+,0.60506171,1.15836071,1.15703593,1.19308078,1.0858612, 1.23641389
+,1.00225317,0.87719471,0.45776965,1.0036049, 1.00366799,1.0058377
+,1.00568702,1.00710488,1.00642136,1.11569044,1.11343087,1.01035858
+,1.01131088,1.24717774,1.28281215,1.49000946,1.25434465,0.91422178
+,0.47031894,0.9996656, 1.00048618,1.00042412,0.99890683,1.00045561
+,1.00020798,0.99694714,0.99903464,0.99853715,0.9987289, 0.9975014
+,0.99840207,0.99810216,0.99754464,0.99927602,1.00143186,0.99664025
+,0.99802374,0.99533977,0.9962839, 0.99968455,0.99891384,0.73253735
+,0.94108126,1.0174935, 1.37967819,1.30926058,1.31087989,1.89947442
+,0.82992153,1.20784532,0.72409751])
 
-u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0)
+
+u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0, add_penalty_cost=True, max_penalty=0.001, penalty_scale=1.0)
 
 utility_t, cons_t, cost_t, ce_t = u.utility(m, return_trees=True)
 ga_model = GenericAlgorithm(pop_amount=200, num_generations=250, cx_prob=0.8, mut_prob=0.5, 
 						bound=2.0, num_feature=63, utility=u, print_progress=True)
 gs_model = GradientSearch(learning_rate=0.001, var_nums=63, utility=u, accuracy=1e-8, 
 						  iterations=100, print_progress=True)
-#final_pop, fitness = ga_model.run()
-#sort_pop = final_pop[np.argsort(fitness)][::-1]
+final_pop, fitness = ga_model.run()
+sort_pop = final_pop[np.argsort(fitness)][::-1]
 
 #m_opt, u_opt = gs_model.run(initial_point_list=sort_pop, topk=1)
 #m_opt, u_opt = gs_model.run(initial_point_list=[m], topk=1)
@@ -53,9 +54,9 @@ m_opt = m
 #save_sensitivity_analysis(m_opt, u, utility_t, cons_t, cost_t, ce_t)
 
 # Constraint first period mitigation to 0.0
-cfp_m = constraint_first_period(m_opt, u, 0.0)
-cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t = u.utility(cfp_m, return_trees=True)
-save_output(cfp_m, u, cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t, prefix="CFP")
-save_sensitivity_analysis(cfp_m, u, cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t, "CFP")
+#cfp_m = constraint_first_period(m_opt, u, 0.0)
+#cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t = u.utility(cfp_m, return_trees=True)
+#save_output(cfp_m, u, cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t, prefix="CFP")
+#save_sensitivity_analysis(cfp_m, u, cfp_utility_t, cfp_cons_t, cfp_cost_t, cfp_ce_t, "CFP")
 
 # everything else in run can easily be created too

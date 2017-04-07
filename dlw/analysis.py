@@ -293,16 +293,20 @@ def perpetuity_yield(price, start_date, a=0.1, b=10.0):
 def save_output(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, prefix=None):
 	"""Save the result of optimization and calculated values based on optimal mitigation. For every node the 
 	function calculates and saves:
+		
 		* average mitigation
 		* average emission
 		* GHG level 
 		* SCC 
+
 	into the file `prefix` + 'node_period_output' in the 'data' directory in the current working directory. 
 
 	For every period the function calculates and appends:
+		
 		* expected SCC/price
 		* expected mitigation 
 		* expected emission 
+	
 	into the file  `prefix` + 'node_period_output' in the 'data' directory in the current working directory. 
 
 	The function also saves the values stored in the `BaseStorageTree` object parameters to a file called 
@@ -378,6 +382,7 @@ def save_output(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, prefix=
 def save_sensitivity_analysis(m, utility, utility_tree, cons_tree, cost_tree, ce_tree, prefix=None):
 	"""Calculate and save sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the 
 	periods given by the utility calculations, the function calculates and saves:
+		
 		* discount prices
 		* net expected damages
 		* expected damages
@@ -388,14 +393,17 @@ def save_sensitivity_analysis(m, utility, utility_tree, cons_tree, cost_tree, ce
 		* cov term
 		* scaled net expected damages
 		* scaled risk premiums
+	
 	into the file  `prefix` + 'sensitivity_output' in the 'data' directory in the current working directory. 
 
 	Furthermore, for every node the function calculates and saves:
+	
 		* SDF 
 		* delta consumption
 		* forward marginal utility  
 		* up-node marginal utility
 		* down-node marginal utility
+	
 	into the file `prefix` + 'tree' in the 'data' directory in the current working directory. If there is no 'data' 
 	directory, one is created. 
 

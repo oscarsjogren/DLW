@@ -1,22 +1,50 @@
-.. dlw documentation master file, created by
-   sphinx-quickstart on Wed Apr  5 19:24:24 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to dlw's documentation!
-===============================
-
-Contents
---------
-.. toctree::
-   :maxdepth: 2
-
-   modules
-
-Indices and tables
+dlw documentation
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+This project is based on the working paper_ “Applying Asset Pricing Theory to Calibrate the Price of Climate Risk"  by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing an analyzing framework for pricing greenhouse gas emissions. 
 
+
+* **First steps:** 
+
+  * :doc:`Overview <overview>`
+  * :doc:`Installation <installation>`
+
+* **Basic tutorials:**
+
+  * :doc:`Tree <tutorials/tree>`
+  * :doc:`BAU <tutorials/bau>`
+  * :doc:`Damage Simulation <tutorials/damage_simulation>`
+  * :doc:`Forcing <tutorials/forcing>`
+  * :doc:`Damage <tutorials/damage>`
+  * :doc:`Cost <tutorials/cost>`
+  * :doc:`Storage Tree <tutorials/storage_tree>`
+  * :doc:`Utility <tutorials/utility>`
+  * :doc:`Optimization <tutorials/optimization>`
+  * :doc:`Analysis <tutorials/analysis>`
+  * :doc:`Tools <tutorials/tools>`
+
+* :doc:`examples/index`
+* :doc:`api/index`
+
+
+
+.. toctree::
+  :hidden:
+
+  overview
+  installation
+  tutorials/tree
+  tutorials/bau
+  tutorials/damage_simulation
+  tutorials/forcing
+  tutorials/damage
+  tutorials/cost
+  tutorials/storage_tree
+  tutorials/utility
+  tutorials/optimization
+  tutorials/analysis
+  tutorials/tools
+  examples/index
+  api/index
+
+.. _paper: http://www.nber.org/papers/w22795

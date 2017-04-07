@@ -5,9 +5,9 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = ../../dlw_docs
-PDFBUILDDIR   = /tmp
-PDF           = ../manual.pdf
+BUILDDIR    = ../../dlw_docs
+PDFBUILDDIR = /tmp
+PDF     = ../manual.pdf
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -140,16 +140,16 @@ latex:
 latexpdf:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
 	@echo "Running LaTeX files through pdflatex..."
-	make -C $(PDFBUILDDIR)/latex all-pdf 
-	cp $(PDFBUILDDIR)/latex/*.pdf $(PDF)
-	@echo "pdflatex finished; see $(PDF)"
+	$(MAKE) -C $(BUILDDIR)/latex all-pdf
+	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
 
 .PHONY: latexpdfja
 latexpdfja:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
 	@echo "Running LaTeX files through platex and dvipdfmx..."
 	$(MAKE) -C $(BUILDDIR)/latex all-pdf-ja
-	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
+	cp $(PDFBUILDDIR)/latex/*.pdf $(PDF)
+	@echo "pdflatex finished; see $(PDF)"
 
 .PHONY: text
 text:

@@ -133,18 +133,10 @@ class BaseStorageTree(object):
 		return time_period in self.information_times
 
 	def write_tree(self, file_name, header, delimiter=";"):
-		"""Save values in `self.tree` as a tree into file  `file_name` in the 
+		"""Save values in `tree` as a tree into file  `file_name` in the 
 		'data' directory in the current working directory. If there is no 'data' 
 		directory, one is created. 
-							..
-						 / 
-				  node 1
-				/		 \  ..	
-		node 0			 /  ..
-				\ node 2
-						 \  
-						 	..
-
+ 
 		Parameters
 		----------
 		file_name : str
@@ -179,16 +171,16 @@ class BaseStorageTree(object):
 				writer.writerow(row)
 	
 	def write_columns(self, file_name, header, start_year=2015, delimiter=";"):
-		"""Save values in `self.tree` as columns into file  `file_name` in the 
+		"""Save values in `tree` as columns into file  `file_name` in the 
 		'data' directory in the current working directory. If there is no 'data' 
 		directory, one is created. 
 			
 		+------------+------------+-----------+
-		|    Year  	 |    Node 	  |  header   |
+		|    Year    |    Node 	  |  header   |
 		+============+============+===========+
-		| start_year |     0	  |   val0	  |
+		| start_year |     0	  |   val0    |
 		+------------+------------+-----------+
-		| 	  ..  	 |	   .. 	  |	   .. 	  |
+		|     ..     |	   .. 	  |    ..     |
 		+------------+------------+-----------+
 		
 		Parameters
@@ -222,16 +214,16 @@ class BaseStorageTree(object):
 							  index=[years, nodes], delimiter=delimiter)
 
 	def write_columns_existing(self, file_name, header, delimiter=";"):
-		"""Save values in `self.tree` as columns into file  `file_name` in the 
+		"""Save values in `tree` as columns into file  `file_name` in the 
 		'data' directory in the current working directory, when `file_name` already exists. 
 		If there is no 'data' directory, one is created. 
 			
 		+------------+------------+-----------------+------------------+
-		|    Year  	 |    Node 	  |  other_header   |	   header 	   |
+		|    Year    |    Node    |  other_header   |      header      |
 		+============+============+=================+==================+
-		| start_year |     0	  |   other_val0 	| 		val0 	   |
+		| start_year |     0      |   other_val0    | 	    val0       |
 		+------------+------------+-----------------+------------------+
-		| 	  ..  	 |	   .. 	  |	   	  .. 	    |		 .. 	   |
+		|     ..     |     ..     |       ..        |        ..        |
 		+------------+------------+-----------------+------------------+
 
 		Parameters

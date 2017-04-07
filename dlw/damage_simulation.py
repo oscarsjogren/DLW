@@ -19,10 +19,11 @@ class DamageSimulation(object):
     The arrays are created by Monte Carlo simulation. Each array specifies for each state 
     and time period a damage coefficient. 
 
-    Up to a point, the Monte Carlo follows Pindyck (2012) Uncertain Outcomes and Climate Change 
-    Policy:
-        - There is a gamma distribution for temperature
-        - There is a gamma distribution for economic impact (conditional on temperature)
+    Up to a point, the Monte Carlo follows Pindyck (2012) 'Uncertain Outcomes and Climate Change
+    Policy':
+    
+        * There is a gamma distribution for temperature
+        * There is a gamma distribution for economic impact (conditional on temperature)
 
     However, in addition, this program adds a probability of a tipping point (conditional on temperature).
     This probability is a decreasing function of the parameter `peak_temp`, conditional on a tipping
@@ -42,16 +43,18 @@ class DamageSimulation(object):
         flag that turns tipping points on or off
     temp_map : int
         mapping from GHG to temperature
-            **0** implies Pindyck displace gamma
-            **1** implies Wagner-Weitzman normal
-            **2** implies Roe-Baker
-            **3** implies user-defined normal 
-            **4** implies user-defined gamma
+
+        * 0: implies Pindyck displace gamma
+        * 1: implies Wagner-Weitzman normal
+        * 2: implies Roe-Baker
+        * 3: implies user-defined normal 
+        * 4: implies user-defined gamma
+
     temp_dist_params : ndarray or list
         if temp_map is either 3 or 4, user needs to define the distribution parameters
     maxh : float
         time paramter from Pindyck which indicates the time it takes for temp to get half 
-            way to its max value for a given level of ghg
+        way to its max value for a given level of ghg
     cons_growth : float 
         yearly growth in consumption
 
@@ -73,7 +76,7 @@ class DamageSimulation(object):
         if temp_map is either 3 or 4, user needs to define the distribution parameters
     maxh : float
         time paramter from Pindyck which indicates the time it takes for temp to get half 
-            way to its max value for a given level of ghg
+        way to its max value for a given level of ghg
     cons_growth : float 
         yearly growth in consumption
     d : ndarray
