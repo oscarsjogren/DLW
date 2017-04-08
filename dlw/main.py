@@ -19,17 +19,17 @@ df = DLWDamage(tree=t, bau=bau_default_model, cons_growth=0.015, ghg_levels=[450
 #		temp_map=1, temp_dist_params=None, maxh=100.0, cons_growth=0.015)
 df.import_damages()
 
-m = np.array([ 0.67961073,0.85796937,0.67153906,1.06338793,0.96561344,0.95898243
-,0.60506171,1.15836071,1.15703593,1.19308078,1.0858612, 1.23641389
-,1.00225317,0.87719471,0.45776965,1.0036049, 1.00366799,1.0058377
-,1.00568702,1.00710488,1.00642136,1.11569044,1.11343087,1.01035858
-,1.01131088,1.24717774,1.28281215,1.49000946,1.25434465,0.91422178
-,0.47031894,0.9996656, 1.00048618,1.00042412,0.99890683,1.00045561
-,1.00020798,0.99694714,0.99903464,0.99853715,0.9987289, 0.9975014
-,0.99840207,0.99810216,0.99754464,0.99927602,1.00143186,0.99664025
-,0.99802374,0.99533977,0.9962839, 0.99968455,0.99891384,0.73253735
-,0.94108126,1.0174935, 1.37967819,1.30926058,1.31087989,1.89947442
-,0.82992153,1.20784532,0.72409751])
+m = np.array([ 0.67756584,0.85225621,0.67448498,1.06584066,0.96022359,0.94935034
+,0.64422064,1.16076658,1.15793594,1.20075048,1.10341129,1.24891172
+,1.03953605,0.9579818, 0.4377837, 1.00073521,1.00053618,1.00389282
+,1.00392819,1.00159948,1.00158316,1.09816663,1.09774883,1.00148481
+,1.00148403,1.21101867,1.18873258,1.40193278,1.36990709,0.89664789
+,0.54428276,1.00019353,1.00002115,0.99983874,1.00004625,0.99926064
+,0.99960826,0.9994324, 0.99947741,0.99956738,0.99995048,0.99989551
+,0.99977021,0.9996163, 0.99976571,0.99978149,1.00000033,0.99923965
+,0.9993017, 0.99958442,0.99918414,0.99883929,0.9989224, 1.07179224
+,1.04130021,1.01060381,0.97572908,1.0692045, 1.08034373,2.00755976
+,1.47565507,0.93021933,0.00961698])
 
 
 u = EZUtility(tree=t, damage=df, cost=c, period_len=5.0, add_penalty_cost=True, max_penalty=0.001, penalty_scale=1.0)
@@ -39,15 +39,18 @@ ga_model = GenericAlgorithm(pop_amount=200, num_generations=250, cx_prob=0.8, mu
 						bound=2.0, num_feature=63, utility=u, print_progress=True)
 gs_model = GradientSearch(learning_rate=0.001, var_nums=63, utility=u, accuracy=1e-8, 
 						  iterations=100, print_progress=True)
-final_pop, fitness = ga_model.run()
-sort_pop = final_pop[np.argsort(fitness)][::-1]
+#final_pop, fitness = ga_model.run()
+#sort_pop = final_pop[np.argsort(fitness)][::-1]
 
 #m_opt, u_opt = gs_model.run(initial_point_list=sort_pop, topk=1)
 #m_opt, u_opt = gs_model.run(initial_point_list=[m], topk=1)
 
 #m_opt = sort_pop[0]
-m_opt = m
-#m_opt = NodeMaximum.run(m_opt, u)
+#for i in range(63):
+#	plot_mitigation_at_node(m, i, u, save=True, prefix="")
+
+#m_opt = m
+#m_opt = NodeMaximum.run(m_opt, u)	
 
 #utility_t, cons_t, cost_t, ce_t = u.utility(m_opt, return_trees=True)
 #save_output(m_opt, u, utility_t, cons_t, cost_t, ce_t)

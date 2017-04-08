@@ -51,7 +51,7 @@ def plot_dict(dictionary, title, xlabel, ylabel):
 	y_data, x_data = dictionary.items()
 	plot(y_data, x_data, title=title, xlabel=xlabel, ylabel=ylabel)
 
-def plot_mitigation_at_node(m, node, utility, save=False):
+def plot_mitigation_at_node(m, node, utility, save=False, prefix=""):
 	m_copy = m.copy()
 	x = np.append(np.linspace(0.0, m[node], 25), np.linspace(m[node], max(m[node], 2.5), 25))
 	x = np.unique(x)
@@ -61,7 +61,7 @@ def plot_mitigation_at_node(m, node, utility, save=False):
 		y[i] = utility.utility(m_copy)
 
 	plot(y, x, title="Utility vs. Mitigation in Node {}".format(node), xlabel="Mitigation", 
-		 ylabel="Utility", vertical_line=m[node], save=save, file_name="MAT_{}".format(node))
+		 ylabel="Utility", vertical_line=m[node], save=save, file_name=prefix+"MAT_{}".format(node))
 
 def plot_first_order_condition(m, node, utility):
 	x = np.array([1.0/(10)**i for i in range(1, 11)])

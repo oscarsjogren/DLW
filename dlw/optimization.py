@@ -449,6 +449,67 @@ class GradientSearch(object) :
 		cons = np.abs(np.dot(x_increase, grad_increase) /  np.square(grad_increase).sum())
 		return cons*self.scale_alpha
 
+	def _ada_grad(self, cum_grad):
+		epsilon = 1e-8
+		ita = 0.001
+		return 1/np.sqrt(cum_grad + epsilon) * ita
+
+	def _rms_prop_revise(self, history_grad, grad_t, accumlate_dgrad):
+		beta1 = 0.9
+		beta2 = 0.999
+		ita = 0.001
+		eps = 1e-8
+		def accelerate_factor(k, accumlate_dgrad):
+			print("accumlate_dgrad: ", accumlate_dgrad)
+			return (k / (1 + np.exp(np.abs(accumlate_dgrad))) - k / 2)
+
+		acc_factor = accelerate_factor(5, accumlate_dgrad)
+		E_g2 = np.mean(np.power(history_grad, 2), axis =0)
+		E_g2 = 0.9 * E_g2 + 0.1 * np.power(grad_t, 2)
+		return ita / np.sqrt(E_g2 + eps) * grad_t * (1)
+
+	def _accelerate_scale(self, accelerator, history_grad, grad):
+		sign_vector = np.sign(history_grad[-1] * grad)
+		scale_vector = np.ones(self.var_nums) * ( 1 + 0.01)
+		scale_vector[sign_vector < 0] = ( 1 - 0.01)
+		return accelerator * scale_vector
+
+	def _rms_prop(self, history_grad, grad_t):
+		"""
+		RMSprop is an unpublished, adaptive learning rate method proposed by Geoff Hinton in Lecture 6e
+		of his Coursera Class.
+		http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
+		RMSprop and Adadelta have both been developed independently around the same time stemming
+		from the need to resolve Adagrad's radically diminishing learning rates.
+		"""
+
+		beta1 = 0.9
+		beta2 = 0.999
+		ita = 0.001
+		eps = 1e-8
+		E_g2 = np.mean(np.power(history_grad, 2), axis =0)
+		E_g2 = 0.9 * E_g2 + 0.1 * np.power(grad_t, 2)
+		return ita / np.sqrt(E_g2 + eps) * grad_t
+
+	def _adam(self, t, history_grad, grad_t):
+		"""
+		http://sebastianruder.com/optimizing-gradient-descent/index.html#fnref:15
+		Adaptive Moment Estimation (Adam) [15] is another method that computes adaptive learning rates for each parameter.
+		In addition to storing an exponentially decaying average of past squared gradients vtvt like Adadelta and
+		RMSprop, Adam also keeps an exponentially decaying average of past gradients mtmt, similar to momentum
+		"""
+		beta1 = 0.9
+		beta2 = 0.9
+		ita = 0.002
+		eps = 1e-8
+		m_t = np.mean(history_grad, axis = 0)
+		v_t = np.mean(np.power(history_grad, 2), axis =0)
+		m_t = beta1 * m_t + (1 - beta1) * grad_t
+		v_t = beta2 * v_t + (1 - beta2) * np.power(grad_t, 2)
+		m_t = m_t / (1 - beta1**t)
+		v_t = v_t / (1 - beta2**t)
+		return ita * m_t / (np.sqrt(v_t) + eps)
+
 	def gradient_descent(self, initial_point, return_last=False):
 		"""Gradient descent algorithm. The `initial_point` is updated in the direction
 		where the utility function is increases fastest.
@@ -467,40 +528,50 @@ class GradientSearch(object) :
 			(best point, best utility)
 		
 		"""
-		learning_rate = self.alpha	
+		learning_rate = self.alpha
 		num_decision_nodes = initial_point.shape[0]
 		x_hist = np.zeros((self.iterations+1, num_decision_nodes))
 		u_hist = np.zeros(self.iterations+1)
 		u_hist[0] = self.u.utility(initial_point)
 		x_hist[0] = initial_point
 		prev_grad = 0.0
-		
-		for i in range(self.iterations):
-			grad = self.numerical_gradient(x_hist[i], fixed_indicies=self.fixed_indicies)
-			if i != 0:
-				learning_rate = self._dynamic_alpha(x_hist[i]-x_hist[i-1], grad-prev_grad, len(grad))
 
-			new_x = x_hist[i] + grad*learning_rate
+		cum_grad = np.array(np.zeros(self.var_nums))
+		history_grad = np.array(np.zeros(self.var_nums))
+		accumlate_dgrad = np.array(np.zeros(self.var_nums))
+		adam_rate = np.array(np.zeros(self.var_nums))
+		rms_prop_rate = np.array(np.zeros(self.var_nums))
+		accelerator = np.ones(self.var_nums)
+
+		for i in range(self.iterations):
+			grad = self.u.numerical_gradient(x_hist[i], fixed_indicies=self.fixed_indicies)
+			grad[np.abs(grad) < 1e-9] = -1e-9
+			cum_grad += np.power(grad,2)
+			if i != 0:
+				adam_rate = self._adam(i+1, history_grad, grad)
+				accelerator = self._accelerate_scale(accelerator, history_grad, grad)
+	
+			new_x = x_hist[i] + adam_rate * accelerator
+			new_x[new_x < 0] = 1e-8
+			#new_x = x_hist[i] + rms_prop_rate
+			history_grad = np.vstack([history_grad, grad])
+			print("grade: ", grad)
 			if self.fixed_values is not None:
 				new_x[self.fixed_indicies] = self.fixed_values
-			
+
 			current = self.u.utility(new_x)[0]
 			x_hist[i+1] = new_x
 			u_hist[i+1] = current
 			prev_grad = grad.copy()
-			#if i > 50:
-			#	x_diff = np.abs(x_hist[i+1] - x_hist[i]).sum()
-			#	u_diff = np.abs(u_hist[i+1] - u_hist[i])
-			#	if x_diff < self.accuracy or u_diff < self.accuracy:
-			#		print("Broke iteration..")
-			#		break
+	
 			if self.print_progress:
 				print("-- Interation {} -- \n Current Utility: {}".format(i+1, current))
 				print(new_x)
-	
+
 		if return_last:
 			return x_hist[i+1], u_hist[i+1]
 		best_index = np.argmax(u_hist)
+		return x_hist[best_index], u_hist[best_inde
 		return x_hist[best_index], u_hist[best_index]
 
 	def run(self, initial_point_list, topk=4):
