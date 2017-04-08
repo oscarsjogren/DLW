@@ -4,4 +4,5 @@ dlw.storage_tree module
 .. automodule:: dlw.storage_tree
     :members:
     :undoc-members:
+    :special-members: __getitem__
     :show-inheritance:

@@ -23,8 +23,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
-    <link rel="next" title="Library Reference" href="../api/index.html" />
+    <link rel="next" title="Damage Simulation" href="damage_simulation.html" />
     <link rel="prev" title="Tree" href="tree.html" /> 
   </head>
   <body role="document">
@@ -38,7 +39,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../api/index.html" title="Library Reference"
+          <a href="damage_simulation.html" title="Damage Simulation"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="tree.html" title="Tree"
@@ -54,6 +55,8 @@
             
   <div class="section" id="bau">
 <h1>BAU<a class="headerlink" href="#bau" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="../api/bau.html#dlw.bau.DLWBusinessAsUsual" title="dlw.bau.DLWBusinessAsUsual"><code class="xref py py-class docutils literal"><span class="pre">dlw.bau.DLWBusinessAsUsual</span></code></a> provides an analysis framework of business as usual scenario. We assume constant consumption growth and GHG emissions that grow linearly over time without mitigation. For analysis, emission level are given at certain decision time points. Emissions between those decision time points are calcualted using linear interploation. GHG levels are calculated in accordance which the emission path.</p>
+<p>If a different assumption about business as usual scenario (e.g., non-linear growth of GHG emission) is made, you can created an inheritance from the base class and define new interplotation method in function <code class="xref py py-func docutils literal"><span class="pre">emission_by_time()</span></code>.</p>
 </div>
 
 
@@ -66,8 +69,8 @@
   <p class="topless"><a href="tree.html"
                         title="previous chapter">Tree</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../api/index.html"
-                        title="next chapter">Library Reference</a></p>
+  <p class="topless"><a href="damage_simulation.html"
+                        title="next chapter">Damage Simulation</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -99,7 +102,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../api/index.html" title="Library Reference"
+          <a href="damage_simulation.html" title="Damage Simulation"
              >next</a> |</li>
         <li class="right" >
           <a href="tree.html" title="Tree"

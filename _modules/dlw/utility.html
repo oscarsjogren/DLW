@@ -23,6 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="dlw 1.0.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
@@ -321,6 +322,7 @@
 		<span class="sd">&quot;&quot;&quot;Generator for calculating utility for each utility period besides the terminal utility.&quot;&quot;&quot;</span>
 		<span class="n">periods</span> <span class="o">=</span> <span class="n">utility_tree</span><span class="o">.</span><span class="n">periods</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 		<span class="n">penalty_cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_cost</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">pc</span> <span class="o">=</span> <span class="n">penalty_cost</span>
 
 		<span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">periods</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
 			<span class="n">damage_period</span> <span class="o">=</span> <span class="n">utility_tree</span><span class="o">.</span><span class="n">between_decision_times</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
@@ -390,6 +392,7 @@
 <span class="sd">		Examples:</span>
 <span class="sd">		---------</span>
 <span class="sd">		Assuming we have declared a EZUtility object as &#39;ezu&#39; and have a mitigation array &#39;m&#39;</span>
+<span class="sd">		</span>
 <span class="sd">		&gt;&gt;&gt; ezu.utility(m)</span>
 <span class="sd">		array([ 9.83391921])</span>
 <span class="sd">		&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)</span>
@@ -566,7 +569,7 @@
 <span class="sd">		Examples</span>
 <span class="sd">		--------</span>
 <span class="sd">		Assuming we have declared a EZUtility object as &#39;ezu&#39; and have a mitigation array &#39;m&#39;.</span>
-<span class="sd">		</span>
+<span class="sd">		&gt;&gt;&gt; </span>
 <span class="sd">		&gt;&gt;&gt; utility_tree, cons_tree, cost_tree, ce_tree = ezu.utility(m, return_trees=True)</span>
 <span class="sd">		&gt;&gt;&gt; mu_0_tree, mu_1_tree, mu_2_tree = ezu.marginal_utility(m, utility_tree, cons_tree, cost_tree, ce_tree)</span>
 <span class="sd">		&gt;&gt;&gt; mu_0_tree[0] # value at period 0</span>
