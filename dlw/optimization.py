@@ -544,7 +544,7 @@ class GradientSearch(object) :
 		accelerator = np.ones(self.var_nums)
 
 		for i in range(self.iterations):
-			grad = self.u.numerical_gradient(x_hist[i], fixed_indicies=self.fixed_indicies)
+			grad = self.numerical_gradient(x_hist[i], fixed_indicies=self.fixed_indicies)
 			grad[np.abs(grad) < 1e-9] = -1e-9
 			cum_grad += np.power(grad,2)
 			if i != 0:
@@ -553,9 +553,7 @@ class GradientSearch(object) :
 	
 			new_x = x_hist[i] + adam_rate * accelerator
 			new_x[new_x < 0] = 1e-8
-			#new_x = x_hist[i] + rms_prop_rate
 			history_grad = np.vstack([history_grad, grad])
-			print("grade: ", grad)
 			if self.fixed_values is not None:
 				new_x[self.fixed_indicies] = self.fixed_values
 
@@ -571,7 +569,6 @@ class GradientSearch(object) :
 		if return_last:
 			return x_hist[i+1], u_hist[i+1]
 		best_index = np.argmax(u_hist)
-		return x_hist[best_index], u_hist[best_inde
 		return x_hist[best_index], u_hist[best_index]
 
 	def run(self, initial_point_list, topk=4):
