@@ -12,6 +12,7 @@ See the [DLW User's Guide](https://oscarsjogren.github.io/dlw/) for DLW document
 In order to get the tip documentation, change directory to the `doc` subfolder and type in `make html`, the documentation will be under `../dlw_docs/html`. You will need [Sphinx](http://sphinx.pocoo.org) to build the documentation.
 
 ## Installation
+
 We encourage you to use pip to install DLW on your system. 
 
 ```bash
@@ -21,4 +22,13 @@ pip install dlw
 If you wish to build from sources, download or clone the repository.
 
 ## Requirements
+
 DLW is compatible with Python 2 and 3. [Numpy](http://www.numpy.org/) is required, and we recommend [matplotlib](http://www.matplotlib.org/) for visualization of results.
+
+## Authors
+
+* Robert Litterman
+* Kent Daniel
+* Gernot Wagner
+
+## License
