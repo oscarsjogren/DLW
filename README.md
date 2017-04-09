@@ -4,7 +4,7 @@ DLW is a model for pricing carbon dioxide emission. It explores the implications
 
 ## Downloads
 
-You can find the most recent releases at: https://pypi.python.org/pypi/deap/.
+You can find the most recent releases at: https://pypi.python.org/pypi/dlw/.
 
 ## Documentation
 See the [DLW User's Guide](https://oscarsjogren.github.io/dlw/) for DLW documentation.
