@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Optimization &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
+    <link rel="next" title="Examples" href="../examples/index.html" />
+    <link rel="prev" title="Utility" href="utility.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../examples/index.html" title="Examples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utility.html" title="Utility"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="optimization">
+<h1>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="../api/optimization.html#module-ez_climate.optimization" title="ez_climate.optimization"><code class="xref py py-mod docutils literal"><span class="pre">ez_climate.optimization</span></code></a> contains two classes, <code class="xref py py-class docutils literal"><span class="pre">GeneticAlgorithm</span></code> and <code class="xref py py-class docutils literal"><span class="pre">GradientSearch</span></code>. They both take an <code class="xref py py-class docutils literal"><span class="pre">utility.Utility</span></code> object as an argument and tries to maximize the utility at time 0 by finding the optimal mitigation at every node of the tree.</p>
+<div class="section" id="genetic-algorithm-ga">
+<h2>Genetic Algorithm (GA)<a class="headerlink" href="#genetic-algorithm-ga" title="Permalink to this headline">¶</a></h2>
+<p>The GA is an evolutionary algorithm, inspired by the evolution of species in nature. The evolution process starts from a population of vectors with uniformly distributed [0, <code class="xref py py-attr docutils literal"><span class="pre">bound</span></code>] random elements. For each generation, the evolution steps in the <code class="xref py py-func docutils literal"><span class="pre">run()</span></code> method are:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Select the individuals to perform cross-over and mutation.</li>
+<li>Cross over among the selected candidate.</li>
+<li>Mutate result as offspring.</li>
+<li>Combine the result of offspring and parent together. And selected the top 80 percent of original population amount.</li>
+<li>Random Generate 20 percent of original population amount new individuals and combine the above new population.</li>
+</ol>
+</div></blockquote>
+<p>The mutation and cross-over methods are choosen to fit the optimization problem of the EZ-Climate model.</p>
+</div>
+<div class="section" id="gradient-search-gs">
+<h2>Gradient Search (GS)<a class="headerlink" href="#gradient-search-gs" title="Permalink to this headline">¶</a></h2>
+<p>The GS uses the gradient descent algorithm and the numerical gradient to find the optimal mitigation points. Moveover, it uses the Adaptive Moment Estimation (<a class="reference external" href="http://sebastianruder.com/optimizing-gradient-descent/index.html#fnref:15">Adam</a>) learning rate together with an accelarator scaler to update the points. Adam is a method that computes adaptive learning rates for each parameter. In addition to storing an exponentially decaying average of past squared gradients, Adam also keeps an exponentially decaying average of past gradients. The accelerator is used to amplify low gradient values of mitigation values in nodes in the end of the tree, and thus reduce computation time. The <code class="xref py py-func docutils literal"><span class="pre">run()</span></code> method takes <code class="xref py py-attr docutils literal"><span class="pre">initial_point_list</span></code> and <code class="xref py py-attr docutils literal"><span class="pre">topk</span></code> as arguments, runs the gradient descent optimization of the <code class="xref py py-attr docutils literal"><span class="pre">topk</span></code> first elements of the <code class="xref py py-attr docutils literal"><span class="pre">initial_point_list</span></code>, and picks the resulting point with the highest utility.</p>
+</div>
+<div class="section" id="ga-and-gs-together">
+<h2>GA and GS together<a class="headerlink" href="#ga-and-gs-together" title="Permalink to this headline">¶</a></h2>
+<p>An example of how to use the <code class="xref py py-class docutils literal"><span class="pre">GeneticAlgorithm</span></code> and <code class="xref py py-class docutils literal"><span class="pre">GradientSearch</span></code> can be found <a class="reference external" href="../examples/output_paper.html">here</a>. The <code class="xref py py-func docutils literal"><span class="pre">GradientSearch.run()</span></code> takes the last generation population of the <code class="xref py py-func docutils literal"><span class="pre">GeneticAlgorithm.run()</span></code> as the <code class="xref py py-attr docutils literal"><span class="pre">initial_point_list</span></code> argument and performs the gradient descent optimization with these as intial guess.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Optimization</a><ul>
+<li><a class="reference internal" href="#genetic-algorithm-ga">Genetic Algorithm (GA)</a></li>
+<li><a class="reference internal" href="#gradient-search-gs">Gradient Search (GS)</a></li>
+<li><a class="reference internal" href="#ga-and-gs-together">GA and GS together</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="utility.html"
+                        title="previous chapter">Utility</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../examples/index.html"
+                        title="next chapter">Examples</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/documentation/optimization.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../examples/index.html" title="Examples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="utility.html" title="Utility"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

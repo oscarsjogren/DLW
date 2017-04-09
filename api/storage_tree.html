@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dlw.storage_tree module &#8212; dlw 1.0.1 documentation</title>
+    <title>ez_climate.storage_tree module &#8212; EZ-Climate 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
     <link rel="up" title="Library Reference" href="index.html" />
-    <link rel="next" title="dlw.utility module" href="utility.html" />
-    <link rel="prev" title="dlw.cost module" href="cost.html" /> 
+    <link rel="next" title="ez_climate.utility module" href="utility.html" />
+    <link rel="prev" title="ez_climate.cost module" href="cost.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,12 +40,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="utility.html" title="dlw.utility module"
+          <a href="utility.html" title="ez_climate.utility module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="cost.html" title="dlw.cost module"
+          <a href="cost.html" title="ez_climate.cost module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
       </ul>
     </div>  
@@ -55,13 +55,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-dlw.storage_tree">
-<span id="dlw-storage-tree-module"></span><h1>dlw.storage_tree module<a class="headerlink" href="#module-dlw.storage_tree" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ez_climate.storage_tree">
+<span id="ez-climate-storage-tree-module"></span><h1>ez_climate.storage_tree module<a class="headerlink" href="#module-ez_climate.storage_tree" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dlw.storage_tree.BaseStorageTree">
-<em class="property">class </em><code class="descclassname">dlw.storage_tree.</code><code class="descname">BaseStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree">
+<em class="property">class </em><code class="descclassname">ez_climate.storage_tree.</code><code class="descname">BaseStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Abstract storage class for the DLW-model.</p>
+<p>Abstract storage class for the EZ-Climate model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -71,43 +71,43 @@
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="dlw.storage_tree.BaseStorageTree.decision_times">
-<code class="descname">decision_times</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; array of years from start where decisions about mitigation levels are done</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BaseStorageTree.information_times">
-<code class="descname">information_times</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.information_times">
+<code class="descname">information_times</code><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; array of years where new information is given to the agent in the model</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BaseStorageTree.periods">
-<code class="descname">periods</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.periods" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.periods">
+<code class="descname">periods</code><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.periods" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; periods in the tree</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BaseStorageTree.tree">
-<code class="descname">tree</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.tree">
+<code class="descname">tree</code><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>dict</em> &#8211; dictionary where keys are <cite>periods</cite> and values are nodes in period</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.__getitem__">
-<code class="descname">__getitem__</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.__getitem__">
+<code class="descname">__getitem__</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.__getitem__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.get_next_period_array">
-<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.get_next_period_array">
+<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the array of the next period from <cite>periods</cite>.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.is_decision_period">
-<code class="descname">is_decision_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.is_decision_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.is_decision_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.is_decision_period">
+<code class="descname">is_decision_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.is_decision_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.is_decision_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if time_period is a decision time for mitigation, where
 time_period is the number of years since start.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -125,8 +125,8 @@ time_period is the number of years since start.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.is_information_period">
-<code class="descname">is_information_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.is_information_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.is_information_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.is_information_period">
+<code class="descname">is_information_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.is_information_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.is_information_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if time_period is a information time for fragility, where
 time_period is the number of years since start.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -144,8 +144,8 @@ time_period is the number of years since start.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.is_real_decision_period">
-<code class="descname">is_real_decision_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.is_real_decision_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.is_real_decision_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.is_real_decision_period">
+<code class="descname">is_real_decision_period</code><span class="sig-paren">(</span><em>time_period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.is_real_decision_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.is_real_decision_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if time_period is a decision time besides the last period, where
 time_period is the number of years since start.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -163,32 +163,32 @@ time_period is the number of years since start.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BaseStorageTree.last">
-<code class="descname">last</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.last" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.last">
+<code class="descname">last</code><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.last" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; last period&#8217;s array.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BaseStorageTree.last_period">
-<code class="descname">last_period</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.last_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.last_period">
+<code class="descname">last_period</code><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.last_period" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; index of last period.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BaseStorageTree.nodes">
-<code class="descname">nodes</code><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.nodes" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.nodes">
+<code class="descname">nodes</code><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; number of nodes in the tree.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.set_value">
-<code class="descname">set_value</code><span class="sig-paren">(</span><em>period</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.set_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.set_value" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.set_value">
+<code class="descname">set_value</code><span class="sig-paren">(</span><em>period</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.set_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.set_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>If period is in periods, set the value of element to <cite>values</cite> (ndarray).</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.write_columns">
-<code class="descname">write_columns</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>start_year=2015</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.write_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.write_columns" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.write_columns">
+<code class="descname">write_columns</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>start_year=2015</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.write_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.write_columns" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save values in <cite>tree</cite> as columns into file  <cite>file_name</cite> in the
 &#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
 directory, one is created.</p>
@@ -232,8 +232,8 @@ directory, one is created.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.write_columns_existing">
-<code class="descname">write_columns_existing</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.write_columns_existing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.write_columns_existing" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.write_columns_existing">
+<code class="descname">write_columns_existing</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.write_columns_existing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.write_columns_existing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save values in <cite>tree</cite> as columns into file  <cite>file_name</cite> in the
 &#8216;data&#8217; directory in the current working directory, when <cite>file_name</cite> already exists.
 If there is no &#8216;data&#8217; directory, one is created.</p>
@@ -281,8 +281,8 @@ If there is no &#8216;data&#8217; directory, one is created.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BaseStorageTree.write_tree">
-<code class="descname">write_tree</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BaseStorageTree.write_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BaseStorageTree.write_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BaseStorageTree.write_tree">
+<code class="descname">write_tree</code><span class="sig-paren">(</span><em>file_name</em>, <em>header</em>, <em>delimiter=';'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree.write_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree.write_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save values in <cite>tree</cite> as a tree into file  <cite>file_name</cite> in the
 &#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
 directory, one is created.</p>
@@ -304,10 +304,10 @@ directory, one is created.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="dlw.storage_tree.BigStorageTree">
-<em class="property">class </em><code class="descclassname">dlw.storage_tree.</code><code class="descname">BigStorageTree</code><span class="sig-paren">(</span><em>subinterval_len</em>, <em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BigStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dlw.storage_tree.BaseStorageTree" title="dlw.storage_tree.BaseStorageTree"><code class="xref py py-class docutils literal"><span class="pre">dlw.storage_tree.BaseStorageTree</span></code></a></p>
-<p>Storage tree class for the DLW-model. Storage in nodes between
+<dt id="ez_climate.storage_tree.BigStorageTree">
+<em class="property">class </em><code class="descclassname">ez_climate.storage_tree.</code><code class="descname">BigStorageTree</code><span class="sig-paren">(</span><em>subinterval_len</em>, <em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BigStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ez_climate.storage_tree.BaseStorageTree" title="ez_climate.storage_tree.BaseStorageTree"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.storage_tree.BaseStorageTree</span></code></a></p>
+<p>Storage tree class for the EZ-Climate model. Storage in nodes between
 periods in <cite>decision_times</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -322,38 +322,38 @@ periods in <cite>decision_times</cite>.</p>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="dlw.storage_tree.BigStorageTree.decision_times">
-<code class="descname">decision_times</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; array of years from start where decisions about mitigation levels are done</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BigStorageTree.information_times">
-<code class="descname">information_times</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.information_times">
+<code class="descname">information_times</code><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; array of years where new information is given to the agent in the model</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BigStorageTree.periods">
-<code class="descname">periods</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.periods" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.periods">
+<code class="descname">periods</code><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.periods" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; periods in the tree</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BigStorageTree.tree">
-<code class="descname">tree</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.tree">
+<code class="descname">tree</code><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>dict</em> &#8211; dictionary where keys are <cite>periods</cite> and values are nodes in period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BigStorageTree.subintervals_len">
-<code class="descname">subintervals_len</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.subintervals_len" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.subintervals_len">
+<code class="descname">subintervals_len</code><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.subintervals_len" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; years between periods in tree</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BigStorageTree.between_decision_times">
-<code class="descname">between_decision_times</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BigStorageTree.between_decision_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.between_decision_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.between_decision_times">
+<code class="descname">between_decision_times</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BigStorageTree.between_decision_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.between_decision_times" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check which decision time the period is between and returns
 the index of the lower decision time.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -379,8 +379,8 @@ the index of the lower decision time.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BigStorageTree.decision_interval">
-<code class="descname">decision_interval</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BigStorageTree.decision_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.decision_interval" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.decision_interval">
+<code class="descname">decision_interval</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BigStorageTree.decision_interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.decision_interval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check which interval the period is between.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -407,14 +407,14 @@ the index of the lower decision time.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.BigStorageTree.first_period_intervals">
-<code class="descname">first_period_intervals</code><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.first_period_intervals" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.first_period_intervals">
+<code class="descname">first_period_intervals</code><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.first_period_intervals" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; the number of subintervals in the first period.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.BigStorageTree.get_next_period_array">
-<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#BigStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.BigStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.BigStorageTree.get_next_period_array">
+<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BigStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BigStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the array of the next period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -445,10 +445,10 @@ the index of the lower decision time.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="dlw.storage_tree.SmallStorageTree">
-<em class="property">class </em><code class="descclassname">dlw.storage_tree.</code><code class="descname">SmallStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#SmallStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dlw.storage_tree.BaseStorageTree" title="dlw.storage_tree.BaseStorageTree"><code class="xref py py-class docutils literal"><span class="pre">dlw.storage_tree.BaseStorageTree</span></code></a></p>
-<p>Storage tree class for the DLW-model. No storage in nodes between
+<dt id="ez_climate.storage_tree.SmallStorageTree">
+<em class="property">class </em><code class="descclassname">ez_climate.storage_tree.</code><code class="descname">SmallStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#SmallStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.SmallStorageTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ez_climate.storage_tree.BaseStorageTree" title="ez_climate.storage_tree.BaseStorageTree"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.storage_tree.BaseStorageTree</span></code></a></p>
+<p>Storage tree class for the EZ-Climate model. No storage in nodes between
 periods in <cite>decision_times</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -459,32 +459,32 @@ periods in <cite>decision_times</cite>.</p>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="dlw.storage_tree.SmallStorageTree.decision_times">
-<code class="descname">decision_times</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.SmallStorageTree.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#ez_climate.storage_tree.SmallStorageTree.decision_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; array of years from start where decisions about mitigation levels are done</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.SmallStorageTree.information_times">
-<code class="descname">information_times</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.SmallStorageTree.information_times">
+<code class="descname">information_times</code><a class="headerlink" href="#ez_climate.storage_tree.SmallStorageTree.information_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; array of years where new information is given to the agent in the model</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.SmallStorageTree.periods">
-<code class="descname">periods</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.periods" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.SmallStorageTree.periods">
+<code class="descname">periods</code><a class="headerlink" href="#ez_climate.storage_tree.SmallStorageTree.periods" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; periods in the tree</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.storage_tree.SmallStorageTree.tree">
-<code class="descname">tree</code><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.SmallStorageTree.tree">
+<code class="descname">tree</code><a class="headerlink" href="#ez_climate.storage_tree.SmallStorageTree.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>dict</em> &#8211; dictionary where keys are <cite>periods</cite> and values are nodes in period</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.SmallStorageTree.get_next_period_array">
-<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#SmallStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.SmallStorageTree.get_next_period_array">
+<code class="descname">get_next_period_array</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#SmallStorageTree.get_next_period_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.SmallStorageTree.get_next_period_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the array of the next decision period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -513,8 +513,8 @@ periods in <cite>decision_times</cite>.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.storage_tree.SmallStorageTree.index_below">
-<code class="descname">index_below</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/storage_tree.html#SmallStorageTree.index_below"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.storage_tree.SmallStorageTree.index_below" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.storage_tree.SmallStorageTree.index_below">
+<code class="descname">index_below</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#SmallStorageTree.index_below"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.SmallStorageTree.index_below" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the key of the previous decision period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -552,10 +552,10 @@ periods in <cite>decision_times</cite>.</p>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="cost.html"
-                        title="previous chapter">dlw.cost module</a></p>
+                        title="previous chapter">ez_climate.cost module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="utility.html"
-                        title="next chapter">dlw.utility module</a></p>
+                        title="next chapter">ez_climate.utility module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -587,12 +587,12 @@ periods in <cite>decision_times</cite>.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="utility.html" title="dlw.utility module"
+          <a href="utility.html" title="ez_climate.utility module"
              >next</a> |</li>
         <li class="right" >
-          <a href="cost.html" title="dlw.cost module"
+          <a href="cost.html" title="ez_climate.cost module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
       </ul>
     </div>

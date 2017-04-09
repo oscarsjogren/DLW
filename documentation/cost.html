@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Cost &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
+    <link rel="next" title="Storage Tree" href="storage_tree.html" />
+    <link rel="prev" title="Damage" href="damage.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="storage_tree.html" title="Storage Tree"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="damage.html" title="Damage"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cost">
+<h1>Cost<a class="headerlink" href="#cost" title="Permalink to this headline">¶</a></h1>
+<p>Calibrating the economic cost side of EZ-Climate requires specifying a relationship between the marginal cost of emissions reductions or per-ton tax rate, <span class="math">\(\tau\)</span>, the resulting flow of emissions in gigatonnes of <span class="math">\(CO_2\)</span>-equivalent emissions per year (Gt <span class="math">\(CO_2\)</span>), <span class="math">\(g(\tau)\)</span>, and the fraction of emissions reduced, <span class="math">\(x(\tau)\)</span>.</p>
+<p>We calibrate <span class="math">\(\tau\)</span>, <span class="math">\(g(\tau)\)</span>, and <span class="math">\(x(\tau)\)</span> in EZ-Climate based on McKinsey’s global MACC effort (<a class="reference external" href="http://www.mckinsey.com/business-functions/sustainability-and-resource-productivity/our-insights/pathways-to-a-low-carbon-economy">McKinsey</a>), with one crucial modification; we assume no mitigation (<span class="math">\(x(\tau)=0\)</span>) at <span class="math">\(\tau \le 0\)</span> i.e. no net-negative or zero-cost mitigation. Table 1 below shows the resulting calibration.</p>
+<a class="reference internal image-reference" href="../_images/cost1.png"><img alt="../_images/cost1.png" class="align-center" src="../_images/cost1.png" style="width: 600px;" /></a>
+<p>Fitting McKinsey’s modified point estimates (in $US) from Table 1 to a power function for <span class="math">\(x(\tau)\)</span> yields:</p>
+<div class="math">
+\[x(\tau) = 0.0923 \tau^{0.414}.\]</div>
+<p>The corresponding inverse function, solving for the appropriate tax rate to achieve <span class="math">\(x\)</span> is:</p>
+<div class="math">
+\[\tau(x) = 314.32 x^{2.413}.\]</div>
+<p>The above equation shows the marginal cost of abatement. Ultimately, we are interested in the total cost to society, <span class="math">\(\kappa(x)\)</span>, for each particular fractional-mitigation <span class="math">\(x\)</span>. We calculate using the envelope theorem and get the following equation:</p>
+<div class="math">
+\[\kappa(x) = \left(\frac{92.08 g_0}{c_0}\right) x^{3.413},\]</div>
+<p>where <span class="math">\(g_0=52\)</span> Gt <span class="math">\(CO_2\)</span> represents the current level of global annual emissions, and <span class="math">\(c_0=$31\)</span> trilling/year in current (2015) global consumption. The equation for <span class="math">\(\kappa(x)\)</span> expresses the societal cost of a given level of mitigation as a percentage of consumption. We assume that, absent technological change, the function is time invariant.</p>
+<p>We also allow for backstop technology and technological changes. For discussion and derivation of these parameters, see <a class="reference external" href="http://www.nber.org/papers/w22795">paper</a>. At the end, we have the following cost function:</p>
+<div class="math">
+\[\kappa_t(x) = \kappa(x) \left( 1-\phi_0 - \phi_1 X_t \right)\]</div>
+<p>where <span class="math">\(\phi_0\)</span> is a constant component, and <span class="math">\(\phi_1 X_t\)</span> a component linked to mitigation efforts  to date (where <span class="math">\(X_t\)</span> is the average mitigation up to time <span class="math">\(t\)</span>). See <a class="reference internal" href="../api/cost.html#module-ez_climate.cost" title="ez_climate.cost"><code class="xref py py-mod docutils literal"><span class="pre">ez_climate.cost</span></code></a> for more details.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="damage.html"
+                        title="previous chapter">Damage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="storage_tree.html"
+                        title="next chapter">Storage Tree</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/documentation/cost.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="storage_tree.html" title="Storage Tree"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="damage.html" title="Damage"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

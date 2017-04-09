@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ez_climate.bau &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ez_climate.bau</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<div class="viewcode-block" id="BusinessAsUsual"><a class="viewcode-back" href="../../api/bau.html#ez_climate.bau.BusinessAsUsual">[docs]</a><span class="k">class</span> <span class="nc">BusinessAsUsual</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Abstract BAU class for the EZ-Climate model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ghg_start : float</span>
+<span class="sd">        today&#39;s GHG-level</span>
+<span class="sd">    ghg_end : float</span>
+<span class="sd">        GHG-level in the last period</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ghg_start : float</span>
+<span class="sd">        today&#39;s GHG-level</span>
+<span class="sd">    ghg_end : float</span>
+<span class="sd">        GHG-level in the last period</span>
+<span class="sd">    emission_by_decisions : ndarray</span>
+<span class="sd">        emissions at decision time periods??</span>
+<span class="sd">    emission_per_period : ndarray</span>
+<span class="sd">        total emission at decision time period??</span>
+<span class="sd">    emission_to_ghg : ndarray</span>
+<span class="sd">        GHG levels in decision time period??</span>
+<span class="sd">    emission_to_bau : float</span>
+<span class="sd">        constant for converting GHG to emission??</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ghg_start</span><span class="p">,</span> <span class="n">ghg_end</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ghg_start</span> <span class="o">=</span> <span class="n">ghg_start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ghg_end</span> <span class="o">=</span> <span class="n">ghg_end</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_by_decisions</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_per_period</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_to_ghg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_to_bau</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bau_path</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BusinessAsUsual.emission_by_time"><a class="viewcode-back" href="../../api/bau.html#ez_climate.bau.BusinessAsUsual.emission_by_time">[docs]</a>    <span class="k">def</span> <span class="nf">emission_by_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="DLWBusinessAsUsual"><a class="viewcode-back" href="../../api/bau.html#ez_climate.bau.DLWBusinessAsUsual">[docs]</a><span class="k">class</span> <span class="nc">DLWBusinessAsUsual</span><span class="p">(</span><span class="n">BusinessAsUsual</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Business-as-usual scenario of emissions. Emissions growth is assumed to slow down </span>
+<span class="sd">    exogenously - these assumptions represent an attempt to model emissions growth in a </span>
+<span class="sd">    business-as-usual scenario that is in the absence of incentives.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ghg_start : float</span>
+<span class="sd">        today&#39;s GHG-level</span>
+<span class="sd">    ghg_end : float</span>
+<span class="sd">        GHG-level in the last period</span>
+<span class="sd">    emit_time : ndarray or list</span>
+<span class="sd">        time, in years, from now when emissions occurs</span>
+<span class="sd">    emit_level : ndarray or list</span>
+<span class="sd">        emission levels in future times `emit_time`</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ghg_start : float</span>
+<span class="sd">        today&#39;s GHG-level</span>
+<span class="sd">    ghg_end : float</span>
+<span class="sd">        GHG-level in the last period</span>
+<span class="sd">    emission_by_decisions : ndarray</span>
+<span class="sd">        emissions at decision time periods??</span>
+<span class="sd">    emission_per_period : ndarray</span>
+<span class="sd">        total emission at decision time period??</span>
+<span class="sd">    emission_to_ghg : ndarray</span>
+<span class="sd">        GHG levels in decision time period??</span>
+<span class="sd">    emission_to_bau : float</span>
+<span class="sd">        constant for converting GHG to emission??</span>
+<span class="sd">    emit_time : ndarray or list</span>
+<span class="sd">        time, in years, from now when emissions occurs</span>
+<span class="sd">    emit_level : ndarray or list</span>
+<span class="sd">        emission levels in future times `emit_time`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ghg_start</span><span class="o">=</span><span class="mf">400.0</span><span class="p">,</span> <span class="n">ghg_end</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">emit_time</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="n">emit_level</span><span class="o">=</span><span class="p">[</span><span class="mf">52.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">81.4</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DLWBusinessAsUsual</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ghg_start</span><span class="p">,</span> <span class="n">ghg_end</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span> <span class="o">=</span> <span class="n">emit_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span> <span class="o">=</span> <span class="n">emit_level</span>
+
+<div class="viewcode-block" id="DLWBusinessAsUsual.emission_by_time"><a class="viewcode-back" href="../../api/bau.html#ez_climate.bau.DLWBusinessAsUsual.emission_by_time">[docs]</a>    <span class="k">def</span> <span class="nf">emission_by_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the BAU emissions at any time</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        time : int </span>
+<span class="sd">            future time period in years</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            emission</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">emissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> \
+                        <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+            <span class="n">emissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> 
+                        <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_time</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">emissions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit_level</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">emissions</span></div>
+
+<div class="viewcode-block" id="DLWBusinessAsUsual.bau_emissions_setup"><a class="viewcode-back" href="../../api/bau.html#ez_climate.bau.DLWBusinessAsUsual.bau_emissions_setup">[docs]</a>    <span class="k">def</span> <span class="nf">bau_emissions_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create default business as usual emissions path. The emission rate in each period is </span>
+<span class="sd">        assumed to be the average of the emissions at the beginning and at the end of the period.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tree : `TreeModel` object</span>
+<span class="sd">            provides the tree structure used</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num_periods</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">num_periods</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_by_decisions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_periods</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_per_period</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_periods</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bau_path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_periods</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bau_path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ghg_start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_by_decisions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_by_time</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">period_len</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_periods</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emission_by_decisions</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_by_time</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emission_per_period</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">period_len</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">emission_by_decisions</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+        <span class="c1">#the total increase in ghg level of 600 (from 400 to 1000) in the bau path is allocated over time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_to_ghg</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ghg_end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ghg_start</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_per_period</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_per_period</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emission_to_bau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_to_ghg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_per_period</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_periods</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bau_path</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bau_path</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">emission_per_period</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">emission_to_bau</span></div></div>
+
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

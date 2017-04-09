@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ez_climate.cost &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ez_climate.cost</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">storage_tree</span> <span class="k">import</span> <span class="n">BigStorageTree</span>
+
+<div class="viewcode-block" id="Cost"><a class="viewcode-back" href="../../api/cost.html#ez_climate.cost.Cost">[docs]</a><span class="k">class</span> <span class="nc">Cost</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Abstract Cost class for the EZ-Climate model.&quot;&quot;&quot;</span>
+	<span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+
+	<span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Cost.cost"><a class="viewcode-back" href="../../api/cost.html#ez_climate.cost.Cost.cost">[docs]</a>	<span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">pass</span></div>
+
+	<span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Cost.price"><a class="viewcode-back" href="../../api/cost.html#ez_climate.cost.Cost.price">[docs]</a>	<span class="k">def</span> <span class="nf">price</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="DLWCost"><a class="viewcode-back" href="../../api/cost.html#ez_climate.cost.DLWCost">[docs]</a><span class="k">class</span> <span class="nc">DLWCost</span><span class="p">(</span><span class="n">Cost</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Class to evaluate the cost curve for the EZ-Climate model.</span>
+
+<span class="sd">	Parameters</span>
+<span class="sd">	----------</span>
+<span class="sd">	tree : `TreeModel` object</span>
+<span class="sd">		tree structure used</span>
+<span class="sd">	emit_at_0 : float</span>
+<span class="sd">		initial GHG emission level</span>
+<span class="sd">	g : float</span>
+<span class="sd">		intital scale of the cost function</span>
+<span class="sd">	a : float</span>
+<span class="sd">		curvature of the cost function</span>
+<span class="sd">	join_price : float</span>
+<span class="sd">		price at which the cost curve is extended</span>
+<span class="sd">	max_price : float</span>
+<span class="sd">		price at which carbon dioxide can be removed from atmosphere in unlimited scale</span>
+<span class="sd">	tech_const : float </span>
+<span class="sd">		determines the degree of exogenous technological improvement over time. A number </span>
+<span class="sd">			of 1.0 implies 1 percent per yer lower cost</span>
+<span class="sd">	tech_scale : float</span>
+<span class="sd">		determines the sensitivity of technological change to previous mitigation</span>
+<span class="sd">	cons_at_0 : float </span>
+<span class="sd">		intital consumption. Default $30460bn based on US 2010 values.</span>
+
+<span class="sd">	Attributes</span>
+<span class="sd">	----------</span>
+<span class="sd">	tree : `TreeModel` object</span>
+<span class="sd">		tree structure used</span>
+<span class="sd">	g : float</span>
+<span class="sd">		intital scale of the cost function</span>
+<span class="sd">	a : float</span>
+<span class="sd">		curvature of the cost function</span>
+<span class="sd">	max_price : float</span>
+<span class="sd">		price at which carbon dioxide can be removed from atmosphere in unlimited scale</span>
+<span class="sd">	tech_const : float </span>
+<span class="sd">		determines the degree of exogenous technological improvement over time. A number </span>
+<span class="sd">			of 1.0 implies 1 percent per yer lower cost</span>
+<span class="sd">	tech_scale : float</span>
+<span class="sd">		determines the sensitivity of technological change to previous mitigation</span>
+<span class="sd">	cons_at_0 : float </span>
+<span class="sd">		intital consumption. Default $30460bn based on US 2010 values.</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">emit_at_0</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">join_price</span><span class="p">,</span> <span class="n">max_price</span><span class="p">,</span>
+				<span class="n">tech_const</span><span class="p">,</span> <span class="n">tech_scale</span><span class="p">,</span> <span class="n">cons_at_0</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">g</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">max_price</span> <span class="o">=</span> <span class="n">max_price</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tech_const</span> <span class="o">=</span> <span class="n">tech_const</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">tech_scale</span> <span class="o">=</span> <span class="n">tech_scale</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span> <span class="o">=</span> <span class="p">(</span><span class="n">join_price</span> <span class="o">/</span> <span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="n">a</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cbs_deriv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span> <span class="o">/</span> <span class="p">(</span><span class="n">join_price</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_deriv</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_price</span> <span class="o">-</span> <span class="n">join_price</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cbs_k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_price</span> <span class="o">-</span> <span class="n">join_price</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cons_per_ton</span> <span class="o">=</span> <span class="n">cons_at_0</span> <span class="o">/</span> <span class="n">emit_at_0</span>
+
+<div class="viewcode-block" id="DLWCost.cost"><a class="viewcode-back" href="../../api/cost.html#ez_climate.cost.DLWCost.cost">[docs]</a>	<span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">mitigation</span><span class="p">,</span> <span class="n">ave_mitigation</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Calculates the mitigation cost for the period. For details about the cost function</span>
+<span class="sd">		see DLW-paper.</span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		period : int </span>
+<span class="sd">			period in tree for which mitigation cost is calculated</span>
+<span class="sd">		mitigation : ndarray</span>
+<span class="sd">			current mitigation values for period</span>
+<span class="sd">		ave_mitigation : ndarray</span>
+<span class="sd">			average mitigation up to this period for all nodes in the period</span>
+
+<span class="sd">		Returns</span>
+<span class="sd">		-------</span>
+<span class="sd">		ndarray </span>
+<span class="sd">			cost</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>		
+		<span class="n">years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">decision_times</span><span class="p">[</span><span class="n">period</span><span class="p">]</span>
+		<span class="n">tech_term</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">tech_const</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tech_scale</span><span class="o">*</span><span class="n">ave_mitigation</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">))</span><span class="o">**</span><span class="n">years</span>
+		<span class="n">cbs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">*</span> <span class="p">(</span><span class="n">mitigation</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">)</span> 
+		<span class="n">bool_arr</span> <span class="o">=</span> <span class="p">(</span><span class="n">mitigation</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">bool_arr</span><span class="p">):</span>
+			<span class="k">return</span> <span class="p">(</span><span class="n">cbs</span> <span class="o">*</span> <span class="n">tech_term</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons_per_ton</span><span class="p">)</span>
+
+		<span class="n">base_cbs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span>
+		<span class="n">bool_arr2</span> <span class="o">=</span> <span class="p">(</span><span class="n">mitigation</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+		<span class="n">extension</span> <span class="o">=</span> <span class="p">((</span><span class="n">mitigation</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_price</span> 
+					<span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span><span class="o">*</span><span class="n">mitigation</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_k</span><span class="o">/</span><span class="n">mitigation</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+					<span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_k</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span><span class="o">-</span><span class="mf">1.0</span><span class="p">))</span>
+		
+		<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">cbs</span> <span class="o">*</span> <span class="n">bool_arr</span> <span class="o">+</span> <span class="p">(</span><span class="n">base_cbs</span> <span class="o">+</span> <span class="n">extension</span><span class="p">)</span><span class="o">*</span><span class="n">bool_arr2</span><span class="p">)</span> <span class="o">*</span> <span class="n">tech_term</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons_per_ton</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="c1"># we might have nan values that should be set to zero</span>
+		<span class="k">return</span> <span class="n">c</span></div>
+	
+<div class="viewcode-block" id="DLWCost.price"><a class="viewcode-back" href="../../api/cost.html#ez_climate.cost.DLWCost.price">[docs]</a>	<span class="k">def</span> <span class="nf">price</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">mitigation</span><span class="p">,</span> <span class="n">ave_mitigation</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Inverse of the cost function. Gives emissions price for any given </span>
+<span class="sd">		degree of mitigation, average_mitigation, and horizon.</span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		years : int y</span>
+<span class="sd">			years of technological change so far</span>
+<span class="sd">		mitigation : float </span>
+<span class="sd">			mitigation value in node</span>
+<span class="sd">		ave_mitigation : float</span>
+<span class="sd">			average mitigation up to this period</span>
+
+<span class="sd">		Returns</span>
+<span class="sd">		-------</span>
+<span class="sd">		float </span>
+<span class="sd">			the price.</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">tech_term</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">tech_const</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tech_scale</span><span class="o">*</span><span class="n">ave_mitigation</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span><span class="o">**</span><span class="n">years</span>
+		<span class="k">if</span> <span class="n">mitigation</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbs_level</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">mitigation</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">-</span><span class="mf">1.0</span><span class="p">))</span> <span class="o">*</span> <span class="n">tech_term</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_price</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_k</span><span class="o">/</span><span class="n">mitigation</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">cbs_b</span><span class="p">))</span> <span class="o">*</span> <span class="n">tech_term</span></div></div>
+
+
+
+
+
+
+
+
+
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

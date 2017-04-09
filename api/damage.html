@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dlw.damage module &#8212; dlw 1.0.1 documentation</title>
+    <title>ez_climate.damage module &#8212; EZ-Climate 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
     <link rel="up" title="Library Reference" href="index.html" />
-    <link rel="next" title="dlw.cost module" href="cost.html" />
-    <link rel="prev" title="dlw.forcing module" href="forcing.html" /> 
+    <link rel="next" title="ez_climate.cost module" href="cost.html" />
+    <link rel="prev" title="ez_climate.forcing module" href="forcing.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,12 +40,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="cost.html" title="dlw.cost module"
+          <a href="cost.html" title="ez_climate.cost module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="forcing.html" title="dlw.forcing module"
+          <a href="forcing.html" title="ez_climate.forcing module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
       </ul>
     </div>  
@@ -55,13 +55,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-dlw.damage">
-<span id="dlw-damage-module"></span><h1>dlw.damage module<a class="headerlink" href="#module-dlw.damage" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ez_climate.damage">
+<span id="ez-climate-damage-module"></span><h1>ez_climate.damage module<a class="headerlink" href="#module-ez_climate.damage" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dlw.damage.DLWDamage">
-<em class="property">class </em><code class="descclassname">dlw.damage.</code><code class="descname">DLWDamage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em>, <em>cons_growth</em>, <em>ghg_levels</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dlw.damage.Damage" title="dlw.damage.Damage"><code class="xref py py-class docutils literal"><span class="pre">dlw.damage.Damage</span></code></a></p>
-<p>Damage class for the DLW-model. Provides the damages from emissions and mitigation outcomes.</p>
+<dt id="ez_climate.damage.DLWDamage">
+<em class="property">class </em><code class="descclassname">ez_climate.damage.</code><code class="descname">DLWDamage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em>, <em>cons_growth</em>, <em>ghg_levels</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ez_climate.damage.Damage" title="ez_climate.damage.Damage"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.damage.Damage</span></code></a></p>
+<p>Damage class for the EZ-Climate model. Provides the damages from emissions and mitigation outcomes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -77,62 +77,62 @@
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.tree">
-<code class="descname">tree</code><a class="headerlink" href="#dlw.damage.DLWDamage.tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.tree">
+<code class="descname">tree</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>TreeModel</cite> object &#8211; provides the tree structure used</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.bau">
-<code class="descname">bau</code><a class="headerlink" href="#dlw.damage.DLWDamage.bau" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.bau">
+<code class="descname">bau</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.bau" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>BusinessAsUsual</cite> object &#8211; business-as-usual scenario of emissions</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.cons_growth">
-<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.damage.DLWDamage.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.cons_growth" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; constant consumption growth rate</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.ghg_levels">
-<code class="descname">ghg_levels</code><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_levels" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.ghg_levels">
+<code class="descname">ghg_levels</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.ghg_levels" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray or list</em> &#8211; end GHG levels for each end scenario</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.dnum">
-<code class="descname">dnum</code><a class="headerlink" href="#dlw.damage.DLWDamage.dnum" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.dnum">
+<code class="descname">dnum</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.dnum" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; number of simulated damage paths</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.d">
-<code class="descname">d</code><a class="headerlink" href="#dlw.damage.DLWDamage.d" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.d">
+<code class="descname">d</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.d" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; simulated damages</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.cum_forcing">
-<code class="descname">cum_forcing</code><a class="headerlink" href="#dlw.damage.DLWDamage.cum_forcing" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.cum_forcing">
+<code class="descname">cum_forcing</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.cum_forcing" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; cumulative forcing interpolation coeffiecients, used to calculate forcing based mitigation</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.forcing">
-<code class="descname">forcing</code><a class="headerlink" href="#dlw.damage.DLWDamage.forcing" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.forcing">
+<code class="descname">forcing</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.forcing" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>Forcing</cite> object &#8211; class for calculating cumulative forcing and GHG levels</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.DLWDamage.damage_coefs">
-<code class="descname">damage_coefs</code><a class="headerlink" href="#dlw.damage.DLWDamage.damage_coefs" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.damage_coefs">
+<code class="descname">damage_coefs</code><a class="headerlink" href="#ez_climate.damage.DLWDamage.damage_coefs" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; interpolation coefficients used to calculate damages</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.DLWDamage.average_mitigation">
-<code class="descname">average_mitigation</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.average_mitigation" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.average_mitigation">
+<code class="descname">average_mitigation</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage.average_mitigation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the average mitigation for all node in a period.</p>
 <dl class="docutils">
 <dt>m</dt>
@@ -153,8 +153,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.DLWDamage.average_mitigation_node">
-<code class="descname">average_mitigation_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.average_mitigation_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.average_mitigation_node" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.average_mitigation_node">
+<code class="descname">average_mitigation_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage.average_mitigation_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage.average_mitigation_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the average mitigation until node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -178,8 +178,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.DLWDamage.damage_function">
-<code class="descname">damage_function</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.damage_function" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.damage_function">
+<code class="descname">damage_function</code><span class="sig-paren">(</span><em>m</em>, <em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage.damage_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the damage for every node in a period, based on mitigation actions <cite>m</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -202,8 +202,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.DLWDamage.damage_simulation">
-<code class="descname">damage_simulation</code><span class="sig-paren">(</span><em>draws</em>, <em>peak_temp=9.0</em>, <em>disaster_tail=12.0</em>, <em>tip_on=True</em>, <em>temp_map=1</em>, <em>temp_dist_params=None</em>, <em>maxh=100.0</em>, <em>cons_growth=0.015</em>, <em>save_simulation=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.damage_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.damage_simulation" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.damage_simulation">
+<code class="descname">damage_simulation</code><span class="sig-paren">(</span><em>draws</em>, <em>peak_temp=9.0</em>, <em>disaster_tail=12.0</em>, <em>tip_on=True</em>, <em>temp_map=1</em>, <em>temp_dist_params=None</em>, <em>maxh=100.0</em>, <em>cons_growth=0.015</em>, <em>save_simulation=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage.damage_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage.damage_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializion and simulation of damages, given by <cite>DamageSimulation</cite> class.</p>
 <blockquote>
 <div><dl class="docutils">
@@ -254,8 +254,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.DLWDamage.ghg_level">
-<code class="descname">ghg_level</code><span class="sig-paren">(</span><em>m</em>, <em>periods=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.ghg_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_level" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.ghg_level">
+<code class="descname">ghg_level</code><span class="sig-paren">(</span><em>m</em>, <em>periods=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage.ghg_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage.ghg_level" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the GHG levels for more than one period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -278,8 +278,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.DLWDamage.ghg_level_period">
-<code class="descname">ghg_level_period</code><span class="sig-paren">(</span><em>m</em>, <em>period=None</em>, <em>nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.ghg_level_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.ghg_level_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.ghg_level_period">
+<code class="descname">ghg_level_period</code><span class="sig-paren">(</span><em>m</em>, <em>period=None</em>, <em>nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage.ghg_level_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage.ghg_level_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the GHG levels corresponding to the given mitigation.
 Need to provide either <cite>period</cite> or <cite>nodes</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -304,8 +304,8 @@ Need to provide either <cite>period</cite> or <cite>nodes</cite>.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.DLWDamage.import_damages">
-<code class="descname">import_damages</code><span class="sig-paren">(</span><em>file_name='simulated_damages'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#DLWDamage.import_damages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.DLWDamage.import_damages" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.DLWDamage.import_damages">
+<code class="descname">import_damages</code><span class="sig-paren">(</span><em>file_name='simulated_damages'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#DLWDamage.import_damages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.DLWDamage.import_damages" title="Permalink to this definition">¶</a></dt>
 <dd><p>Import saved simulated damages. File must be saved in &#8216;data&#8217; directory
 inside current working directory. Save imported values in <cite>d</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -323,10 +323,10 @@ inside current working directory. Save imported values in <cite>d</cite>.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="dlw.damage.Damage">
-<em class="property">class </em><code class="descclassname">dlw.damage.</code><code class="descname">Damage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#Damage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.Damage">
+<em class="property">class </em><code class="descclassname">ez_climate.damage.</code><code class="descname">Damage</code><span class="sig-paren">(</span><em>tree</em>, <em>bau</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#Damage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.Damage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Abstract damage class for the DLW-model.</p>
+<p>Abstract damage class for the EZ-Climate model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -340,27 +340,27 @@ inside current working directory. Save imported values in <cite>d</cite>.</p>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="dlw.damage.Damage.tree">
-<code class="descname">tree</code><a class="headerlink" href="#dlw.damage.Damage.tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.Damage.tree">
+<code class="descname">tree</code><a class="headerlink" href="#ez_climate.damage.Damage.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>TreeModel</cite> object &#8211; provides the tree structure used</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.damage.Damage.bau">
-<code class="descname">bau</code><a class="headerlink" href="#dlw.damage.Damage.bau" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.Damage.bau">
+<code class="descname">bau</code><a class="headerlink" href="#ez_climate.damage.Damage.bau" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>BusinessAsUsual</cite> object &#8211; business-as-usual scenario of emissions</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.Damage.average_mitigation">
-<code class="descname">average_mitigation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#Damage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage.average_mitigation" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.Damage.average_mitigation">
+<code class="descname">average_mitigation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#Damage.average_mitigation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.Damage.average_mitigation" title="Permalink to this definition">¶</a></dt>
 <dd><p>The average_mitigation function should return a 1D array of the
 average mitigation for every node in the period.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.damage.Damage.damage_function">
-<code class="descname">damage_function</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/damage.html#Damage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.damage.Damage.damage_function" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.damage.Damage.damage_function">
+<code class="descname">damage_function</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage.html#Damage.damage_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage.Damage.damage_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>The damage_function should return a 1D array of the damages for
 every node in the period.</p>
 </dd></dl>
@@ -377,10 +377,10 @@ every node in the period.</p>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="forcing.html"
-                        title="previous chapter">dlw.forcing module</a></p>
+                        title="previous chapter">ez_climate.forcing module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="cost.html"
-                        title="next chapter">dlw.cost module</a></p>
+                        title="next chapter">ez_climate.cost module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -412,12 +412,12 @@ every node in the period.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="cost.html" title="dlw.cost module"
+          <a href="cost.html" title="ez_climate.cost module"
              >next</a> |</li>
         <li class="right" >
-          <a href="forcing.html" title="dlw.forcing module"
+          <a href="forcing.html" title="ez_climate.forcing module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
       </ul>
     </div>

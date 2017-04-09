@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dlw.forcing module &#8212; dlw 1.0.1 documentation</title>
+    <title>ez_climate.forcing module &#8212; EZ-Climate 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
     <link rel="up" title="Library Reference" href="index.html" />
-    <link rel="next" title="dlw.damage module" href="damage.html" />
-    <link rel="prev" title="dlw.damage_simulation module" href="damage_simulation.html" /> 
+    <link rel="next" title="ez_climate.damage module" href="damage.html" />
+    <link rel="prev" title="ez_climate.damage_simulation module" href="damage_simulation.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,12 +40,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="damage.html" title="dlw.damage module"
+          <a href="damage.html" title="ez_climate.damage module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="damage_simulation.html" title="dlw.damage_simulation module"
+          <a href="damage_simulation.html" title="ez_climate.damage_simulation module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
       </ul>
     </div>  
@@ -55,64 +55,64 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-dlw.forcing">
-<span id="dlw-forcing-module"></span><h1>dlw.forcing module<a class="headerlink" href="#module-dlw.forcing" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ez_climate.forcing">
+<span id="ez-climate-forcing-module"></span><h1>ez_climate.forcing module<a class="headerlink" href="#module-ez_climate.forcing" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dlw.forcing.Forcing">
-<em class="property">class </em><code class="descclassname">dlw.forcing.</code><code class="descname">Forcing</code><a class="reference internal" href="../_modules/dlw/forcing.html#Forcing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.forcing.Forcing" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.forcing.Forcing">
+<em class="property">class </em><code class="descclassname">ez_climate.forcing.</code><code class="descname">Forcing</code><a class="reference internal" href="../_modules/ez_climate/forcing.html#Forcing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.forcing.Forcing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Forcing of GHG emissions for the DLW-model.</p>
+<p>Forcing of GHG emissions for the EZ-Climate model.</p>
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.sink_start">
-<code class="descname">sink_start</code><a class="headerlink" href="#dlw.forcing.Forcing.sink_start" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; sinking class constant</p>
+<dt id="ez_climate.forcing.Forcing.sink_start">
+<code class="descname">sink_start</code><a class="headerlink" href="#ez_climate.forcing.Forcing.sink_start" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; sinking constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.forcing_start">
-<code class="descname">forcing_start</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_start" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; forcing start class constant</p>
+<dt id="ez_climate.forcing.Forcing.forcing_start">
+<code class="descname">forcing_start</code><a class="headerlink" href="#ez_climate.forcing.Forcing.forcing_start" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing start constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.forcing_p1">
-<code class="descname">forcing_p1</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_p1" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; forcing class constant</p>
+<dt id="ez_climate.forcing.Forcing.forcing_p1">
+<code class="descname">forcing_p1</code><a class="headerlink" href="#ez_climate.forcing.Forcing.forcing_p1" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.forcing_p2">
-<code class="descname">forcing_p2</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_p2" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; forcing class constant</p>
+<dt id="ez_climate.forcing.Forcing.forcing_p2">
+<code class="descname">forcing_p2</code><a class="headerlink" href="#ez_climate.forcing.Forcing.forcing_p2" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.forcing_p3">
-<code class="descname">forcing_p3</code><a class="headerlink" href="#dlw.forcing.Forcing.forcing_p3" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; forcing class constant</p>
+<dt id="ez_climate.forcing.Forcing.forcing_p3">
+<code class="descname">forcing_p3</code><a class="headerlink" href="#ez_climate.forcing.Forcing.forcing_p3" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; forcing constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.absorbtion_p1">
-<code class="descname">absorbtion_p1</code><a class="headerlink" href="#dlw.forcing.Forcing.absorbtion_p1" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; absorbtion class constant</p>
+<dt id="ez_climate.forcing.Forcing.absorbtion_p1">
+<code class="descname">absorbtion_p1</code><a class="headerlink" href="#ez_climate.forcing.Forcing.absorbtion_p1" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; absorbtion constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.absorbtion_p2">
-<code class="descname">absorbtion_p2</code><a class="headerlink" href="#dlw.forcing.Forcing.absorbtion_p2" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; absorbtion class constant</p>
+<dt id="ez_climate.forcing.Forcing.absorbtion_p2">
+<code class="descname">absorbtion_p2</code><a class="headerlink" href="#ez_climate.forcing.Forcing.absorbtion_p2" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; absorbtion constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.lsc_p1">
-<code class="descname">lsc_p1</code><a class="headerlink" href="#dlw.forcing.Forcing.lsc_p1" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.forcing.Forcing.lsc_p1">
+<code class="descname">lsc_p1</code><a class="headerlink" href="#ez_climate.forcing.Forcing.lsc_p1" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; class constant</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.forcing.Forcing.lsc_p2">
-<code class="descname">lsc_p2</code><a class="headerlink" href="#dlw.forcing.Forcing.lsc_p2" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.forcing.Forcing.lsc_p2">
+<code class="descname">lsc_p2</code><a class="headerlink" href="#ez_climate.forcing.Forcing.lsc_p2" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; class constant</p>
 </dd></dl>
 
@@ -127,8 +127,8 @@
 <dd></dd></dl>
 
 <dl class="classmethod">
-<dt id="dlw.forcing.Forcing.forcing_at_node">
-<em class="property">classmethod </em><code class="descname">forcing_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>tree</em>, <em>bau</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/forcing.html#Forcing.forcing_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.forcing.Forcing.forcing_at_node" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.forcing.Forcing.forcing_at_node">
+<em class="property">classmethod </em><code class="descname">forcing_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>tree</em>, <em>bau</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/forcing.html#Forcing.forcing_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.forcing.Forcing.forcing_at_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the forcing based mitigation leading up to the
 damage calculation in <cite>node</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -172,8 +172,8 @@ damage calculation in <cite>node</cite>.</p>
 <dd></dd></dl>
 
 <dl class="classmethod">
-<dt id="dlw.forcing.Forcing.ghg_level_at_node">
-<em class="property">classmethod </em><code class="descname">ghg_level_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>tree</em>, <em>bau</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/forcing.html#Forcing.ghg_level_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.forcing.Forcing.ghg_level_at_node" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.forcing.Forcing.ghg_level_at_node">
+<em class="property">classmethod </em><code class="descname">ghg_level_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>tree</em>, <em>bau</em>, <em>subinterval_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/forcing.html#Forcing.ghg_level_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.forcing.Forcing.ghg_level_at_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the GHG level leading up to the damage calculation in <cite>node</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -222,10 +222,10 @@ damage calculation in <cite>node</cite>.</p>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="damage_simulation.html"
-                        title="previous chapter">dlw.damage_simulation module</a></p>
+                        title="previous chapter">ez_climate.damage_simulation module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="damage.html"
-                        title="next chapter">dlw.damage module</a></p>
+                        title="next chapter">ez_climate.damage module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -257,12 +257,12 @@ damage calculation in <cite>node</cite>.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="damage.html" title="dlw.damage module"
+          <a href="damage.html" title="ez_climate.damage module"
              >next</a> |</li>
         <li class="right" >
-          <a href="damage_simulation.html" title="dlw.damage_simulation module"
+          <a href="damage_simulation.html" title="ez_climate.damage_simulation module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
       </ul>
     </div>

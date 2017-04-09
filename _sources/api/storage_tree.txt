@@ -1,7 +1,7 @@
-dlw.storage_tree module
------------------------
+ez_climate.storage_tree module
+------------------------------
 
-.. automodule:: dlw.storage_tree
+.. automodule:: ez_climate.storage_tree
     :members:
     :undoc-members:
     :special-members: __getitem__

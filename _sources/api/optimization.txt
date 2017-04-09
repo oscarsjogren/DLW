@@ -1,7 +1,7 @@
-dlw.optimization module
------------------------
+ez_climate.optimization module
+------------------------------
 
-.. automodule:: dlw.optimization
+.. automodule:: ez_climate.optimization
     :members:
     :undoc-members:
     :show-inheritance:

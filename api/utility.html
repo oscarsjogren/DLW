@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dlw.utility module &#8212; dlw 1.0.1 documentation</title>
+    <title>ez_climate.utility module &#8212; EZ-Climate 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
     <link rel="up" title="Library Reference" href="index.html" />
-    <link rel="next" title="dlw.optimization module" href="optimization.html" />
-    <link rel="prev" title="dlw.storage_tree module" href="storage_tree.html" /> 
+    <link rel="next" title="ez_climate.optimization module" href="optimization.html" />
+    <link rel="prev" title="ez_climate.storage_tree module" href="storage_tree.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,12 +40,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="optimization.html" title="dlw.optimization module"
+          <a href="optimization.html" title="ez_climate.optimization module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="storage_tree.html" title="dlw.storage_tree module"
+          <a href="storage_tree.html" title="ez_climate.storage_tree module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
       </ul>
     </div>  
@@ -55,13 +55,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-dlw.utility">
-<span id="dlw-utility-module"></span><h1>dlw.utility module<a class="headerlink" href="#module-dlw.utility" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ez_climate.utility">
+<span id="ez-climate-utility-module"></span><h1>ez_climate.utility module<a class="headerlink" href="#module-ez_climate.utility" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dlw.utility.EZUtility">
-<em class="property">class </em><code class="descclassname">dlw.utility.</code><code class="descname">EZUtility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em>, <em>eis=0.9</em>, <em>ra=7.0</em>, <em>time_pref=0.005</em>, <em>add_penalty_cost=False</em>, <em>max_penalty=0.0</em>, <em>penalty_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dlw.utility.Utility" title="dlw.utility.Utility"><code class="xref py py-class docutils literal"><span class="pre">dlw.utility.Utility</span></code></a></p>
-<p>Calculation of Epstein-Zin utility for the DLW-model.</p>
+<dt id="ez_climate.utility.EZUtility">
+<em class="property">class </em><code class="descclassname">ez_climate.utility.</code><code class="descname">EZUtility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em>, <em>eis=0.9</em>, <em>ra=7.0</em>, <em>time_pref=0.005</em>, <em>add_penalty_cost=False</em>, <em>max_penalty=0.0</em>, <em>penalty_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/utility.html#EZUtility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.utility.EZUtility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Calculation of Epstein-Zin utility for the EZ-Climate model.</p>
 <p>The Epstein-Zin utility allows for different rates of substitution across time and
 states. For specification see DLW-paper.</p>
 <p>If <cite>add_penalty_cost</cite> is True the model will calculate a penalty cost for GHG levels
@@ -79,11 +79,8 @@ and <cite>penalty_scale</cite>.</p>
 <li><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</li>
 <li><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</li>
 <li><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</li>
-<li><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211; <dl class="docutils">
-<dt>True if utility calculation should include penalty cost for</dt>
-<dd>GHG levels below 280, else False</dd>
-</dl>
-</li>
+<li><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211; True if utility calculation should include penalty cost for
+GHG levels below 280, else False</li>
 <li><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</li>
 <li><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</li>
 </ul>
@@ -92,90 +89,87 @@ and <cite>penalty_scale</cite>.</p>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.tree">
-<code class="descname">tree</code><a class="headerlink" href="#dlw.utility.EZUtility.tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.tree">
+<code class="descname">tree</code><a class="headerlink" href="#ez_climate.utility.EZUtility.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.damage">
-<code class="descname">damage</code><a class="headerlink" href="#dlw.utility.EZUtility.damage" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.damage">
+<code class="descname">damage</code><a class="headerlink" href="#ez_climate.utility.EZUtility.damage" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>Damage</cite> object &#8211; class that provides damage methods</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.cost">
-<code class="descname">cost</code><a class="headerlink" href="#dlw.utility.EZUtility.cost" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.cost">
+<code class="descname">cost</code><a class="headerlink" href="#ez_climate.utility.EZUtility.cost" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>Cost</cite> object &#8211; class that procides cost methods</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.period_len">
-<code class="descname">period_len</code><a class="headerlink" href="#dlw.utility.EZUtility.period_len" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.period_len">
+<code class="descname">period_len</code><a class="headerlink" href="#ez_climate.utility.EZUtility.period_len" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; subinterval length</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.decision_times">
-<code class="descname">decision_times</code><a class="headerlink" href="#dlw.utility.EZUtility.decision_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#ez_climate.utility.EZUtility.decision_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.cons_growth">
-<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.utility.EZUtility.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#ez_climate.utility.EZUtility.cons_growth" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; consumption growth</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.growth_term">
-<code class="descname">growth_term</code><a class="headerlink" href="#dlw.utility.EZUtility.growth_term" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.growth_term">
+<code class="descname">growth_term</code><a class="headerlink" href="#ez_climate.utility.EZUtility.growth_term" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; 1 + cons_growth</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.r">
-<code class="descname">r</code><a class="headerlink" href="#dlw.utility.EZUtility.r" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.r">
+<code class="descname">r</code><a class="headerlink" href="#ez_climate.utility.EZUtility.r" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; the parameter rho from the DLW-paper</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.a">
-<code class="descname">a</code><a class="headerlink" href="#dlw.utility.EZUtility.a" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.a">
+<code class="descname">a</code><a class="headerlink" href="#ez_climate.utility.EZUtility.a" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; the parameter alpha from the DLW-paper</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.b">
-<code class="descname">b</code><a class="headerlink" href="#dlw.utility.EZUtility.b" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.b">
+<code class="descname">b</code><a class="headerlink" href="#ez_climate.utility.EZUtility.b" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; the parameter beta from the DLW-paper</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.add_penalty_cost">
-<code class="descname">add_penalty_cost</code><a class="headerlink" href="#dlw.utility.EZUtility.add_penalty_cost" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>bool, optional</em> &#8211;</p>
-<dl class="docutils">
-<dt>True if utility calculation should include penalty cost for</dt>
-<dd>GHG levels below 280, else False</dd>
-</dl>
+<dt id="ez_climate.utility.EZUtility.add_penalty_cost">
+<code class="descname">add_penalty_cost</code><a class="headerlink" href="#ez_climate.utility.EZUtility.add_penalty_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211; True if utility calculation should include penalty cost for
+GHG levels below 280, else False</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.max_penalty">
-<code class="descname">max_penalty</code><a class="headerlink" href="#dlw.utility.EZUtility.max_penalty" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.max_penalty">
+<code class="descname">max_penalty</code><a class="headerlink" href="#ez_climate.utility.EZUtility.max_penalty" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; maximum penalty that can be added to penalty cost for one period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.utility.EZUtility.penalty_scale">
-<code class="descname">penalty_scale</code><a class="headerlink" href="#dlw.utility.EZUtility.penalty_scale" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.penalty_scale">
+<code class="descname">penalty_scale</code><a class="headerlink" href="#ez_climate.utility.EZUtility.penalty_scale" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; constant that is multiplied to the penalty cost</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.utility.EZUtility.adjusted_utility">
-<code class="descname">adjusted_utility</code><span class="sig-paren">(</span><em>m</em>, <em>period_cons_eps=None</em>, <em>node_cons_eps=None</em>, <em>final_cons_eps=0.0</em>, <em>first_period_consadj=0.0</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.adjusted_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.adjusted_utility" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.adjusted_utility">
+<code class="descname">adjusted_utility</code><span class="sig-paren">(</span><em>m</em>, <em>period_cons_eps=None</em>, <em>node_cons_eps=None</em>, <em>final_cons_eps=0.0</em>, <em>first_period_consadj=0.0</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/utility.html#EZUtility.adjusted_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.utility.EZUtility.adjusted_utility" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculating adjusted utility for sensitivity analysis. Used e.g. to find zero-coupon bond price.
 Values in parameters are used to adjusted the utility in different ways.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -228,8 +222,8 @@ used. Hence if you want to update the last period consumption, use one of these 
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.utility.EZUtility.marginal_utility">
-<code class="descname">marginal_utility</code><span class="sig-paren">(</span><em>m</em>, <em>utility_tree</em>, <em>cons_tree</em>, <em>cost_tree</em>, <em>ce_tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.marginal_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.marginal_utility" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.marginal_utility">
+<code class="descname">marginal_utility</code><span class="sig-paren">(</span><em>m</em>, <em>utility_tree</em>, <em>cons_tree</em>, <em>cost_tree</em>, <em>ce_tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/utility.html#EZUtility.marginal_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.utility.EZUtility.marginal_utility" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculating marginal utility for sensitivity analysis, e.g. in the SSC decomposition.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -266,8 +260,8 @@ array([ 0.13948175])</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.utility.EZUtility.penalty_cost">
-<code class="descname">penalty_cost</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.penalty_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.penalty_cost" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.penalty_cost">
+<code class="descname">penalty_cost</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/utility.html#EZUtility.penalty_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.utility.EZUtility.penalty_cost" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate and return the penalty cost of GHG levels below 280. The penalties in previous nodes
 in the path leading to the current node is summed and added to current period&#8217;s penalty, given by</p>
 <blockquote>
@@ -288,8 +282,8 @@ in the path leading to the current node is summed and added to current period&#8
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.utility.EZUtility.utility">
-<code class="descname">utility</code><span class="sig-paren">(</span><em>m</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#EZUtility.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.EZUtility.utility" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.utility.EZUtility.utility">
+<code class="descname">utility</code><span class="sig-paren">(</span><em>m</em>, <em>return_trees=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/utility.html#EZUtility.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.utility.EZUtility.utility" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculating utility for the specific mitigation decisions <cite>m</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -319,88 +313,6 @@ in the path leading to the current node is summed and added to current period&#8
 
 </dd></dl>
 
-<dl class="class">
-<dt id="dlw.utility.Utility">
-<em class="property">class </em><code class="descclassname">dlw.utility.</code><code class="descname">Utility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Abstract utility class for the DLW-model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tree</strong> (<cite>TreeModel</cite> object) &#8211; tree structure used</li>
-<li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
-<li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
-<li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="dlw.utility.Utility.tree">
-<code class="descname">tree</code><a class="headerlink" href="#dlw.utility.Utility.tree" title="Permalink to this definition">¶</a></dt>
-<dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dlw.utility.Utility.damage">
-<code class="descname">damage</code><a class="headerlink" href="#dlw.utility.Utility.damage" title="Permalink to this definition">¶</a></dt>
-<dd><p><cite>Damage</cite> object &#8211; class that provides damage methods</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dlw.utility.Utility.cost">
-<code class="descname">cost</code><a class="headerlink" href="#dlw.utility.Utility.cost" title="Permalink to this definition">¶</a></dt>
-<dd><p><cite>Cost</cite> object &#8211; class that procides cost methods</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dlw.utility.Utility.period_len">
-<code class="descname">period_len</code><a class="headerlink" href="#dlw.utility.Utility.period_len" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; subinterval length</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dlw.utility.Utility.decision_times">
-<code class="descname">decision_times</code><a class="headerlink" href="#dlw.utility.Utility.decision_times" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dlw.utility.Utility.cons_growth">
-<code class="descname">cons_growth</code><a class="headerlink" href="#dlw.utility.Utility.cons_growth" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; consumption growth</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dlw.utility.Utility.growth_term">
-<code class="descname">growth_term</code><a class="headerlink" href="#dlw.utility.Utility.growth_term" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> &#8211; 1 + cons_growth</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dlw.utility.Utility.adjusted_utility">
-<code class="descname">adjusted_utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility.adjusted_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.adjusted_utility" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to calculate utility given mitigation decisions and
-adjusting values for sensitivity analysis purposes.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dlw.utility.Utility.marginal_utility">
-<code class="descname">marginal_utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility.marginal_utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.marginal_utility" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to calculate marginal utility given mitigation decisions.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dlw.utility.Utility.utility">
-<code class="descname">utility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/utility.html#Utility.utility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.utility.Utility.utility" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to calculate utility given mitigation decisions.</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 
 
@@ -411,10 +323,10 @@ adjusting values for sensitivity analysis purposes.</p>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="storage_tree.html"
-                        title="previous chapter">dlw.storage_tree module</a></p>
+                        title="previous chapter">ez_climate.storage_tree module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="optimization.html"
-                        title="next chapter">dlw.optimization module</a></p>
+                        title="next chapter">ez_climate.optimization module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -446,12 +358,12 @@ adjusting values for sensitivity analysis purposes.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="optimization.html" title="dlw.optimization module"
+          <a href="optimization.html" title="ez_climate.optimization module"
              >next</a> |</li>
         <li class="right" >
-          <a href="storage_tree.html" title="dlw.storage_tree module"
+          <a href="storage_tree.html" title="ez_climate.storage_tree module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
       </ul>
     </div>

@@ -1,7 +1,7 @@
-dlw.utility module
-------------------
+ez_climate.utility module
+-------------------------
 
-.. automodule:: dlw.utility
+.. automodule:: ez_climate.utility
     :members:
     :undoc-members:
     :show-inheritance:

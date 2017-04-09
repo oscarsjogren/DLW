@@ -499,6 +499,67 @@
 		<span class="n">cons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_increase</span><span class="p">,</span> <span class="n">grad_increase</span><span class="p">)</span> <span class="o">/</span>  <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">grad_increase</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 		<span class="k">return</span> <span class="n">cons</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">scale_alpha</span>
 
+	<span class="k">def</span> <span class="nf">_ada_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cum_grad</span><span class="p">):</span>
+		<span class="n">epsilon</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">8</span>
+		<span class="n">ita</span> <span class="o">=</span> <span class="mf">0.001</span>
+		<span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cum_grad</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">ita</span>
+
+	<span class="k">def</span> <span class="nf">_rms_prop_revise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">history_grad</span><span class="p">,</span> <span class="n">grad_t</span><span class="p">,</span> <span class="n">accumlate_dgrad</span><span class="p">):</span>
+		<span class="n">beta1</span> <span class="o">=</span> <span class="mf">0.9</span>
+		<span class="n">beta2</span> <span class="o">=</span> <span class="mf">0.999</span>
+		<span class="n">ita</span> <span class="o">=</span> <span class="mf">0.001</span>
+		<span class="n">eps</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">8</span>
+		<span class="k">def</span> <span class="nf">accelerate_factor</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">accumlate_dgrad</span><span class="p">):</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;accumlate_dgrad: &quot;</span><span class="p">,</span> <span class="n">accumlate_dgrad</span><span class="p">)</span>
+			<span class="k">return</span> <span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">accumlate_dgrad</span><span class="p">)))</span> <span class="o">-</span> <span class="n">k</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+		<span class="n">acc_factor</span> <span class="o">=</span> <span class="n">accelerate_factor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">accumlate_dgrad</span><span class="p">)</span>
+		<span class="n">E_g2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">history_grad</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="n">E_g2</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">E_g2</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">grad_t</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ita</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">E_g2</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_t</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">_accelerate_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">accelerator</span><span class="p">,</span> <span class="n">history_grad</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+		<span class="n">sign_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">history_grad</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">grad</span><span class="p">)</span>
+		<span class="n">scale_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_nums</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+		<span class="n">scale_vector</span><span class="p">[</span><span class="n">sign_vector</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">accelerator</span> <span class="o">*</span> <span class="n">scale_vector</span>
+
+	<span class="k">def</span> <span class="nf">_rms_prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">history_grad</span><span class="p">,</span> <span class="n">grad_t</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		RMSprop is an unpublished, adaptive learning rate method proposed by Geoff Hinton in Lecture 6e</span>
+<span class="sd">		of his Coursera Class.</span>
+<span class="sd">		http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf</span>
+<span class="sd">		RMSprop and Adadelta have both been developed independently around the same time stemming</span>
+<span class="sd">		from the need to resolve Adagrad&#39;s radically diminishing learning rates.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">beta1</span> <span class="o">=</span> <span class="mf">0.9</span>
+		<span class="n">beta2</span> <span class="o">=</span> <span class="mf">0.999</span>
+		<span class="n">ita</span> <span class="o">=</span> <span class="mf">0.001</span>
+		<span class="n">eps</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">8</span>
+		<span class="n">E_g2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">history_grad</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="n">E_g2</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">E_g2</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">grad_t</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ita</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">E_g2</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_t</span>
+
+	<span class="k">def</span> <span class="nf">_adam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">history_grad</span><span class="p">,</span> <span class="n">grad_t</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		http://sebastianruder.com/optimizing-gradient-descent/index.html#fnref:15</span>
+<span class="sd">		Adaptive Moment Estimation (Adam) [15] is another method that computes adaptive learning rates for each parameter.</span>
+<span class="sd">		In addition to storing an exponentially decaying average of past squared gradients vtvt like Adadelta and</span>
+<span class="sd">		RMSprop, Adam also keeps an exponentially decaying average of past gradients mtmt, similar to momentum</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">beta1</span> <span class="o">=</span> <span class="mf">0.9</span>
+		<span class="n">beta2</span> <span class="o">=</span> <span class="mf">0.9</span>
+		<span class="n">ita</span> <span class="o">=</span> <span class="mf">0.002</span>
+		<span class="n">eps</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">8</span>
+		<span class="n">m_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">history_grad</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">v_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">history_grad</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="n">m_t</span> <span class="o">=</span> <span class="n">beta1</span> <span class="o">*</span> <span class="n">m_t</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta1</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_t</span>
+		<span class="n">v_t</span> <span class="o">=</span> <span class="n">beta2</span> <span class="o">*</span> <span class="n">v_t</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">grad_t</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="n">m_t</span> <span class="o">=</span> <span class="n">m_t</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta1</span><span class="o">**</span><span class="n">t</span><span class="p">)</span>
+		<span class="n">v_t</span> <span class="o">=</span> <span class="n">v_t</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">beta2</span><span class="o">**</span><span class="n">t</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ita</span> <span class="o">*</span> <span class="n">m_t</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_t</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+
 <div class="viewcode-block" id="GradientSearch.gradient_descent"><a class="viewcode-back" href="../../api/optimization.html#dlw.optimization.GradientSearch.gradient_descent">[docs]</a>	<span class="k">def</span> <span class="nf">gradient_descent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_point</span><span class="p">,</span> <span class="n">return_last</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;Gradient descent algorithm. The `initial_point` is updated in the direction</span>
 <span class="sd">		where the utility function is increases fastest.</span>
@@ -517,37 +578,44 @@
 <span class="sd">			(best point, best utility)</span>
 <span class="sd">		</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="n">learning_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>	
+		<span class="n">learning_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
 		<span class="n">num_decision_nodes</span> <span class="o">=</span> <span class="n">initial_point</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 		<span class="n">x_hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_decision_nodes</span><span class="p">))</span>
 		<span class="n">u_hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 		<span class="n">u_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">utility</span><span class="p">(</span><span class="n">initial_point</span><span class="p">)</span>
 		<span class="n">x_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">initial_point</span>
 		<span class="n">prev_grad</span> <span class="o">=</span> <span class="mf">0.0</span>
-		
+
+		<span class="n">cum_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_nums</span><span class="p">))</span>
+		<span class="n">history_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_nums</span><span class="p">))</span>
+		<span class="n">accumlate_dgrad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_nums</span><span class="p">))</span>
+		<span class="n">adam_rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_nums</span><span class="p">))</span>
+		<span class="n">rms_prop_rate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_nums</span><span class="p">))</span>
+		<span class="n">accelerator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_nums</span><span class="p">)</span>
+
 		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">):</span>
 			<span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numerical_gradient</span><span class="p">(</span><span class="n">x_hist</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fixed_indicies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span><span class="p">)</span>
+			<span class="n">grad</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">9</span>
+			<span class="n">cum_grad</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 			<span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-				<span class="n">learning_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_alpha</span><span class="p">(</span><span class="n">x_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x_hist</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">grad</span><span class="o">-</span><span class="n">prev_grad</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">grad</span><span class="p">))</span>
-
-			<span class="n">new_x</span> <span class="o">=</span> <span class="n">x_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">grad</span><span class="o">*</span><span class="n">learning_rate</span>
+				<span class="n">adam_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adam</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">history_grad</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+				<span class="n">accelerator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accelerate_scale</span><span class="p">(</span><span class="n">accelerator</span><span class="p">,</span> <span class="n">history_grad</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+	
+			<span class="n">new_x</span> <span class="o">=</span> <span class="n">x_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">adam_rate</span> <span class="o">*</span> <span class="n">accelerator</span>
+			<span class="n">new_x</span><span class="p">[</span><span class="n">new_x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">8</span>
+			<span class="n">history_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">history_grad</span><span class="p">,</span> <span class="n">grad</span><span class="p">])</span>
 			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 				<span class="n">new_x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span>
-			
+
 			<span class="n">current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">utility</span><span class="p">(</span><span class="n">new_x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 			<span class="n">x_hist</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_x</span>
 			<span class="n">u_hist</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">current</span>
 			<span class="n">prev_grad</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-			<span class="c1">#if i &gt; 50:</span>
-			<span class="c1">#	x_diff = np.abs(x_hist[i+1] - x_hist[i]).sum()</span>
-			<span class="c1">#	u_diff = np.abs(u_hist[i+1] - u_hist[i])</span>
-			<span class="c1">#	if x_diff &lt; self.accuracy or u_diff &lt; self.accuracy:</span>
-			<span class="c1">#		print(&quot;Broke iteration..&quot;)</span>
-			<span class="c1">#		break</span>
+	
 			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_progress</span><span class="p">:</span>
 				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-- Interation </span><span class="si">{}</span><span class="s2"> -- </span><span class="se">\n</span><span class="s2"> Current Utility: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">current</span><span class="p">))</span>
 				<span class="nb">print</span><span class="p">(</span><span class="n">new_x</span><span class="p">)</span>
-	
+
 		<span class="k">if</span> <span class="n">return_last</span><span class="p">:</span>
 			<span class="k">return</span> <span class="n">x_hist</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">u_hist</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
 		<span class="n">best_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">u_hist</span><span class="p">)</span>

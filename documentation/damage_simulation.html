@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Damage Simulation &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
+    <link rel="next" title="Forcing" href="forcing.html" />
+    <link rel="prev" title="BAU" href="bau.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forcing.html" title="Forcing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="bau.html" title="BAU"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="damage-simulation">
+<h1>Damage Simulation<a class="headerlink" href="#damage-simulation" title="Permalink to this headline">¶</a></h1>
+<p>For each of the three maximum GHG concentration levels, 450, 650, and 1000 ppm, we run a set of 4,000,000 random scenarios to generate a distribution of <span class="math">\(D_t\)</span> for each period in <a class="reference internal" href="../api/damage_simulation.html#ez_climate.damage_simulation.DamageSimulation" title="ez_climate.damage_simulation.DamageSimulation"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.damage_simulation.DamageSimulation</span></code></a>. The following picture is a general work flow the simulation process.</p>
+<a class="reference internal image-reference" href="../_images/damage_simulation.png"><img alt="../_images/damage_simulation.png" class="align-center" src="../_images/damage_simulation.png" style="width: 900px;" /></a>
+<p>Firstly, temperature change over the next 100 years is simulated for given maximum levels of GHG. We use assumptions akin to <a class="reference external" href="http://web.mit.edu/rpindyck/www/Papers/UncertainOutcomesJEEM2012.pdf">Pindyck</a> to fit a displaced gamma distribution around final GHG concentrations, while setting levels of GHG 100 years in the future equal to equilibrium levels. Parameters for these distribution can be found in the <a class="reference external" href="http://www.nber.org/papers/w22795">paper</a>. The time path for the temperature change at time <span class="math">\(t\)</span> (in years) is interpolate using function:</p>
+<div class="math">
+\[\Delta T(t) = 2 \Delta T_{100}(1 - 0.5^{\frac{t}{100}})\]</div>
+<p>The next step is to translate average global surface warming into global mean economic losses via the damage function <span class="math">\(D_t\)</span>. There are two components to <span class="math">\(D_t\)</span>: a non-catastrophic and a catastrophic one.</p>
+<p>The non-catastrophic component is comprised by a loss function of the form (<span class="math">\(\gamma\)</span> is drawn from a displaced gamma distribution):</p>
+<div class="math">
+\[L(\Delta T(t)) = e^{-13.97 \gamma \Delta T(t)^2}\]</div>
+<p>Based on non-catastrophic damages, consumption at any time <span class="math">\(t\)</span> is reduced as follows:</p>
+<div class="math">
+\[CD_t = \bar c_t  L(\Delta T(t))\]</div>
+<p>Then we need to calibrate the consumption reduction by adding tipping point which is related to catastrophic damge. Based on our assumption, there is a probability that a tipping point will be hit in each period and for each state, given <span class="math">\(Delta T(t)\)</span> and peakT above which we can expect to have hit a climatic tipping point.</p>
+<div class="math">
+\[Prob(TP) = {1 - \left(1 - \left(\frac{\Delta T(t)}{max(\Delta T(t), peakT)}\right)^2\right)^{\frac{period}{30}}}\]</div>
+<p>Conditional on hitting a tipping point at time, the level of consumption reduction for each period <span class="math">\(t\)</span> is then at a level of:</p>
+<div class="math">
+\[CDTP_t = CD_t e^{TP\_damage} = \bar c_t L(\Delta T(t)) e^{-TP\_damage}\]</div>
+<p>We order the scenarios based on <span class="math">\(D_T\)</span>, the damage to consumption in the final period. We then choose states of nature with specified probabilities to represent different percentiles of this distribution. For example, if the first state of nature is the worst 1% of outcomes, then we assume the damage coefficient at time <span class="math">\(t\)</span> for the given level of mitigation is the average damage at time <span class="math">\(t\)</span> for the worst 1% of values for.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="bau.html"
+                        title="previous chapter">BAU</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="forcing.html"
+                        title="next chapter">Forcing</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/documentation/damage_simulation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forcing.html" title="Forcing"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="bau.html" title="BAU"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ez_climate.tree &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ez_climate.tree</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="TreeModel"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel">[docs]</a><span class="k">class</span> <span class="nc">TreeModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tree model for the EZ-Climate model. It provides the structure of a non-recombining tree.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    decision_times : ndarray or list</span>
+<span class="sd">        years in the future where decisions will be made</span>
+<span class="sd">    prob_scale : float, optional</span>
+<span class="sd">        scaling constant for probabilities</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    decision_times : ndarray </span>
+<span class="sd">        years in the future where decisions will be made</span>
+<span class="sd">    prob_scale : float</span>
+<span class="sd">        scaling constant for probabilities</span>
+<span class="sd">    node_prob : ndarray</span>
+<span class="sd">        probability of reaching node from period 0</span>
+<span class="sd">    final_states_prob : ndarray</span>
+<span class="sd">        last periods `node_prob`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decision_times</span><span class="p">,</span> <span class="n">prob_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decision_times</span> <span class="o">=</span> <span class="n">decision_times</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_times</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">decision_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_times</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prob_scale</span> <span class="o">=</span> <span class="n">prob_scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_prob</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_states_prob</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_probs</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_periods</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;int: the number of periods in the tree&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decision_times</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_decision_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;int: the number of nodes in tree&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_final_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;int: the number of nodes in the last period&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_probs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates the probabilities of every nodes in the tree structure.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_states_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_final_states</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_decision_nodes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_states_prob</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">sum_probs</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">next_prob</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_final_states</span><span class="p">):</span>
+            <span class="n">next_prob</span> <span class="o">=</span> <span class="n">next_prob</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">prob_scale</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">final_states_prob</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_prob</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_states_prob</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">final_states_prob</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_prob</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_final_states</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_states_prob</span>
+        <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span> 
+            <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="n">period</span><span class="p">):</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">node_prob</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_prob</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_prob</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+
+<div class="viewcode-block" id="TreeModel.get_num_nodes_period"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_num_nodes_period">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_nodes_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the number of nodes in the period.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        period : int </span>
+<span class="sd">            period</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int </span>
+<span class="sd">            number of nodes in period</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_num_nodes_period(2)</span>
+<span class="sd">        4</span>
+<span class="sd">        &gt;&gt;&gt; t.get_num_nodes_period(5)</span>
+<span class="sd">        32</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">period</span></div>
+    
+<div class="viewcode-block" id="TreeModel.get_nodes_in_period"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_nodes_in_period">[docs]</a>    <span class="k">def</span> <span class="nf">get_nodes_in_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the first and last nodes in the period.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        period : int </span>
+<span class="sd">            period</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int </span>
+<span class="sd">            number of nodes in period</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_nodes_in_period(0)</span>
+<span class="sd">        (0, 0)</span>
+<span class="sd">        &gt;&gt;&gt; t.get_nodes_in_period(1)</span>
+<span class="sd">        (1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; t.get_nodes_in_period(4)</span>
+<span class="sd">        (15, 30)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_num_nodes_period</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+        <span class="n">first_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">first_node</span><span class="p">,</span> <span class="n">first_node</span><span class="o">+</span><span class="n">nodes</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TreeModel.get_node"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the node in period and state provided.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        period : int </span>
+<span class="sd">            period</span>
+<span class="sd">        state : int</span>
+<span class="sd">            state of the node</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int </span>
+<span class="sd">            node number</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_node(1, 1)</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; t.get_node(4, 10)</span>
+<span class="sd">        25</span>
+<span class="sd">        &gt;&gt;&gt; t.get_node(4, 20)</span>
+<span class="sd">        ValueError: No such state in period 4</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If period is too large or if the state is too large</span>
+<span class="sd">            for the period.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Given period is larger than number of periods&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">**</span><span class="n">period</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No such state in period </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">period</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">period</span> <span class="o">+</span> <span class="n">state</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="TreeModel.get_state"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the state the node represents.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : int</span>
+<span class="sd">            the node</span>
+<span class="sd">        period : int, optional</span>
+<span class="sd">            the period</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int </span>
+<span class="sd">            state</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_state(0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; t.get_state(4, 2)</span>
+<span class="sd">        1</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_decision_nodes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_decision_nodes</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">period</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">node</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">period</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TreeModel.get_period"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_period">[docs]</a>    <span class="k">def</span> <span class="nf">get_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns what period the node is in.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : int</span>
+<span class="sd">            the node</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int </span>
+<span class="sd">            period</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_period(0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; t.get_period(4)</span>
+<span class="sd">        2</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_decision_nodes</span><span class="p">:</span> 
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">((</span><span class="n">node</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">i</span></div>
+
+<div class="viewcode-block" id="TreeModel.get_parent_node"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_parent_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_parent_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the previous or parent node of the given child node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        child : int</span>
+<span class="sd">            the child node</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int </span>
+<span class="sd">            partent node</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_parent_node(2)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; t.get_parent_node(4)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; t.get_parent_node(10)</span>
+<span class="sd">        4</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_decision_nodes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">child</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_final_states</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">child</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">child</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TreeModel.get_path"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the unique path taken to come to given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : int</span>
+<span class="sd">            the node</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            path to get to `node`            </span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_path(2)</span>
+<span class="sd">        array([0, 2])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_parent_node(4)</span>
+<span class="sd">        array([0, 1, 4])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_parent_node(62)</span>
+<span class="sd">        array([ 0,  2,  6, 14, 30, 62])</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
+            <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_node</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TreeModel.get_probs_in_period"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.get_probs_in_period">[docs]</a>    <span class="k">def</span> <span class="nf">get_probs_in_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the probabilities to get from period 0 to nodes in period.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        period : int</span>
+<span class="sd">            the period</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            probabilities       </span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_probs_in_period(2)</span>
+<span class="sd">        array([ 0.25,  0.25,  0.25,  0.25])</span>
+<span class="sd">        &gt;&gt;&gt; t.get_probs_in_period(4)</span>
+<span class="sd">        array([ 0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,</span>
+<span class="sd">                0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,  0.0625,</span>
+<span class="sd">                0.0625,  0.0625])</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">first</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nodes_in_period</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_prob</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span></div>
+    
+<div class="viewcode-block" id="TreeModel.reachable_end_states"><a class="viewcode-back" href="../../api/tree.html#ez_climate.tree.TreeModel.reachable_end_states">[docs]</a>    <span class="k">def</span> <span class="nf">reachable_end_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns what future end states can be reached from given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : int</span>
+<span class="sd">            the node</span>
+<span class="sd">        period : int, optional</span>
+<span class="sd">            the period</span>
+<span class="sd">        state : int, optional</span>
+<span class="sd">            the state the node is in</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            (worst end state, best end state)</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; t = TreeModel([0, 15, 45, 85, 185, 285, 385])</span>
+<span class="sd">        &gt;&gt;&gt; t.reachable_end_states(0)</span>
+<span class="sd">        (0, 31)</span>
+<span class="sd">        &gt;&gt;&gt; t.reachable_end_states(10)</span>
+<span class="sd">        (12, 15)</span>
+<span class="sd">        &gt;&gt;&gt; t.reachable_end_states(32)</span>
+<span class="sd">        (1, 1)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_periods</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">node</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_decision_nodes</span><span class="p">,</span> <span class="n">node</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_decision_nodes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">period</span><span class="p">)</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_final_states</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="n">period</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="n">state</span><span class="p">,</span> <span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">state</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div></div>
+
+  
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

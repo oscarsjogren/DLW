@@ -1,7 +1,7 @@
-dlw documentation
-==================
+EZ-Climate documentation
+========================
 
-This project is based on the working paper_ “Applying Asset Pricing Theory to Calibrate the Price of Climate Risk"  by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing an analyzing framework for pricing greenhouse gas emissions. 
+This project is based on the working paper_ 'Applying Asset Pricing Theory to Calibrate the Price of Climate Risk' by Kent D. Daniel, Robert B. Litterman, and Gernot Wagner which aims at providing an analyzing framework for pricing greenhouse gas emissions. 
 
 
 * **First steps:** 
@@ -9,19 +9,17 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
   * :doc:`Overview <overview>`
   * :doc:`Installation <installation>`
 
-* **Basic tutorials:**
+* **Documentation:**
 
-  * :doc:`Tree <tutorials/tree>`
-  * :doc:`BAU <tutorials/bau>`
-  * :doc:`Damage Simulation <tutorials/damage_simulation>`
-  * :doc:`Forcing <tutorials/forcing>`
-  * :doc:`Damage <tutorials/damage>`
-  * :doc:`Cost <tutorials/cost>`
-  * :doc:`Storage Tree <tutorials/storage_tree>`
-  * :doc:`Utility <tutorials/utility>`
-  * :doc:`Optimization <tutorials/optimization>`
-  * :doc:`Analysis <tutorials/analysis>`
-  * :doc:`Tools <tutorials/tools>`
+  * :doc:`Tree <documentation/tree>`
+  * :doc:`BAU <documentation/bau>`
+  * :doc:`Damage Simulation <documentation/damage_simulation>`
+  * :doc:`Forcing <documentation/forcing>`
+  * :doc:`Damage <documentation/damage>`
+  * :doc:`Cost <documentation/cost>`
+  * :doc:`Storage Tree <documentation/storage_tree>`
+  * :doc:`Utility <documentation/utility>`
+  * :doc:`Optimization <documentation/optimization>`
 
 * :doc:`examples/index`
 * :doc:`api/index`
@@ -33,17 +31,15 @@ This project is based on the working paper_ “Applying Asset Pricing Theory to 
 
   overview
   installation
-  tutorials/tree
-  tutorials/bau
-  tutorials/damage_simulation
-  tutorials/forcing
-  tutorials/damage
-  tutorials/cost
-  tutorials/storage_tree
-  tutorials/utility
-  tutorials/optimization
-  tutorials/analysis
-  tutorials/tools
+  documentation/tree
+  documentation/bau
+  documentation/damage_simulation
+  documentation/forcing
+  documentation/damage
+  documentation/cost
+  documentation/storage_tree
+  documentation/utility
+  documentation/optimization
   examples/index
   api/index
 

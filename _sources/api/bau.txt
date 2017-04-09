@@ -1,7 +1,7 @@
-dlw.bau module
---------------
+ez_climate.bau module
+---------------------
 
-.. automodule:: dlw.bau
+.. automodule:: ez_climate.bau
     :members:
     :undoc-members:
     :show-inheritance:

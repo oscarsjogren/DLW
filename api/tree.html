@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dlw.tree module &#8212; dlw 1.0.1 documentation</title>
+    <title>ez_climate.tree module &#8212; EZ-Climate 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="dlw 1.0.1 documentation" href="../index.html" />
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
     <link rel="up" title="Library Reference" href="index.html" />
-    <link rel="next" title="dlw.bau module" href="bau.html" />
+    <link rel="next" title="ez_climate.bau module" href="bau.html" />
     <link rel="prev" title="Library Reference" href="index.html" /> 
   </head>
   <body role="document">
@@ -40,12 +40,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="bau.html" title="dlw.bau module"
+          <a href="bau.html" title="ez_climate.bau module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Library Reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
       </ul>
     </div>  
@@ -55,13 +55,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-dlw.tree">
-<span id="dlw-tree-module"></span><h1>dlw.tree module<a class="headerlink" href="#module-dlw.tree" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ez_climate.tree">
+<span id="ez-climate-tree-module"></span><h1>ez_climate.tree module<a class="headerlink" href="#module-ez_climate.tree" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dlw.tree.TreeModel">
-<em class="property">class </em><code class="descclassname">dlw.tree.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times</em>, <em>prob_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel">
+<em class="property">class </em><code class="descclassname">ez_climate.tree.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times</em>, <em>prob_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Tree model for the DLW-model. It provides the structure of a non-recombining tree.</p>
+<p>Tree model for the EZ-Climate model. It provides the structure of a non-recombining tree.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -75,32 +75,32 @@
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="dlw.tree.TreeModel.decision_times">
-<code class="descname">decision_times</code><a class="headerlink" href="#dlw.tree.TreeModel.decision_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#ez_climate.tree.TreeModel.decision_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.tree.TreeModel.prob_scale">
-<code class="descname">prob_scale</code><a class="headerlink" href="#dlw.tree.TreeModel.prob_scale" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.prob_scale">
+<code class="descname">prob_scale</code><a class="headerlink" href="#ez_climate.tree.TreeModel.prob_scale" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; scaling constant for probabilities</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.tree.TreeModel.node_prob">
-<code class="descname">node_prob</code><a class="headerlink" href="#dlw.tree.TreeModel.node_prob" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.node_prob">
+<code class="descname">node_prob</code><a class="headerlink" href="#ez_climate.tree.TreeModel.node_prob" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; probability of reaching node from period 0</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.tree.TreeModel.final_states_prob">
-<code class="descname">final_states_prob</code><a class="headerlink" href="#dlw.tree.TreeModel.final_states_prob" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.final_states_prob">
+<code class="descname">final_states_prob</code><a class="headerlink" href="#ez_climate.tree.TreeModel.final_states_prob" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; last periods <cite>node_prob</cite></p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_node">
-<code class="descname">get_node</code><span class="sig-paren">(</span><em>period</em>, <em>state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_node" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_node">
+<code class="descname">get_node</code><span class="sig-paren">(</span><em>period</em>, <em>state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the node in period and state provided.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -142,8 +142,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_nodes_in_period">
-<code class="descname">get_nodes_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_nodes_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_nodes_in_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_nodes_in_period">
+<code class="descname">get_nodes_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_nodes_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_nodes_in_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the first and last nodes in the period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -170,8 +170,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_num_nodes_period">
-<code class="descname">get_num_nodes_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_num_nodes_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_num_nodes_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_num_nodes_period">
+<code class="descname">get_num_nodes_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_num_nodes_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_num_nodes_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the number of nodes in the period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -196,8 +196,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_parent_node">
-<code class="descname">get_parent_node</code><span class="sig-paren">(</span><em>child</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_parent_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_parent_node" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_parent_node">
+<code class="descname">get_parent_node</code><span class="sig-paren">(</span><em>child</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_parent_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_parent_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the previous or parent node of the given child node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -224,8 +224,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_path">
-<code class="descname">get_path</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_path" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the unique path taken to come to given node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -252,8 +252,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_period">
-<code class="descname">get_period</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_period">
+<code class="descname">get_period</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns what period the node is in.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -278,8 +278,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_probs_in_period">
-<code class="descname">get_probs_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_probs_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_probs_in_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_probs_in_period">
+<code class="descname">get_probs_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_probs_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_probs_in_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the probabilities to get from period 0 to nodes in period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -306,8 +306,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.get_state">
-<code class="descname">get_state</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.get_state" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.get_state">
+<code class="descname">get_state</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the state the node represents.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -338,26 +338,26 @@ for the period.</td>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.tree.TreeModel.num_decision_nodes">
-<code class="descname">num_decision_nodes</code><a class="headerlink" href="#dlw.tree.TreeModel.num_decision_nodes" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.num_decision_nodes">
+<code class="descname">num_decision_nodes</code><a class="headerlink" href="#ez_climate.tree.TreeModel.num_decision_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; the number of nodes in tree</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.tree.TreeModel.num_final_states">
-<code class="descname">num_final_states</code><a class="headerlink" href="#dlw.tree.TreeModel.num_final_states" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.num_final_states">
+<code class="descname">num_final_states</code><a class="headerlink" href="#ez_climate.tree.TreeModel.num_final_states" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; the number of nodes in the last period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dlw.tree.TreeModel.num_periods">
-<code class="descname">num_periods</code><a class="headerlink" href="#dlw.tree.TreeModel.num_periods" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.num_periods">
+<code class="descname">num_periods</code><a class="headerlink" href="#ez_climate.tree.TreeModel.num_periods" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; the number of periods in the tree</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dlw.tree.TreeModel.reachable_end_states">
-<code class="descname">reachable_end_states</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dlw/tree.html#TreeModel.reachable_end_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dlw.tree.TreeModel.reachable_end_states" title="Permalink to this definition">¶</a></dt>
+<dt id="ez_climate.tree.TreeModel.reachable_end_states">
+<code class="descname">reachable_end_states</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.reachable_end_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.reachable_end_states" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns what future end states can be reached from given node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -405,7 +405,7 @@ for the period.</td>
                         title="previous chapter">Library Reference</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="bau.html"
-                        title="next chapter">dlw.bau module</a></p>
+                        title="next chapter">ez_climate.bau module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -437,12 +437,12 @@ for the period.</td>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="bau.html" title="dlw.bau module"
+          <a href="bau.html" title="ez_climate.bau module"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Library Reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">dlw 1.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
       </ul>
     </div>
