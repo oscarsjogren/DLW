@@ -1,7 +1,7 @@
-dlw.tree module
----------------
+ez_climate.tree module
+----------------------
 
-.. automodule:: dlw.tree
+.. automodule:: ez_climate.tree
     :members:
     :undoc-members:
     :show-inheritance:

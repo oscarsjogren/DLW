@@ -1,7 +1,7 @@
-dlw.forcing module
-------------------
+ez_climate.forcing module
+-------------------------
 
-.. automodule:: dlw.forcing
+.. automodule:: ez_climate.forcing
     :members:
     :undoc-members:
     :show-inheritance:

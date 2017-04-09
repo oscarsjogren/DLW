@@ -1,7 +1,7 @@
-dlw.cost module
----------------
+ez_climate.cost module
+----------------------
 
-.. automodule:: dlw.cost
+.. automodule:: ez_climate.cost
     :members:
     :undoc-members:
     :show-inheritance:

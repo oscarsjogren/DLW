@@ -1,7 +1,7 @@
-dlw.damage_simulation module
-----------------------------
+ez_climate.damage_simulation module
+-----------------------------------
 
-.. automodule:: dlw.damage_simulation
+.. automodule:: ez_climate.damage_simulation
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,7 +1,7 @@
 Library Reference
 =================
 
-Description of the functions, classes and modules contained within dlw.
+Description of the functions, classes and modules contained within EZ-Climate.
 
 
 .. toctree::
@@ -16,5 +16,4 @@ Description of the functions, classes and modules contained within dlw.
 	storage_tree
 	utility
 	optimization
-	analysis
-	tools
+
