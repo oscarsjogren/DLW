@@ -14,7 +14,6 @@ This project is based on the working paper_ 'Applying Asset Pricing Theory to Ca
   * :doc:`Tree <documentation/tree>`
   * :doc:`BAU <documentation/bau>`
   * :doc:`Damage Simulation <documentation/damage_simulation>`
-  * :doc:`Forcing <documentation/forcing>`
   * :doc:`Damage <documentation/damage>`
   * :doc:`Cost <documentation/cost>`
   * :doc:`Storage Tree <documentation/storage_tree>`
@@ -34,7 +33,6 @@ This project is based on the working paper_ 'Applying Asset Pricing Theory to Ca
   documentation/tree
   documentation/bau
   documentation/damage_simulation
-  documentation/forcing
   documentation/damage
   documentation/cost
   documentation/storage_tree

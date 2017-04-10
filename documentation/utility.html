@@ -55,6 +55,28 @@
             
   <div class="section" id="utility">
 <h1>Utility<a class="headerlink" href="#utility" title="Permalink to this headline">¶</a></h1>
+<p>In <code class="xref py py-class docutils literal"><span class="pre">ez_climate.utility.Utility</span></code>, we calculate the utility under the Epstein-Zin framwork. Functions of calculating mariginal utiltiy are also provided for analysis purpose.</p>
+<p>An agent maximizes lifetime utility at each time and for each state of nature by choosing the optimal path of mitigation dependent on Earth’s fragility. Since all uncertainty has been resolved at the final period, we calculate the utility from back forward.</p>
+<div class="section" id="utility-calculation">
+<h2>Utility Calculation<a class="headerlink" href="#utility-calculation" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, we calculate the the utility in the final period, which, in our base case, is the period starting in 2400, the agent receives the utility from all consumption from time T forward. The resulting final-period utility is:</p>
+<div class="math">
+\[U_T = [\frac{1-\beta}{1-\beta(1+r)^{\rho}}]^{\frac{1}{\rho}}C_T\]</div>
+<p>In this specification, <span class="math">\(\frac{1-\beta}{\beta}\)</span> is the pure rate of time preference. The parameter <span class="math">\(\rho\)</span> measures the agent’s willingness to substitute consumption across time. The highe <span class="math">\(\rho\)</span> is , the more willing the agent is to substitute consumption across time. <span class="math">\(C_T\)</span> measures the consumption at time T.</p>
+<p>Then we calculate the utilties of all periods from back forward given mitigation path.</p>
+<div class="math">
+\[U_t = [(1-\beta){c_t}^{\rho} + \beta[\mu_t(\tilde U_{t+1})]^{\rho}]^{\frac{1}{\rho}}\]</div>
+<p>where <span class="math">\(\mu_t(\tilde U_{t+1})\)</span> is the certainty-equivalent of future lifetime utility, based on the agent’s information at time t, and is given by:</p>
+<div class="math">
+\[\mu_t(\tilde U_{t+1}) = (E_t[{U_{t+1}}^{\alpha}])^{\frac{1}{\alpha}}\]</div>
+<p><span class="math">\(\alpha\)</span> captures the agent’s willingness to substitute consumption across (uncertain) future consumption streams. The higher <span class="math">\(\alpha\)</span> is , the more willing the agent is to substitute consumption across states of nature at a given point in time.</p>
+</div>
+<div class="section" id="penalty">
+<h2>Penalty<a class="headerlink" href="#penalty" title="Permalink to this headline">¶</a></h2>
+<p>When the GHG levels are below 280, penalties cost are imposed. The penalties in previous nodes in the path leading to the current node is summed and added to current period&#8217;s penalty, given by</p>
+<div class="math">
+\[max(0, min(\frac{280-GHG\ level}{GHG\ level}, max\ penalty)\]</div>
+</div>
 </div>
 
 
@@ -63,6 +85,15 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Utility</a><ul>
+<li><a class="reference internal" href="#utility-calculation">Utility Calculation</a></li>
+<li><a class="reference internal" href="#penalty">Penalty</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="storage_tree.html"
                         title="previous chapter">Storage Tree</a></p>
