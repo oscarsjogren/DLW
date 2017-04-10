@@ -2,7 +2,7 @@
 Damage Simulation
 =================
 
-For each of the three maximum GHG concentration levels, 450, 650, and 1000 ppm, we run a set of 4,000,000 random scenarios to generate a distribution of :math:`D_t` for each period in :class:`ez_climate.damage_simulation.DamageSimulation`. The following picture is a general work flow the simulation process.
+For each of the three maximum GHG concentration levels, 450, 650, and 1000 ppm, we run a set of 4,000,000 random scenarios to generate a distribution of the damage function, :math:`D_t`, for each period in :class:`ez_climate.damage_simulation.DamageSimulation`. The following picture is a general work flow the simulation process.
 
 .. image:: ../_static/damage_simulation.png
    :width: 900 px
@@ -19,25 +19,25 @@ Firstly, temperature change over the next 100 years is simulated for given maxim
 
 The next step is to translate average global surface warming into global mean economic losses via the damage function :math:`D_t`. There are two components to :math:`D_t`: a non-catastrophic and a catastrophic one.
 
-The non-catastrophic component is comprised by a loss function of the form (:math:`\gamma` is drawn from a displaced gamma distribution):
+The non-catastrophic component is comprised by a loss function of the form
 
 .. math::
 
     L(\Delta T(t)) = e^{-13.97 \gamma \Delta T(t)^2}
 
-Based on non-catastrophic damages, consumption at any time :math:`t` is reduced as follows:
+where :math:`\gamma` is drawn from a displaced gamma distribution. Based on non-catastrophic damages, consumption at any time :math:`t` is reduced as follows:
 
 .. math::
 
     CD_t = \bar c_t  L(\Delta T(t))
 
-Then we need to calibrate the consumption reduction by adding tipping point which is related to catastrophic damge. Based on our assumption, there is a probability that a tipping point will be hit in each period and for each state, given :math:`Delta T(t)` and peakT above which we can expect to have hit a climatic tipping point. 
+Then we need to calibrate the consumption reduction by adding tipping point which is related to catastrophic damage. Based on our assumption, there is a probability that a tipping point will be hit in each period and for each state, given :math:`Delta T(t)` and :math:`peakT` above which we can expect to have hit a climatic tipping point. 
 
 .. math::
 
     Prob(TP) = {1 - \left(1 - \left(\frac{\Delta T(t)}{max(\Delta T(t), peakT)}\right)^2\right)^{\frac{period}{30}}}
 
-Conditional on hitting a tipping point at time, the level of consumption reduction for each period :math:`t` is then at a level of:
+Conditional on hitting a tipping point at time :math:`t`, the level of consumption reduction for each period :math:`t` is then at a level of:
 
 .. math::
 
