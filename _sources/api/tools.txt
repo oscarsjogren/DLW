@@ -1,7 +1,7 @@
-dlw.tools module
-----------------
+ez_climate.tools module
+-----------------------
 
-.. automodule:: dlw.tools
+.. automodule:: ez_climate.tools
     :members:
     :undoc-members:
     :show-inheritance:

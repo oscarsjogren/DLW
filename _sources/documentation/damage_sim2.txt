@@ -2,7 +2,7 @@
 Damage Simulation
 =================
 
-To simulate the distribution of damages, :math:`D_t`, the class :class:`ez_climate.damage_simulation.DamageSimulation` is used. The following picture demonstrate the work flow of the simulation process.
+For each of the three maximum GHG concentration levels, 450, 650, and 1000 ppm, we run a set of 4,000,000 random scenarios to generate a distribution of :math:`D_t` for each period in :class:`ez_climate.damage_simulation.DamageSimulation`. The following picture is a general work flow the simulation process.
 
 .. image:: ../_static/damage_simulation.png
    :width: 900 px
@@ -12,14 +12,14 @@ To simulate the distribution of damages, :math:`D_t`, the class :class:`ez_clima
 Temperature Change
 ------------------
 
-Firstly, temperature change over the next 100 years is simulated for given maximum level of GHG. We use assumptions akin to Pindyck_ to fit a displaced gamma distribution around final GHG concentrations, while setting levels of GHG 100 years in the future equal to equilibrium levels. Parameters for these distribution can be found in the paper_. The time path for the temperature change at time :math:`t` (in years) is interpolate using function:
+Firstly, temperature change over the next 100 years is simulated for given maximum levels of GHG. We use assumptions akin to Pindyck_ to fit a displaced gamma distribution around final GHG concentrations, while setting levels of GHG 100 years in the future equal to equilibrium levels. Parameters for these distribution can be found in the paper_. The time path for the temperature change at time :math:`t` (in years) is interpolate using function:
 
 .. _Pindyck: http://web.mit.edu/rpindyck/www/Papers/UncertainOutcomesJEEM2012.pdf
 .. _paper: http://www.nber.org/papers/w22795
 
 .. math::
 
-    \Delta T(t) = 2 \Delta T_{100}(1 - 0.5^{\frac{t}{100}}).
+    \Delta T(t) = 2 \Delta T_{100}(1 - 0.5^{\frac{t}{100}})
 
 ------------------
 Map to Damage 
@@ -37,19 +37,19 @@ where :math:`\gamma` is drawn from a displaced gamma distribution. Based on non-
 
 .. math::
 
-    CD_t = \bar c_t  L(\Delta T(t)).
+    CD_t = \bar c_t  L(\Delta T(t))
 
 Then we need to calibrate the consumption reduction by adding tipping point which is related to catastrophic damge. Based on our assumption, there is a probability that a tipping point will be hit in each period and for each state, given :math:`Delta T(t)` and peakT above which we can expect to have hit a climatic tipping point. 
 
 .. math::
 
-    Prob(TP) = {1 - \left(1 - \left(\frac{\Delta T(t)}{max(\Delta T(t), peakT)}\right)^2\right)^{\frac{period}{30}}}.
+    Prob(TP) = {1 - \left(1 - \left(\frac{\Delta T(t)}{max(\Delta T(t), peakT)}\right)^2\right)^{\frac{period}{30}}}
 
 Conditional on hitting a tipping point at time, the level of consumption reduction for each period :math:`t` is then at a level of:
 
 .. math::
 
-    CDTP_t = CD_t e^{TP\_damage} = \bar c_t L(\Delta T(t)) e^{-TP\_damage}.
+    CDTP_t = CD_t e^{TP\_damage} = \bar c_t L(\Delta T(t)) e^{-TP\_damage}
 
 ----------------------
 Calculate Damage Table

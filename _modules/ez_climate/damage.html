@@ -285,7 +285,9 @@
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span></div>
 
 	<span class="k">def</span> <span class="nf">_forcing_based_mitigation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forcing</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span> 
-		<span class="sd">&quot;&quot;&quot;Calculation of mitigation based on forcing up to period.&quot;&quot;&quot;</span>
+		<span class="sd">&quot;&quot;&quot;Calculation of mitigation based on forcing up to period. Interpolating between the forcing associated </span>
+<span class="sd">		with the constant degree of mitigation consistent with the damage simulation scenarios.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">p</span> <span class="o">=</span> <span class="n">period</span> <span class="o">-</span> <span class="mi">1</span>
 		<span class="k">if</span> <span class="n">forcing</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cum_forcings</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
 			<span class="n">weight_on_sim2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cum_forcings</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">forcing</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cum_forcings</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cum_forcings</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>

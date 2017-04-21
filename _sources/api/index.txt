@@ -16,4 +16,5 @@ Description of the functions, classes and modules contained within EZ-Climate.
 	storage_tree
 	utility
 	optimization
+	tools
 

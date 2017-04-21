@@ -26,6 +26,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
     <link rel="up" title="Library Reference" href="index.html" />
+    <link rel="next" title="ez_climate.tools module" href="tools.html" />
     <link rel="prev" title="ez_climate.utility module" href="utility.html" /> 
   </head>
   <body role="document">
@@ -38,6 +39,9 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="tools.html" title="ez_climate.tools module"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="utility.html" title="ez_climate.utility module"
              accesskey="P">previous</a> |</li>
@@ -165,6 +169,10 @@ and combine the above new population.</li>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Uses the <code class="xref py py-mod docutils literal"><span class="pre">multiprocessing</span></code> package.</p>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -242,7 +250,7 @@ and combine the above new population.</li>
 
 <dl class="method">
 <dt id="ez_climate.optimization.GradientSearch.gradient_descent">
-<code class="descname">gradient_descent</code><span class="sig-paren">(</span><em>initial_point</em>, <em>return_last=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization.html#GradientSearch.gradient_descent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.GradientSearch.gradient_descent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">gradient_descent</code><span class="sig-paren">(</span><em>initial_point</em>, <em>window=30</em>, <em>return_last=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization.html#GradientSearch.gradient_descent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.GradientSearch.gradient_descent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gradient descent algorithm. The <cite>initial_point</cite> is updated in the direction
 where the utility function is increases fastest.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -320,20 +328,11 @@ where the utility function is increases fastest.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Uses the <code class="xref py py-mod docutils literal"><span class="pre">multiprocessing</span></code> package.</p>
+</div>
 </dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="ez_climate.optimization.NodeMaximum">
-<em class="property">class </em><code class="descclassname">ez_climate.optimization.</code><code class="descname">NodeMaximum</code><a class="reference internal" href="../_modules/ez_climate/optimization.html#NodeMaximum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.NodeMaximum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Optimization node wise, keeping the rest of the nodes fixed. Starting from the
-back of the tree and working back to node 0.</p>
-<dl class="classmethod">
-<dt id="ez_climate.optimization.NodeMaximum.run">
-<em class="property">classmethod </em><code class="descname">run</code><span class="sig-paren">(</span><em>m</em>, <em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization.html#NodeMaximum.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.NodeMaximum.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -348,6 +347,9 @@ back of the tree and working back to node 0.</p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="utility.html"
                         title="previous chapter">ez_climate.utility module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tools.html"
+                        title="next chapter">ez_climate.tools module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -378,6 +380,9 @@ back of the tree and working back to node 0.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="tools.html" title="ez_climate.tools module"
+             >next</a> |</li>
         <li class="right" >
           <a href="utility.html" title="ez_climate.utility module"
              >previous</a> |</li>

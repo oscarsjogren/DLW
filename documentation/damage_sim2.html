@@ -24,9 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
-    <link rel="next" title="Damage" href="damage.html" />
-    <link rel="prev" title="BAU" href="bau.html" /> 
+    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,12 +36,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="damage.html" title="Damage"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="bau.html" title="BAU"
-             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -55,13 +47,13 @@
             
   <div class="section" id="damage-simulation">
 <h1>Damage Simulation<a class="headerlink" href="#damage-simulation" title="Permalink to this headline">¶</a></h1>
-<p>To simulate the distribution of damages, <span class="math">\(D_t\)</span>, the class <a class="reference internal" href="../api/damage_simulation.html#ez_climate.damage_simulation.DamageSimulation" title="ez_climate.damage_simulation.DamageSimulation"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.damage_simulation.DamageSimulation</span></code></a> is used. The following picture demonstrate the work flow of the simulation process.</p>
+<p>For each of the three maximum GHG concentration levels, 450, 650, and 1000 ppm, we run a set of 4,000,000 random scenarios to generate a distribution of <span class="math">\(D_t\)</span> for each period in <a class="reference internal" href="../api/damage_simulation.html#ez_climate.damage_simulation.DamageSimulation" title="ez_climate.damage_simulation.DamageSimulation"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.damage_simulation.DamageSimulation</span></code></a>. The following picture is a general work flow the simulation process.</p>
 <a class="reference internal image-reference" href="../_images/damage_simulation.png"><img alt="../_images/damage_simulation.png" class="align-center" src="../_images/damage_simulation.png" style="width: 900px;" /></a>
 <div class="section" id="temperature-change">
 <h2>Temperature Change<a class="headerlink" href="#temperature-change" title="Permalink to this headline">¶</a></h2>
-<p>Firstly, temperature change over the next 100 years is simulated for given maximum level of GHG. We use assumptions akin to <a class="reference external" href="http://web.mit.edu/rpindyck/www/Papers/UncertainOutcomesJEEM2012.pdf">Pindyck</a> to fit a displaced gamma distribution around final GHG concentrations, while setting levels of GHG 100 years in the future equal to equilibrium levels. Parameters for these distribution can be found in the <a class="reference external" href="http://www.nber.org/papers/w22795">paper</a>. The time path for the temperature change at time <span class="math">\(t\)</span> (in years) is interpolate using function:</p>
+<p>Firstly, temperature change over the next 100 years is simulated for given maximum levels of GHG. We use assumptions akin to <a class="reference external" href="http://web.mit.edu/rpindyck/www/Papers/UncertainOutcomesJEEM2012.pdf">Pindyck</a> to fit a displaced gamma distribution around final GHG concentrations, while setting levels of GHG 100 years in the future equal to equilibrium levels. Parameters for these distribution can be found in the <a class="reference external" href="http://www.nber.org/papers/w22795">paper</a>. The time path for the temperature change at time <span class="math">\(t\)</span> (in years) is interpolate using function:</p>
 <div class="math">
-\[\Delta T(t) = 2 \Delta T_{100}(1 - 0.5^{\frac{t}{100}}).\]</div>
+\[\Delta T(t) = 2 \Delta T_{100}(1 - 0.5^{\frac{t}{100}})\]</div>
 </div>
 <div class="section" id="map-to-damage">
 <h2>Map to Damage<a class="headerlink" href="#map-to-damage" title="Permalink to this headline">¶</a></h2>
@@ -71,13 +63,13 @@
 \[L(\Delta T(t)) = e^{-13.97 \gamma \Delta T(t)^2}\]</div>
 <p>where <span class="math">\(\gamma\)</span> is drawn from a displaced gamma distribution. Based on non-catastrophic damages, consumption at any time <span class="math">\(t\)</span> is reduced as follows:</p>
 <div class="math">
-\[CD_t = \bar c_t  L(\Delta T(t)).\]</div>
+\[CD_t = \bar c_t  L(\Delta T(t))\]</div>
 <p>Then we need to calibrate the consumption reduction by adding tipping point which is related to catastrophic damge. Based on our assumption, there is a probability that a tipping point will be hit in each period and for each state, given <span class="math">\(Delta T(t)\)</span> and peakT above which we can expect to have hit a climatic tipping point.</p>
 <div class="math">
-\[Prob(TP) = {1 - \left(1 - \left(\frac{\Delta T(t)}{max(\Delta T(t), peakT)}\right)^2\right)^{\frac{period}{30}}}.\]</div>
+\[Prob(TP) = {1 - \left(1 - \left(\frac{\Delta T(t)}{max(\Delta T(t), peakT)}\right)^2\right)^{\frac{period}{30}}}\]</div>
 <p>Conditional on hitting a tipping point at time, the level of consumption reduction for each period <span class="math">\(t\)</span> is then at a level of:</p>
 <div class="math">
-\[CDTP_t = CD_t e^{TP\_damage} = \bar c_t L(\Delta T(t)) e^{-TP\_damage}.\]</div>
+\[CDTP_t = CD_t e^{TP\_damage} = \bar c_t L(\Delta T(t)) e^{-TP\_damage}\]</div>
 </div>
 <div class="section" id="calculate-damage-table">
 <h2>Calculate Damage Table<a class="headerlink" href="#calculate-damage-table" title="Permalink to this headline">¶</a></h2>
@@ -101,16 +93,10 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="bau.html"
-                        title="previous chapter">BAU</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="damage.html"
-                        title="next chapter">Damage</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/documentation/damage_simulation.txt"
+      <li><a href="../_sources/documentation/damage_sim2.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -137,12 +123,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="damage.html" title="Damage"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="bau.html" title="BAU"
-             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li> 
       </ul>
     </div>

@@ -4,7 +4,7 @@ Installation
 Requirements
 ------------
 
-dlw is compatible with Python 2 and 3.
+EZ-Climate is compatible with Python 2 and 3.
 
 Numpy_ is required, and we recommend matplotlib_ for visualization of 
 results.
@@ -13,16 +13,17 @@ results.
 .. _matplotlib: http://www.matplotlib.org/
 
 
-Install dlw
-------------
+Install EZ-Climate
+------------------
 
-We encourage you to use pip_ to install dlw on your system. 
+We encourage you to use pip_ to install EZ-Climate on your system. 
 ::
-   pip install dlw
+  
+  pip install ez_climate
 
 If you wish to build from sources, download_ or clone_ the repository.
 
-.. _download: https://pypi.python.org/pypi/dlw/
-.. _clone: https://github.com/oscarsjogren/dlw.git
+.. _download: https://pypi.python.org/pypi/ez_climate/
+.. _clone: https://github.com/Litterman/EZ_Climate.git
 
 .. _pip: http://www.pip-installer.org/en/latest/
