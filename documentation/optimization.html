@@ -17,14 +17,16 @@
         VERSION:     '1.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Examples" href="../examples/index.html" />
     <link rel="prev" title="Utility" href="utility.html" /> 
   </head>
@@ -55,7 +57,10 @@
             
   <div class="section" id="optimization">
 <h1>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h1>
-<p>The <a class="reference internal" href="../api/optimization.html#module-ez_climate.optimization" title="ez_climate.optimization"><code class="xref py py-mod docutils literal"><span class="pre">ez_climate.optimization</span></code></a> contains two classes, <code class="xref py py-class docutils literal"><span class="pre">GeneticAlgorithm</span></code> and <code class="xref py py-class docutils literal"><span class="pre">GradientSearch</span></code>. They both take an <code class="xref py py-class docutils literal"><span class="pre">utility.Utility</span></code> object as an argument and tries to maximize the utility at time 0 by finding the optimal mitigation at every node of the tree.</p>
+<p>The purpose of the optimization is to find the mitigation value in every node of the decision tree that maximizes the current utility</p>
+<div class="math">
+\[x^*=  \operatorname*{arg\,max}_x U(x)\]</div>
+<p>Our approach to solving this problem is to use the genetic algorithm (GA) combine with a gradient search (GS) method. The GA is used to search the state space globally and to find good initial points for the GS, which applies a gradient descent algorithm to multiple initial points.</p>
 <div class="section" id="genetic-algorithm-ga">
 <h2>Genetic Algorithm (GA)<a class="headerlink" href="#genetic-algorithm-ga" title="Permalink to this headline">¶</a></h2>
 <p>The GA is an evolutionary algorithm, inspired by the evolution of species in nature. The evolution process starts from a population of vectors with uniformly distributed [0, <code class="xref py py-attr docutils literal"><span class="pre">bound</span></code>] random elements. For each generation, the evolution steps in the <code class="xref py py-func docutils literal"><span class="pre">run()</span></code> method are:</p>
@@ -68,11 +73,11 @@
 <li>Random Generate 20 percent of original population amount new individuals and combine the above new population.</li>
 </ol>
 </div></blockquote>
-<p>The mutation and cross-over methods are choosen to fit the optimization problem of the EZ-Climate model.</p>
+<p>The mutation and cross-over methods are choosen to fit the optimization problem of the EZ-Climate model. The GA class can be found at <a class="reference internal" href="../api/genetic_algorithm.html#module-ez_climate.optimization.genetic_algorithm" title="ez_climate.optimization.genetic_algorithm"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.optimization.genetic_algorithm</span></code></a>.</p>
 </div>
 <div class="section" id="gradient-search-gs">
 <h2>Gradient Search (GS)<a class="headerlink" href="#gradient-search-gs" title="Permalink to this headline">¶</a></h2>
-<p>The GS uses the gradient descent algorithm and the numerical gradient to find the optimal mitigation points. Moveover, it uses the Adaptive Moment Estimation (<a class="reference external" href="http://sebastianruder.com/optimizing-gradient-descent/index.html#fnref:15">Adam</a>) learning rate together with an accelarator scaler to update the points. Adam is a method that computes adaptive learning rates for each parameter. In addition to storing an exponentially decaying average of past squared gradients, Adam also keeps an exponentially decaying average of past gradients. The accelerator is used to amplify low gradient values of mitigation values in nodes in the end of the tree, and thus reduce computation time. The <code class="xref py py-func docutils literal"><span class="pre">run()</span></code> method takes <code class="xref py py-attr docutils literal"><span class="pre">initial_point_list</span></code> and <code class="xref py py-attr docutils literal"><span class="pre">topk</span></code> as arguments, runs the gradient descent optimization of the <code class="xref py py-attr docutils literal"><span class="pre">topk</span></code> first elements of the <code class="xref py py-attr docutils literal"><span class="pre">initial_point_list</span></code>, and picks the resulting point with the highest utility.</p>
+<p>The GS uses the gradient descent algorithm and the numerical gradient to find the optimal mitigation points. Moveover, it uses the Adaptive Moment Estimation (<a class="reference external" href="http://sebastianruder.com/optimizing-gradient-descent/index.html#fnref:15">Adam</a>) learning rate together with an accelarator scaler to update the points. Adam is a method that computes adaptive learning rates for each parameter. In addition to storing an exponentially decaying average of past squared gradients, Adam also keeps an exponentially decaying average of past gradients. The accelerator is used to amplify low gradient values of mitigation values in nodes in the end of the tree, and thus reduce computation time. The <code class="xref py py-func docutils literal"><span class="pre">run()</span></code> method takes <code class="xref py py-attr docutils literal"><span class="pre">initial_point_list</span></code> and <code class="xref py py-attr docutils literal"><span class="pre">topk</span></code> as arguments, runs the gradient descent optimization of the <code class="xref py py-attr docutils literal"><span class="pre">topk</span></code> first elements of the <code class="xref py py-attr docutils literal"><span class="pre">initial_point_list</span></code>, and picks the resulting point with the highest utility. The GS class can be found at <a class="reference internal" href="../api/gradient_search.html#module-ez_climate.optimization.gradient_search" title="ez_climate.optimization.gradient_search"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.optimization.gradient_search</span></code></a>.</p>
 </div>
 <div class="section" id="ga-and-gs-together">
 <h2>GA and GS together<a class="headerlink" href="#ga-and-gs-together" title="Permalink to this headline">¶</a></h2>
@@ -105,7 +110,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/documentation/optimization.txt"
+      <li><a href="../_sources/documentation/optimization.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -143,7 +148,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017,.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>ez_climate.storage_tree module &#8212; EZ-Climate 1.0.1 documentation</title>
+    <title>storage_tree module &#8212; EZ-Climate 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -17,17 +17,18 @@
         VERSION:     '1.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
-    <link rel="up" title="Library Reference" href="index.html" />
-    <link rel="next" title="ez_climate.utility module" href="utility.html" />
-    <link rel="prev" title="ez_climate.cost module" href="cost.html" /> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="utility module" href="utility.html" />
+    <link rel="prev" title="cost module" href="cost.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,10 +41,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="utility.html" title="ez_climate.utility module"
+          <a href="utility.html" title="utility module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="cost.html" title="ez_climate.cost module"
+          <a href="cost.html" title="cost module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
@@ -56,7 +57,7 @@
           <div class="body" role="main">
             
   <div class="section" id="module-ez_climate.storage_tree">
-<span id="ez-climate-storage-tree-module"></span><h1>ez_climate.storage_tree module<a class="headerlink" href="#module-ez_climate.storage_tree" title="Permalink to this headline">¶</a></h1>
+<span id="storage-tree-module"></span><h1>storage_tree module<a class="headerlink" href="#module-ez_climate.storage_tree" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="ez_climate.storage_tree.BaseStorageTree">
 <em class="property">class </em><code class="descclassname">ez_climate.storage_tree.</code><code class="descname">BaseStorageTree</code><span class="sig-paren">(</span><em>decision_times</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/storage_tree.html#BaseStorageTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.storage_tree.BaseStorageTree" title="Permalink to this definition">¶</a></dt>
@@ -66,7 +67,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; array of years from start where decisions about mitigation levels are done</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>decision_times</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of years from start where decisions about mitigation levels are done</td>
 </tr>
 </tbody>
 </table>
@@ -222,8 +223,8 @@ directory, one is created.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>file_name</strong> (<em>str</em>) &#8211; name of saved file</li>
 <li><strong>header</strong> (<em>str</em>) &#8211; description of values in tree</li>
-<li><strong>start_year</strong> (<em>int, optional</em>) &#8211; start year of analysis</li>
-<li><strong>delimiter</strong> (<em>str, optional</em>) &#8211; delimiter in file</li>
+<li><strong>start_year</strong> (<em>int</em><em>, </em><em>optional</em>) &#8211; start year of analysis</li>
+<li><strong>delimiter</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; delimiter in file</li>
 </ul>
 </td>
 </tr>
@@ -271,8 +272,8 @@ If there is no &#8216;data&#8217; directory, one is created.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>file_name</strong> (<em>str</em>) &#8211; name of saved file</li>
 <li><strong>header</strong> (<em>str</em>) &#8211; description of values in tree</li>
-<li><strong>start_year</strong> (<em>int, optional</em>) &#8211; start year of analysis</li>
-<li><strong>delimiter</strong> (<em>str, optional</em>) &#8211; delimiter in file</li>
+<li><strong>start_year</strong> (<em>int</em><em>, </em><em>optional</em>) &#8211; start year of analysis</li>
+<li><strong>delimiter</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; delimiter in file</li>
 </ul>
 </td>
 </tr>
@@ -293,7 +294,7 @@ directory, one is created.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>file_name</strong> (<em>str</em>) &#8211; name of saved file</li>
 <li><strong>header</strong> (<em>str</em>) &#8211; first row of file</li>
-<li><strong>delimiter</strong> (<em>str, optional</em>) &#8211; delimiter in file</li>
+<li><strong>delimiter</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; delimiter in file</li>
 </ul>
 </td>
 </tr>
@@ -315,7 +316,7 @@ periods in <cite>decision_times</cite>.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>subintervals_len</strong> (<em>float</em>) &#8211; years between periods in tree</li>
-<li><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; array of years from start where decisions about mitigation levels are done</li>
+<li><strong>decision_times</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of years from start where decisions about mitigation levels are done</li>
 </ul>
 </td>
 </tr>
@@ -454,7 +455,7 @@ periods in <cite>decision_times</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>decision_times</strong> (<em>ndarray or list</em>) &#8211; array of years from start where decisions about mitigation levels are done</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>decision_times</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of years from start where decisions about mitigation levels are done</td>
 </tr>
 </tbody>
 </table>
@@ -552,14 +553,14 @@ periods in <cite>decision_times</cite>.</p>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="cost.html"
-                        title="previous chapter">ez_climate.cost module</a></p>
+                        title="previous chapter">cost module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="utility.html"
-                        title="next chapter">ez_climate.utility module</a></p>
+                        title="next chapter">utility module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/storage_tree.txt"
+      <li><a href="../_sources/api/storage_tree.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -587,10 +588,10 @@ periods in <cite>decision_times</cite>.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="utility.html" title="ez_climate.utility module"
+          <a href="utility.html" title="utility module"
              >next</a> |</li>
         <li class="right" >
-          <a href="cost.html" title="ez_climate.cost module"
+          <a href="cost.html" title="cost module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
@@ -598,7 +599,7 @@ periods in <cite>decision_times</cite>.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017,.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>

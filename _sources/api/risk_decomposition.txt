@@ -1,0 +1,7 @@
+ez_climate.analysis.risk_decompositon module
+--------------------------------------------
+
+.. automodule:: ez_climate.analysis.risk_decompositon
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+ez_climate.tools module
+-----------------------
+
+.. automodule:: ez_climate.tools
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>ez_climate.utility module &#8212; EZ-Climate 1.0.1 documentation</title>
+    <title>utility module &#8212; EZ-Climate 1.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -17,17 +17,18 @@
         VERSION:     '1.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="EZ-Climate 1.0.1 documentation" href="../index.html" />
-    <link rel="up" title="Library Reference" href="index.html" />
-    <link rel="next" title="ez_climate.optimization module" href="optimization.html" />
-    <link rel="prev" title="ez_climate.storage_tree module" href="storage_tree.html" /> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="optimization module" href="optimization.html" />
+    <link rel="prev" title="storage_tree module" href="storage_tree.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,10 +41,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="optimization.html" title="ez_climate.optimization module"
+          <a href="optimization.html" title="optimization module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="storage_tree.html" title="ez_climate.storage_tree module"
+          <a href="storage_tree.html" title="storage_tree module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
@@ -56,7 +57,7 @@
           <div class="body" role="main">
             
   <div class="section" id="module-ez_climate.utility">
-<span id="ez-climate-utility-module"></span><h1>ez_climate.utility module<a class="headerlink" href="#module-ez_climate.utility" title="Permalink to this headline">¶</a></h1>
+<span id="utility-module"></span><h1>utility module<a class="headerlink" href="#module-ez_climate.utility" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="ez_climate.utility.EZUtility">
 <em class="property">class </em><code class="descclassname">ez_climate.utility.</code><code class="descname">EZUtility</code><span class="sig-paren">(</span><em>tree</em>, <em>damage</em>, <em>cost</em>, <em>period_len</em>, <em>eis=0.9</em>, <em>ra=7.0</em>, <em>time_pref=0.005</em>, <em>add_penalty_cost=False</em>, <em>max_penalty=0.0</em>, <em>penalty_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/utility.html#EZUtility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.utility.EZUtility" title="Permalink to this definition">¶</a></dt>
@@ -76,13 +77,13 @@ and <cite>penalty_scale</cite>.</p>
 <li><strong>damage</strong> (<cite>Damage</cite> object) &#8211; class that provides damage methods</li>
 <li><strong>cost</strong> (<cite>Cost</cite> object) &#8211; class that procides cost methods</li>
 <li><strong>period_len</strong> (<em>float</em>) &#8211; subinterval length</li>
-<li><strong>eis</strong> (<em>float, optional</em>) &#8211; elasticity of intertemporal substitution</li>
-<li><strong>ra</strong> (<em>float, optional</em>) &#8211; risk-aversion</li>
-<li><strong>time_pref</strong> (<em>float, optional</em>) &#8211; pure rate of time preference</li>
-<li><strong>add_penalty_cost</strong> (<em>bool, optional</em>) &#8211; True if utility calculation should include penalty cost for
+<li><strong>eis</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; elasticity of intertemporal substitution</li>
+<li><strong>ra</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; risk-aversion</li>
+<li><strong>time_pref</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; pure rate of time preference</li>
+<li><strong>add_penalty_cost</strong> (<em>bool</em><em>, </em><em>optional</em>) &#8211; True if utility calculation should include penalty cost for
 GHG levels below 280, else False</li>
-<li><strong>max_penalty</strong> (<em>float, optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</li>
-<li><strong>penalty_scale</strong> (<em>float, optional</em>) &#8211; constant that is multiplied to the penalty cost</li>
+<li><strong>max_penalty</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; maximum penalty that can be added to penalty cost for one period</li>
+<li><strong>penalty_scale</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; constant that is multiplied to the penalty cost</li>
 </ul>
 </td>
 </tr>
@@ -178,11 +179,11 @@ Values in parameters are used to adjusted the utility in different ways.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>m</strong> (<em>ndarray</em>) &#8211; array of mitigations</li>
-<li><strong>period_cons_eps</strong> (<em>ndarray, optional</em>) &#8211; array of increases in consumption per period</li>
+<li><strong>period_cons_eps</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; array of increases in consumption per period</li>
 <li><strong>node_cons_eps</strong> (<cite>SmallStorageTree</cite>, optional) &#8211; increases in consumption per node</li>
-<li><strong>final_cons_eps</strong> (<em>float, optional</em>) &#8211; value to increase the final utilities by</li>
-<li><strong>first_period_consadj</strong> (<em>float, optional</em>) &#8211; value to increase consumption at period 0 by</li>
-<li><strong>return_trees</strong> (<em>bool, optional</em>) &#8211; True if method should return trees calculculated in producing the utility</li>
+<li><strong>final_cons_eps</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; value to increase the final utilities by</li>
+<li><strong>first_period_consadj</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; value to increase consumption at period 0 by</li>
+<li><strong>return_trees</strong> (<em>bool</em><em>, </em><em>optional</em>) &#8211; True if method should return trees calculculated in producing the utility</li>
 </ul>
 </td>
 </tr>
@@ -277,7 +278,7 @@ in the path leading to the current node is summed and added to current period&#8
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigation</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">penalties in every period where utilities are calculated</td>
 </tr>
@@ -296,7 +297,7 @@ in the path leading to the current node is summed and added to current period&#8
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>m</strong> (<em>ndarray or list</em>) &#8211; array of mitigations</li>
+<li><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigations</li>
 <li><strong>return_trees</strong> (<em>bool</em>) &#8211; True if methid should return trees calculated in producing the utility</li>
 </ul>
 </td>
@@ -329,14 +330,14 @@ in the path leading to the current node is summed and added to current period&#8
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="storage_tree.html"
-                        title="previous chapter">ez_climate.storage_tree module</a></p>
+                        title="previous chapter">storage_tree module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="optimization.html"
-                        title="next chapter">ez_climate.optimization module</a></p>
+                        title="next chapter">optimization module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/utility.txt"
+      <li><a href="../_sources/api/utility.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -364,10 +365,10 @@ in the path leading to the current node is summed and added to current period&#8
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="optimization.html" title="ez_climate.optimization module"
+          <a href="optimization.html" title="optimization module"
              >next</a> |</li>
         <li class="right" >
-          <a href="storage_tree.html" title="ez_climate.storage_tree module"
+          <a href="storage_tree.html" title="storage_tree module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
@@ -375,7 +376,7 @@ in the path leading to the current node is summed and added to current period&#8
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017,.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>

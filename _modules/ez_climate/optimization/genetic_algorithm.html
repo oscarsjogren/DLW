@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ez_climate.optimization.genetic_algorithm &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../optimization.html" accesskey="U">ez_climate.optimization</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ez_climate.optimization.genetic_algorithm</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">ez_climate.tools</span> <span class="k">import</span> <span class="n">_pickle_method</span><span class="p">,</span> <span class="n">_unpickle_method</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">copy_reg</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">copyreg</span> <span class="k">as</span> <span class="nn">copy_reg</span>
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="n">copy_reg</span><span class="o">.</span><span class="n">pickle</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">,</span> <span class="n">_pickle_method</span><span class="p">,</span> <span class="n">_unpickle_method</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GeneticAlgorithm"><a class="viewcode-back" href="../../../api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">GeneticAlgorithm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Optimization algorithm for the EZ-Climate model. </span>
+
+<span class="sd">	Parameters</span>
+<span class="sd">	----------</span>
+<span class="sd">	pop_amount : int</span>
+<span class="sd">		number of individuals in the population</span>
+<span class="sd">	num_feature : int </span>
+<span class="sd">		number of elements in each individual, i.e. number of nodes in tree-model</span>
+<span class="sd">	num_generations : int </span>
+<span class="sd">		number of generations of the populations to be evaluated</span>
+<span class="sd">	bound : float</span>
+<span class="sd">		upper bound of mitigation in each node</span>
+<span class="sd">	cx_prob : float</span>
+<span class="sd">		 probability of mating</span>
+<span class="sd">	mut_prob : float</span>
+<span class="sd">		probability of mutation.</span>
+<span class="sd">	utility : `Utility` object</span>
+<span class="sd">		object of utility class</span>
+<span class="sd">	fixed_values : ndarray, optional</span>
+<span class="sd">		nodes to keep fixed</span>
+<span class="sd">	fixed_indicies : ndarray, optional</span>
+<span class="sd">		indicies of nodes to keep fixed</span>
+<span class="sd">	print_progress : bool, optional</span>
+<span class="sd">		if the progress of the evolution should be printed</span>
+
+<span class="sd">	Attributes</span>
+<span class="sd">	----------</span>
+<span class="sd">	pop_amount : int</span>
+<span class="sd">		number of individuals in the population</span>
+<span class="sd">	num_feature : int </span>
+<span class="sd">		number of elements in each individual, i.e. number of nodes in tree-model</span>
+<span class="sd">	num_generations : int </span>
+<span class="sd">		number of generations of the populations to be evaluated</span>
+<span class="sd">	bound : float</span>
+<span class="sd">		upper bound of mitigation in each node</span>
+<span class="sd">	cx_prob : float</span>
+<span class="sd">		 probability of mating</span>
+<span class="sd">	mut_prob : float</span>
+<span class="sd">		probability of mutation.</span>
+<span class="sd">	u : `Utility` object</span>
+<span class="sd">		object of utility class</span>
+<span class="sd">	fixed_values : ndarray, optional</span>
+<span class="sd">		nodes to keep fixed</span>
+<span class="sd">	fixed_indicies : ndarray, optional</span>
+<span class="sd">		indicies of nodes to keep fixed</span>
+<span class="sd">	print_progress : bool, optional</span>
+<span class="sd">		if the progress of the evolution should be printed</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop_amount</span><span class="p">,</span> <span class="n">num_generations</span><span class="p">,</span> <span class="n">cx_prob</span><span class="p">,</span> <span class="n">mut_prob</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="n">num_feature</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span>
+				 <span class="n">fixed_values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fixed_indicies</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">print_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span> <span class="o">=</span> <span class="n">num_feature</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span> <span class="o">=</span> <span class="n">pop_amount</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">num_gen</span> <span class="o">=</span> <span class="n">num_generations</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cx_prob</span> <span class="o">=</span> <span class="n">cx_prob</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">mut_prob</span> <span class="o">=</span> <span class="n">mut_prob</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">utility</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bound</span> <span class="o">=</span> <span class="n">bound</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span> <span class="o">=</span> <span class="n">fixed_values</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span> <span class="o">=</span> <span class="n">fixed_indicies</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">print_progress</span> <span class="o">=</span> <span class="n">print_progress</span>
+
+	<span class="k">def</span> <span class="nf">_generate_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Return 1D-array of random values in the given bound as the initial population.&quot;&quot;&quot;</span>
+		<span class="n">pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span><span class="p">])</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">bound</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">:</span>
+				<span class="n">ind</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span>
+		<span class="k">return</span> <span class="n">pop</span>
+
+	<span class="k">def</span> <span class="nf">_evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indvidual</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Returns the utility of given individual.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">utility</span><span class="p">(</span><span class="n">indvidual</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Returns a 1D-array of selected individuals.</span>
+<span class="sd">	    </span>
+<span class="sd">	    Parameters</span>
+<span class="sd">	    ----------</span>
+<span class="sd">	    pop : ndarray </span>
+<span class="sd">	    	population given by 2D-array with shape (&#39;pop_amount&#39;, &#39;num_feature&#39;)</span>
+<span class="sd">	    rate : float </span>
+<span class="sd">	    	the probability of an individual being selected</span>
+<span class="sd">		    </span>
+<span class="sd">	    Returns</span>
+<span class="sd">	    -------</span>
+<span class="sd">	    ndarray </span>
+<span class="sd">	    	selected individuals</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">rate</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">pop</span><span class="p">[</span><span class="n">index</span><span class="p">,:]</span>
+
+	<span class="k">def</span> <span class="nf">_random_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">individuals</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Generate a random index of individuals of size &#39;size&#39;.</span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		individuals : ndarray or list</span>
+<span class="sd">			2D-array of individuals</span>
+<span class="sd">		size : int </span>
+<span class="sd">			number of indices to generate</span>
+<span class="sd">		</span>
+<span class="sd">		Returns</span>
+<span class="sd">		-------</span>
+<span class="sd">		ndarray </span>
+<span class="sd">			1D-array of indices</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">inds_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">individuals</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">inds_size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">_selection_tournament</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">tournsize</span><span class="p">,</span> <span class="n">fitness</span><span class="p">):</span>
+	    <span class="sd">&quot;&quot;&quot;Select `k` individuals from the input `individuals` using `k`</span>
+<span class="sd">	    tournaments of `tournsize` individuals.</span>
+<span class="sd">	    </span>
+<span class="sd">	    Parameters</span>
+<span class="sd">	    ----------</span>
+<span class="sd">	    individuals : ndarray or list</span>
+<span class="sd">	    	2D-array of individuals to select from</span>
+<span class="sd">	    k : int</span>
+<span class="sd">	    	 number of individuals to select</span>
+<span class="sd">	    tournsize : int</span>
+<span class="sd">	    	number of individuals participating in each tournament</span>
+<span class="sd">	   </span>
+<span class="sd">	   	Returns</span>
+<span class="sd">	   	-------</span>
+<span class="sd">	   	ndarray s</span>
+<span class="sd">	   		selected individuals</span>
+<span class="sd">	    </span>
+<span class="sd">	    &quot;&quot;&quot;</span>
+	    <span class="n">chosen</span> <span class="o">=</span> <span class="p">[]</span>
+	    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+	        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random_index</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tournsize</span><span class="p">)</span>
+	        <span class="n">aspirants</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+	        <span class="n">aspirants_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+	        <span class="n">chosen_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">aspirants_fitness</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">aspirants_fitness</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+	        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chosen_index</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+	        	<span class="n">chosen_index</span> <span class="o">=</span> <span class="n">chosen_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	        <span class="n">chosen</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aspirants</span><span class="p">[</span><span class="n">chosen_index</span><span class="p">])</span>
+	    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">chosen</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">_two_point_cross_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Performs a two-point cross-over of the population.</span>
+<span class="sd">	    </span>
+<span class="sd">	    Parameters</span>
+<span class="sd">	    ----------</span>
+<span class="sd">		pop : ndarray </span>
+<span class="sd">			population given by 2D-array with shape (&#39;pop_amount&#39;, &#39;num_feature&#39;)</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">child_group1</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
+		<span class="n">child_group2</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+		<span class="k">for</span> <span class="n">child1</span><span class="p">,</span> <span class="n">child2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">child_group1</span><span class="p">,</span> <span class="n">child_group2</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cx_prob</span><span class="p">:</span>
+				<span class="n">cxpoint1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span><span class="p">)</span>
+				<span class="n">cxpoint2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">cxpoint2</span> <span class="o">&gt;=</span> <span class="n">cxpoint1</span><span class="p">:</span>
+					<span class="n">cxpoint2</span> <span class="o">+=</span> <span class="mi">1</span>
+				<span class="k">else</span><span class="p">:</span> <span class="c1"># Swap the two cx points</span>
+					<span class="n">cxpoint1</span><span class="p">,</span> <span class="n">cxpoint2</span> <span class="o">=</span> <span class="n">cxpoint2</span><span class="p">,</span> <span class="n">cxpoint1</span>
+				<span class="n">child1</span><span class="p">[</span><span class="n">cxpoint1</span><span class="p">:</span><span class="n">cxpoint2</span><span class="p">],</span> <span class="n">child2</span><span class="p">[</span><span class="n">cxpoint1</span><span class="p">:</span><span class="n">cxpoint2</span><span class="p">]</span> \
+				<span class="o">=</span> <span class="n">child2</span><span class="p">[</span><span class="n">cxpoint1</span><span class="p">:</span><span class="n">cxpoint2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">child1</span><span class="p">[</span><span class="n">cxpoint1</span><span class="p">:</span><span class="n">cxpoint2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+					<span class="n">child1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span>
+					<span class="n">child2</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span>
+	
+	<span class="k">def</span> <span class="nf">_uniform_cross_over</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">ind_prob</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Performs a uniform cross-over of the population.</span>
+<span class="sd">	    </span>
+<span class="sd">	    Parameters</span>
+<span class="sd">	    ----------</span>
+<span class="sd">	    pop : ndarray</span>
+<span class="sd">	    	population given by 2D-array with shape (&#39;pop_amount&#39;, &#39;num_feature&#39;)</span>
+<span class="sd">	    ind_prob : float</span>
+<span class="sd">	    	probability of feature cross-over</span>
+<span class="sd">	    </span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">child_group1</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
+		<span class="n">child_group2</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+		<span class="k">for</span> <span class="n">child1</span><span class="p">,</span> <span class="n">child2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">child_group1</span><span class="p">,</span> <span class="n">child_group2</span><span class="p">):</span>
+			<span class="n">size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">child1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">child2</span><span class="p">))</span>
+			<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+				<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">ind_prob</span><span class="p">:</span>
+					<span class="n">child1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">child2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">child2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">child1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+	<span class="k">def</span> <span class="nf">_mutate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">ind_prob</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Mutates individual&#39;s elements. The individual has a probability of `mut_prob` of </span>
+<span class="sd">		beeing selected and every element in this individual has a probability `ind_prob` of beeing </span>
+<span class="sd">		mutated. The mutated value is a random number.</span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		pop : ndarray</span>
+<span class="sd">			population given by 2D-array with shape (&#39;pop_amount&#39;, &#39;num_feature&#39;)</span>
+<span class="sd">	    ind_prob : float </span>
+<span class="sd">	    	probability of feature mutation </span>
+<span class="sd">	    scale : float </span>
+<span class="sd">	    	scaling constant of the random generated number for mutation</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">pop_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+		<span class="n">mutate_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mut_prob</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mutate_index</span><span class="p">:</span>
+			<span class="n">feature_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ind_prob</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">feature_index</span><span class="p">:</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span><span class="p">:</span>
+					<span class="k">continue</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">pop</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pop</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span><span class="p">)</span>
+	
+	<span class="k">def</span> <span class="nf">_uniform_mutation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">ind_prob</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Mutates individual&#39;s elements. The individual has a probability of `mut_prob` of</span>
+<span class="sd">		beeing selected and every element in this individual has a probability `ind_prob` of beeing </span>
+<span class="sd">		mutated. The mutated value is the current value plus a scaled uniform [-0.5,0.5] random value.</span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		pop : ndarray</span>
+<span class="sd">			population given by 2D-array with shape (&#39;pop_amount&#39;, &#39;num_feature&#39;)</span>
+<span class="sd">	    ind_prob : float </span>
+<span class="sd">	    	probability of feature mutation </span>
+<span class="sd">	    scale : float </span>
+<span class="sd">	    	scaling constant of the random generated number for mutation</span>
+
+<span class="sd">	    &quot;&quot;&quot;</span> 
+		<span class="n">pop_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+		<span class="n">mutate_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">pop_len</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mut_prob</span> <span class="o">*</span> <span class="n">pop_len</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mutate_index</span><span class="p">:</span>
+			<span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span><span class="p">)</span> 
+			<span class="n">inc</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_feature</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span>
+			<span class="n">pop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">prob</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">ind_prob</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">*</span><span class="n">inc</span>
+			<span class="n">pop</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">pop</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="n">pop</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_indicies</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_values</span>
+
+	<span class="k">def</span> <span class="nf">_show_evolution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fits</span><span class="p">,</span> <span class="n">pop</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Print statistics of the evolution of the population.&quot;&quot;&quot;</span>
+		<span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+		<span class="n">mean</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+		<span class="n">std</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+		<span class="n">min_val</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+		<span class="n">max_val</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+		<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot; Min </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Max </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Avg </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">mean</span><span class="p">))</span>
+		<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot; Std </span><span class="si">{}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Population Size </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">std</span><span class="p">,</span> <span class="n">length</span><span class="p">))</span>
+		<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot; Best Individual: &quot;</span><span class="p">,</span> <span class="n">pop</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">fits</span><span class="p">)])</span>
+
+	<span class="k">def</span> <span class="nf">_survive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pop_tmp</span><span class="p">,</span> <span class="n">fitness_tmp</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;The 80 percent of the individuals with best fitness survives to</span>
+<span class="sd">		the next generation.</span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		pop_tmp : ndarray</span>
+<span class="sd">			population</span>
+<span class="sd">		fitness_tmp : ndarray</span>
+<span class="sd">			fitness values of `pop_temp`</span>
+
+<span class="sd">		Returns</span>
+<span class="sd">		-------</span>
+<span class="sd">		ndarray </span>
+<span class="sd">			individuals that survived</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">index_fits</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">fitness_tmp</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+		<span class="n">fitness</span> <span class="o">=</span> <span class="n">fitness_tmp</span><span class="p">[</span><span class="n">index_fits</span><span class="p">]</span>
+		<span class="n">pop</span> <span class="o">=</span> <span class="n">pop_tmp</span><span class="p">[</span><span class="n">index_fits</span><span class="p">]</span>
+		<span class="n">num_survive</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.8</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span><span class="p">)</span> 
+		<span class="n">survive_pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">pop</span><span class="p">[:</span><span class="n">num_survive</span><span class="p">])</span>
+		<span class="n">survive_fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fitness</span><span class="p">[:</span><span class="n">num_survive</span><span class="p">])</span>
+		<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">survive_pop</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">survive_fitness</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GeneticAlgorithm.run"><a class="viewcode-back" href="../../../api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.run">[docs]</a>	<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Start the evolution process.</span>
+<span class="sd">		</span>
+<span class="sd">		The evolution steps are:</span>
+<span class="sd">			1. Select the individuals to perform cross-over and mutation.</span>
+<span class="sd">			2. Cross over among the selected candidate.</span>
+<span class="sd">			3. Mutate result as offspring.</span>
+<span class="sd">			4. Combine the result of offspring and parent together. And selected the top </span>
+<span class="sd">			   80 percent of original population amount.</span>
+<span class="sd">			5. Random Generate 20 percent of original population amount new individuals </span>
+<span class="sd">			   and combine the above new population.</span>
+
+<span class="sd">		Returns</span>
+<span class="sd">		-------</span>
+<span class="sd">		tuple</span>
+<span class="sd">			final population and the fitness for the final population</span>
+
+<span class="sd">		Note</span>
+<span class="sd">		----</span>
+<span class="sd">		Uses the :mod:`~multiprocessing` package.</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------Genetic Evolution Starting----------------&quot;</span><span class="p">)</span>
+		<span class="n">pop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span><span class="p">)</span>
+		<span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
+		<span class="n">fitness</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span><span class="p">,</span> <span class="n">pop</span><span class="p">)</span> <span class="c1"># how do we know pop[i] belongs to fitness[i]?</span>
+		<span class="n">fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">fitness</span><span class="p">])</span>
+		<span class="n">u_hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_gen</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_gen</span><span class="p">):</span>
+			<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;-- Generation </span><span class="si">{}</span><span class="s2"> --&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">g</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+			<span class="n">pop_select</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">pop</span><span class="p">),</span> <span class="n">rate</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+			
+			<span class="bp">self</span><span class="o">.</span><span class="n">_uniform_cross_over</span><span class="p">(</span><span class="n">pop_select</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_uniform_mutation</span><span class="p">(</span><span class="n">pop_select</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">num_gen</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+			<span class="c1">#self._mutate(pop_select, 0.05)</span>
+			
+			<span class="n">fitness_select</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span><span class="p">,</span> <span class="n">pop_select</span><span class="p">)</span>
+			<span class="n">fitness_select</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">fitness_select</span><span class="p">])</span>
+			
+			<span class="n">pop_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">pop_select</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+			<span class="n">fitness_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fitness</span><span class="p">,</span> <span class="n">fitness_select</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+			<span class="n">pop_survive</span><span class="p">,</span> <span class="n">fitness_survive</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_survive</span><span class="p">(</span><span class="n">pop_tmp</span><span class="p">,</span> <span class="n">fitness_tmp</span><span class="p">)</span>
+
+			<span class="n">pop_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pop_amount</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop_survive</span><span class="p">))</span>
+			<span class="n">fitness_new</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span><span class="p">,</span> <span class="n">pop_new</span><span class="p">)</span>
+			<span class="n">fitness_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">fitness_new</span><span class="p">])</span>
+
+			<span class="n">pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop_survive</span><span class="p">,</span> <span class="n">pop_new</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+			<span class="n">fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fitness_survive</span><span class="p">,</span> <span class="n">fitness_new</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_progress</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_show_evolution</span><span class="p">(</span><span class="n">fitness</span><span class="p">,</span> <span class="n">pop</span><span class="p">)</span>
+			<span class="n">u_hist</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+		<span class="n">fitness</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span><span class="p">,</span> <span class="n">pop</span><span class="p">)</span>
+		<span class="n">fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">fitness</span><span class="p">])</span>
+		<span class="k">return</span> <span class="n">pop</span><span class="p">,</span> <span class="n">fitness</span><span class="p">,</span> <span class="n">u_hist</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../optimization.html" >ez_climate.optimization</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+    </div>
+  </body>
+</html>

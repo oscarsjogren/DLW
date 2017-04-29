@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>genetic_algorithm module &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="gradient_search module" href="gradient_search.html" />
+    <link rel="prev" title="climate_output module" href="climate_output.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gradient_search.html" title="gradient_search module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="climate_output.html" title="climate_output module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ez_climate.optimization.genetic_algorithm">
+<span id="genetic-algorithm-module"></span><h1>genetic_algorithm module<a class="headerlink" href="#module-ez_climate.optimization.genetic_algorithm" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm">
+<em class="property">class </em><code class="descclassname">ez_climate.optimization.genetic_algorithm.</code><code class="descname">GeneticAlgorithm</code><span class="sig-paren">(</span><em>pop_amount</em>, <em>num_generations</em>, <em>cx_prob</em>, <em>mut_prob</em>, <em>bound</em>, <em>num_feature</em>, <em>utility</em>, <em>fixed_values=None</em>, <em>fixed_indicies=None</em>, <em>print_progress=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization/genetic_algorithm.html#GeneticAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Optimization algorithm for the EZ-Climate model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pop_amount</strong> (<em>int</em>) &#8211; number of individuals in the population</li>
+<li><strong>num_feature</strong> (<em>int</em>) &#8211; number of elements in each individual, i.e. number of nodes in tree-model</li>
+<li><strong>num_generations</strong> (<em>int</em>) &#8211; number of generations of the populations to be evaluated</li>
+<li><strong>bound</strong> (<em>float</em>) &#8211; upper bound of mitigation in each node</li>
+<li><strong>cx_prob</strong> (<em>float</em>) &#8211; probability of mating</li>
+<li><strong>mut_prob</strong> (<em>float</em>) &#8211; probability of mutation.</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>fixed_values</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; nodes to keep fixed</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; indicies of nodes to keep fixed</li>
+<li><strong>print_progress</strong> (<em>bool</em><em>, </em><em>optional</em>) &#8211; if the progress of the evolution should be printed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.pop_amount">
+<code class="descname">pop_amount</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.pop_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of individuals in the population</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.num_feature">
+<code class="descname">num_feature</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.num_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of elements in each individual, i.e. number of nodes in tree-model</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.num_generations">
+<code class="descname">num_generations</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.num_generations" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of generations of the populations to be evaluated</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.bound">
+<code class="descname">bound</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.bound" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; upper bound of mitigation in each node</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.cx_prob">
+<code class="descname">cx_prob</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.cx_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; probability of mating</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.mut_prob">
+<code class="descname">mut_prob</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.mut_prob" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; probability of mutation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.u">
+<code class="descname">u</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.u" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.fixed_values">
+<code class="descname">fixed_values</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.fixed_values" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.fixed_indicies">
+<code class="descname">fixed_indicies</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.fixed_indicies" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; indicies of nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.print_progress">
+<code class="descname">print_progress</code><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.print_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211; if the progress of the evolution should be printed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization/genetic_algorithm.html#GeneticAlgorithm.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the evolution process.</p>
+<dl class="docutils">
+<dt>The evolution steps are:</dt>
+<dd><ol class="first last arabic simple">
+<li>Select the individuals to perform cross-over and mutation.</li>
+<li>Cross over among the selected candidate.</li>
+<li>Mutate result as offspring.</li>
+<li>Combine the result of offspring and parent together. And selected the top
+80 percent of original population amount.</li>
+<li>Random Generate 20 percent of original population amount new individuals
+and combine the above new population.</li>
+</ol>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">final population and the fitness for the final population</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Uses the <code class="xref py py-mod docutils literal"><span class="pre">multiprocessing</span></code> package.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="climate_output.html"
+                        title="previous chapter">climate_output module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gradient_search.html"
+                        title="next chapter">gradient_search module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/genetic_algorithm.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gradient_search.html" title="gradient_search module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="climate_output.html" title="climate_output module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+    </div>
+  </body>
+</html>

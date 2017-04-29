@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gradient_search module &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="genetic_algorithm module" href="genetic_algorithm.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="genetic_algorithm.html" title="genetic_algorithm module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ez_climate.optimization.gradient_search">
+<span id="gradient-search-module"></span><h1>gradient_search module<a class="headerlink" href="#module-ez_climate.optimization.gradient_search" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch">
+<em class="property">class </em><code class="descclassname">ez_climate.optimization.gradient_search.</code><code class="descname">GradientSearch</code><span class="sig-paren">(</span><em>utility</em>, <em>var_nums</em>, <em>accuracy=1e-06</em>, <em>iterations=100</em>, <em>fixed_values=None</em>, <em>fixed_indicies=None</em>, <em>print_progress=False</em>, <em>scale_alpha=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization/gradient_search.html#GradientSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Gradient search optimization algorithm for the EZ-Climate model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>learning_rate</strong> (<em>float</em>) &#8211; starting learning rate of gradient descent</li>
+<li><strong>var_nums</strong> (<em>int</em>) &#8211; number of elements in array to optimize</li>
+<li><strong>accuracy</strong> (<em>float</em>) &#8211; stop value for the gradient descent</li>
+<li><strong>fixed_values</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; nodes to keep fixed</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; indicies of nodes to keep fixed</li>
+<li><strong>print_progress</strong> (<em>bool</em><em>, </em><em>optional</em>) &#8211; if the progress of the evolution should be printed</li>
+<li><strong>scale_alpha</strong> (<em>ndarray</em><em>, </em><em>optional</em>) &#8211; array to scale the learning rate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.utility">
+<code class="descname">utility</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.learning_rate">
+<code class="descname">learning_rate</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.learning_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; starting learning rate of gradient descent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.var_nums">
+<code class="descname">var_nums</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.var_nums" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; number of elements in array to optimize</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.accuracy">
+<code class="descname">accuracy</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; stop value for the gradient descent</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.fixed_values">
+<code class="descname">fixed_values</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.fixed_values" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.fixed_indicies">
+<code class="descname">fixed_indicies</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.fixed_indicies" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; indicies of nodes to keep fixed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.print_progress">
+<code class="descname">print_progress</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.print_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool, optional</em> &#8211; if the progress of the evolution should be printed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.scale_alpha">
+<code class="descname">scale_alpha</code><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.scale_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray, optional</em> &#8211; array to scale the learning rate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.gradient_descent">
+<code class="descname">gradient_descent</code><span class="sig-paren">(</span><em>initial_point</em>, <em>return_last=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization/gradient_search.html#GradientSearch.gradient_descent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.gradient_descent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gradient descent algorithm. The <cite>initial_point</cite> is updated using the
+Adam algorithm. Adam uses the history of the gradient to compute individual
+step sizes for each element in the mitigation vector. The vector of step
+sizes are calculated using estimates of the first and second moments of
+the gradient.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>initial_point</strong> (<em>ndarray</em>) &#8211; initial guess of the mitigation</li>
+<li><strong>return_last</strong> (<em>bool</em><em>, </em><em>optional</em>) &#8211; <dl class="docutils">
+<dt>if True the function returns the last point, else the point</dt>
+<dd>with highest utility</dd>
+</dl>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(best point, best utility)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.numerical_gradient">
+<code class="descname">numerical_gradient</code><span class="sig-paren">(</span><em>m</em>, <em>delta=1e-08</em>, <em>fixed_indicies=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization/gradient_search.html#GradientSearch.numerical_gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.numerical_gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate utility gradient numerically.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</li>
+<li><strong>delta</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; change in mitigation</li>
+<li><strong>fixed_indicies</strong> (<em>ndarray</em><em> or </em><em>list</em><em>, </em><em>optional</em>) &#8211; indicies of gradient that should not be calculated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">gradient</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ez_climate.optimization.gradient_search.GradientSearch.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>initial_point_list</em>, <em>topk=4</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/optimization/gradient_search.html#GradientSearch.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.optimization.gradient_search.GradientSearch.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the gradient search algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>initial_point_list</strong> (<em>list</em>) &#8211; list of initial points to select from</li>
+<li><strong>topk</strong> (<em>int</em><em>, </em><em>optional</em>) &#8211; select and run gradient descent on the <cite>topk</cite> first points of
+<cite>initial_point_list</cite></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">best mitigation point and the utility of the best mitigation point</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If <cite>topk</cite> is larger than the length of <cite>initial_point_list</cite>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Uses the <code class="xref py py-mod docutils literal"><span class="pre">multiprocessing</span></code> package.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="genetic_algorithm.html"
+                        title="previous chapter">genetic_algorithm module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/gradient_search.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="genetic_algorithm.html" title="genetic_algorithm module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+    </div>
+  </body>
+</html>

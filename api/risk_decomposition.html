@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>risk_decompositon module &#8212; EZ-Climate 1.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="climate_output module" href="climate_output.html" />
+    <link rel="prev" title="utility module" href="utility.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="climate_output.html" title="climate_output module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utility.html" title="utility module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Library Reference</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ez_climate.analysis.risk_decomposition">
+<span id="risk-decompositon-module"></span><h1>risk_decompositon module<a class="headerlink" href="#module-ez_climate.analysis.risk_decomposition" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition">
+<em class="property">class </em><code class="descclassname">ez_climate.analysis.risk_decomposition.</code><code class="descname">RiskDecomposition</code><span class="sig-paren">(</span><em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/risk_decomposition.html#RiskDecomposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.save_output">
+<code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/risk_decomposition.html#RiskDecomposition.save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.save_output" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis">
+<code class="descname">sensitivity_analysis</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/risk_decomposition.html#RiskDecomposition.sensitivity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate and save sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the
+periods given by the utility calculations, the function calculates and saves:</p>
+<blockquote>
+<div><ul class="simple">
+<li>discount prices</li>
+<li>net expected damages</li>
+<li>expected damages</li>
+<li>risk premium</li>
+<li>expected SDF</li>
+<li>cross SDF &amp; damages</li>
+<li>discounted expected damages</li>
+<li>cov term</li>
+<li>scaled net expected damages</li>
+<li>scaled risk premiums</li>
+</ul>
+</div></blockquote>
+<p>into the file  <cite>prefix</cite> + &#8216;sensitivity_output&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
+<p>Furthermore, for every node the function calculates and saves:</p>
+<blockquote>
+<div><ul class="simple">
+<li>SDF</li>
+<li>delta consumption</li>
+<li>forward marginal utility</li>
+<li>up-node marginal utility</li>
+<li>down-node marginal utility</li>
+</ul>
+</div></blockquote>
+<p>into the file <cite>prefix</cite> + &#8216;tree&#8217; in the &#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
+directory, one is created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</li>
+<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
+<li><strong>prefix</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; prefix to be added to file_name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="utility.html"
+                        title="previous chapter">utility module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="climate_output.html"
+                        title="next chapter">climate_output module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/risk_decomposition.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="climate_output.html" title="climate_output module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="utility.html" title="utility module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Library Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017,.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+    </div>
+  </body>
+</html>
