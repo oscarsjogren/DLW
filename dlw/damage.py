@@ -398,8 +398,9 @@ class DLWDamage(Damage):
 			return 0.0
 
 		period = self.tree.get_period(node)
-		forcing = Forcing.forcing_at_node(m, node, self.tree, self.bau, self.subinterval_len)
+		forcing, ghg_level = Forcing.forcing_and_ghg_at_node(m, node, self.tree, self.bau, self.subinterval_len, "both")
 		force_mitigation = self._forcing_based_mitigation(forcing, period)
+		ghg_extension = 1.0 / (1 + np.exp(0.05*(ghg_level-200)))
 
 		worst_end_state, best_end_state = self.tree.reachable_end_states(node, period=period)
 		probs = self.tree.final_states_prob[worst_end_state:best_end_state+1]
@@ -424,7 +425,7 @@ class DLWDamage(Damage):
 						   / (np.log(0.5) * decay_scale) 
 					damage += probs[i] * (0.5**(decay_scale*dist) * np.exp(-np.square(force_mitigation-self.emit_pct[0])/60.0))
 				i += 1
-		return damage / probs.sum()
+		return (damage / probs.sum()) + ghg_extension
 
 	def damage_function(self, m, period):
 		"""Calculate the damage for every node in a period, based on mitigation actions `m`.
@@ -442,14 +443,11 @@ class DLWDamage(Damage):
 			array of damages
 
 		"""
-		ghg_levels = self.ghg_level_period(m, period=period)
-		ghg_extension = 1.0 / (1 + np.exp(0.05*(ghg_levels-200)))
-
 		nodes = self.tree.get_num_nodes_period(period)
 		damages = np.zeros(nodes)
 		for i in range(nodes):
 			node = self.tree.get_node(period, i)
 			damages[i] = self._damage_function_node(m, node)
-		return damages + ghg_extension
+		return damages 
 
 
