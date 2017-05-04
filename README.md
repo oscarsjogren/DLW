@@ -23,7 +23,7 @@ If you wish to build from sources, download or clone the repository.
 
 ```bash
 python setup.py install
-``
+```
 
 ## Requirements
 
