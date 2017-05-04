@@ -1,29 +1,33 @@
-# DLW
+# EZ-Climate
 
-DLW is a model for pricing carbon dioxide emission. It explores the implications of these richer preference specifications for the optimal ![equation](http://latex.codecogs.com/gif.latex?CO_2) price. We develop the EZ-Climate model, a simple discrete-time model in which the representative agent has an Epstein-Zin preference specification, and in which uncertainty about the effect of ![equation](http://latex.codecogs.com/gif.latex?CO_2) emissions on global temperature and on eventual damages is gradually resolved over time. In the EZ-Climate model the optimal price is equal to the price of one ton of ![equation](http://latex.codecogs.com/gif.latex?CO_2) emitted at any given point in time that maximizes the utility of the representative agent at that time. We embed a number of features including tail risk, the potential for technological change, and backstop technologies. In contrast to most modeled carbon price paths, the EZ-Climate model suggests a high optimal carbon price today that is expected to decline over time. It also points to the importance of backstop technologies and to potentially very large.
+EZ-Climate is a model for pricing carbon dioxide emission. It explores the implications of these richer preference specifications for the optimal ![equation](http://latex.codecogs.com/gif.latex?CO_2) price. We develop the EZ-Climate model, a simple discrete-time model in which the representative agent has an Epstein-Zin preference specification, and in which uncertainty about the effect of ![equation](http://latex.codecogs.com/gif.latex?CO_2) emissions on global temperature and on eventual damages is gradually resolved over time. In the EZ-Climate model the optimal price is equal to the price of one ton of ![equation](http://latex.codecogs.com/gif.latex?CO_2) emitted at any given point in time that maximizes the utility of the representative agent at that time. We embed a number of features including tail risk, the potential for technological change, and backstop technologies. In contrast to most modeled carbon price paths, the EZ-Climate model suggests a high optimal carbon price today that is expected to decline over time. It also points to the importance of backstop technologies and to potentially very large.
 
 ## Downloads
 
-You can find the most recent releases at: https://pypi.python.org/pypi/dlw/.
+You can find the most recent releases at: https://pypi.python.org/pypi/ez_climate/.
 
 ## Documentation
-See the [DLW User's Guide](https://oscarsjogren.github.io/dlw/) for DLW documentation.
+See the [EZ-Climate User's Guide](https://oscarsjogren.github.io/dlw/) for EZ-Climate documentation.
 
-In order to get the tip documentation, change directory to the `doc` subfolder and type in `make html`, the documentation will be under `../dlw_docs/html`. You will need [Sphinx](http://sphinx.pocoo.org) to build the documentation.
+In order to get the tip documentation, change directory to the `doc` subfolder and type in `make html`, the documentation will be under `../../ez_climate_docs/html`. You will need [Sphinx](http://sphinx.pocoo.org) to build the documentation.
 
 ## Installation
 
-We encourage you to use pip to install DLW on your system. 
+We encourage you to use pip to install EZ-Climate on your system. 
 
 ```bash
-pip install dlw
+pip install ez_climate
 ```
 
 If you wish to build from sources, download or clone the repository.
 
+```bash
+python setup.py install
+``
+
 ## Requirements
 
-DLW is compatible with Python 2 and 3. [Numpy](http://www.numpy.org/) is required, and we recommend [matplotlib](http://www.matplotlib.org/) for visualization of results.
+EZ-Climate is compatible with Python 2 and 3. [Numpy](http://www.numpy.org/) is required, and we recommend [matplotlib](http://www.matplotlib.org/) for visualization of results.
 
 ## Authors
 
