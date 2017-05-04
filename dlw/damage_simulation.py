@@ -12,7 +12,7 @@ import types
 copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)
 
 class DamageSimulation(object):
-    """Simulation of damages for the DLW-model.
+    """Simulation of damages for the EZ-Climate model.
 
     The damage function simulation is a key input into the pricing engine. Damages are 
     represented in arrays of dimension n x p, where n = num states and p = num periods.
@@ -266,9 +266,13 @@ class DamageSimulation(object):
         ValueError
             If temp_map is not in the interval 0-4.         
 
+        Note
+        ----
+        Uses the :mod:`~multiprocessing` package.
+
         """
         dnum = len(self.ghg_levels)
-        self.draws = draws # should not be a class parameter!!
+        self.draws = draws 
         self.peak_cons = np.exp(self.cons_growth*self.tree.decision_times[1:])
 
         if self.temp_map == 0:

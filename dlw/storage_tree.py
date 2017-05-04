@@ -3,7 +3,7 @@ import numpy as np
 from abc import ABCMeta, abstractmethod
 
 class BaseStorageTree(object):
-	"""Abstract storage class for the DLW-model.
+	"""Abstract storage class for the EZ-Climate model.
 
 	Parameters
 	----------
@@ -157,7 +157,7 @@ class BaseStorageTree(object):
 
 		for t in real_times:
 			temp_lst = [""]*(size*2)
-			k = size/len(self.tree[t])
+			k = int(size/len(self.tree[t]))
 			temp_lst[k::prev_k] = self.tree[t].tolist()
 			output_lst.append(temp_lst)
 			prev_k = k
@@ -246,7 +246,7 @@ class BaseStorageTree(object):
 
 
 class SmallStorageTree(BaseStorageTree):
-	"""Storage tree class for the DLW-model. No storage in nodes between 
+	"""Storage tree class for the EZ-Climate model. No storage in nodes between 
 	periods in `decision_times`.
 
 	Parameters
@@ -324,7 +324,7 @@ class SmallStorageTree(BaseStorageTree):
 		raise IndexError("Period not in decision times or first period")
 
 class BigStorageTree(BaseStorageTree):
-	"""Storage tree class for the DLW-model. Storage in nodes between 
+	"""Storage tree class for the EZ-Climate model. Storage in nodes between 
 	periods in `decision_times`. 
 
 	Parameters

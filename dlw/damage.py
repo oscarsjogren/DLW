@@ -5,7 +5,7 @@ from damage_simulation import DamageSimulation
 from forcing import Forcing
 
 class Damage(object):
-	"""Abstract damage class for the DLW-model.
+	"""Abstract damage class for the EZ-Climate model.
 
 	Parameters
 	----------
@@ -42,7 +42,7 @@ class Damage(object):
 		pass
 
 class DLWDamage(Damage):
-	"""Damage class for the DLW-model. Provides the damages from emissions and mitigation outcomes.
+	"""Damage class for the EZ-Climate model. Provides the damages from emissions and mitigation outcomes.
 
 	Parameters
 	----------
@@ -229,11 +229,15 @@ class DLWDamage(Damage):
 		ds = DamageSimulation(tree=self.tree, ghg_levels=self.ghg_levels, peak_temp=peak_temp,
 					disaster_tail=disaster_tail, tip_on=tip_on, temp_map=temp_map, 
 					temp_dist_params=temp_dist_params, maxh=maxh, cons_growth=cons_growth)
+		print("Starting damage simulation..")
 		self.d = ds.simulate(draws)
+		print("Done!")
 		return self.d
 
 	def _forcing_based_mitigation(self, forcing, period): 
-		"""Calculation of mitigation based on forcing up to period."""
+		"""Calculation of mitigation based on forcing up to period. Interpolating between the forcing associated 
+		with the constant degree of mitigation consistent with the damage simulation scenarios.
+		"""
 		p = period - 1
 		if forcing > self.cum_forcings[p][1]:
 			weight_on_sim2 = (self.cum_forcings[p][2] - forcing) / (self.cum_forcings[p][2] - self.cum_forcings[p][1])
@@ -339,9 +343,14 @@ class DLWDamage(Damage):
 		"""
 		if nodes is None and period is not None:
 			start_node, end_node = self.tree.get_nodes_in_period(period)
-			nodes = range(start_node, end_node+1)
+			if period >= self.tree.num_periods:
+				add = end_node-start_node+1
+				start_node += add
+				end_node += add
+			nodes = np.array(range(start_node, end_node+1))
 		if period is None and nodes is None:
 			raise ValueError("Need to give function either nodes or the period")
+
 		ghg_level = np.zeros(len(nodes))
 		for i in range(len(nodes)):
 			ghg_level[i] = self._ghg_level_node(m, nodes[i])
@@ -399,11 +408,10 @@ class DLWDamage(Damage):
 			damage = (probs *(self.damage_coefs[worst_end_state:best_end_state+1, period-1, 1, 1] * force_mitigation \
 					 + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 1, 2])).sum()
 		
-		elif force_mitigation < self.emit_pct[0]: #do dot product instead?
+		elif force_mitigation < self.emit_pct[0]:
 			damage = (probs * (self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 0] * force_mitigation**2 \
 					  + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 1] * force_mitigation \
 					  + self.damage_coefs[worst_end_state:best_end_state+1, period-1, 0, 2])).sum()
-		
 		else: 
 			damage = 0.0
 			i = 0
@@ -434,11 +442,14 @@ class DLWDamage(Damage):
 			array of damages
 
 		"""
+		ghg_levels = self.ghg_level_period(m, period=period)
+		ghg_extension = 1.0 / (1 + np.exp(0.05*(ghg_levels-200)))
+
 		nodes = self.tree.get_num_nodes_period(period)
 		damages = np.zeros(nodes)
 		for i in range(nodes):
 			node = self.tree.get_node(period, i)
 			damages[i] = self._damage_function_node(m, node)
-		return damages
+		return damages + ghg_extension
 
 

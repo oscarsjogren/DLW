@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 
 class TreeModel(object):
-    """Tree model for the DLW-model. It provides the structure of a non-recombining tree.
+    """Tree model for the EZ-Climate model. It provides the structure of a non-recombining tree.
 
     Parameters
     ----------

@@ -1,5 +1,4 @@
 import numpy as np
-import seaborn as sns
 import csv
 
 ################
@@ -8,15 +7,15 @@ import csv
 
 markers = (u'o', u'v', u'^', u'<', u'>', u'8', u's', u'p', u'*', u'h', u'H', u'D', u'd')
 
-def plot(y_data, x_data, index=None, title=None, xlabel=None, ylabel=None, 
-		 legend=None, vertical_line=None, save=False, file_name=None,
-		 points=False):
+def plot(y_data, x_data, index=None, y_index=None, title=None, xlabel=None, ylabel=None, 
+		 legend=None, vertical_line=None, save=False, file_name=None, points=False):
 	import matplotlib.pyplot as plt
+	import seaborn as sns
 	sns.set_style("whitegrid", {"font.family": [u'Bitstream Vera Sans']})
 	sns.set_palette("PuBuGn_d")
+	#sns.set_palette("RdBu_r")
 	fig = plt.figure()
 	ax = fig.add_subplot(1,1,1)
-
 	if len(y_data.shape)==1:
 		ax.plot(x_data, y_data, label=legend)
 		if points:
@@ -26,12 +25,13 @@ def plot(y_data, x_data, index=None, title=None, xlabel=None, ylabel=None,
 			ax.plot(x_data, y_data[i], label=legend[i])
 			if points:
 				ax.plot(x_data, y_data[i], markers[i])
-
 	ax.xaxis.grid(False)
 	if vertical_line is not None:
 		ax.axvline(x=vertical_line, linestyle='dashed', linewidth=1, color='black')
 	if index is not None:
-		ax.set_xtocklabels(index)
+		ax.set_xticklabels(index)
+	if y_index is not None:
+		ax.set_yticklabels(y_index)
 	if title is not None:
 		ax.set_title(title, fontsize='large')
 	if xlabel is not None:
@@ -39,12 +39,14 @@ def plot(y_data, x_data, index=None, title=None, xlabel=None, ylabel=None,
 	if ylabel is not None:
 		ax.set_ylabel(ylabel, fontsize='large')
 	if legend is not None:
-		plt.legend(fontsize='large')
+		plt.legend(fontsize='large', loc='best')
+	ymin, ymax = ax.get_ylim()
+	diff = ymax - ymin
+	ax.set_ylim(ymin-diff*0.1, ymax+diff*0.1)
 	if save:
 		d = find_path(file_name, "plots", ".png")
 		plt.savefig(d)
 		plt.close(fig)
-
 	plt.show()
 
 def plot_dict(dictionary, title, xlabel, ylabel):
@@ -53,21 +55,55 @@ def plot_dict(dictionary, title, xlabel, ylabel):
 
 def plot_mitigation_at_node(m, node, utility, save=False, prefix=""):
 	m_copy = m.copy()
-	x = np.append(np.linspace(0.0, m[node], 25), np.linspace(m[node], max(m[node], 2.5), 25))
+	x = np.append(np.linspace(0.0, m[node], 25), np.linspace(m[node], m[node]+0.05, 25))
 	x = np.unique(x)
 	y = np.zeros(len(x))
 	for i in range(len(x)):
 		m_copy[node] = x[i]
 		y[i] = utility.utility(m_copy)
-
 	plot(y, x, title="Utility vs. Mitigation in Node {}".format(node), xlabel="Mitigation", 
 		 ylabel="Utility", vertical_line=m[node], save=save, file_name=prefix+"MAT_{}".format(node))
+
+def change_mitigation(m, u, add_nodes, reduce_nodes, delta):
+	m_copy = m.copy()
+	cache = set()
+	for node in add_nodes:
+		m_copy[node] += 0.01
+		cache.add(node)
+		wec, bec = u.tree.reachable_end_states(node)
+		for next_node in range(31+wec, 32+bec):
+			if next_node not in cache:
+				m_copy[next_node] += delta
+				cache.add(next_node)
+			else:
+				print(next_node)
+	for node in reduce_nodes:
+		m_copy[node] -= 0.01
+		cache.add(node)
+		wec, bec = u.tree.reachable_end_states(node)
+		for next_node in range(31+wec, 32+bec):
+			if next_node not in cache:
+				m_copy[next_node] -= delta
+				cache.add(next_node)
+			else:
+				print(next_node)
+	return m_copy
+
+def marginal_analysis(m, u, add_nodes, reduce_nodes, delta):
+	utility_t, cons_t, cost_t, ce_t = u.utility(m, return_trees=True)
+	new_m = change_mitigation(m, u, add_nodes, reduce_nodes, delta)
+	new_utility_t, new_cons_t, new_cost_t, new_ce_t = u.utility(new_m, return_trees=True)
+	for period in cost_t.periods:
+		new_utility_t.tree[period] -= utility_t[period]
+		new_cons_t.tree[period] -= cons_t[period]
+		new_cost_t.tree[period] -= cost_t[period]
+	return new_utility_t, new_cons_t, new_cost_t
 
 def plot_first_order_condition(m, node, utility):
 	x = np.array([1.0/(10)**i for i in range(1, 11)])
 	y = np.zeros(len(x))
 	for i in range(len(x)):
-		grad, k = utility.partial_grad(node, m, x[i])
+		grad, k = utility.partial_grad(m, node, x[i])
 		y[i] = grad
 	plot(y, x, title="First Order Check for node {}".format(node), xlabel="Delta", 
 		 ylabel="Partial deriv. w.r.t. Mitigation")
@@ -145,10 +181,11 @@ def write_columns_to_existing(lst, file_name, header="", delimiter=';'):
 			
 def append_to_existing(lst, file_name, header="", index=None, delimiter=';', start_char=None):
 	write_columns_csv(lst, file_name, header, index, start_char=start_char, delimiter=delimiter, open_as='a')
-
+import csv
 def import_csv(file_name, delimiter=';', header=True, indices=None, start_at=0, break_at='\n', ignore=""):
 	d = find_path(file_name)
 	input_lst = []
+	indices_lst = []
 	with open(d, 'r') as f:
 		reader = csv.reader(f, delimiter=delimiter)
 		for _ in range(0, start_at):
@@ -162,20 +199,19 @@ def import_csv(file_name, delimiter=';', header=True, indices=None, start_at=0, 
 				continue
 			if indices:
 				input_lst.append(row[indices:])
+				indices_lst.append(row[:indices])
 			else:
 				input_lst.append(row)
 	if header and not indices :
 		return header_row, np.array(input_lst, dtype="float64")
 	elif header and indices:
-		return header_row[indices:], np.array(input_lst, dtype="float64")
+		return header_row[indices:], indices_lst, np.array(input_lst, dtype="float64")
 	return np.array(input_lst, dtype="float64")
-
 
 
 ##########
 ### MP ###
 ##########
-
 
 def _pickle_method(method):
     func_name = method.im_func.__name__
@@ -195,3 +231,4 @@ def _unpickle_method(func_name, obj, cls):
         else:
             break
     return func.__get__(obj, cls)
+

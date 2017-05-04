@@ -3,24 +3,24 @@ import numpy as np
 
 
 class Forcing(object):
-	"""Forcing of GHG emissions for the DLW-model.
+	"""Forcing of GHG emissions for the EZ-Climate model.
 
 	Attributes
 	----------
 	sink_start : float
-		sinking class constant
+		sinking constant
 	forcing_start : float
-		forcing start class constant
+		forcing start constant
 	forcing_p1 : float
-		forcing class constant
+		forcing constant
 	forcing_p2 : float
-		forcing class constant 
+		forcing constant 
 	forcing_p3 : float
-		forcing class constant
+		forcing constant
 	absorbtion_p1 : float
-		absorbtion class constant
+		absorbtion constant
 	absorbtion_p2 : float 
-		absorbtion class constant
+		absorbtion constant
 	lsc_p1 : float
 		class constant
 	lsc_p2 : float
@@ -66,13 +66,13 @@ class Forcing(object):
 			increment = int(increments[p])
 			for i in range(0, increment):
 				p_co2_emission = start_emission + i * (end_emission-start_emission) / increment
-				p_co2 = 0.71 * p_co2_emission # where are these numbers coming from?
+				p_co2 = 0.71 * p_co2_emission 
 				p_c = p_co2 / 3.67 
 				add_p_ppm = subinterval_len * p_c / 2.13
 				lsc = cls.lsc_p1 + cls.lsc_p2 * cum_sink
 				absorbtion = 0.5 * cls.absorbtion_p1 * np.sign(ghg_level-lsc) * np.abs(ghg_level-lsc)**cls.absorbtion_p2
 				cum_sink += absorbtion
-				cum_forcing += cls.forcing_p1*np.abs(ghg_level-cls.forcing_p3)**cls.forcing_p2
+				cum_forcing += cls.forcing_p1*np.sign(ghg_level-cls.forcing_p3)*np.abs(ghg_level-cls.forcing_p3)**cls.forcing_p2
 				ghg_level += add_p_ppm - absorbtion
 
 		if returning == "forcing":

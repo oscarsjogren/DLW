@@ -2,7 +2,7 @@ import numpy as np
 from abc import ABCMeta, abstractmethod
 
 class BusinessAsUsual(object):
-    """Abstract BAU class for the DLW-model.
+    """Abstract BAU class for the EZ-Climate model.
 
     Parameters
     ----------

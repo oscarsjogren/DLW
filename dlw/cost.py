@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 from storage_tree import BigStorageTree
 
 class Cost(object):
-	"""Abstract Cost class for the DLW-model."""
+	"""Abstract Cost class for the EZ-Climate model."""
 	__metaclass__ = ABCMeta
 
 	@abstractmethod
@@ -17,7 +17,7 @@ class Cost(object):
 
 
 class DLWCost(Cost):
-	"""Class to evaluate the cost curve for the DLW-model.
+	"""Class to evaluate the cost curve for the EZ-Climate model.
 
 	Parameters
 	----------
@@ -58,6 +58,12 @@ class DLWCost(Cost):
 		determines the sensitivity of technological change to previous mitigation
 	cons_at_0 : float 
 		intital consumption. Default $30460bn based on US 2010 values.
+	cbs_level : float
+
+	cbs_deriv :float
+	cbs_b : float
+	cbs_k : float
+	cons_per_ton : float
 
 	"""
 
@@ -99,16 +105,15 @@ class DLWCost(Cost):
 		cbs = self.g * (mitigation**self.a) 
 		bool_arr = (mitigation < self.cbs_level).astype(int)
 		if np.all(bool_arr):
-			return (cbs * tech_term / self.cons_per_ton)
-
-		base_cbs = self.g * self.cbs_level**self.a
-		bool_arr2 = (mitigation > self.cbs_level).astype(int)
-		extension = ((mitigation-self.cbs_level) * self.max_price 
-					- self.cbs_b*mitigation * (self.cbs_k/mitigation)**(1.0/self.cbs_b) / (self.cbs_b-1.0)
-					+ self.cbs_b*self.cbs_level * (self.cbs_k/self.cbs_level)**(1.0/self.cbs_b) / (self.cbs_b-1.0))
-		
-		c = (cbs * bool_arr + (base_cbs + extension)*bool_arr2) * tech_term / self.cons_per_ton
-		c = np.nan_to_num(c) # we might have nan values that should be set to zero
+			c = (cbs * tech_term) / self.cons_per_ton 
+		else:
+			base_cbs = self.g * self.cbs_level**self.a
+			bool_arr2 = (mitigation > self.cbs_level).astype(int)
+			extension = ((mitigation-self.cbs_level) * self.max_price 
+						- self.cbs_b*mitigation * (self.cbs_k/mitigation)**(1.0/self.cbs_b) / (self.cbs_b-1.0)
+						+ self.cbs_b*self.cbs_level * (self.cbs_k/self.cbs_level)**(1.0/self.cbs_b) / (self.cbs_b-1.0))
+			
+			c = (cbs * bool_arr + (base_cbs + extension)*bool_arr2) * tech_term / self.cons_per_ton
 		return c
 	
 	def price(self, years, mitigation, ave_mitigation):
