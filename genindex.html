@@ -98,9 +98,11 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/utility.html#ez_climate.utility.EZUtility.add_penalty_cost">add_penalty_cost (ez_climate.utility.EZUtility attribute)</a>
-</li>
       <li><a href="api/utility.html#ez_climate.utility.EZUtility.adjusted_utility">adjusted_utility() (ez_climate.utility.EZUtility method)</a>
+</li>
+      <li><a href="api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.ave_emissions">ave_emissions (ez_climate.analysis.climate_output.ClimateOutput attribute)</a>
+</li>
+      <li><a href="api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.ave_mitigations">ave_mitigations (ez_climate.analysis.climate_output.ClimateOutput attribute)</a>
 </li>
       <li><a href="api/damage.html#ez_climate.damage.Damage.average_mitigation">average_mitigation() (ez_climate.damage.Damage method)</a>
 
@@ -180,6 +182,10 @@
         <li><a href="api/cost.html#ez_climate.cost.DLWCost.cost">(ez_climate.cost.DLWCost method)</a>
 </li>
       </ul></li>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.cov_term">cov_term (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
+</li>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.cross_sdf_damages">cross_sdf_damages (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
+</li>
       <li><a href="api/damage.html#ez_climate.damage.DLWDamage.cum_forcing">cum_forcing (ez_climate.damage.DLWDamage attribute)</a>
 </li>
       <li><a href="api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.cx_prob">cx_prob (ez_climate.optimization.genetic_algorithm.GeneticAlgorithm attribute)</a>
@@ -230,6 +236,8 @@
       </ul></li>
       <li><a href="api/damage_simulation.html#ez_climate.damage_simulation.DamageSimulation.disaster_tail">disaster_tail (ez_climate.damage_simulation.DamageSimulation attribute)</a>
 </li>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.discounted_expected_damages">discounted_expected_damages (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
+</li>
       <li><a href="api/bau.html#ez_climate.bau.DLWBusinessAsUsual">DLWBusinessAsUsual (class in ez_climate.bau)</a>
 </li>
       <li><a href="api/cost.html#ez_climate.cost.DLWCost">DLWCost (class in ez_climate.cost)</a>
@@ -278,8 +286,18 @@
 </li>
       <li><a href="api/bau.html#ez_climate.bau.DLWBusinessAsUsual.emit_time">emit_time (ez_climate.bau.DLWBusinessAsUsual attribute)</a>
 </li>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.expected_damages">expected_damages (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
+</li>
+      <li><a href="api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.expected_period_emissions">expected_period_emissions (ez_climate.analysis.climate_output.ClimateOutput attribute)</a>
+</li>
+      <li><a href="api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.expected_period_mitigation">expected_period_mitigation (ez_climate.analysis.climate_output.ClimateOutput attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.expected_period_price">expected_period_price (ez_climate.analysis.climate_output.ClimateOutput attribute)</a>
+</li>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.expected_sdf">expected_sdf (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
+</li>
       <li><a href="api/climate_output.html#module-ez_climate.analysis.climate_output">ez_climate.analysis.climate_output (module)</a>
 </li>
       <li><a href="api/risk_decomposition.html#module-ez_climate.analysis.risk_decomposition">ez_climate.analysis.risk_decomposition (module)</a>
@@ -328,11 +346,13 @@
         <li><a href="api/gradient_search.html#ez_climate.optimization.gradient_search.GradientSearch.fixed_values">(ez_climate.optimization.gradient_search.GradientSearch attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/forcing.html#ez_climate.forcing.Forcing">Forcing (class in ez_climate.forcing)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/damage.html#ez_climate.damage.DLWDamage.forcing">forcing (ez_climate.damage.DLWDamage attribute)</a>
+</li>
+      <li><a href="api/forcing.html#ez_climate.forcing.Forcing.forcing_and_ghg_at_node">forcing_and_ghg_at_node() (ez_climate.forcing.Forcing class method)</a>
 </li>
       <li><a href="api/forcing.html#ez_climate.forcing.Forcing.forcing_at_node">forcing_at_node() (ez_climate.forcing.Forcing class method)</a>
 </li>
@@ -462,12 +482,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/utility.html#ez_climate.utility.EZUtility.marginal_utility">marginal_utility() (ez_climate.utility.EZUtility method)</a>
 </li>
-      <li><a href="api/utility.html#ez_climate.utility.EZUtility.max_penalty">max_penalty (ez_climate.utility.EZUtility attribute)</a>
+      <li><a href="api/cost.html#ez_climate.cost.DLWCost.max_price">max_price (ez_climate.cost.DLWCost attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/cost.html#ez_climate.cost.DLWCost.max_price">max_price (ez_climate.cost.DLWCost attribute)</a>
-</li>
       <li><a href="api/damage_simulation.html#ez_climate.damage_simulation.DamageSimulation.maxh">maxh (ez_climate.damage_simulation.DamageSimulation attribute)</a>
 </li>
       <li><a href="api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.mut_prob">mut_prob (ez_climate.optimization.genetic_algorithm.GeneticAlgorithm attribute)</a>
@@ -478,16 +496,18 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.net_discount_damages">net_discount_damages (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
+</li>
       <li><a href="api/tree.html#ez_climate.tree.TreeModel.node_prob">node_prob (ez_climate.tree.TreeModel attribute)</a>
 </li>
       <li><a href="api/storage_tree.html#ez_climate.storage_tree.BaseStorageTree.nodes">nodes (ez_climate.storage_tree.BaseStorageTree attribute)</a>
 </li>
       <li><a href="api/tree.html#ez_climate.tree.TreeModel.num_decision_nodes">num_decision_nodes (ez_climate.tree.TreeModel attribute)</a>
 </li>
-      <li><a href="api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.num_feature">num_feature (ez_climate.optimization.genetic_algorithm.GeneticAlgorithm attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.num_feature">num_feature (ez_climate.optimization.genetic_algorithm.GeneticAlgorithm attribute)</a>
+</li>
       <li><a href="api/tree.html#ez_climate.tree.TreeModel.num_final_states">num_final_states (ez_climate.tree.TreeModel attribute)</a>
 </li>
       <li><a href="api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.num_generations">num_generations (ez_climate.optimization.genetic_algorithm.GeneticAlgorithm attribute)</a>
@@ -505,10 +525,6 @@
       <li><a href="api/utility.html#ez_climate.utility.EZUtility.partial_grad">partial_grad() (ez_climate.utility.EZUtility method)</a>
 </li>
       <li><a href="api/damage_simulation.html#ez_climate.damage_simulation.DamageSimulation.peak_temp">peak_temp (ez_climate.damage_simulation.DamageSimulation attribute)</a>
-</li>
-      <li><a href="api/utility.html#ez_climate.utility.EZUtility.penalty_cost">penalty_cost() (ez_climate.utility.EZUtility method)</a>
-</li>
-      <li><a href="api/utility.html#ez_climate.utility.EZUtility.penalty_scale">penalty_scale (ez_climate.utility.EZUtility attribute)</a>
 </li>
       <li><a href="api/utility.html#ez_climate.utility.EZUtility.period_len">period_len (ez_climate.utility.EZUtility attribute)</a>
 </li>
@@ -530,6 +546,8 @@
         <li><a href="api/cost.html#ez_climate.cost.DLWCost.price">(ez_climate.cost.DLWCost method)</a>
 </li>
       </ul></li>
+      <li><a href="api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.prices">prices (ez_climate.analysis.climate_output.ClimateOutput attribute)</a>
+</li>
       <li><a href="api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.print_progress">print_progress (ez_climate.optimization.genetic_algorithm.GeneticAlgorithm attribute)</a>
 
       <ul>
@@ -547,6 +565,8 @@
       <li><a href="api/utility.html#ez_climate.utility.EZUtility.r">r (ez_climate.utility.EZUtility attribute)</a>
 </li>
       <li><a href="api/tree.html#ez_climate.tree.TreeModel.reachable_end_states">reachable_end_states() (ez_climate.tree.TreeModel method)</a>
+</li>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.risk_premium">risk_premium (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -571,6 +591,8 @@
 </li>
       </ul></li>
       <li><a href="api/gradient_search.html#ez_climate.optimization.gradient_search.GradientSearch.scale_alpha">scale_alpha (ez_climate.optimization.gradient_search.GradientSearch attribute)</a>
+</li>
+      <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.sdf_tree">sdf_tree (ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
 </li>
       <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis">sensitivity_analysis() (ez_climate.analysis.risk_decomposition.RiskDecomposition method)</a>
 </li>
@@ -632,10 +654,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/genetic_algorithm.html#ez_climate.optimization.genetic_algorithm.GeneticAlgorithm.u">u (ez_climate.optimization.genetic_algorithm.GeneticAlgorithm attribute)</a>
 </li>
+      <li><a href="api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.utility">utility (ez_climate.analysis.climate_output.ClimateOutput attribute)</a>
+
+      <ul>
+        <li><a href="api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.utility">(ez_climate.analysis.risk_decomposition.RiskDecomposition attribute)</a>
+</li>
+        <li><a href="api/gradient_search.html#ez_climate.optimization.gradient_search.GradientSearch.utility">(ez_climate.optimization.gradient_search.GradientSearch attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/gradient_search.html#ez_climate.optimization.gradient_search.GradientSearch.utility">utility (ez_climate.optimization.gradient_search.GradientSearch attribute)</a>
-</li>
       <li><a href="api/utility.html#ez_climate.utility.EZUtility.utility">utility() (ez_climate.utility.EZUtility method)</a>
 </li>
   </ul></td>

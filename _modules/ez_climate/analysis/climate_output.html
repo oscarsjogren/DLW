@@ -56,6 +56,31 @@
 <span class="kn">import</span> <span class="nn">tools</span>
 
 <div class="viewcode-block" id="ClimateOutput"><a class="viewcode-back" href="../../../api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput">[docs]</a><span class="k">class</span> <span class="nc">ClimateOutput</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Calculate and save output from the EZ-Climate model.</span>
+
+<span class="sd">	Parameters</span>
+<span class="sd">	----------</span>
+<span class="sd">	utility : `Utility` object</span>
+<span class="sd">		object of utility class</span>
+
+<span class="sd">	Attributes</span>
+<span class="sd">	----------</span>
+<span class="sd">	utility : `Utility` object</span>
+<span class="sd">		object of utility class</span>
+<span class="sd">	prices : ndarray</span>
+<span class="sd">		SCC prices</span>
+<span class="sd">	ave_mitigations : ndarray</span>
+<span class="sd">		average mitigations</span>
+<span class="sd">	ave_emissions : ndarray </span>
+<span class="sd">		average emissions</span>
+<span class="sd">	expected_period_price : ndarray</span>
+<span class="sd">		expected SCC for the period</span>
+<span class="sd"> 	expected_period_mitigation : ndarray</span>
+<span class="sd">		expected mitigation for the period</span>
+<span class="sd">	expected_period_emissions : ndarray</span>
+<span class="sd">		expected emission for the period</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
 
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">utility</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">utility</span> <span class="o">=</span> <span class="n">utility</span>
@@ -68,45 +93,28 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">ghg_levels</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="ClimateOutput.calculate_output"><a class="viewcode-back" href="../../../api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.calculate_output">[docs]</a>	<span class="k">def</span> <span class="nf">calculate_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
-		<span class="sd">&quot;&quot;&quot;Save the result of optimization and calculated values based on optimal mitigation. For every node the </span>
-<span class="sd">		function calculates and saves:</span>
+		<span class="sd">&quot;&quot;&quot;Calculated values based on optimal mitigation. For every **node** the function calculates and saves</span>
 <span class="sd">			</span>
 <span class="sd">			* average mitigation</span>
 <span class="sd">			* average emission</span>
 <span class="sd">			* GHG level </span>
 <span class="sd">			* SCC </span>
 
-<span class="sd">		into the file `prefix` + &#39;node_period_output&#39; in the &#39;data&#39; directory in the current working directory. </span>
+<span class="sd">		as attributes. </span>
 
-<span class="sd">		For every period the function calculates and appends:</span>
+<span class="sd">		For every **period** the function also calculates and saves</span>
 <span class="sd">			</span>
 <span class="sd">			* expected SCC/price</span>
 <span class="sd">			* expected mitigation </span>
 <span class="sd">			* expected emission </span>
 <span class="sd">		</span>
-<span class="sd">		into the file  `prefix` + &#39;node_period_output&#39; in the &#39;data&#39; directory in the current working directory. </span>
-
-<span class="sd">		The function also saves the values stored in the `BaseStorageTree` object parameters to a file called </span>
-<span class="sd">		`prefix` + &#39;tree&#39; in the &#39;data&#39; directory in the current working directory. If there is no &#39;data&#39; </span>
-<span class="sd">		directory, one is created. </span>
+<span class="sd">		as attributes.</span>
 
 <span class="sd">		Parameters</span>
 <span class="sd">		----------</span>
 <span class="sd">		m : ndarray or list</span>
 <span class="sd">			array of mitigation</span>
-<span class="sd">		utility : `Utility` object</span>
-<span class="sd">			object of utility class</span>
-<span class="sd">		utility_tree : `BigStorageTree` object</span>
-<span class="sd">			utility values from optimal mitigation values</span>
-<span class="sd">		cons_tree : `BigStorageTree` object</span>
-<span class="sd">			consumption values from optimal mitigation values</span>
-<span class="sd">		cost_tree : `SmallStorageTree` object</span>
-<span class="sd">			cost values from optimal mitigation values</span>
-<span class="sd">		ce_tree : `BigStorageTree` object</span>
-<span class="sd">			certain equivalence values from optimal mitigation values</span>
-<span class="sd">		prefix : str, optional</span>
-<span class="sd">			prefix to be added to file_name</span>
-
+<span class="sd">	</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 
 		<span class="n">bau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">damage</span><span class="o">.</span><span class="n">bau</span>
@@ -145,6 +153,22 @@
 
 
 <div class="viewcode-block" id="ClimateOutput.save_output"><a class="viewcode-back" href="../../../api/climate_output.html#ez_climate.analysis.climate_output.ClimateOutput.save_output">[docs]</a>	<span class="k">def</span> <span class="nf">save_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Function to save calculated values in `calculate_output` in the file `prefix` + &#39;node_period_output&#39; </span>
+<span class="sd">		in the &#39;data&#39; directory in the current working directory. </span>
+
+<span class="sd">		The function also saves the values calculated in the utility function in the file</span>
+<span class="sd">		`prefix` + &#39;tree&#39; in the &#39;data&#39; directory in the current working directory. </span>
+
+<span class="sd">		If there is no &#39;data&#39; directory, one is created. </span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		m : ndarray or list</span>
+<span class="sd">			array of mitigation</span>
+<span class="sd">		prefix : str, optional</span>
+<span class="sd">			prefix to be added to file_name</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">utility_tree</span><span class="p">,</span> <span class="n">cons_tree</span><span class="p">,</span> <span class="n">cost_tree</span><span class="p">,</span> <span class="n">ce_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">utility</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">return_trees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 		
 		<span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

@@ -62,11 +62,61 @@
 <dt id="ez_climate.analysis.climate_output.ClimateOutput">
 <em class="property">class </em><code class="descclassname">ez_climate.analysis.climate_output.</code><code class="descname">ClimateOutput</code><span class="sig-paren">(</span><em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/climate_output.html#ClimateOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Calculate and save output from the EZ-Climate model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="ez_climate.analysis.climate_output.ClimateOutput.utility">
+<code class="descname">utility</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.utility" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.analysis.climate_output.ClimateOutput.prices">
+<code class="descname">prices</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.prices" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; SCC prices</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.analysis.climate_output.ClimateOutput.ave_mitigations">
+<code class="descname">ave_mitigations</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.ave_mitigations" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; average mitigations</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.analysis.climate_output.ClimateOutput.ave_emissions">
+<code class="descname">ave_emissions</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.ave_emissions" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; average emissions</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.analysis.climate_output.ClimateOutput.expected_period_price">
+<code class="descname">expected_period_price</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.expected_period_price" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; expected SCC for the period</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.analysis.climate_output.ClimateOutput.expected_period_mitigation">
+<code class="descname">expected_period_mitigation</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.expected_period_mitigation" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; expected mitigation for the period</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ez_climate.analysis.climate_output.ClimateOutput.expected_period_emissions">
+<code class="descname">expected_period_emissions</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.expected_period_emissions" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>ndarray</em> &#8211; expected emission for the period</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="ez_climate.analysis.climate_output.ClimateOutput.calculate_output">
 <code class="descname">calculate_output</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/climate_output.html#ClimateOutput.calculate_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.calculate_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the result of optimization and calculated values based on optimal mitigation. For every node the
-function calculates and saves:</p>
+<dd><p>Calculated values based on optimal mitigation. For every <strong>node</strong> the function calculates and saves</p>
 <blockquote>
 <div><ul class="simple">
 <li>average mitigation</li>
@@ -75,8 +125,8 @@ function calculates and saves:</p>
 <li>SCC</li>
 </ul>
 </div></blockquote>
-<p>into the file <cite>prefix</cite> + &#8216;node_period_output&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
-<p>For every period the function calculates and appends:</p>
+<p>as attributes.</p>
+<p>For every <strong>period</strong> the function also calculates and saves</p>
 <blockquote>
 <div><ul class="simple">
 <li>expected SCC/price</li>
@@ -84,24 +134,12 @@ function calculates and saves:</p>
 <li>expected emission</li>
 </ul>
 </div></blockquote>
-<p>into the file  <cite>prefix</cite> + &#8216;node_period_output&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
-<p>The function also saves the values stored in the <cite>BaseStorageTree</cite> object parameters to a file called
-<cite>prefix</cite> + &#8216;tree&#8217; in the &#8216;data&#8217; directory in the current working directory. If there is no &#8216;data&#8217;
-directory, one is created.</p>
+<p>as attributes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</li>
-<li><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</li>
-<li><strong>utility_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; utility values from optimal mitigation values</li>
-<li><strong>cons_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; consumption values from optimal mitigation values</li>
-<li><strong>cost_tree</strong> (<cite>SmallStorageTree</cite> object) &#8211; cost values from optimal mitigation values</li>
-<li><strong>ce_tree</strong> (<cite>BigStorageTree</cite> object) &#8211; certain equivalence values from optimal mitigation values</li>
-<li><strong>prefix</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; prefix to be added to file_name</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</td>
 </tr>
 </tbody>
 </table>
@@ -110,7 +148,24 @@ directory, one is created.</p>
 <dl class="method">
 <dt id="ez_climate.analysis.climate_output.ClimateOutput.save_output">
 <code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/climate_output.html#ClimateOutput.save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.save_output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Function to save calculated values in <cite>calculate_output</cite> in the file <cite>prefix</cite> + &#8216;node_period_output&#8217;
+in the &#8216;data&#8217; directory in the current working directory.</p>
+<p>The function also saves the values calculated in the utility function in the file
+<cite>prefix</cite> + &#8216;tree&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
+<p>If there is no &#8216;data&#8217; directory, one is created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</li>
+<li><strong>prefix</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; prefix to be added to file_name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 

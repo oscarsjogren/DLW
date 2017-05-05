@@ -56,6 +56,35 @@
 <span class="kn">import</span> <span class="nn">tools</span>
 
 <div class="viewcode-block" id="RiskDecomposition"><a class="viewcode-back" href="../../../api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition">[docs]</a><span class="k">class</span> <span class="nc">RiskDecomposition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Calculate and save analysis of output from the EZ-Climate model.</span>
+
+<span class="sd">	Parameters</span>
+<span class="sd">	----------</span>
+<span class="sd">	utility : `Utility` object</span>
+<span class="sd">		object of utility class</span>
+
+<span class="sd">	Attributes</span>
+<span class="sd">	----------</span>
+<span class="sd">	utility : `Utility` object</span>
+<span class="sd">		object of utility class</span>
+<span class="sd">	sdf_tree : `BaseStorageTree` object</span>
+<span class="sd">		SDF for each node</span>
+<span class="sd">	expected_damages : ndarray</span>
+<span class="sd">		expected damages in each period</span>
+<span class="sd">	risk_premium : ndarray</span>
+<span class="sd">		risk premium in each period</span>
+<span class="sd">	expected_sdf : ndarray</span>
+<span class="sd">		expected SDF in each period</span>
+<span class="sd">	cross_sdf_damages : ndarray</span>
+<span class="sd">		cross term between the SDF and damages</span>
+<span class="sd">	discounted_expected_damages : ndarray</span>
+<span class="sd">		expected discounted damages for each period</span>
+<span class="sd">	net_discount_damages : ndarray</span>
+<span class="sd">		net discount damage, i.e. when cost is also accounted for</span>
+<span class="sd">	cov_term : ndarray </span>
+<span class="sd">		covariance between SDF and damages</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
 
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">utility</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">utility</span> <span class="o">=</span> <span class="n">utility</span>
@@ -63,7 +92,6 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">sdf_tree</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">]))</span>
 
 		<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sdf_tree</span><span class="p">)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">discount_prices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">expected_damages</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">risk_premiums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">expected_sdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
@@ -72,35 +100,22 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">net_discount_damages</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">cov_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
-		<span class="bp">self</span><span class="o">.</span><span class="n">discount_prices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">expected_sdf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
 
 <div class="viewcode-block" id="RiskDecomposition.sensitivity_analysis"><a class="viewcode-back" href="../../../api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis">[docs]</a>	<span class="k">def</span> <span class="nf">sensitivity_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
-		<span class="sd">&quot;&quot;&quot;Calculate and save sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the </span>
+		<span class="sd">&quot;&quot;&quot;Calculate sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the </span>
 <span class="sd">		periods given by the utility calculations, the function calculates and saves:</span>
 <span class="sd">			</span>
 <span class="sd">			* discount prices</span>
 <span class="sd">			* net expected damages</span>
 <span class="sd">			* expected damages</span>
-<span class="sd">			* risk premium</span>
-<span class="sd">			* expected SDF</span>
-<span class="sd">			* cross SDF &amp; damages</span>
 <span class="sd">			* discounted expected damages</span>
-<span class="sd">			* cov term</span>
-<span class="sd">			* scaled net expected damages</span>
-<span class="sd">			* scaled risk premiums</span>
-<span class="sd">		</span>
-<span class="sd">		into the file  `prefix` + &#39;sensitivity_output&#39; in the &#39;data&#39; directory in the current working directory. </span>
+<span class="sd">			* risk premium</span>
+<span class="sd">			* cross SDF &amp; damages</span>
+<span class="sd">			* covariance between SDF and damages</span>
 
-<span class="sd">		Furthermore, for every node the function calculates and saves:</span>
-<span class="sd">		</span>
-<span class="sd">			* SDF </span>
-<span class="sd">			* delta consumption</span>
-<span class="sd">			* forward marginal utility  </span>
-<span class="sd">			* up-node marginal utility</span>
-<span class="sd">			* down-node marginal utility</span>
-<span class="sd">		</span>
-<span class="sd">		into the file `prefix` + &#39;tree&#39; in the &#39;data&#39; directory in the current working directory. If there is no &#39;data&#39; </span>
-<span class="sd">		directory, one is created. </span>
+<span class="sd">		as attributes.</span>
 
 <span class="sd">		Parameters</span>
 <span class="sd">		----------</span>
@@ -141,7 +156,6 @@
 			<span class="bp">self</span><span class="o">.</span><span class="n">cross_sdf_damages</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">period_sdf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_cons_tree</span><span class="p">[</span><span class="n">period</span><span class="p">]</span><span class="o">*</span><span class="n">period_probs</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">cov_term</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_sdf_damages</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_sdf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">expected_damage</span>
 
-			<span class="bp">self</span><span class="o">.</span><span class="n">discount_prices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_sdf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">sdf_tree</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">period_sdf</span><span class="p">)</span>
 
 			<span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta_cost_array</span><span class="p">):</span>
@@ -155,7 +169,22 @@
 			<span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 <div class="viewcode-block" id="RiskDecomposition.save_output"><a class="viewcode-back" href="../../../api/risk_decomposition.html#ez_climate.analysis.risk_decomposition.RiskDecomposition.save_output">[docs]</a>	<span class="k">def</span> <span class="nf">save_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-		
+		<span class="sd">&quot;&quot;&quot;Save attributes calculated in `sensitivity_analysis` into the file prefix + `sensitivity_output`</span>
+<span class="sd">		in the `data` directory in the current working directory.</span>
+
+<span class="sd">		Furthermore, the perpetuity yield, the discount factor for the last period is calculated, and SCC,</span>
+<span class="sd">		expected damage and risk premium for the first period is calculated and saved in into the file</span>
+<span class="sd">		prefix + `tree` in the `data` directory in the current working directory. If there is no `data` directory, </span>
+<span class="sd">		one is created.</span>
+
+<span class="sd">		Parameters</span>
+<span class="sd">		----------</span>
+<span class="sd">		m : ndarray or list</span>
+<span class="sd">			array of mitigation</span>
+<span class="sd">		prefix : str, optional</span>
+<span class="sd">			prefix to be added to file_name</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">end_price</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">find_term_structure</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">utility</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
 		<span class="n">perp_yield</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">perpetuity_yield</span><span class="p">(</span><span class="n">end_price</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sdf_tree</span><span class="o">.</span><span class="n">periods</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
 
@@ -168,11 +197,11 @@
 		<span class="k">else</span><span class="p">:</span>
 			<span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
-		<span class="n">write_columns_csv</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">discount_prices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_discount_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">risk_premiums</span><span class="p">,</span> 
-			               <span class="bp">self</span><span class="o">.</span><span class="n">expected_sdf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_sdf_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounted_expected_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_term</span><span class="p">,</span> 
+		<span class="n">write_columns_csv</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_sdf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_discount_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">risk_premiums</span><span class="p">,</span> 
+			               <span class="bp">self</span><span class="o">.</span><span class="n">cross_sdf_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discounted_expected_damages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov_term</span><span class="p">,</span> 
 			               <span class="n">scaled_discounted_ed</span><span class="p">,</span> <span class="n">scaled_risk_premiums</span><span class="p">],</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;sensitivity_output&quot;</span><span class="p">,</span>
 						   <span class="p">[</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="s2">&quot;Discount Prices&quot;</span><span class="p">,</span> <span class="s2">&quot;Net Expected Damages&quot;</span><span class="p">,</span> <span class="s2">&quot;Expected Damages&quot;</span><span class="p">,</span> <span class="s2">&quot;Risk Premium&quot;</span><span class="p">,</span>
-						    <span class="s2">&quot;Expected SDF&quot;</span><span class="p">,</span> <span class="s2">&quot;Cross SDF &amp; Damages&quot;</span><span class="p">,</span> <span class="s2">&quot;Discounted Expected Damages&quot;</span><span class="p">,</span> <span class="s2">&quot;Cov Term&quot;</span><span class="p">,</span> <span class="s2">&quot;Scaled Net Expected Damages&quot;</span><span class="p">,</span>
+						    <span class="s2">&quot;Cross SDF &amp; Damages&quot;</span><span class="p">,</span> <span class="s2">&quot;Discounted Expected Damages&quot;</span><span class="p">,</span> <span class="s2">&quot;Cov Term&quot;</span><span class="p">,</span> <span class="s2">&quot;Scaled Net Expected Damages&quot;</span><span class="p">,</span>
 						    <span class="s2">&quot;Scaled Risk Premiums&quot;</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sdf_tree</span><span class="o">.</span><span class="n">periods</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">+</span><span class="mi">2015</span><span class="p">])</span> 
 
 		<span class="n">append_to_existing</span><span class="p">([[</span><span class="n">end_price</span><span class="p">],</span> <span class="p">[</span><span class="n">perp_yield</span><span class="p">],</span> <span class="p">[</span><span class="n">scaled_discounted_ed</span><span class="o">.</span><span class="n">sum</span><span class="p">()],</span> <span class="p">[</span><span class="n">scaled_risk_premiums</span><span class="o">.</span><span class="n">sum</span><span class="p">()],</span> 

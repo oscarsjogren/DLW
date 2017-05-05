@@ -62,7 +62,8 @@
 <dt id="ez_climate.forcing.Forcing">
 <em class="property">class </em><code class="descclassname">ez_climate.forcing.</code><code class="descname">Forcing</code><a class="reference internal" href="../_modules/ez_climate/forcing.html#Forcing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.forcing.Forcing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Forcing of GHG emissions for the EZ-Climate model.</p>
+<p>Radiative forcing for the EZ-Climate model. Determines the excess energy created
+by GHGs in the atmosphere.</p>
 <dl class="attribute">
 <dt id="ez_climate.forcing.Forcing.sink_start">
 <code class="descname">sink_start</code><a class="headerlink" href="#ez_climate.forcing.Forcing.sink_start" title="Permalink to this definition">¶</a></dt>
@@ -126,6 +127,54 @@
 <dt>
 <code class="descname">absorbtion_p2</code><em class="property"> = 0.741547</em></dt>
 <dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="ez_climate.forcing.Forcing.forcing_and_ghg_at_node">
+<em class="property">classmethod </em><code class="descname">forcing_and_ghg_at_node</code><span class="sig-paren">(</span><em>m</em>, <em>node</em>, <em>tree</em>, <em>bau</em>, <em>subinterval_len</em>, <em>returning='forcing'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/forcing.html#Forcing.forcing_and_ghg_at_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.forcing.Forcing.forcing_and_ghg_at_node" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Calculates the radiative forcing based on GHG evolution leading up to the</dt>
+<dd><p class="first">damage calculation in <cite>node</cite>.</p>
+<dl class="last docutils">
+<dt>m <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>array of mitigations</dd>
+<dt>node <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>node for which forcing is to be calculated</dd>
+<dt>tree <span class="classifier-delimiter">:</span> <span class="classifier"><cite>TreeModel</cite> object</span></dt>
+<dd>tree structure used</dd>
+<dt>bau <span class="classifier-delimiter">:</span> <span class="classifier"><cite>BusinessAsUsual</cite> object</span></dt>
+<dd>business-as-usual scenario of emissions</dd>
+<dt>subinterval_len <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>subinterval length</dd>
+<dt>returning <span class="classifier-delimiter">:</span> <span class="classifier">string, optional</span></dt>
+<dd><ul class="first last simple">
+<li>&#8220;forcing&#8221;: implies only the forcing is returned</li>
+<li>&#8220;ghg&#8221;: implies only the GHG level is returned</li>
+<li>&#8220;both&#8221;: implies both the forcing and GHG level is returned</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>if <cite>returning</cite> is</dt>
+<dd><ul class="first last simple">
+<li>&#8220;forcing&#8221;: only the forcing is returned</li>
+<li>&#8220;ghg&#8221;: only the GHG level is returned</li>
+<li>&#8220;both&#8221;: both the forcing and GHG level is returned</li>
+</ul>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple or float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="ez_climate.forcing.Forcing.forcing_at_node">
