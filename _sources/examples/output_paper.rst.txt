@@ -44,4 +44,4 @@ Next step is to find the optimial mitigation plan using the optimization algorit
 
 
 .. literalinclude:: ../code/output_paper.py
-   :lines: 41-75
+   :lines: 41-76
