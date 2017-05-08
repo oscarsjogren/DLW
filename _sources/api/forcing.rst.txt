@@ -1,7 +1,7 @@
 forcing module
 --------------
 
-.. automodule:: ez_climate.forcing
+.. automodule:: ezclimate.forcing
     :members:
     :undoc-members:
     :show-inheritance:

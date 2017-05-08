@@ -56,11 +56,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-ez_climate.analysis.risk_decomposition">
-<span id="risk-decompositon-module"></span><h1>risk_decompositon module<a class="headerlink" href="#module-ez_climate.analysis.risk_decomposition" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ezclimate.analysis.risk_decomposition">
+<span id="risk-decompositon-module"></span><h1>risk_decompositon module<a class="headerlink" href="#module-ezclimate.analysis.risk_decomposition" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition">
-<em class="property">class </em><code class="descclassname">ez_climate.analysis.risk_decomposition.</code><code class="descname">RiskDecomposition</code><span class="sig-paren">(</span><em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/risk_decomposition.html#RiskDecomposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition">
+<em class="property">class </em><code class="descclassname">ezclimate.analysis.risk_decomposition.</code><code class="descname">RiskDecomposition</code><span class="sig-paren">(</span><em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/risk_decomposition.html#RiskDecomposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Calculate and save analysis of output from the EZ-Climate model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -72,62 +72,62 @@
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.utility">
-<code class="descname">utility</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.utility" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.utility">
+<code class="descname">utility</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.utility" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.sdf_tree">
-<code class="descname">sdf_tree</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.sdf_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.sdf_tree">
+<code class="descname">sdf_tree</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.sdf_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>BaseStorageTree</cite> object &#8211; SDF for each node</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.expected_damages">
-<code class="descname">expected_damages</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.expected_damages" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.expected_damages">
+<code class="descname">expected_damages</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.expected_damages" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; expected damages in each period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.risk_premium">
-<code class="descname">risk_premium</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.risk_premium" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.risk_premium">
+<code class="descname">risk_premium</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.risk_premium" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; risk premium in each period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.expected_sdf">
-<code class="descname">expected_sdf</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.expected_sdf" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.expected_sdf">
+<code class="descname">expected_sdf</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.expected_sdf" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; expected SDF in each period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.cross_sdf_damages">
-<code class="descname">cross_sdf_damages</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.cross_sdf_damages" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.cross_sdf_damages">
+<code class="descname">cross_sdf_damages</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.cross_sdf_damages" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; cross term between the SDF and damages</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.discounted_expected_damages">
-<code class="descname">discounted_expected_damages</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.discounted_expected_damages" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.discounted_expected_damages">
+<code class="descname">discounted_expected_damages</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.discounted_expected_damages" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; expected discounted damages for each period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.net_discount_damages">
-<code class="descname">net_discount_damages</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.net_discount_damages" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.net_discount_damages">
+<code class="descname">net_discount_damages</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.net_discount_damages" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; net discount damage, i.e. when cost is also accounted for</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.cov_term">
-<code class="descname">cov_term</code><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.cov_term" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.cov_term">
+<code class="descname">cov_term</code><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.cov_term" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; covariance between SDF and damages</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.save_output">
-<code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/risk_decomposition.html#RiskDecomposition.save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.save_output" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.save_output">
+<code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/risk_decomposition.html#RiskDecomposition.save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.save_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save attributes calculated in <cite>sensitivity_analysis</cite> into the file prefix + <cite>sensitivity_output</cite>
 in the <cite>data</cite> directory in the current working directory.</p>
 <p>Furthermore, the perpetuity yield, the discount factor for the last period is calculated, and SCC,
@@ -149,8 +149,8 @@ one is created.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis">
-<code class="descname">sensitivity_analysis</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/risk_decomposition.html#RiskDecomposition.sensitivity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis">
+<code class="descname">sensitivity_analysis</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/risk_decomposition.html#RiskDecomposition.sensitivity_analysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.risk_decomposition.RiskDecomposition.sensitivity_analysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate sensitivity analysis based on the optimal mitigation. For every sub-period, i.e. the
 periods given by the utility calculations, the function calculates and saves:</p>
 <blockquote>

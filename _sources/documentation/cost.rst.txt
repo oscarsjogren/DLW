@@ -41,7 +41,7 @@ We also allow for backstop technology and technological changes. For discussion 
 	\kappa_t(x) = \kappa(x) \left( 1-\phi_0 - \phi_1 X_t \right)
 
 
-where :math:`\phi_0` is a constant component, and :math:`\phi_1 X_t` a component linked to mitigation efforts  to date (where :math:`X_t` is the average mitigation up to time :math:`t`). See :mod:`ez_climate.cost` for more details.  
+where :math:`\phi_0` is a constant component, and :math:`\phi_1 X_t` a component linked to mitigation efforts  to date (where :math:`X_t` is the average mitigation up to time :math:`t`). See :mod:`ezclimate.cost` for more details.  
 
 .. _McKinsey: http://www.mckinsey.com/business-functions/sustainability-and-resource-productivity/our-insights/pathways-to-a-low-carbon-economy
 .. _paper: http://www.nber.org/papers/w22795

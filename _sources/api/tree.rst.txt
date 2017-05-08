@@ -1,7 +1,7 @@
 tree module
 -----------
 
-.. automodule:: ez_climate.tree
+.. automodule:: ezclimate.tree
     :members:
     :undoc-members:
     :show-inheritance:

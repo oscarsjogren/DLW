@@ -1,7 +1,7 @@
 bau module
 ----------
 
-.. automodule:: ez_climate.bau
+.. automodule:: ezclimate.bau
     :members:
     :undoc-members:
     :show-inheritance:

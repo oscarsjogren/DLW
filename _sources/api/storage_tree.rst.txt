@@ -1,7 +1,7 @@
 storage_tree module
 -------------------
 
-.. automodule:: ez_climate.storage_tree
+.. automodule:: ezclimate.storage_tree
     :members:
     :undoc-members:
     :special-members: __getitem__

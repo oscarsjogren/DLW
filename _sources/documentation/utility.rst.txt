@@ -2,7 +2,7 @@
 Utility
 =======
 
-In :class:`ez_climate.utility.EZUtility`, we calculate the utility under the Epstein-Zin framwork. Functions of calculating mariginal utiltiy are also provided for analysis purpose. 
+In :class:`ezclimate.utility.EZUtility`, we calculate the utility under the Epstein-Zin framwork. Functions of calculating mariginal utiltiy are also provided for analysis purpose. 
 
 An agent maximizes lifetime utility at each time and for each state of nature by choosing the optimal path of mitigation dependent on Earth’s fragility. Since all uncertainty has been resolved at the final period, we calculate the utility from back forward.
 

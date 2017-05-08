@@ -2,7 +2,7 @@
 Damage Simulation
 =================
 
-To simulate the distribution of damages, :math:`D_t`, the class :class:`ez_climate.damage_simulation.DamageSimulation` is used. The following picture demonstrate the work flow of the simulation process.
+To simulate the distribution of damages, :math:`D_t`, the class :class:`ezclimate.damage_simulation.DamageSimulation` is used. The following picture demonstrate the work flow of the simulation process.
 
 .. image:: ../_static/damage_simulation.png
    :width: 900 px

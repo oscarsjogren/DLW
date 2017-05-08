@@ -1,7 +1,7 @@
 Examples
 ========
 
-Examples using the dlw package.
+Examples using the ezclimate package.
 
 
 .. toctree::

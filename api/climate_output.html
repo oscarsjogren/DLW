@@ -56,11 +56,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-ez_climate.analysis.climate_output">
-<span id="climate-output-module"></span><h1>climate_output module<a class="headerlink" href="#module-ez_climate.analysis.climate_output" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ezclimate.analysis.climate_output">
+<span id="climate-output-module"></span><h1>climate_output module<a class="headerlink" href="#module-ezclimate.analysis.climate_output" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput">
-<em class="property">class </em><code class="descclassname">ez_climate.analysis.climate_output.</code><code class="descname">ClimateOutput</code><span class="sig-paren">(</span><em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/climate_output.html#ClimateOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput">
+<em class="property">class </em><code class="descclassname">ezclimate.analysis.climate_output.</code><code class="descname">ClimateOutput</code><span class="sig-paren">(</span><em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/climate_output.html#ClimateOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Calculate and save output from the EZ-Climate model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -72,50 +72,50 @@
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.utility">
-<code class="descname">utility</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.utility" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.utility">
+<code class="descname">utility</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.utility" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.prices">
-<code class="descname">prices</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.prices" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.prices">
+<code class="descname">prices</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.prices" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; SCC prices</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.ave_mitigations">
-<code class="descname">ave_mitigations</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.ave_mitigations" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.ave_mitigations">
+<code class="descname">ave_mitigations</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.ave_mitigations" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; average mitigations</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.ave_emissions">
-<code class="descname">ave_emissions</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.ave_emissions" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.ave_emissions">
+<code class="descname">ave_emissions</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.ave_emissions" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; average emissions</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.expected_period_price">
-<code class="descname">expected_period_price</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.expected_period_price" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.expected_period_price">
+<code class="descname">expected_period_price</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.expected_period_price" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; expected SCC for the period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.expected_period_mitigation">
-<code class="descname">expected_period_mitigation</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.expected_period_mitigation" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.expected_period_mitigation">
+<code class="descname">expected_period_mitigation</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.expected_period_mitigation" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; expected mitigation for the period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.expected_period_emissions">
-<code class="descname">expected_period_emissions</code><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.expected_period_emissions" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.expected_period_emissions">
+<code class="descname">expected_period_emissions</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.expected_period_emissions" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; expected emission for the period</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.calculate_output">
-<code class="descname">calculate_output</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/climate_output.html#ClimateOutput.calculate_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.calculate_output" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.calculate_output">
+<code class="descname">calculate_output</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/climate_output.html#ClimateOutput.calculate_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.calculate_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculated values based on optimal mitigation. For every <strong>node</strong> the function calculates and saves</p>
 <blockquote>
 <div><ul class="simple">
@@ -146,8 +146,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.analysis.climate_output.ClimateOutput.save_output">
-<code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/analysis/climate_output.html#ClimateOutput.save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.analysis.climate_output.ClimateOutput.save_output" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.analysis.climate_output.ClimateOutput.save_output">
+<code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/climate_output.html#ClimateOutput.save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.save_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to save calculated values in <cite>calculate_output</cite> in the file <cite>prefix</cite> + &#8216;node_period_output&#8217;
 in the &#8216;data&#8217; directory in the current working directory.</p>
 <p>The function also saves the values calculated in the utility function in the file

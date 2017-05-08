@@ -56,11 +56,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-ez_climate.bau">
-<span id="bau-module"></span><h1>bau module<a class="headerlink" href="#module-ez_climate.bau" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ezclimate.bau">
+<span id="bau-module"></span><h1>bau module<a class="headerlink" href="#module-ezclimate.bau" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="ez_climate.bau.BusinessAsUsual">
-<em class="property">class </em><code class="descclassname">ez_climate.bau.</code><code class="descname">BusinessAsUsual</code><span class="sig-paren">(</span><em>ghg_start</em>, <em>ghg_end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/bau.html#BusinessAsUsual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual">
+<em class="property">class </em><code class="descclassname">ezclimate.bau.</code><code class="descname">BusinessAsUsual</code><span class="sig-paren">(</span><em>ghg_start</em>, <em>ghg_end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/bau.html#BusinessAsUsual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Abstract BAU class for the EZ-Climate model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -76,52 +76,52 @@
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="ez_climate.bau.BusinessAsUsual.ghg_start">
-<code class="descname">ghg_start</code><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual.ghg_start" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual.ghg_start">
+<code class="descname">ghg_start</code><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual.ghg_start" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; today&#8217;s GHG-level</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.BusinessAsUsual.ghg_end">
-<code class="descname">ghg_end</code><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual.ghg_end" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual.ghg_end">
+<code class="descname">ghg_end</code><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual.ghg_end" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; GHG-level in the last period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.BusinessAsUsual.emission_by_decisions">
-<code class="descname">emission_by_decisions</code><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual.emission_by_decisions" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual.emission_by_decisions">
+<code class="descname">emission_by_decisions</code><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual.emission_by_decisions" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; emissions at decision time periods??</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.BusinessAsUsual.emission_per_period">
-<code class="descname">emission_per_period</code><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual.emission_per_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual.emission_per_period">
+<code class="descname">emission_per_period</code><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual.emission_per_period" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; total emission at decision time period??</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.BusinessAsUsual.emission_to_ghg">
-<code class="descname">emission_to_ghg</code><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual.emission_to_ghg" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual.emission_to_ghg">
+<code class="descname">emission_to_ghg</code><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual.emission_to_ghg" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; GHG levels in decision time period??</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.BusinessAsUsual.emission_to_bau">
-<code class="descname">emission_to_bau</code><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual.emission_to_bau" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual.emission_to_bau">
+<code class="descname">emission_to_bau</code><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual.emission_to_bau" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; constant for converting GHG to emission??</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.bau.BusinessAsUsual.emission_by_time">
-<code class="descname">emission_by_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/bau.html#BusinessAsUsual.emission_by_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.bau.BusinessAsUsual.emission_by_time" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.BusinessAsUsual.emission_by_time">
+<code class="descname">emission_by_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/bau.html#BusinessAsUsual.emission_by_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.bau.BusinessAsUsual.emission_by_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="ez_climate.bau.DLWBusinessAsUsual">
-<em class="property">class </em><code class="descclassname">ez_climate.bau.</code><code class="descname">DLWBusinessAsUsual</code><span class="sig-paren">(</span><em>ghg_start=400.0, ghg_end=1000.0, emit_time=[0, 30, 60], emit_level=[52.0, 70.0, 81.4]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/bau.html#DLWBusinessAsUsual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ez_climate.bau.BusinessAsUsual" title="ez_climate.bau.BusinessAsUsual"><code class="xref py py-class docutils literal"><span class="pre">ez_climate.bau.BusinessAsUsual</span></code></a></p>
+<dt id="ezclimate.bau.DLWBusinessAsUsual">
+<em class="property">class </em><code class="descclassname">ezclimate.bau.</code><code class="descname">DLWBusinessAsUsual</code><span class="sig-paren">(</span><em>ghg_start=400.0, ghg_end=1000.0, emit_time=[0, 30, 60], emit_level=[52.0, 70.0, 81.4]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/bau.html#DLWBusinessAsUsual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ezclimate.bau.BusinessAsUsual" title="ezclimate.bau.BusinessAsUsual"><code class="xref py py-class docutils literal"><span class="pre">ezclimate.bau.BusinessAsUsual</span></code></a></p>
 <p>Business-as-usual scenario of emissions. Emissions growth is assumed to slow down
 exogenously - these assumptions represent an attempt to model emissions growth in a
 business-as-usual scenario that is in the absence of incentives.</p>
@@ -140,56 +140,56 @@ business-as-usual scenario that is in the absence of incentives.</p>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.ghg_start">
-<code class="descname">ghg_start</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.ghg_start" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.ghg_start">
+<code class="descname">ghg_start</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.ghg_start" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; today&#8217;s GHG-level</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.ghg_end">
-<code class="descname">ghg_end</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.ghg_end" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.ghg_end">
+<code class="descname">ghg_end</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.ghg_end" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; GHG-level in the last period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.emission_by_decisions">
-<code class="descname">emission_by_decisions</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.emission_by_decisions" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.emission_by_decisions">
+<code class="descname">emission_by_decisions</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.emission_by_decisions" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; emissions at decision time periods??</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.emission_per_period">
-<code class="descname">emission_per_period</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.emission_per_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.emission_per_period">
+<code class="descname">emission_per_period</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.emission_per_period" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; total emission at decision time period??</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.emission_to_ghg">
-<code class="descname">emission_to_ghg</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.emission_to_ghg" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.emission_to_ghg">
+<code class="descname">emission_to_ghg</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.emission_to_ghg" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; GHG levels in decision time period??</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.emission_to_bau">
-<code class="descname">emission_to_bau</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.emission_to_bau" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.emission_to_bau">
+<code class="descname">emission_to_bau</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.emission_to_bau" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; constant for converting GHG to emission??</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.emit_time">
-<code class="descname">emit_time</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.emit_time" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.emit_time">
+<code class="descname">emit_time</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.emit_time" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray or list</em> &#8211; time, in years, from now when emissions occurs</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.emit_level">
-<code class="descname">emit_level</code><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.emit_level" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.emit_level">
+<code class="descname">emit_level</code><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.emit_level" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray or list</em> &#8211; emission levels in future times <cite>emit_time</cite></p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.bau_emissions_setup">
-<code class="descname">bau_emissions_setup</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/bau.html#DLWBusinessAsUsual.bau_emissions_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.bau_emissions_setup" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.bau_emissions_setup">
+<code class="descname">bau_emissions_setup</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/bau.html#DLWBusinessAsUsual.bau_emissions_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.bau_emissions_setup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create default business as usual emissions path. The emission rate in each period is
 assumed to be the average of the emissions at the beginning and at the end of the period.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -203,8 +203,8 @@ assumed to be the average of the emissions at the beginning and at the end of th
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.bau.DLWBusinessAsUsual.emission_by_time">
-<code class="descname">emission_by_time</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/bau.html#DLWBusinessAsUsual.emission_by_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.bau.DLWBusinessAsUsual.emission_by_time" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.bau.DLWBusinessAsUsual.emission_by_time">
+<code class="descname">emission_by_time</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/bau.html#DLWBusinessAsUsual.emission_by_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.bau.DLWBusinessAsUsual.emission_by_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the BAU emissions at any time</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

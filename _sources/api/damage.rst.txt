@@ -1,7 +1,7 @@
 damage module
 -------------
 
-.. automodule:: ez_climate.damage
+.. automodule:: ezclimate.damage
     :members:
     :undoc-members:
     :show-inheritance:

@@ -56,11 +56,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-ez_climate.damage_simulation">
-<span id="damage-simulation-module"></span><h1>damage_simulation module<a class="headerlink" href="#module-ez_climate.damage_simulation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ezclimate.damage_simulation">
+<span id="damage-simulation-module"></span><h1>damage_simulation module<a class="headerlink" href="#module-ezclimate.damage_simulation" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="ez_climate.damage_simulation.DamageSimulation">
-<em class="property">class </em><code class="descclassname">ez_climate.damage_simulation.</code><code class="descname">DamageSimulation</code><span class="sig-paren">(</span><em>tree</em>, <em>ghg_levels</em>, <em>peak_temp</em>, <em>disaster_tail</em>, <em>tip_on</em>, <em>temp_map</em>, <em>temp_dist_params</em>, <em>maxh</em>, <em>cons_growth</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage_simulation.html#DamageSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation">
+<em class="property">class </em><code class="descclassname">ezclimate.damage_simulation.</code><code class="descname">DamageSimulation</code><span class="sig-paren">(</span><em>tree</em>, <em>ghg_levels</em>, <em>peak_temp</em>, <em>disaster_tail</em>, <em>tip_on</em>, <em>temp_map</em>, <em>temp_dist_params</em>, <em>maxh</em>, <em>cons_growth</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/damage_simulation.html#DamageSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Simulation of damages for the EZ-Climate model.</p>
 <p>The damage function simulation is a key input into the pricing engine. Damages are
@@ -109,69 +109,69 @@ way to its max value for a given level of ghg</li>
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.tree">
-<code class="descname">tree</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.tree" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.tree">
+<code class="descname">tree</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>TreeModel</cite> object &#8211; tree structure used</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.ghg_levels">
-<code class="descname">ghg_levels</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.ghg_levels" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.ghg_levels">
+<code class="descname">ghg_levels</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.ghg_levels" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray or list</em> &#8211; end GHG level for each path</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.peak_temp">
-<code class="descname">peak_temp</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.peak_temp" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.peak_temp">
+<code class="descname">peak_temp</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.peak_temp" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; tipping point parameter</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.disaster_tail">
-<code class="descname">disaster_tail</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.disaster_tail" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.disaster_tail">
+<code class="descname">disaster_tail</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.disaster_tail" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; curvature of tipping point</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.tip_on">
-<code class="descname">tip_on</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.tip_on" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.tip_on">
+<code class="descname">tip_on</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.tip_on" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>bool</em> &#8211; flag that turns tipping points on or off</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.temp_map">
-<code class="descname">temp_map</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.temp_map" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.temp_map">
+<code class="descname">temp_map</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.temp_map" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; mapping from GHG to temperature</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.temp_dist_params">
-<code class="descname">temp_dist_params</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.temp_dist_params" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.temp_dist_params">
+<code class="descname">temp_dist_params</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.temp_dist_params" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray or list</em> &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.maxh">
-<code class="descname">maxh</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.maxh" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.maxh">
+<code class="descname">maxh</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.maxh" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; time paramter from Pindyck which indicates the time it takes for temp to get half
 way to its max value for a given level of ghg</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.cons_growth">
-<code class="descname">cons_growth</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.cons_growth" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.cons_growth">
+<code class="descname">cons_growth</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.cons_growth" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; yearly growth in consumption</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.damage_simulation.DamageSimulation.d">
-<code class="descname">d</code><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.d" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.d">
+<code class="descname">d</code><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.d" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; simulated damages</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.damage_simulation.DamageSimulation.simulate">
-<code class="descname">simulate</code><span class="sig-paren">(</span><em>draws</em>, <em>write_to_file=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/damage_simulation.html#DamageSimulation.simulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.damage_simulation.DamageSimulation.simulate" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.damage_simulation.DamageSimulation.simulate">
+<code class="descname">simulate</code><span class="sig-paren">(</span><em>draws</em>, <em>write_to_file=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/damage_simulation.html#DamageSimulation.simulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.damage_simulation.DamageSimulation.simulate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create damage function values in &#8216;p-period&#8217; version of the Summers - Zeckhauser model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

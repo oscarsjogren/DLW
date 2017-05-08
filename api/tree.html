@@ -56,11 +56,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-ez_climate.tree">
-<span id="tree-module"></span><h1>tree module<a class="headerlink" href="#module-ez_climate.tree" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-ezclimate.tree">
+<span id="tree-module"></span><h1>tree module<a class="headerlink" href="#module-ezclimate.tree" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="ez_climate.tree.TreeModel">
-<em class="property">class </em><code class="descclassname">ez_climate.tree.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times</em>, <em>prob_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel">
+<em class="property">class </em><code class="descclassname">ezclimate.tree.</code><code class="descname">TreeModel</code><span class="sig-paren">(</span><em>decision_times</em>, <em>prob_scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Tree model for the EZ-Climate model. It provides the structure of a non-recombining tree.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -76,32 +76,32 @@
 </tbody>
 </table>
 <dl class="attribute">
-<dt id="ez_climate.tree.TreeModel.decision_times">
-<code class="descname">decision_times</code><a class="headerlink" href="#ez_climate.tree.TreeModel.decision_times" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.decision_times">
+<code class="descname">decision_times</code><a class="headerlink" href="#ezclimate.tree.TreeModel.decision_times" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; years in the future where decisions will be made</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.tree.TreeModel.prob_scale">
-<code class="descname">prob_scale</code><a class="headerlink" href="#ez_climate.tree.TreeModel.prob_scale" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.prob_scale">
+<code class="descname">prob_scale</code><a class="headerlink" href="#ezclimate.tree.TreeModel.prob_scale" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>float</em> &#8211; scaling constant for probabilities</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.tree.TreeModel.node_prob">
-<code class="descname">node_prob</code><a class="headerlink" href="#ez_climate.tree.TreeModel.node_prob" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.node_prob">
+<code class="descname">node_prob</code><a class="headerlink" href="#ezclimate.tree.TreeModel.node_prob" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; probability of reaching node from period 0</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.tree.TreeModel.final_states_prob">
-<code class="descname">final_states_prob</code><a class="headerlink" href="#ez_climate.tree.TreeModel.final_states_prob" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.final_states_prob">
+<code class="descname">final_states_prob</code><a class="headerlink" href="#ezclimate.tree.TreeModel.final_states_prob" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>ndarray</em> &#8211; last periods <cite>node_prob</cite></p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_node">
-<code class="descname">get_node</code><span class="sig-paren">(</span><em>period</em>, <em>state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_node" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_node">
+<code class="descname">get_node</code><span class="sig-paren">(</span><em>period</em>, <em>state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the node in period and state provided.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -143,8 +143,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_nodes_in_period">
-<code class="descname">get_nodes_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_nodes_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_nodes_in_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_nodes_in_period">
+<code class="descname">get_nodes_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_nodes_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_nodes_in_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the first and last nodes in the period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -171,8 +171,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_num_nodes_period">
-<code class="descname">get_num_nodes_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_num_nodes_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_num_nodes_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_num_nodes_period">
+<code class="descname">get_num_nodes_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_num_nodes_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_num_nodes_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the number of nodes in the period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -197,8 +197,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_parent_node">
-<code class="descname">get_parent_node</code><span class="sig-paren">(</span><em>child</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_parent_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_parent_node" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_parent_node">
+<code class="descname">get_parent_node</code><span class="sig-paren">(</span><em>child</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_parent_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_parent_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the previous or parent node of the given child node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -225,8 +225,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_path">
-<code class="descname">get_path</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_path" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the unique path taken to come to given node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -253,8 +253,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_period">
-<code class="descname">get_period</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_period">
+<code class="descname">get_period</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns what period the node is in.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -279,8 +279,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_probs_in_period">
-<code class="descname">get_probs_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_probs_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_probs_in_period" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_probs_in_period">
+<code class="descname">get_probs_in_period</code><span class="sig-paren">(</span><em>period</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_probs_in_period"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_probs_in_period" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the probabilities to get from period 0 to nodes in period.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -307,8 +307,8 @@ for the period.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.get_state">
-<code class="descname">get_state</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.get_state" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.get_state">
+<code class="descname">get_state</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.get_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the state the node represents.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -339,26 +339,26 @@ for the period.</td>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.tree.TreeModel.num_decision_nodes">
-<code class="descname">num_decision_nodes</code><a class="headerlink" href="#ez_climate.tree.TreeModel.num_decision_nodes" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.num_decision_nodes">
+<code class="descname">num_decision_nodes</code><a class="headerlink" href="#ezclimate.tree.TreeModel.num_decision_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; the number of nodes in tree</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.tree.TreeModel.num_final_states">
-<code class="descname">num_final_states</code><a class="headerlink" href="#ez_climate.tree.TreeModel.num_final_states" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.num_final_states">
+<code class="descname">num_final_states</code><a class="headerlink" href="#ezclimate.tree.TreeModel.num_final_states" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; the number of nodes in the last period</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="ez_climate.tree.TreeModel.num_periods">
-<code class="descname">num_periods</code><a class="headerlink" href="#ez_climate.tree.TreeModel.num_periods" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.num_periods">
+<code class="descname">num_periods</code><a class="headerlink" href="#ezclimate.tree.TreeModel.num_periods" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>int</em> &#8211; the number of periods in the tree</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="ez_climate.tree.TreeModel.reachable_end_states">
-<code class="descname">reachable_end_states</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ez_climate/tree.html#TreeModel.reachable_end_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ez_climate.tree.TreeModel.reachable_end_states" title="Permalink to this definition">¶</a></dt>
+<dt id="ezclimate.tree.TreeModel.reachable_end_states">
+<code class="descname">reachable_end_states</code><span class="sig-paren">(</span><em>node</em>, <em>period=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/tree.html#TreeModel.reachable_end_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.tree.TreeModel.reachable_end_states" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns what future end states can be reached from given node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

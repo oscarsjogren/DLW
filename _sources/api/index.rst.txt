@@ -1,7 +1,7 @@
 Library Reference
 =================
 
-Description of the functions, classes and modules contained within EZ-Climate.
+Description of the functions, classes and modules contained within ezclimate.
 
 
 .. toctree::
