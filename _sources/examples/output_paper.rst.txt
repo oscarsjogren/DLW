@@ -1,5 +1,5 @@
 ================================
-Example of output from dlw-paper
+Example of output from DLW-paper
 ================================
 
 Below is an example from the DLW-paper, referred to as the base case.
