@@ -13,7 +13,7 @@ Our approach to solving this problem is to use the genetic algorithm (GA) combin
 Genetic Algorithm (GA)
 ----------------------
 
-The GA is an evolutionary algorithm, inspired by the evolution of species in nature. The evolution process starts from a population of vectors with uniformly distributed [0, :attr:`bound`] random elements. For each generation, the evolution steps in the :func:`run` method are:
+The GA is an evolutionary algorithm, inspired by the evolution of species in nature. The evolution process starts from a population of vectors with uniformly distributed [0, :attr:`bound`] random elements. For each generation, the evolution steps are:
 
   1. Select the individuals to perform cross-over and mutation.
   2. Cross over among the selected candidate.

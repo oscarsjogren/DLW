@@ -27,7 +27,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="genetic_algorithm module" href="genetic_algorithm.html" />
     <link rel="prev" title="risk_decompositon module" href="risk_decomposition.html" /> 
   </head>
   <body role="document">
@@ -41,9 +40,6 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="genetic_algorithm.html" title="genetic_algorithm module"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
           <a href="risk_decomposition.html" title="risk_decompositon module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">EZ-Climate 1.0.1 documentation</a> &#187;</li>
@@ -56,119 +52,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-ezclimate.analysis.climate_output">
-<span id="climate-output-module"></span><h1>climate_output module<a class="headerlink" href="#module-ezclimate.analysis.climate_output" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput">
-<em class="property">class </em><code class="descclassname">ezclimate.analysis.climate_output.</code><code class="descname">ClimateOutput</code><span class="sig-paren">(</span><em>utility</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/climate_output.html#ClimateOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Calculate and save output from the EZ-Climate model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>utility</strong> (<cite>Utility</cite> object) &#8211; object of utility class</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.utility">
-<code class="descname">utility</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.utility" title="Permalink to this definition">¶</a></dt>
-<dd><p><cite>Utility</cite> object &#8211; object of utility class</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.prices">
-<code class="descname">prices</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.prices" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>ndarray</em> &#8211; SCC prices</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.ave_mitigations">
-<code class="descname">ave_mitigations</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.ave_mitigations" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>ndarray</em> &#8211; average mitigations</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.ave_emissions">
-<code class="descname">ave_emissions</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.ave_emissions" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>ndarray</em> &#8211; average emissions</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.expected_period_price">
-<code class="descname">expected_period_price</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.expected_period_price" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>ndarray</em> &#8211; expected SCC for the period</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.expected_period_mitigation">
-<code class="descname">expected_period_mitigation</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.expected_period_mitigation" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>ndarray</em> &#8211; expected mitigation for the period</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.expected_period_emissions">
-<code class="descname">expected_period_emissions</code><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.expected_period_emissions" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>ndarray</em> &#8211; expected emission for the period</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.calculate_output">
-<code class="descname">calculate_output</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/climate_output.html#ClimateOutput.calculate_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.calculate_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculated values based on optimal mitigation. For every <strong>node</strong> the function calculates and saves</p>
-<blockquote>
-<div><ul class="simple">
-<li>average mitigation</li>
-<li>average emission</li>
-<li>GHG level</li>
-<li>SCC</li>
-</ul>
-</div></blockquote>
-<p>as attributes.</p>
-<p>For every <strong>period</strong> the function also calculates and saves</p>
-<blockquote>
-<div><ul class="simple">
-<li>expected SCC/price</li>
-<li>expected mitigation</li>
-<li>expected emission</li>
-</ul>
-</div></blockquote>
-<p>as attributes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="ezclimate.analysis.climate_output.ClimateOutput.save_output">
-<code class="descname">save_output</code><span class="sig-paren">(</span><em>m</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/analysis/climate_output.html#ClimateOutput.save_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.analysis.climate_output.ClimateOutput.save_output" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to save calculated values in <cite>calculate_output</cite> in the file <cite>prefix</cite> + &#8216;node_period_output&#8217;
-in the &#8216;data&#8217; directory in the current working directory.</p>
-<p>The function also saves the values calculated in the utility function in the file
-<cite>prefix</cite> + &#8216;tree&#8217; in the &#8216;data&#8217; directory in the current working directory.</p>
-<p>If there is no &#8216;data&#8217; directory, one is created.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>m</strong> (<em>ndarray</em><em> or </em><em>list</em>) &#8211; array of mitigation</li>
-<li><strong>prefix</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; prefix to be added to file_name</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="climate-output-module">
+<h1>climate_output module<a class="headerlink" href="#climate-output-module" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -180,9 +65,6 @@ in the &#8216;data&#8217; directory in the current working directory.</p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="risk_decomposition.html"
                         title="previous chapter">risk_decompositon module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="genetic_algorithm.html"
-                        title="next chapter">genetic_algorithm module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -213,9 +95,6 @@ in the &#8216;data&#8217; directory in the current working directory.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="genetic_algorithm.html" title="genetic_algorithm module"
-             >next</a> |</li>
         <li class="right" >
           <a href="risk_decomposition.html" title="risk_decompositon module"
              >previous</a> |</li>
