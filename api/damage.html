@@ -212,52 +212,34 @@
 <dt id="ezclimate.damage.DLWDamage.damage_simulation">
 <code class="descname">damage_simulation</code><span class="sig-paren">(</span><em>draws</em>, <em>peak_temp=9.0</em>, <em>disaster_tail=12.0</em>, <em>tip_on=True</em>, <em>temp_map=1</em>, <em>temp_dist_params=None</em>, <em>maxh=100.0</em>, <em>save_simulation=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ezclimate/damage.html#DLWDamage.damage_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezclimate.damage.DLWDamage.damage_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializion and simulation of damages, given by <code class="xref py py-mod docutils literal"><span class="pre">ez_climate.DamageSimulation</span></code>.</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>draws <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>number of Monte Carlo draws</dd>
-<dt>peak_temp <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd>tipping point parameter</dd>
-</dl>
-</div></blockquote>
-<dl class="docutils">
-<dt>disaster_tail <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd>curvature of tipping point</dd>
-<dt>tip_on <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>flag that turns tipping points on or off</dd>
-<dt>temp_map <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><dl class="first last docutils">
-<dt>mapping from GHG to temperature</dt>
-<dd><ul class="first last simple">
-<li>0: implies Pindyck displace gamma</li>
-<li>1: implies Wagner-Weitzman normal</li>
-<li>2: implies Roe-Baker</li>
-<li>3: implies user-defined normal</li>
-<li>4: implies user-defined gamma</li>
-</ul>
-</dd>
-</dl>
-</dd>
-<dt>temp_dist_params <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or list, optional</span></dt>
-<dd>if temp_map is either 3 or 4, user needs to define the distribution parameters</dd>
-<dt>maxh <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd><dl class="first last docutils">
-<dt>time paramter from Pindyck which indicates the time it takes for temp to get half</dt>
-<dd>way to its max value for a given level of ghg</dd>
-</dl>
-</dd>
-<dt>cons_growth <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
-<dd>yearly growth in consumption</dd>
-<dt>save_simulation <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd>True if simulated values should be save, False otherwise</dd>
-</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">simulated damages</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>draws</strong> (<em>int</em>) &#8211; number of Monte Carlo draws</li>
+<li><strong>peak_temp</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; tipping point parameter</li>
+<li><strong>disaster_tail</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; curvature of tipping point</li>
+<li><strong>tip_on</strong> (<em>bool</em><em>, </em><em>optional</em>) &#8211; flag that turns tipping points on or off</li>
+<li><strong>temp_map</strong> (<em>int</em><em>, </em><em>optional</em>) &#8211; mapping from GHG to temperature
+* 0: implies Pindyck displace gamma
+* 1: implies Wagner-Weitzman normal
+* 2: implies Roe-Baker
+* 3: implies user-defined normal
+* 4: implies user-defined gamma</li>
+<li><strong>temp_dist_params</strong> (<em>ndarray</em><em> or </em><em>list</em><em>, </em><em>optional</em>) &#8211; if temp_map is either 3 or 4, user needs to define the distribution parameters</li>
+<li><strong>maxh</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; time paramter from Pindyck which indicates the time it takes for temp to get half
+way to its max value for a given level of ghg</li>
+<li><strong>cons_growth</strong> (<em>float</em><em>, </em><em>optional</em>) &#8211; yearly growth in consumption</li>
+<li><strong>save_simulation</strong> (<em>bool</em><em>, </em><em>optional</em>) &#8211; True if simulated values should be save, False otherwise</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">simulated damages</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
 </tr>
 </tbody>
 </table>
